@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/shop/:state", "destination": "/state_categories.html" },
+    { "source": "/states", "destination": "/states.html" },
+    { "source": "/artisans", "destination": "/artisans.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/search", "destination": "/search.html" }
+  ]
+}
