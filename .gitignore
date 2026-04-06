@@ -1,0 +1,13 @@
+node_modules/
+package-lock.json
+*.png
+*.txt
+*.js
+!index.html
+!about.html
+!artisans.html
+!masterpiece.html
+!products.html
+!search.html
+!state_categories.html
+!states.html
