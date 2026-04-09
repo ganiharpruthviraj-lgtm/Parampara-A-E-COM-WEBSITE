@@ -1,0 +1,1078 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <title>Sign In | Parampara Heritage</title>
+  <meta name="description" content="Sign in to your Parampara account and discover India's finest heritage crafts — curated from 28 states.">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Sora:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Animation Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+
+  <style>
+    /* ─── DESIGN TOKENS ─────────────────── */
+    :root {
+      --primary-color: #B8860B;
+      --primary-light: #D4AF37;
+      --primary-dark: #9A7008;
+      --dark: #1A1A1A;
+      --mid: #6B6B6B;
+      --cream: #FBF9F4;
+      --cream-dark: #F5F1E8;
+      --border: #E8E3D6;
+      --accent-green: #2F5233;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-display: 'Sora', sans-serif;
+    }
+
+    /* ─── BASE ──────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--cream);
+      color: var(--dark);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden; /* lock scroll for full-page layout */
+    }
+
+    /* ─── PRELOADER ─────────────────────── */
+    #preloader {
+      position: fixed; inset: 0; z-index: 200;
+      background: #1A1A1A;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 1.5rem;
+      transition: opacity 1s ease;
+    }
+    #preloader.hidden { opacity: 0; pointer-events: none; }
+    .preloader-logo {
+      font-family: var(--font-serif);
+      font-size: 2rem;
+      color: var(--primary-color);
+      letter-spacing: 0.1em;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .preloader-bar {
+      width: 12rem; height: 1px;
+      background: rgba(255,255,255,0.15);
+      position: relative; overflow: hidden;
+    }
+    .preloader-fill {
+      position: absolute; top: 0; left: 0;
+      height: 100%; width: 0;
+      background: var(--primary-color);
+      transition: width 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+    /* ─── CUSTOM CURSOR ─────────────────── */
+    #mag-cursor {
+      position: fixed; top: 0; left: 0;
+      width: 8px; height: 8px;
+      background: var(--primary-color);
+      border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: opacity 0.2s;
+    }
+    #mag-follower {
+      position: fixed; top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--primary-color);
+      border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: transform 0.12s ease, background 0.2s;
+    }
+    @media (max-width: 767px) { #mag-cursor, #mag-follower { display: none; } }
+
+    /* ─── LAYOUT ────────────────────────── */
+    .login-wrapper {
+      display: flex;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ─── LEFT PANEL ────────────────────── */
+    .left-panel {
+      position: relative;
+      flex: 1;
+      display: none;
+      overflow: hidden;
+    }
+    @media (min-width: 1024px) { .left-panel { display: block; } }
+
+    .left-bg {
+      position: absolute; inset: 0;
+      background: var(--dark);
+    }
+    .left-bg img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.45;
+      filter: saturate(0.8);
+      transform: scale(1.08);
+      animation: kenBurns 18s ease-in-out infinite alternate;
+    }
+    @keyframes kenBurns {
+      from { transform: scale(1.08); }
+      to   { transform: scale(1.0); }
+    }
+    .left-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(26,26,26,0.85) 0%,
+        rgba(26,26,26,0.4) 60%,
+        rgba(184,134,11,0.15) 100%
+      );
+    }
+
+    .left-content {
+      position: relative; z-index: 10;
+      height: 100%;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      padding: 2.5rem 3rem;
+    }
+    .left-logo img { height: 3rem; filter: brightness(0) invert(1); opacity: 0.9; }
+
+    .left-hero { margin-top: auto; }
+    .left-eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--primary-light);
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .left-eyebrow::before {
+      content: ''; display: block;
+      width: 32px; height: 1px;
+      background: var(--primary-light);
+      flex-shrink: 0;
+    }
+    .left-headline {
+      font-family: var(--font-serif);
+      font-size: clamp(2.8rem, 4.5vw, 4rem);
+      font-weight: 300;
+      color: #fff;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
+    .left-headline em { font-style: italic; color: var(--primary-light); }
+
+    .left-quote {
+      border-left: 2px solid var(--primary-color);
+      padding-left: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .left-quote p {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-style: italic;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.7;
+    }
+    .left-quote cite {
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--primary-light);
+      margin-top: 0.5rem;
+      display: block;
+      font-style: normal;
+    }
+
+    /* Stats row */
+    .stat-row {
+      display: flex; gap: 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 1.75rem;
+    }
+    .stat-item p:first-child {
+      font-family: var(--font-serif);
+      font-size: 1.8rem;
+      font-weight: 500;
+      color: var(--primary-light);
+    }
+    .stat-item p:last-child {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-top: 0.15rem;
+      font-family: var(--font-display);
+    }
+
+    /* Floating craft badge */
+    .craft-badge {
+      position: absolute;
+      top: 2.5rem; right: 2.5rem;
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      animation: floatBadge 4s ease-in-out infinite;
+    }
+    @keyframes floatBadge {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .craft-badge-icon {
+      width: 2.5rem; height: 2.5rem;
+      background: var(--primary-color);
+      border-radius: 0.6rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: #fff;
+      flex-shrink: 0;
+    }
+    .craft-badge-text p:first-child {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .craft-badge-text p:last-child {
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.1rem;
+    }
+
+    /* ─── RIGHT PANEL ───────────────────── */
+    .right-panel {
+      width: 100%;
+      flex-shrink: 0;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.25rem;
+      overflow-y: auto;
+      position: relative;
+    }
+    @media (min-width: 1024px) { .right-panel { width: 500px; } }
+    @media (min-width: 1280px) { .right-panel { width: 560px; } }
+
+    /* Subtle noise texture on right panel */
+    .right-panel::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 400px;
+      position: relative; z-index: 1;
+    }
+
+    /* Top nav link */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      margin-bottom: 3rem;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--primary-color); }
+    .back-link i { font-size: 0.6rem; transition: transform 0.2s; }
+    .back-link:hover i { transform: translateX(-3px); }
+
+    /* Form header */
+    .form-eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      margin-bottom: 0.75rem;
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .form-eyebrow::after {
+      content: ''; display: block;
+      flex: 1; height: 1px;
+      background: var(--border);
+    }
+    .form-title {
+      font-family: var(--font-serif);
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--dark);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.5rem;
+    }
+    .form-title em { font-style: italic; color: var(--primary-color); }
+    .form-subtitle {
+      font-size: 0.85rem;
+      color: var(--mid);
+      font-weight: 300;
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+
+    /* ─── FORM ELEMENTS ─────────────────── */
+    .field-group { margin-bottom: 1.25rem; }
+    .field-label {
+      display: flex; justify-content: space-between; align-items: center;
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 0.5rem;
+    }
+    .field-label a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-size: 0.58rem;
+      transition: opacity 0.2s;
+    }
+    .field-label a:hover { opacity: 0.75; }
+
+    .input-wrapper {
+      position: relative;
+    }
+    .input-icon {
+      position: absolute; left: 1rem; top: 50%;
+      transform: translateY(-50%);
+      color: #C5BDB0;
+      font-size: 0.8rem;
+      pointer-events: none;
+      transition: color 0.2s;
+    }
+    .field-input {
+      width: 100%;
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      padding: 0.9rem 1rem 0.9rem 2.75rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--dark);
+      outline: none;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      -webkit-appearance: none;
+    }
+    .field-input::placeholder { color: #C5BDB0; font-style: italic; }
+    .field-input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(184,134,11,0.1);
+    }
+    .field-input:focus + .input-border { transform: scaleX(1); }
+
+    /* Input focus — underline accent effect */
+    .input-wrapper::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      width: 100%; height: 2px;
+      background: var(--primary-color);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .input-wrapper:focus-within::after { transform: scaleX(1); }
+    .input-wrapper:focus-within .input-icon { color: var(--primary-color); }
+
+    /* Password toggle */
+    .pw-toggle {
+      position: absolute; right: 1rem; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none;
+      color: #C5BDB0; cursor: pointer;
+      font-size: 0.8rem;
+      transition: color 0.2s;
+      padding: 0;
+      line-height: 1;
+    }
+    .pw-toggle:hover { color: var(--primary-color); }
+
+    /* Remember me */
+    .remember-row {
+      display: flex; align-items: center; gap: 0.6rem;
+      margin-bottom: 1.75rem;
+    }
+    .remember-row input[type="checkbox"] {
+      appearance: none;
+      width: 15px; height: 15px;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .remember-row input[type="checkbox"]:checked {
+      background: var(--primary-color);
+      border-color: var(--primary-color);
+    }
+    .remember-row input[type="checkbox"]:checked::after {
+      content: '✓';
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 0.55rem;
+      color: #fff;
+      font-weight: 700;
+    }
+    .remember-row label {
+      font-size: 0.75rem;
+      color: var(--mid);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* ─── SUBMIT BUTTON ─────────────────── */
+    .btn-submit {
+      width: 100%;
+      background: var(--primary-color);
+      color: #fff;
+      border: none;
+      padding: 1rem;
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s, transform 0.15s, box-shadow 0.25s;
+    }
+    .btn-submit:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 8px 32px rgba(184,134,11,0.35);
+      transform: translateY(-1px);
+    }
+    .btn-submit:active { transform: translateY(0); }
+    /* Shimmer on hover */
+    .btn-submit::before {
+      content: '';
+      position: absolute; top: 0; left: -75%;
+      width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transform: skewX(-15deg);
+      transition: left 0.5s ease;
+    }
+    .btn-submit:hover::before { left: 150%; }
+
+    /* ─── DIVIDER ────────────────────────── */
+    .or-divider {
+      display: flex; align-items: center; gap: 1rem;
+      margin: 1.75rem 0;
+    }
+    .or-divider::before, .or-divider::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--border);
+    }
+    .or-divider span {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #C5BDB0;
+      font-family: var(--font-display);
+      white-space: nowrap;
+    }
+
+    /* ─── SOCIAL BUTTONS ────────────────── */
+    .social-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .btn-social {
+      display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--dark);
+      text-transform: uppercase;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+    .btn-social:hover {
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      transform: translateY(-1px);
+    }
+    .btn-social img { width: 16px; height: 16px; object-fit: contain; }
+    .btn-social i { font-size: 0.9rem; }
+    .btn-social .fa-apple { color: #000; }
+
+    /* ─── REGISTER LINK ─────────────────── */
+    .register-row {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--mid);
+      margin-top: 0.5rem;
+    }
+    .register-row a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .register-row a:hover { border-color: var(--primary-color); }
+
+    /* ─── BOTTOM BRANDING ───────────────── */
+    .bottom-brand {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin-top: 2.5rem;
+      padding-top: 1.75rem;
+      border-top: 1px solid var(--border);
+    }
+    .bottom-brand-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      flex-shrink: 0;
+    }
+    .bottom-brand p {
+      font-size: 0.65rem;
+      color: #C5BDB0;
+      font-family: var(--font-display);
+      letter-spacing: 0.05em;
+    }
+    .bottom-brand p a {
+      color: var(--mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .bottom-brand p a:hover { color: var(--primary-color); }
+
+    /* ─── FORM TRANSITION ───────────────── */
+    .form-container {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: riseIn 0.8s 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes riseIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── TOAST NOTIFICATION ────────────── */
+    #toast {
+      position: fixed; bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: var(--dark);
+      color: #fff;
+      padding: 0.85rem 1.75rem;
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      border-left: 3px solid var(--primary-color);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      z-index: 9990;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
+      opacity: 0;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* ─── DYNAMIC OVERRIDES ─────────────── */
+    .reveal-item { opacity: 0; } /* Managed by GSAP */
+    
+    .input-wrapper:focus-within {
+      filter: drop-shadow(0 0 10px rgba(184,134,11,0.15));
+    }
+    
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .form-container {
+      perspective: 1000px;
+    }
+    
+    /* Reveal Animation handled by GSAP, remove old CSS animation */
+    .form-container-reveal {
+      opacity: 0;
+      transform: translateZ(-50px);
+    }
+  </style>
+
+</head>
+<body>
+
+<!-- ─── PRELOADER ──────────────────────── -->
+<div id="preloader">
+  <div class="preloader-logo">Parampara</div>
+  <div class="preloader-bar">
+    <div class="preloader-fill" id="preloader-fill"></div>
+  </div>
+</div>
+
+<!-- ─── CUSTOM CURSOR ─────────────────── -->
+<div id="mag-cursor"></div>
+<div id="mag-follower"></div>
+
+<!-- ─── TOAST ─────────────────────────── -->
+<div id="toast"></div>
+
+<!-- ─── MAIN LAYOUT ───────────────────── -->
+<div class="login-wrapper">
+
+  <!-- LEFT PANEL — Heritage imagery -->
+  <div class="left-panel">
+    <div class="left-bg">
+      <img
+        src="https://picsum.photos/seed/IndianCraft9/1200/1800"
+        alt="Indian Heritage Craft"
+        loading="eager"
+      >
+    </div>
+    <div class="left-overlay"></div>
+
+    <!-- Floating badge -->
+    <div class="craft-badge">
+      <div class="craft-badge-icon">
+        <i class="fa-solid fa-award"></i>
+      </div>
+      <div class="craft-badge-text">
+        <p>Heritage Certified</p>
+        <p>GI Tagged · Master Artisan</p>
+      </div>
+    </div>
+
+    <div class="left-content">
+      <!-- Logo -->
+      <a href="index.html" class="left-logo reveal-item">
+        <img
+          src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"
+          alt="Parampara"
+        >
+      </a>
+
+      <!-- Hero copy -->
+      <div class="left-hero">
+        <p class="left-eyebrow reveal-item">Est. 2026 · India's Heritage Store</p>
+        <h1 class="left-headline reveal-item">
+          Where every<br>craft tells a<br><em>timeless story.</em>
+        </h1>
+
+        <div class="left-quote reveal-item">
+          <p>"We do not make objects.<br>We carry memory forward into the modern age."</p>
+          <cite>— Gopal Saini, Master Potter · Jaipur</cite>
+        </div>
+
+        <div class="stat-row reveal-item">
+          <div class="stat-item">
+            <p>28</p>
+            <p>States</p>
+          </div>
+          <div class="stat-item">
+            <p>70%</p>
+            <p>To Artisans</p>
+          </div>
+          <div class="stat-item">
+            <p>GI</p>
+            <p>Tagged Crafts</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL — Login form -->
+  <div class="right-panel">
+    <div class="form-container">
+
+      <!-- Back link -->
+      <a href="index.html" class="back-link reveal-item">
+        <i class="fa-solid fa-arrow-left"></i>
+        Back to Parampara
+      </a>
+
+      <!-- Form header -->
+      <p class="form-eyebrow reveal-item">Member Access</p>
+      <h1 class="form-title reveal-item">Welcome<br><em>back.</em></h1>
+      <p class="form-subtitle reveal-item">
+        Sign in to explore India's finest heritage crafts,<br>
+        curated from 28 states.
+      </p>
+
+      <!-- Login Form -->
+      <form id="login-form" novalidate>
+
+        <!-- Email -->
+        <div class="field-group reveal-item">
+          <div class="field-label">
+            <span>Email Address</span>
+          </div>
+          <div class="input-wrapper">
+            <i class="input-icon fa-regular fa-envelope"></i>
+            <input
+              type="email"
+              id="email"
+              class="field-input"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            >
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="field-group reveal-item">
+          <div class="field-label">
+            <span>Password</span>
+            <a href="#">Forgot password?</a>
+          </div>
+          <div class="input-wrapper">
+            <i class="input-icon fa-regular fa-lock"></i>
+            <input
+              type="password"
+              id="password"
+              class="field-input"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required
+              style="padding-right: 3rem;"
+            >
+            <button
+              type="button"
+              class="pw-toggle"
+              id="pw-toggle"
+              aria-label="Toggle password visibility"
+            >
+              <i class="fa-regular fa-eye" id="pw-icon"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember me -->
+        <div class="remember-row reveal-item">
+
+          <input type="checkbox" id="remember" name="remember">
+          <label for="remember">Remember me for 30 days</label>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-submit reveal-item" id="submit-btn">
+          <span id="btn-text">Sign In to Parampara</span>
+        </button>
+
+      </form>
+
+      <!-- Divider -->
+      <div class="or-divider reveal-item">
+        <span>Or continue with</span>
+      </div>
+
+      <!-- Social logins -->
+      <div class="social-buttons reveal-item">
+        <a href="#" class="btn-social" onclick="handleSocial('Google'); return false;">
+          <svg width="16" height="16" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Google
+        </a>
+        <a href="#" class="btn-social" onclick="handleSocial('Apple'); return false;">
+          <i class="fa-brands fa-apple fa-apple"></i>
+          Apple
+        </a>
+      </div>
+
+      <!-- Register -->
+      <p class="register-row reveal-item">
+        New to Parampara?
+        <a href="register.html">Create a free account →</a>
+      </p>
+
+      <!-- Bottom branding -->
+      <div class="bottom-brand reveal-item">
+        <div class="bottom-brand-dot"></div>
+        <p>
+          By signing in, you agree to our
+          <a href="about.html">Terms of Service</a> &
+          <a href="about.html">Privacy Policy</a>.
+          <br>© 2026 Parampara Heritage.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── SCRIPTS ────────────────────────── -->
+<script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+<script>
+  /* ── Register GSAP Plugins ── */
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* ── Preloader & Global Init ── */
+  document.addEventListener('DOMContentLoaded', () => {
+    const preloader = document.getElementById('preloader');
+    const fill = document.getElementById('preloader-fill');
+    
+    // Simulate loading progress
+    gsap.to(fill, { 
+      width: '100%', 
+      duration: 1.5, 
+      ease: "power4.inOut",
+      onComplete: () => {
+        gsap.to(preloader, {
+          opacity: 0,
+          duration: 1,
+          ease: "expo.out",
+          onComplete: () => {
+            preloader.style.display = 'none';
+            initAnimations(); // Start main animations after preloader
+          }
+        });
+      }
+    });
+  });
+
+  /* ── Lenis Smooth Scroll ── */
+  const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - 2 ** (-10 * t)) });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  /* ── Main Global Animations ── */
+  function initAnimations() {
+    // 1. Staggered reveal for all marked items
+    gsap.fromTo(".reveal-item", 
+      { opacity: 0, y: 30, filter: "blur(10px)" },
+      { 
+        opacity: 1, 
+        y: 0, 
+        filter: "blur(0px)",
+        duration: 1.2, 
+        stagger: 0.12, 
+        ease: "expo.out" 
+      }
+    );
+
+    // 2. Parallax and hover-reactive image
+    const bgImg = document.querySelector('.left-bg img');
+    if(bgImg) {
+      gsap.to(bgImg, {
+        scale: 1.15,
+        duration: 20,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut"
+      });
+      
+      // Mouse move parallax for the landscape
+      document.querySelector('.left-panel').addEventListener('mousemove', (e) => {
+        const { clientX, clientY } = e;
+        const xPos = (clientX / window.innerWidth - 0.5) * 40;
+        const yPos = (clientY / window.innerHeight - 0.5) * 40;
+        
+        gsap.to(bgImg, {
+          x: xPos,
+          y: yPos,
+          duration: 1,
+          ease: "power2.out"
+        });
+      });
+    }
+
+    // 3. 3D Tilt for Form Container
+    const formContainer = document.querySelector('.form-container');
+    document.querySelector('.right-panel').addEventListener('mousemove', (e) => {
+      if (window.innerWidth < 1024) return;
+      
+      const { clientX, clientY } = e;
+      const panel = document.querySelector('.right-panel').getBoundingClientRect();
+      const x = (clientX - panel.left) / panel.width - 0.5;
+      const y = (clientY - panel.top) / panel.height - 0.5;
+      
+      gsap.to(formContainer, {
+        rotationY: x * 10,
+        rotationX: -y * 10,
+        transformPerspective: 1000,
+        duration: 0.6,
+        ease: "power2.out"
+      });
+    });
+
+    document.querySelector('.right-panel').addEventListener('mouseleave', () => {
+      gsap.to(formContainer, { rotationY: 0, rotationX: 0, duration: 1, ease: "elastic.out(1, 0.4)" });
+    });
+  }
+
+  /* ── Magnetic Cursor (Enhanced) ── */
+  if (window.innerWidth >= 768) {
+    const cursor = document.getElementById('mag-cursor');
+    const follower = document.getElementById('mag-follower');
+    let mx = innerWidth / 2, my = innerHeight / 2;
+    let cx = mx, cy = my, fx = mx, fy = my;
+
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+
+    (function animCursor() {
+      cx += (mx - cx) * 0.4; cy += (my - cy) * 0.4;
+      fx += (mx - fx) * 0.15; fy += (my - fy) * 0.15;
+      cursor.style.transform  = `translate(calc(${cx}px - 50%), calc(${cy}px - 50%))`;
+      follower.style.transform = `translate(calc(${fx}px - 50%), calc(${fy}px - 50%))`;
+      requestAnimationFrame(animCursor);
+    })();
+
+    const interactive = 'a, button, input, label, .btn-social, [type="checkbox"]';
+    document.querySelectorAll(interactive).forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        gsap.to(cursor, { opacity: 0, scale: 0, duration: 0.2 });
+        gsap.to(follower, { 
+          scale: 2.2, 
+          backgroundColor: 'rgba(184,134,11,0.08)',
+          borderColor: 'rgba(184,134,11,0.4)',
+          duration: 0.3 
+        });
+      });
+      el.addEventListener('mouseleave', () => {
+        gsap.to(cursor, { opacity: 1, scale: 1, duration: 0.2 });
+        gsap.to(follower, { 
+          scale: 1, 
+          backgroundColor: 'transparent',
+          borderColor: 'var(--primary-color)',
+          duration: 0.3 
+        });
+      });
+    });
+  }
+
+  /* ── Password Visibility ── */
+  const pwToggle = document.getElementById('pw-toggle');
+  const pwInput  = document.getElementById('password');
+  const pwIcon   = document.getElementById('pw-icon');
+
+  pwToggle.addEventListener('click', () => {
+    const isText = pwInput.type === 'text';
+    pwInput.type = isText ? 'password' : 'text';
+    pwIcon.className = isText ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash';
+    
+    // Animation for the toggle
+    gsap.fromTo(pwIcon, { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3 });
+  });
+
+  /* ── Toast & Notifications ── */
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    gsap.fromTo(toast, 
+      { y: 100, x: "-50%", opacity: 0 },
+      { y: 0, x: "-50%", opacity: 1, duration: 0.6, ease: "expo.out" }
+    );
+    setTimeout(() => {
+      gsap.to(toast, { y: 100, opacity: 0, duration: 0.4, ease: "power2.in" });
+    }, 3200);
+  }
+
+  /* ── Form Logic ── */
+  document.getElementById('login-form').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+    const btn = document.getElementById('submit-btn');
+    const btnText = document.getElementById('btn-text');
+
+    if (!email || !email.includes('@')) {
+      showToast('🏺 Please enter a valid heritage email.');
+      shake(document.getElementById('email'));
+      return;
+    }
+    if (password.length < 6) {
+      showToast('🏺 Password must be a legacy of 6+ characters.');
+      shake(document.getElementById('password'));
+      return;
+    }
+
+    btn.disabled = true;
+    gsap.to(btn, { opacity: 0.7, y: 2, duration: 0.2 });
+    btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
+
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        btnText.textContent = '✓ Entry Granted';
+        gsap.to(btn, { backgroundColor: '#2F5233', duration: 0.4 });
+        showToast('Welcome back to the legacy. 🏺');
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify({ name: data.name, email: data.email }));
+        
+        setTimeout(() => { 
+          gsap.to('body', { opacity: 0, duration: 1, onComplete: () => window.location.href = 'index.html' });
+        }, 1200);
+      } else {
+        showToast(data.message || '🏺 Access Denied. Check your credentials.');
+        btn.disabled = false;
+        btnText.textContent = 'Sign In to Parampara';
+        gsap.to(btn, { opacity: 1, y: 0, duration: 0.2 });
+        shake(document.getElementById('email'));
+        shake(document.getElementById('password'));
+      }
+    } catch (err) {
+      showToast('🏺 Backend server seems to be offline.');
+      btn.disabled = false;
+      btnText.textContent = 'Sign In to Parampara';
+      gsap.to(btn, { opacity: 1, y: 0, duration: 0.2 });
+    }
+  });
+
+  function shake(el) {
+    gsap.fromTo(el, { x: -6 }, { x: 6, duration: 0.08, repeat: 5, yoyo: true, ease: "sine.inOut", onComplete: () => gsap.set(el, { x: 0 }) });
+  }
+
+  function handleSocial(provider) {
+    showToast(`${provider} gateway coming soon. 🏺`);
+  }
+</script>
+
+</body>
+</html>

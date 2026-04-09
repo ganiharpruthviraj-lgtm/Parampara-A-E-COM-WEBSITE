@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <title>Join the Legacy | Parampara Heritage</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Sora:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --primary-color: #B8860B;
+      --primary-light: #D4AF37;
+      --dark: #1A1A1A;
+      --mid: #6B6B6B;
+      --cream: #FBF9F4;
+      --border: #E8E3D6;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Inter', sans-serif;
+      --font-display: 'Sora', sans-serif;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--cream);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    #mag-cursor {
+      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
+      background: var(--primary-color); border-radius: 50%;
+      pointer-events: none; z-index: 9999; transform: translate(-50%,-50%);
+    }
+    #mag-follower {
+      position: fixed; top: 0; left: 0; width: 36px; height: 36px;
+      border: 1.5px solid var(--primary-color); border-radius: 50%;
+      pointer-events: none; z-index: 9998; transform: translate(-50%,-50%);
+    }
+
+    .register-wrapper {
+      display: flex; min-height: 100vh;
+    }
+
+    .left-panel {
+      flex: 1; position: relative; display: none; background: var(--dark);
+    }
+    @media (min-width: 1024px) { .left-panel { display: block; } }
+
+    .left-bg img {
+      width: 100%; height: 100%; object-fit: cover; opacity: 0.5;
+    }
+
+    .right-panel {
+      width: 100%; display: flex; align-items: center; justify-content: center; padding: 2rem;
+    }
+    @media (min-width: 1024px) { .right-panel { width: 560px; } }
+
+    .form-container { width: 100%; max-width: 400px; }
+
+    .field-input {
+      width: 100%; font-family: var(--font-serif); font-size: 1rem;
+      padding: 0.9rem 1rem 0.9rem 2.75rem; border: 1px solid var(--border);
+      outline: none; transition: border-color 0.25s;
+    }
+    .field-input:focus { border-color: var(--primary-color); }
+
+    .btn-submit {
+      width: 100%; background: var(--primary-color); color: #fff; padding: 1rem;
+      font-family: var(--font-display); font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.25em; text-transform: uppercase; cursor: pointer;
+    }
+
+    #toast {
+      position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      background: var(--dark); color: #fff; padding: 0.85rem 1.75rem;
+      font-size: 0.7rem; border-left: 3px solid var(--primary-color);
+      z-index: 9990; opacity: 0; pointer-events: none; transition: 0.4s;
+    }
+    #toast.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+
+    .reveal-item { opacity: 0; }
+  </style>
+</head>
+<body>
+
+<div id="mag-cursor"></div>
+<div id="mag-follower"></div>
+<div id="toast"></div>
+
+<div class="register-wrapper">
+  <div class="left-panel">
+    <div class="left-bg h-full">
+      <img src="https://picsum.photos/seed/heritage/1200/1800" alt="Heritage">
+    </div>
+    <div class="absolute inset-0 flex flex-col justify-end p-12 text-white bg-gradient-to-t from-black/80 to-transparent">
+        <h2 class="text-4xl font-serif mb-4">Start your <em>heritage journey.</em></h2>
+        <p class="text-sm opacity-70">Access India's most exclusive artisanal collective.</p>
+    </div>
+  </div>
+
+  <div class="right-panel">
+    <div class="form-container">
+      <a href="login.html" class="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest text-mid hover:text-primary mb-12">
+        <i class="fa-solid fa-arrow-left"></i> Already a member?
+      </a>
+
+      <p class="text-[10px] uppercase tracking-[0.3em] text-primary mb-2 font-bold reveal-item">New Account</p>
+      <h1 class="text-5xl font-serif mb-8 reveal-item">Create <em>Legacy.</em></h1>
+
+      <form id="register-form" class="space-y-6">
+        <div class="reveal-item">
+          <label class="text-[10px] uppercase tracking-widest text-mid font-bold block mb-2">Full Name</label>
+          <div class="relative">
+            <i class="absolute left-4 top-1/2 -translate-y-1/2 fa-regular fa-user text-gray-400"></i>
+            <input type="text" id="name" class="field-input" placeholder="Arjun Sharma" required>
+          </div>
+        </div>
+
+        <div class="reveal-item">
+          <label class="text-[10px] uppercase tracking-widest text-mid font-bold block mb-2">Email Address</label>
+          <div class="relative">
+            <i class="absolute left-4 top-1/2 -translate-y-1/2 fa-regular fa-envelope text-gray-400"></i>
+            <input type="email" id="email" class="field-input" placeholder="arjun@legacy.com" required>
+          </div>
+        </div>
+
+        <div class="reveal-item">
+          <label class="text-[10px] uppercase tracking-widest text-mid font-bold block mb-2">Password</label>
+          <div class="relative">
+            <i class="absolute left-4 top-1/2 -translate-y-1/2 fa-regular fa-lock text-gray-400"></i>
+            <input type="password" id="password" class="field-input" placeholder="Min. 6 characters" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit reveal-item" id="submit-btn text-white">
+          <span id="btn-text">Create My Account</span>
+        </button>
+      </form>
+
+      <p class="text-center text-xs text-mid mt-8 reveal-item">
+        By joining, you agree to our <a href="#" class="text-primary underline">Heritage Terms</a>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script>
+  gsap.fromTo(".reveal-item", { opacity: 0, y: 20 }, { opacity: 1, y: 0, stagger: 0.1, duration: 1, ease: "expo.out" });
+
+  const cursor = document.getElementById('mag-cursor');
+  const follower = document.getElementById('mag-follower');
+  document.addEventListener('mousemove', e => {
+      gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+      gsap.to(follower, { x: e.clientX, y: e.clientY, duration: 0.3 });
+  });
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  document.getElementById('register-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const btnText = document.getElementById('btn-text');
+
+    btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating...';
+
+    try {
+      const res = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        showToast('Welcome to the Parampara archive! 🏺');
+        localStorage.setItem('token', data.token);
+        setTimeout(() => window.location.href = 'index.html', 1500);
+      } else {
+        showToast(data.message || 'Error creating account');
+        btnText.textContent = 'Create My Account';
+      }
+    } catch (err) {
+      showToast('Backend server is not running 🏺');
+      btnText.textContent = 'Create My Account';
+    }
+  });
+</script>
+</body>
+</html>

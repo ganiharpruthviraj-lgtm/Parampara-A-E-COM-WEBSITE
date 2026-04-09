@@ -1,13 +1,27 @@
+# Dependencies
 node_modules/
-package-lock.json
+backend/node_modules/
+
+# Secrets
+.env
+backend/.env
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build files
+dist/
+build/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Project specific
 *.png
 *.txt
-*.js
-!index.html
-!about.html
-!artisans.html
-!masterpiece.html
-!products.html
-!search.html
-!state_categories.html
-!states.html
+# Avoid ignoring all JS files if we have a backend!
+# Only ignore top-level debug scripts if necessary
+# *.js
