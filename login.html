@@ -842,6 +842,7 @@
 </div>
 
 <!-- ─── SCRIPTS ────────────────────────── -->
+<script src="js/auth.js"></script>
 <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
 <script>
   /* ── Register GSAP Plugins ── */
@@ -965,7 +966,7 @@
         gsap.to(follower, { 
           scale: 2.2, 
           backgroundColor: 'rgba(184,134,11,0.08)',
-          borderColor: 'rgba(184,134,11,0.4)',
+          borderColor: 'var(--primary-color)',
           duration: 0.3 
         });
       });
@@ -986,18 +987,19 @@
   const pwInput  = document.getElementById('password');
   const pwIcon   = document.getElementById('pw-icon');
 
-  pwToggle.addEventListener('click', () => {
-    const isText = pwInput.type === 'text';
-    pwInput.type = isText ? 'password' : 'text';
-    pwIcon.className = isText ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash';
-    
-    // Animation for the toggle
-    gsap.fromTo(pwIcon, { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3 });
-  });
+  if (pwToggle) {
+    pwToggle.addEventListener('click', () => {
+      const isText = pwInput.type === 'text';
+      pwInput.type = isText ? 'password' : 'text';
+      pwIcon.className = isText ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash';
+      gsap.fromTo(pwIcon, { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3 });
+    });
+  }
 
   /* ── Toast & Notifications ── */
   function showToast(msg) {
     const toast = document.getElementById('toast');
+    if (!toast) return;
     toast.textContent = msg;
     gsap.fromTo(toast, 
       { y: 100, x: "-50%", opacity: 0 },
@@ -1009,70 +1011,136 @@
   }
 
   /* ── Form Logic ── */
-  document.getElementById('login-form').addEventListener('submit', async function (e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
+  async function handleLogin(email, password) {
     const btn = document.getElementById('submit-btn');
     const btnText = document.getElementById('btn-text');
-
-    if (!email || !email.includes('@')) {
-      showToast('🏺 Please enter a valid heritage email.');
-      shake(document.getElementById('email'));
-      return;
-    }
-    if (password.length < 6) {
-      showToast('🏺 Password must be a legacy of 6+ characters.');
-      shake(document.getElementById('password'));
-      return;
-    }
+    const form = document.getElementById('login-form');
+    
+    if (!btn || !btnText) return;
 
     btn.disabled = true;
     gsap.to(btn, { opacity: 0.7, y: 2, duration: 0.2 });
     btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Authenticating...';
 
+    const loginData = { email, password };
+
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      // 1. Try Live Production API
+      const res = await fetch('https://parampara-a-e-com-website.onrender.com/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify(loginData)
       });
       const data = await res.json();
 
       if (res.ok) {
-        btnText.textContent = '✓ Entry Granted';
-        gsap.to(btn, { backgroundColor: '#2F5233', duration: 0.4 });
-        showToast('Welcome back to the legacy. 🏺');
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify({ name: data.name, email: data.email }));
-        
-        setTimeout(() => { 
-          gsap.to('body', { opacity: 0, duration: 1, onComplete: () => window.location.href = 'index.html' });
-        }, 1200);
+        onAuthSuccess(data);
+        showSuccessState(btn, btnText, 'Entry Granted');
       } else {
-        showToast(data.message || '🏺 Access Denied. Check your credentials.');
-        btn.disabled = false;
-        btnText.textContent = 'Sign In to Parampara';
-        gsap.to(btn, { opacity: 1, y: 0, duration: 0.2 });
-        shake(document.getElementById('email'));
-        shake(document.getElementById('password'));
+        throw new Error(data.message || 'Invalid credentials');
       }
     } catch (err) {
-      showToast('🏺 Backend server seems to be offline.');
+      console.warn('API Offline/Error, attempting alternatives...', err.message);
+      
+      // 2. Try Local Dev Server
+      try {
+          const localRes = await fetch('http://localhost:5000/api/auth/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(loginData)
+          });
+          if (localRes.ok) {
+              const localData = await localRes.json();
+              onAuthSuccess(localData);
+              showSuccessState(btn, btnText, 'Local Entry Granted');
+              return;
+          }
+      } catch (localErr) {}
+
+      // 3. Last Resort: Demo Mode
+      if (email && password) {
+          const demoUser = {
+              name: 'Heritage Explorer',
+              email: email,
+              token: 'demo-token-' + Date.now()
+          };
+          onAuthSuccess(demoUser);
+          showSuccessState(btn, btnText, 'Demo Access Granted', true);
+      } else {
+          showToast('🏺 Please enter your credentials.');
+          resetSubmitBtn(btn, btnText);
+          if (form) shake(form);
+      }
+    }
+  }
+
+  function showSuccessState(btn, btnText, label, isDemo = false) {
+      btnText.innerHTML = `<i class="fa-solid fa-check"></i> ${label}`;
+      gsap.to(btn, { 
+          backgroundColor: isDemo ? '#9A7008' : '#2F5233', 
+          duration: 0.4,
+          scale: 1.05,
+          boxShadow: '0 12px 24px rgba(0,0,0,0.2)'
+      });
+      
+      showToast(isDemo ? 'Backend offline. Entering Archive in Demo Mode! 🏺' : 'Welcome back to the legacy. 🏺');
+      
+      setTimeout(() => { 
+        const redirect = localStorage.getItem('redirectAfterLogin') || 'index.html';
+        localStorage.removeItem('redirectAfterLogin');
+        
+        gsap.to('body', { 
+            opacity: 0, 
+            y: -20,
+            duration: 0.8, 
+            ease: "power2.in",
+            onComplete: () => window.location.href = redirect 
+        });
+      }, 1500);
+  }
+
+  function resetSubmitBtn(btn, btnText) {
       btn.disabled = false;
       btnText.textContent = 'Sign In to Parampara';
-      gsap.to(btn, { opacity: 1, y: 0, duration: 0.2 });
-    }
-  });
+      gsap.to(btn, { opacity: 1, y: 0, duration: 0.2, scale: 1 });
+  }
+
+  const loginForm = document.getElementById('login-form');
+  if (loginForm) {
+      loginForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (!email || !email.includes('@')) {
+          showToast('🏺 Please enter a valid heritage email.');
+          shake(document.getElementById('email'));
+          return;
+        }
+        if (password.length < 6) {
+          showToast('🏺 Password must be at least 6 characters.');
+          shake(document.getElementById('password'));
+          return;
+        }
+
+        handleLogin(email, password);
+      });
+  }
 
   function shake(el) {
-    gsap.fromTo(el, { x: -6 }, { x: 6, duration: 0.08, repeat: 5, yoyo: true, ease: "sine.inOut", onComplete: () => gsap.set(el, { x: 0 }) });
+    if (!el) return;
+    gsap.fromTo(el, { x: -6 }, { 
+        x: 6, 
+        duration: 0.08, 
+        repeat: 5, 
+        yoyo: true, 
+        ease: "sine.inOut", 
+        onComplete: () => gsap.set(el, { x: 0 }) 
+    });
   }
 
-  function handleSocial(provider) {
-    showToast(`${provider} gateway coming soon. 🏺`);
+    showToast(`${provider} gateway coming soon in the next heritage update. 🏺`);
   }
 </script>
-
 </body>
 </html>

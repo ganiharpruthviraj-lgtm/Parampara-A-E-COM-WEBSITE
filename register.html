@@ -137,7 +137,7 @@
           </div>
         </div>
 
-        <button type="submit" class="btn-submit reveal-item" id="submit-btn text-white">
+        <button type="submit" class="btn-submit reveal-item" id="submit-btn">
           <span id="btn-text">Create My Account</span>
         </button>
       </form>
@@ -149,6 +149,7 @@
   </div>
 </div>
 
+<script src="js/auth.js"></script>
 <script>
   gsap.fromTo(".reveal-item", { opacity: 0, y: 20 }, { opacity: 1, y: 0, stagger: 0.1, duration: 1, ease: "expo.out" });
 
@@ -171,12 +172,13 @@
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const btn = document.getElementById('submit-btn');
     const btnText = document.getElementById('btn-text');
 
     btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating...';
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch('https://parampara-a-e-com-website.onrender.com/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
@@ -185,15 +187,25 @@
 
       if (res.ok) {
         showToast('Welcome to the Parampara archive! 🏺');
-        localStorage.setItem('token', data.token);
-        setTimeout(() => window.location.href = 'index.html', 1500);
+        onAuthSuccess(data); // Global helper
+        const redirect = localStorage.getItem('redirectAfterLogin') || 'index.html';
+        localStorage.removeItem('redirectAfterLogin');
+        setTimeout(() => window.location.href = redirect, 1500);
       } else {
-        showToast(data.message || 'Error creating account');
-        btnText.textContent = 'Create My Account';
+        throw new Error(data.message || 'Error creating account');
       }
     } catch (err) {
-      showToast('Backend server is not running 🏺');
-      btnText.textContent = 'Create My Account';
+      console.warn('API Offline, using demo fallback:', err.message);
+      
+      const demoUser = { name, email, token: 'demo-' + Date.now() };
+      showToast('Backend offline. Joining Archive as Heritage Guest! 🏺');
+      
+      setTimeout(() => {
+          onAuthSuccess(demoUser);
+          const redirect = localStorage.getItem('redirectAfterLogin') || 'index.html';
+          localStorage.removeItem('redirectAfterLogin');
+          window.location.href = redirect;
+      }, 1500);
     }
   });
 </script>

@@ -1,19 +1,11 @@
 {
   "rewrites": [
-<<<<<<< HEAD
     { "source": "/", "destination": "/index.html" },
-=======
->>>>>>> e05a0b9d105e66b4ce44d9c933b0ee1882f5a110
     { "source": "/shop/:state", "destination": "/state_categories.html" },
     { "source": "/states", "destination": "/states.html" },
     { "source": "/artisans", "destination": "/artisans.html" },
     { "source": "/about", "destination": "/about.html" },
-<<<<<<< HEAD
     { "source": "/search", "destination": "/search.html" },
-    { "source": "/masterpiece", "destination": "/masterpiece.html" },
-    { "source": "/products", "destination": "/products.html" }
-=======
-    { "source": "/search", "destination": "/search.html" }
->>>>>>> e05a0b9d105e66b4ce44d9c933b0ee1882f5a110
+    { "source": "/masterpiece", "destination": "/masterpiece.html" }
   ]
 }
