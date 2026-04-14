@@ -13,7 +13,7 @@ const products = [
     badge: 'Master Artisan',
     giTagged: true,
     description: 'A timeless masterpiece of Rajasthani craftsmanship, featuring intricate hand-painted enamel and semi-precious stones.',
-    imageUrl: 'https://picsum.photos/seed/re/600/800',
+    imageUrl: 'assets/products/meenakari_choker.png',
     artisan: 'Gopal Saini'
   },
   {
@@ -26,7 +26,7 @@ const products = [
     badge: 'Master Artisan',
     giTagged: true,
     description: 'Handwoven with pure silk and silver-dipped zari threads, this saree represents centuries of weaving tradition.',
-    imageUrl: 'https://picsum.photos/seed/saree/600/800',
+    imageUrl: 'assets/products/banarasi_saree.png',
     artisan: 'Mustafa Ahmed'
   },
   {
@@ -37,7 +37,7 @@ const products = [
     category: 'Pottery & Ceramics',
     price: 24800,
     description: 'Vibrant blue pottery made from quartz, raw glaze, and sodium sulphate. A unique non-clay craft of the Pink City.',
-    imageUrl: 'https://picsum.photos/seed/vase/600/800',
+    imageUrl: 'assets/products/blue_pottery_vase.png',
     artisan: 'Suresh Kumar'
   },
   {
@@ -48,7 +48,7 @@ const products = [
     category: 'Home Decor',
     price: 15500,
     description: 'Ancient tribal metal craft using the non-ferrous lost-wax casting technique. Every piece is unique.',
-    imageUrl: 'https://picsum.photos/seed/dokra/600/800',
+    imageUrl: 'assets/products/dokra_figurine.png',
     artisan: 'Budhilal Dewangan'
   },
   {
@@ -58,8 +58,8 @@ const products = [
     craft: 'Pattachitra Painting',
     category: 'Art & Paintings',
     price: 42000,
-    description: 'Traditional scroll painting on cloth, using natural pigments derived from stones and shells.',
-    imageUrl: 'https://picsum.photos/seed/paint/600/800',
+    description: 'Traditional scroll painting on cloth using natural mineral colors, depicting mythological narratives.',
+    imageUrl: 'assets/products/pattachitra_painting.png',
     artisan: 'Bhaskar Mohapatra'
   }
 ];

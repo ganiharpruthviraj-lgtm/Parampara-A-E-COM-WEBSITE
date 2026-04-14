@@ -20,7 +20,6 @@ yarn-debug.log*
 yarn-error.log*
 
 # Project specific
-*.png
 *.txt
 # Avoid ignoring all JS files if we have a backend!
 # Only ignore top-level debug scripts if necessary
