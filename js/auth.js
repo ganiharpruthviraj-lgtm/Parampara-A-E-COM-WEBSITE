@@ -77,7 +77,7 @@ async function toggleCollection(productId, btn) {
     }
 
     try {
-        const response = await fetch(`https://parampara-a-e-com-website.onrender.com/api/auth/collection/${productId}`, {
+        const response = await fetch(`http://localhost:5000/api/auth/collection/${productId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`

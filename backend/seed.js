@@ -8,7 +8,7 @@ const products = [
     state: 'Jaipur, Rajasthan',
     region: 'North India',
     craft: 'Enamel Jewelry',
-    category: 'Jewery & Ornaments',
+    category: 'Jewelry & Ornaments',
     price: 96000,
     badge: 'Master Artisan',
     giTagged: true,
