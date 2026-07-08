@@ -85,6 +85,8 @@
 
     .reveal-item { opacity: 0; }
   </style>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body>
 
@@ -142,6 +144,30 @@
         </button>
       </form>
 
+      <div class="flex items-center gap-4 my-6 reveal-item">
+        <div class="flex-1 h-px bg-[var(--border)]"></div>
+        <span class="text-[0.6rem] font-bold tracking-[0.15em] uppercase text-[#C5BDB0]">Or continue with</span>
+        <div class="flex-1 h-px bg-[var(--border)]"></div>
+      </div>
+
+      <div class="flex justify-center reveal-item">
+        <div id="g_id_onload"
+             data-client_id="YOUR_GOOGLE_CLIENT_ID"
+             data-context="signup"
+             data-ux_mode="popup"
+             data-callback="handleGoogleCallback"
+             data-auto_prompt="false">
+        </div>
+        <div class="g_id_signin"
+             data-type="standard"
+             data-shape="rectangular"
+             data-theme="outline"
+             data-text="signup_with"
+             data-size="large"
+             data-logo_alignment="left">
+        </div>
+      </div>
+
       <p class="text-center text-xs text-mid mt-8 reveal-item">
         By joining, you agree to our <a href="#" class="text-primary underline">Heritage Terms</a>.
       </p>
@@ -178,7 +204,7 @@
     btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating...';
 
     try {
-      const res = await fetch('https://parampara-a-e-com-website-1.onrender.com/api/auth/register', {
+      const res = await fetch(`${window.GLOBAL_API_BASE}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password })
@@ -208,6 +234,39 @@
       }, 1500);
     }
   });
+
+  async function handleGoogleCallback(response) {
+      const token = response.credential;
+      const btn = document.getElementById('submit-btn');
+      const btnText = document.getElementById('btn-text');
+      
+      if (btnText) btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Google Account processing...';
+
+      try {
+        const res = await fetch('http://localhost:5000/api/auth/google', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token })
+        });
+        const data = await res.json();
+        
+        if (res.ok) {
+            onAuthSuccess(data);
+            showToast('Google API joined successfully!');
+            setTimeout(() => {
+                const redirect = localStorage.getItem('redirectAfterLogin') || 'index.html';
+                localStorage.removeItem('redirectAfterLogin');
+                window.location.href = redirect;
+            }, 1000);
+        } else {
+            throw new Error(data.message || 'Google Auth Failed');
+        }
+      } catch(err) {
+        console.error(err);
+        showToast('Google Sign-In Failed: ' + err.message);
+        if (btnText) btnText.innerHTML = 'Create My Account';
+      }
+  }
 </script>
 </body>
 </html>

@@ -61,6 +61,19 @@ const products = [
     description: 'Traditional scroll painting on cloth using natural mineral colors, depicting mythological narratives.',
     imageUrl: 'assets/products/pattachitra_painting.png',
     artisan: 'Bhaskar Mohapatra'
+  },
+  {
+    name: 'Kashmiri Walnut Wood Carving',
+    state: 'Srinagar, Jammu & Kashmir',
+    region: 'North India',
+    craft: 'Wood Carving',
+    category: 'Wooden Crafts',
+    price: 28500,
+    badge: 'GI Tagged',
+    giTagged: true,
+    description: 'Intricately hand-carved decorative walnut wood tray featuring deep floral and chinar leaf motifs. A true hallmark of Kashmiri artistry.',
+    imageUrl: 'https://picsum.photos/seed/kashmirWood/800/800',
+    artisan: 'Tariq Ahmad'
   }
 ];
 

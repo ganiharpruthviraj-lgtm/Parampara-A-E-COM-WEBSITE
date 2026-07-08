@@ -13,7 +13,8 @@ router.get('/', async (req, res) => {
       query.$text = { $search: q };
     }
     if (category) {
-      query.category = category;
+      const regexStr = '^' + category.replace(/[eé]/g, '[eé]') + '$';
+      query.category = { $regex: regexStr, $options: 'i' };
     }
     if (state) {
       query.state = { $regex: state, $options: 'i' };

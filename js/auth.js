@@ -2,6 +2,10 @@
  * Parampara Heritage - Global Auth Management
  */
 
+window.GLOBAL_API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:5000'
+    : 'https://parampara-a-e-com-website-1.onrender.com';
+
 function updateGlobalNav() {
     const token = localStorage.getItem('token');
     const userJson = localStorage.getItem('user');
@@ -25,6 +29,13 @@ function updateGlobalNav() {
             authLink.className = 'text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200 flex items-center gap-2 mr-2 cursor-pointer';
             
             if (token) {
+                // Add the Collection Link inside the same container
+                const collectionLink = document.createElement('a');
+                collectionLink.href = 'collection.html';
+                collectionLink.className = 'text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200 flex items-center gap-2 mr-6';
+                collectionLink.innerHTML = `<i class="fa-regular fa-bookmark"></i> <span class="hidden lg:inline">Collection</span>`;
+                container.prepend(collectionLink);
+
                 authLink.innerHTML = `<i class="fa-solid fa-user-circle text-lg"></i> <span class="hidden sm:inline">${user?.name?.split(' ')[0] || 'Member'}</span>`;
                 authLink.title = 'Logout';
                 authLink.onclick = (e) => {
@@ -77,7 +88,7 @@ async function toggleCollection(productId, btn) {
     }
 
     try {
-        const response = await fetch(`https://parampara-a-e-com-website-1.onrender.com/api/auth/collection/${productId}`, {
+        const response = await fetch(`${window.GLOBAL_API_BASE}/api/auth/collection/${productId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`

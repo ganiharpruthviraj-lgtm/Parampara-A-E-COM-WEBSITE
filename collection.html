@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <title>My Collection | Parampara</title>
+  <script src="https://kit.fontawesome.com/8e98006f77.js" crossorigin="anonymous"></script>
+  <script src="js/auth.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-color: #B8860B;
+      --dark: #1A1A1A;
+      --mid: #6B6B6B;
+      --cream: #FBF9F4;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--dark);
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3 { font-family: 'Cormorant Garamond', Georgia, serif; }
+    
+    .product-grid {
+      columns: 1;
+      column-gap: 2rem;
+    }
+    @media (min-width: 700px) { .product-grid { columns: 2; } }
+    @media (min-width: 1024px) { .product-grid { columns: 3; } }
+    
+    .product-card {
+      break-inside: avoid;
+      margin-bottom: 2.5rem;
+      cursor: pointer;
+    }
+    .product-card-img {
+      overflow: hidden;
+      background: #F5F1E8;
+      position: relative;
+      aspect-ratio: 3/4;
+    }
+    .product-card-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.7s ease, filter 0.4s ease;
+    }
+    .product-card:hover .product-card-img img {
+      transform: scale(1.05);
+    }
+    .product-card-body { padding: 1rem 0 0; }
+    .product-state {
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--primary-color); margin-bottom: 0.3rem;
+    }
+    .product-name {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.25rem; color: var(--dark); margin-bottom: 0.2rem;
+    }
+    .product-footer {
+      display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;
+    }
+    .product-craft {
+      font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: #B5AFA5;
+    }
+    .product-price {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; color: var(--dark); font-weight: 500;
+    }
+    .reveal { opacity: 0; transform: translateY(20px); transition: all 0.6s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen">
+  
+  <!-- Header -->
+  <header id="global-header" class="code-section">
+    <nav class="bg-[#FBF9F4] border-b border-gray-200 sticky top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+          <a href="index.html" class="flex items-center">
+            <img src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" alt="Parampara Logo" class="h-12 w-auto">
+          </a>
+          <div class="hidden lg:flex items-center space-x-8">
+            <a href="states.html" class="text-gray-800 hover:text-[#B8860B] font-medium transition-colors">All States</a>
+            <a href="artisans.html" class="text-gray-800 hover:text-[#B8860B] font-medium transition-colors">Our Artisans</a>
+            <a href="search.html" class="bg-[#B8860B] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#9A7209] transition-all shadow-md flex items-center gap-2">
+              <i class="fa-solid fa-magnifying-glass text-sm"></i> Shop
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
+    <div class="text-center mb-16 reveal active">
+      <p class="text-[10px] font-bold tracking-[0.3em] uppercase text-[#B8860B] mb-4">Personal Archive</p>
+      <h1 class="text-5xl md:text-6xl text-gray-900 mb-6">Your <em>Collection</em></h1>
+      <p class="text-gray-500 max-w-2xl mx-auto italic">Masterpieces you have saved from the heritage archive. Preserving India's finest crafts.</p>
+    </div>
+
+    <!-- Collection Grid -->
+    <div id="product-grid" class="product-grid"></div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#1A1A1A] text-white/50 py-12 text-xs border-t border-white/10 mt-auto text-center">
+    &copy; 2026 HERITAGE EDITORIAL. PRESERVING CRAFTSMANSHIP.
+  </footer>
+
+  <script src="js/nav.js"></script>
+  <script>
+    // Must be protected
+    if (protectRoute()) {
+      fetchCollection();
+    }
+
+    async function fetchCollection() {
+      const token = localStorage.getItem('token');
+      const grid = document.getElementById('product-grid');
+      
+      grid.innerHTML = '<div class="col-span-full py-20 text-center font-serif text-xl opacity-50">Retrieving your personal archive... 🏺</div>';
+
+      try {
+        const response = await fetch(`${window.GLOBAL_API_BASE}/api/auth/collection`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (!response.ok) throw new Error('Failed to load collection');
+        
+        const products = await response.json();
+        
+        if (products.length === 0) {
+          grid.innerHTML = `
+            <div class="col-span-full py-20 flex flex-col items-center justify-center text-center">
+              <i class="fa-regular fa-heart text-4xl text-gray-300 mb-6"></i>
+              <h2 class="font-serif text-2xl text-gray-900 mb-2">Your collection is empty</h2>
+              <p class="text-gray-500 mb-8 max-w-md">Discover authentic heritage crafts from 28 states and save them to your personal archive.</p>
+              <a href="search.html" class="bg-[#B8860B] text-white px-8 py-3 text-[10px] font-bold tracking-widest uppercase hover:bg-[#9A7008] transition-colors shadow-lg">Explore Masterpieces</a>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = products.map((p, i) => `
+          <div class="product-card reveal active" style="transition-delay: ${i * 100}ms" onclick="location.href='masterpiece.html?id=${p._id}'">
+            <div class="product-card-img">
+              <button onclick="event.stopPropagation(); removeFromCollection('${p._id}', this)" class="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-red-500 hover:text-red-700 transition-colors shadow-sm">
+                <i class="fa-solid fa-heart"></i>
+              </button>
+              <img src="${p.imageUrl}" alt="${p.name}" loading="lazy">
+            </div>
+            <div class="product-card-body">
+              <p class="product-state">${p.state}</p>
+              <p class="product-name">${p.name}</p>
+              <div class="product-footer">
+                <span class="product-craft">${p.craft}</span>
+                <span class="product-price">₹ ${p.price.toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+      } catch (error) {
+        grid.innerHTML = '<div class="col-span-full py-20 text-center font-serif text-xl opacity-50">Archive offline. Please try again later. 🏺</div>';
+        console.error(error);
+      }
+    }
+
+    async function removeFromCollection(id, btn) {
+      if (!confirm('Remove this masterpiece from your collection?')) return;
+      
+      const token = localStorage.getItem('token');
+      try {
+        const response = await fetch(`${window.GLOBAL_API_BASE}/api/auth/collection/${id}`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        
+        if (response.ok) {
+          // Remove card from UI
+          const card = btn.closest('.product-card');
+          card.style.opacity = 0;
+          card.style.transform = 'scale(0.9)';
+          setTimeout(() => {
+            fetchCollection(); // Refresh collection
+          }, 300);
+        }
+      } catch (error) {
+        console.error('Error removing item:', error);
+      }
+    }
+  </script>
+</body>
+</html>

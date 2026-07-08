@@ -3,6 +3,10 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
+const { OAuth2Client } = require('google-auth-library');
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID || 'dummy-client-id');
+
+
 // @desc    Register a user
 // @route   POST /api/auth/register
 // @access  Public
@@ -112,5 +116,37 @@ const generateToken = (id) => {
     expiresIn: '30d',
   });
 };
+
+// @desc    Authenticate/Register a user with Google
+// @route   POST /api/auth/google
+// @access  Public
+router.post('/google', async (req, res) => {
+  try {
+    const { token } = req.body;
+    const ticket = await googleClient.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    const payload = ticket.getPayload();
+    const { email, name } = payload;
+    
+    let user = await User.findOne({ email });
+    if (!user) {
+      const crypto = require('crypto');
+      const dummyPassword = crypto.randomBytes(16).toString('hex');
+      user = await User.create({ name, email, password: dummyPassword });
+    }
+    
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      token: generateToken(user._id),
+    });
+  } catch (error) {
+    console.error("Google Auth Error:", error);
+    res.status(401).json({ message: 'Google Authentication Failed. Make sure GOOGLE_CLIENT_ID is set.' });
+  }
+});
 
 module.exports = router;
