@@ -20,8 +20,7 @@ const connectDB = async () => {
     const conn = await mongoose.connect(localURI, { serverSelectionTimeoutMS: 2000 });
     console.log(`MongoDB Connected (Local): ${conn.connection.host} ✓`);
   } catch (err) {
-    console.error(`Error: Both remote and local MongoDB connections failed. Details: ${err.message}`);
-    process.exit(1);
+    console.error(`⚠️ Database Connection Warning: Both remote and local MongoDB connections failed. Express server will run in offline mode.`);
   }
 };
 

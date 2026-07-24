@@ -2,7 +2,7 @@
  * Parampara Heritage - Global Auth Management
  */
 
-window.GLOBAL_API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+window.GLOBAL_API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '' || window.location.protocol === 'file:')
     ? 'http://localhost:5000'
     : 'https://parampara-a-e-com-website-1.onrender.com';
 

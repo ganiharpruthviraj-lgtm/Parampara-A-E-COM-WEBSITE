@@ -243,7 +243,7 @@
       if (btnText) btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Google Account processing...';
 
       try {
-        const res = await fetch('http://localhost:5000/api/auth/google', {
+        const res = await fetch(`${window.GLOBAL_API_BASE}/api/auth/google`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ token })
