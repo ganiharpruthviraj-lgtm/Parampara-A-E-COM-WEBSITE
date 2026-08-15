@@ -31,16 +31,7 @@
       overflow-x: hidden;
     }
 
-    #mag-cursor {
-      position: fixed; top: 0; left: 0; width: 8px; height: 8px;
-      background: var(--primary-color); border-radius: 50%;
-      pointer-events: none; z-index: 9999; transform: translate(-50%,-50%);
-    }
-    #mag-follower {
-      position: fixed; top: 0; left: 0; width: 36px; height: 36px;
-      border: 1.5px solid var(--primary-color); border-radius: 50%;
-      pointer-events: none; z-index: 9998; transform: translate(-50%,-50%);
-    }
+    
 
     .register-wrapper {
       display: flex; min-height: 100vh;
@@ -90,8 +81,7 @@
 </head>
 <body>
 
-<div id="mag-cursor"></div>
-<div id="mag-follower"></div>
+
 <div id="toast"></div>
 
 <div class="register-wrapper">
@@ -268,5 +258,6 @@
       }
   }
 </script>
+<script src="js/nav.js"></script>
 </body>
 </html>

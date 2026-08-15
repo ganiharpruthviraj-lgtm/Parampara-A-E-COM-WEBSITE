@@ -2,7 +2,7 @@
 <html lang="en">
 <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <link rel="icon" type="image/png" href="/favicon.png"> <title>Masterpiece | Heritage</title> <script src="https://kit.fontawesome.com/8e98006f77.js" crossorigin="anonymous"></script> <script src="js/auth.js"></script> <script src="https://cdn.tailwindcss.com"></script> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"> <!-- FontAwesome for Icons --> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <script> tailwind.config = { theme: { extend: { fontFamily: { serif: ['"Playfair Display"', 'serif'], sans: ['"Inter"', 'sans-serif'], }, colors: { brand: { bg: '#FAF9F6', gold: '#9A7B4F', goldHover: '#8A6A3F', red: '#A32A29', dark: '#1C1C1C', gray: '#666666', lightGray: '#E5E5E5' } } } } } </script> <style> body { background-color: #FAF9F6; color: #1C1C1C; overflow-x: hidden; } .text-overlay-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.5); } </style>
 </head>
-<body> <!-- Cinematic Preloader --> <div id="preloader" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A] transition-opacity duration-1000"> <div class="relative flex flex-col items-center"> <div class="text-[var(--primary-color)] text-3xl font-serif mb-4 animate-[pulse_2s_ease-in-out_infinite]">Parampara</div> <div class="w-48 h-[1px] bg-white/20 relative overflow-hidden"> <div id="preloader-progress" class="absolute top-0 left-0 h-full w-0 bg-[var(--primary-color)] transition-all duration-[2000ms] ease-out"></div> </div> </div> </div> <!-- Custom Magnetic Cursor --> <div id="magnetic-cursor-follower" class="fixed top-0 left-0 w-10 h-10 border border-[var(--primary-color)] rounded-full pointer-events-none z-[9998] hidden md:block" style="transform: translate(-50%, -50%);"></div> <div id="magnetic-cursor" class="fixed top-0 left-0 w-2 h-2 bg-[var(--primary-color)] rounded-full pointer-events-none z-[9999] hidden md:block" style="transform: translate(-50%, -50%);"></div> <!-- Header --> 
+<body> <!-- Cinematic Preloader --> <div id="preloader" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A] transition-opacity duration-1000"> <div class="relative flex flex-col items-center"> <div class="text-[var(--primary-color)] text-3xl font-serif mb-4 animate-[pulse_2s_ease-in-out_infinite]">Parampara</div> <div class="w-48 h-[1px] bg-white/20 relative overflow-hidden"> <div id="preloader-progress" class="absolute top-0 left-0 h-full w-0 bg-[var(--primary-color)] transition-all duration-[2000ms] ease-out"></div> </div> </div> </div> <!-- Header --> 
 <header id="global-header" class="code-section">
   <nav class="bg-[var(--light-background-color)] border-b border-[var(--light-border-color)] sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -60,27 +60,49 @@
 
   const urlParams = new URLSearchParams(window.location.search);
   const productId = urlParams.get('id');
+  const stateParam = urlParams.get('state');
+
+  const stateToFallback = {
+    'Rajasthan': 'fallback-3',
+    'Uttar Pradesh': 'fallback-2',
+    'Chhattisgarh': 'fallback-4',
+    'Odisha': 'fallback-5',
+    'Jammu and Kashmir': 'fallback-6',
+    'Kashmir': 'fallback-6',
+    'Tamil Nadu': { name: 'Thanjavur Temple Jewelry', state: 'Tamil Nadu', craft: 'Temple Gold & Gem Setting', price: 145000, description: 'Handcrafted by master goldsmiths in Thanjavur using 24k gold leaf, uncut rubies, and emeralds rooted in Chola dynasty heritage.', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDeITt6rebpBA8djqWobOyk4s0GE8wPMEAVByzrVK65MCsS0HFWuEI3BTKFyrAdMAWN3adq19WqcwyNYKO1mDmP5dYGoWd0HvV0WrLk5NP38NAyHXWOdInBpw7mjbqJxKiDTGPZiPNL20N3tnWMR94xJW-EOrErX4U9d31w-27veKgB-UZopnNE7npCFjGTcJMPk9C6CHIPRp3y2TdI-_Nx7onXUhtjTX-JXNovA3YLJ5KI2FNBeVSS', artisan: 'Ramanathan Achari', artisanBio: 'Preserving sacred temple jewelry crafting techniques passed down through 5 generations of Thanjavur masters.' },
+    'Gujarat': { name: 'Patan Double Ikat Patola', state: 'Gujarat', craft: 'Double Ikat Weaving', price: 210000, description: 'The legendary royal textile of Gujarat, dyed in natural pigments and woven with pure silk warp and weft.', imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAprV_evWv9fBTiuUU5-pgVoyqsyfFJtyrmNnPruafwHfhWanZMghKy4PxZAtKqnqWA50if4mC3KXl49fO-GQkLepxkU25MqMHjH1pC-_3Rcs2937xi0qHrG7e17vU3RSs_v5mNFMlienR329eOfn2REG04Enzb_B9Wx9mrKklRw1nTr3STtYThY40LUCLv6vXO2EgcrJDsR34eErjtmTbD9Fi8IsGh-ysGLyUViwBK3NGqZqgrTLGf', artisan: 'Salvi Bharatbhai', artisanBio: 'One of the last surviving custodian families of authentic Patan Patola double-ikat weaving.' }
+  };
 
   async function loadMasterpiece() {
-    if (!productId) {
-      document.body.innerHTML = '<div class="h-screen flex items-center justify-center font-serif text-2xl">Missing Masterpiece ID 🏺</div>';
+    if (!productId && !stateParam) {
+      document.body.innerHTML = '<div class="h-screen flex items-center justify-center font-serif text-2xl">Missing Masterpiece ID or State 🏺</div>';
       return;
     }
 
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 seconds timeout
+    const timeoutId = setTimeout(() => controller.abort(), 2500);
 
     try {
-      const response = await fetch(`${API_URL}/${productId}`, { signal: controller.signal });
+      let url = productId ? `${API_URL}/${productId}` : `${API_URL}?state=${encodeURIComponent(stateParam)}`;
+      const response = await fetch(url, { signal: controller.signal });
       clearTimeout(timeoutId);
       if (!response.ok) throw new Error('API Offline');
-      const product = await response.json();
+      const data = await response.json();
+      const product = productId ? data : (data.products && data.products[0] ? data.products[0] : null);
       if (!product || product.message) throw new Error('Product not found');
       renderMasterpiece(product);
     } catch (error) {
       clearTimeout(timeoutId);
-      console.warn('Using fallback details while API wakes up...', error);
-      const fallback = fallbackDetails[productId] || fallbackDetails['fallback-1'];
+      console.warn('Using fallback details...', error);
+      let fallback;
+      if (stateParam && stateToFallback[stateParam]) {
+        const item = stateToFallback[stateParam];
+        fallback = typeof item === 'string' ? fallbackDetails[item] : item;
+      } else if (productId && fallbackDetails[productId]) {
+        fallback = fallbackDetails[productId];
+      } else {
+        fallback = fallbackDetails['fallback-1'];
+      }
       renderMasterpiece(fallback, true);
     }
   }
@@ -135,6 +157,21 @@
  </script>
  <!-- Lenis smooth scrolling -->
  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script> <script> const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, }); function raf(time) { lenis.raf(time); requestAnimationFrame(raf); } requestAnimationFrame(raf); </script>
-<script> /* Preloader Logic */document.addEventListener('DOMContentLoaded', () => { const preloader = document.getElementById('preloader'); const progress = document.getElementById('preloader-progress'); if (progress) { setTimeout(() => { progress.style.width = '100%'; }, 100); } if (preloader) { setTimeout(() => { preloader.style.opacity = '0'; setTimeout(() => { preloader.style.display = 'none'; }, 1000); }, 1000); } }); /* Magnetic Cursor Logic */const cursor = document.getElementById('magnetic-cursor'); const follower = document.getElementById('magnetic-cursor-follower'); if (window.innerWidth >= 768) { let mouseX = window.innerWidth / 2; let mouseY = window.innerHeight / 2; let cursorX = mouseX; let cursorY = mouseY; let followerX = mouseX; let followerY = mouseY; document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; }); function animateCursor() { cursorX += (mouseX - cursorX) * 0.5; cursorY += (mouseY - cursorY) * 0.5; followerX += (mouseX - followerX) * 0.15; followerY += (mouseY - followerY) * 0.15; if (cursor) cursor.style.transform = `translate(calc(${cursorX}px - 50%), calc(${cursorY}px - 50%))`; if (follower) follower.style.transform = `translate(calc(${followerX}px - 50%), calc(${followerY}px - 50%))`; requestAnimationFrame(animateCursor); } requestAnimationFrame(animateCursor); const hoverElements = document.querySelectorAll('a, button, .magnetic-item, .product-card'); hoverElements.forEach((el) => { el.addEventListener('mouseenter', () => { if (cursor) cursor.style.opacity = '0'; if (follower) { follower.style.transform = `translate(calc(${followerX}px - 50%), calc(${followerY}px - 50%)) scale(1.5)`; follower.style.backgroundColor = 'rgba(184, 134, 11, 0.1)'; } }); el.addEventListener('mouseleave', () => { if (cursor) cursor.style.opacity = '1'; if (follower) { follower.style.transform = `translate(calc(${followerX}px - 50%), calc(${followerY}px - 50%)) scale(1)`; follower.style.backgroundColor = 'transparent'; } }); }); } </script>
+<script>
+/* Preloader Logic */
+document.addEventListener('DOMContentLoaded', () => {
+  const preloader = document.getElementById('preloader');
+  const progress = document.getElementById('preloader-progress');
+  if (progress) {
+    setTimeout(() => { progress.style.width = '100%'; }, 100);
+  }
+  if (preloader) {
+    setTimeout(() => {
+      preloader.style.opacity = '0';
+      setTimeout(() => { preloader.style.display = 'none'; }, 1000);
+    }, 1000);
+  }
+});
+</script>
 <script src="js/nav.js"></script></body>
 </html>

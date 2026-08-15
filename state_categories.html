@@ -25,10 +25,6 @@
     </div>
   </div>
 
-  <!-- Custom Magnetic Cursor -->
-  <div id="magnetic-cursor-follower" class="fixed top-0 left-0 w-10 h-10 border border-[#B8860B] rounded-full pointer-events-none z-[9998] hidden md:block" style="transform: translate(-50%, -50%);"></div>
-  <div id="magnetic-cursor" class="fixed top-0 left-0 w-2 h-2 bg-[#B8860B] rounded-full pointer-events-none z-[9999] hidden md:block" style="transform: translate(-50%, -50%);"></div>
-
   <!-- Top Navigation / Header -->
   <header id="global-header" class="code-section">
     <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
@@ -215,49 +211,6 @@
       document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
     }, 100);
 
-    /* Magnetic Cursor Logic */
-    const cursor = document.getElementById('magnetic-cursor');
-    const follower = document.getElementById('magnetic-cursor-follower');
-    if (window.innerWidth >= 768) {
-      let mouseX = window.innerWidth / 2;
-      let mouseY = window.innerHeight / 2;
-      let cursorX = mouseX;
-      let cursorY = mouseY;
-      let followerX = mouseX;
-      let followerY = mouseY;
-      document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      });
-      function animateCursor() {
-        cursorX += (mouseX - cursorX) * 0.5;
-        cursorY += (mouseY - cursorY) * 0.5;
-        followerX += (mouseX - followerX) * 0.15;
-        followerY += (mouseY - followerY) * 0.15;
-        if (cursor) cursor.style.transform = `translate(calc(${cursorX}px - 50%), calc(${cursorY}px - 50%))`;
-        if (follower) follower.style.transform = `translate(calc(${followerX}px - 50%), calc(${followerY}px - 50%))`;
-        requestAnimationFrame(animateCursor);
-      }
-      requestAnimationFrame(animateCursor);
-      const hoverElements = document.querySelectorAll('a, button, .magnetic-item, .product-card, .group');
-      hoverElements.forEach((el) => {
-        el.addEventListener('mouseenter', () => {
-          if (cursor) cursor.style.opacity = '0';
-          if (follower) {
-            follower.style.transform = `translate(calc(${followerX}px - 50%), calc(${followerY}px - 50%)) scale(1.5)`;
-            follower.style.backgroundColor = 'rgba(184, 134, 11, 0.1)';
-          }
-        });
-        el.addEventListener('mouseleave', () => {
-          if (cursor) cursor.style.opacity = '1';
-          if (follower) {
-            follower.style.transform = `translate(calc(${followerX}px - 50%), calc(${followerY}px - 50%)) scale(1)`;
-            follower.style.backgroundColor = 'transparent';
-          }
-        });
-      });
-    }
-
     /* Preloader Logic */
     document.addEventListener('DOMContentLoaded', () => {
       const preloader = document.getElementById('preloader');
@@ -267,7 +220,7 @@
         setTimeout(() => {
           preloader.style.opacity = '0';
           setTimeout(() => { preloader.style.display = 'none'; }, 1000);
-        }, 1500);
+        }, 1000);
       }
     });
   </script>

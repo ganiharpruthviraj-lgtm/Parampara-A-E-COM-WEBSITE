@@ -76,25 +76,8 @@
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
     /* ─── CUSTOM CURSOR ─────────────────── */
-    #mag-cursor {
-      position: fixed; top: 0; left: 0;
-      width: 8px; height: 8px;
-      background: var(--primary-color);
-      border-radius: 50%;
-      pointer-events: none; z-index: 9999;
-      transform: translate(-50%,-50%);
-      transition: opacity 0.2s;
-    }
-    #mag-follower {
-      position: fixed; top: 0; left: 0;
-      width: 36px; height: 36px;
-      border: 1.5px solid var(--primary-color);
-      border-radius: 50%;
-      pointer-events: none; z-index: 9998;
-      transform: translate(-50%,-50%);
-      transition: transform 0.12s ease, background 0.2s;
-    }
-    @media (max-width: 767px) { #mag-cursor, #mag-follower { display: none; } }
+    
+    
 
     /* ─── LAYOUT ────────────────────────── */
     .login-wrapper {
@@ -646,8 +629,7 @@
 </div>
 
 <!-- ─── CUSTOM CURSOR ─────────────────── -->
-<div id="mag-cursor"></div>
-<div id="mag-follower"></div>
+
 
 <!-- ─── TOAST ─────────────────────────── -->
 <div id="toast"></div>
@@ -1177,5 +1159,6 @@
     showToast(`${provider} gateway coming soon in the next heritage update. 🏺`);
   }
 </script>
+<script src="js/nav.js"></script>
 </body>
 </html>

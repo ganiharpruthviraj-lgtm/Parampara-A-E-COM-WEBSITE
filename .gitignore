@@ -22,6 +22,9 @@ yarn-error.log*
 # Project specific
 *.txt
 debug_*.png
+verify_*.png
+test_*.png
+scratch/
 /debug_after_click.png
 isro pptx/
 

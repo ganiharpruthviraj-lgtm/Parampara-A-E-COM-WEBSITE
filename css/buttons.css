@@ -1,0 +1,101 @@
+/* Responsive, Touch-Optimized Interactive Button System for Parampara */
+
+/* 1. Global Touch & Interaction Optimization */
+button, 
+a[role="button"], 
+input[type="button"], 
+input[type="submit"], 
+.btn, 
+.btn-submit,
+.region-btn,
+.explore-btn,
+.hover-shimmer,
+.state-card,
+.product-card,
+[class*="btn-"],
+a[class*="rounded-"] {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+/* 2. Micro-Interaction: Tactile Press / Active Feedback */
+button:active, 
+a[role="button"]:active, 
+.btn:active, 
+.btn-submit:active,
+.region-btn:active,
+a[class*="bg-"]:active,
+a[class*="rounded-"]:active {
+    transform: scale(0.96) translateY(1px) !important;
+    filter: brightness(0.95);
+}
+
+/* 3. Focus Accessibility */
+button:focus-visible, 
+a:focus-visible {
+    outline: 2px solid #B8860B !important;
+    outline-offset: 3px !important;
+}
+
+/* 4. Responsive Mobile Adaptation */
+@media (max-width: 640px) {
+    .btn-responsive-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.75rem;
+    }
+    
+    .btn-responsive-group > * {
+        width: 100% !important;
+        text-align: center;
+        justify-content: center;
+    }
+    
+    /* Ensure all CTA buttons have minimum touch target on mobile */
+    button, a[class*="px-"][class*="py-"], .btn-submit, .btn-social {
+        min-height: 48px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Responsive Region/Category Tabs */
+    #region-tabs, .category-filter-tabs {
+        display: flex;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0.5rem;
+        scrollbar-width: none; /* Firefox */
+    }
+    #region-tabs::-webkit-scrollbar, .category-filter-tabs::-webkit-scrollbar {
+        display: none; /* Chrome, Safari */
+    }
+    .region-btn {
+        flex-shrink: 0;
+    }
+}
+
+/* 5. Ripple Effect Container & Animation */
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+.ripple-circle {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    animation: rippleEffect 0.6s linear;
+    background-color: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+}
+@keyframes rippleEffect {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
