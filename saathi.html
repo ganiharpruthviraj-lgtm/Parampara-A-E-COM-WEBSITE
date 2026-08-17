@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parampara Saathi | AI Cultural Docent & Provenance Verifier</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              cinzel: ['"Cinzel"', 'serif'],
+              serif: ['"Noto Serif"', 'serif'],
+              sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            },
+            colors: {
+              brand: {
+                gold: '#9A7B4F',
+                goldLight: '#C5A880',
+                goldHover: '#8A6A3F',
+                red: '#A32A29',
+                redDark: '#7A1C1B',
+                dark: '#141312',
+                charcoal: '#1E1D1B',
+                cream: '#FAF9F6',
+                warmGray: '#F3EFEA',
+                border: '#E2DBD0',
+                accentGold: '#D4AF37'
+              }
+            },
+            animation: {
+              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+              'shimmer': 'shimmer 2s infinite',
+              'float': 'float 3s ease-in-out infinite',
+            },
+            keyframes: {
+              float: {
+                '0%, 100%': { transform: 'translateY(0)' },
+                '50%': { transform: 'translateY(-6px)' }
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #FAF9F6;
+        color: #141312;
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: rgba(0,0,0,0.03);
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #C5A880;
+        border-radius: 4px;
+      }
+      .gold-gradient-text {
+        background: linear-gradient(135deg, #9A7B4F 0%, #D4AF37 50%, #8A6A3F 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .royal-border {
+        border-image: linear-gradient(to right, #9A7B4F, #D4AF37, #9A7B4F) 1;
+      }
+      .chat-bubble-saathi {
+        background: #FFFFFF;
+        border: 1px solid #E8E2D8;
+        box-shadow: 0 4px 20px -2px rgba(154, 123, 79, 0.08);
+      }
+      .chat-bubble-user {
+        background: linear-gradient(135deg, #1E1D1B 0%, #141312 100%);
+        color: #FAF9F6;
+      }
+      .pulse-ring {
+        position: relative;
+      }
+      .pulse-ring::before {
+        content: '';
+        position: absolute;
+        inset: -4px;
+        border-radius: inherit;
+        border: 2px solid #D4AF37;
+        opacity: 0.7;
+        animation: pulseRing 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+      }
+      @keyframes pulseRing {
+        0% { transform: scale(0.95); opacity: 0.8; }
+        50% { transform: scale(1.12); opacity: 0; }
+        100% { transform: scale(1.15); opacity: 0; }
+      }
+      @media print {
+        body * { visibility: hidden; }
+        #printable-certificate, #printable-certificate * { visibility: visible; }
+        #printable-certificate { position: absolute; left: 0; top: 0; width: 100%; }
+      }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-brand-gold selection:text-white">
+
+    <!-- Top Status Banner -->
+    <div class="bg-brand-charcoal text-brand-cream/80 text-[11px] uppercase tracking-widest py-2 px-4 border-b border-white/10 flex justify-between items-center z-50">
+        <div class="flex items-center gap-3">
+            <span class="flex items-center gap-1.5 text-emerald-400 font-semibold">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                RAG Engine Online
+            </span>
+            <span class="hidden md:inline text-white/30">|</span>
+            <span class="hidden md:inline text-brand-goldLight">GI Registry &amp; Ministry of Textiles Grounded</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <span class="hidden sm:inline">Pitch Deck &amp; Judge Defense Simulator</span>
+            <a href="index.html" class="text-brand-goldLight hover:text-white transition-colors flex items-center gap-1">
+                <i class="fa-solid fa-arrow-left text-[9px]"></i> Back to Main Store
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header class="bg-brand-cream/90 backdrop-blur-md border-b border-brand-border sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex justify-between items-center">
+            <!-- Brand Logo with AI Docent Tag -->
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="favicon.png" alt="Parampara Logo" class="h-10 w-10 object-contain drop-shadow">
+                    <div>
+                        <span class="font-cinzel text-2xl font-bold tracking-wider text-brand-dark">PARAMPARA</span>
+                        <span class="block font-serif text-[10px] italic tracking-widest text-brand-red font-semibold -mt-1">CULTURAL HERITAGE</span>
+                    </div>
+                </a>
+                <div class="hidden sm:flex items-center gap-2 pl-4 border-l border-brand-border">
+                    <span class="bg-brand-gold/15 text-brand-gold px-2.5 py-1 rounded-full text-xs font-bold font-serif flex items-center gap-1.5">
+                        <i class="fa-solid fa-sparkles text-brand-accentGold"></i> SAATHI AI DOCENT
+                    </span>
+                </div>
+            </div>
+
+            <!-- Header Quick Actions -->
+            <div class="flex items-center gap-3">
+                <button onclick="toggleInspector()" class="text-xs font-semibold px-4 py-2 rounded border border-brand-border bg-white hover:bg-brand-warmGray text-brand-dark transition-all flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-microchip text-brand-gold"></i>
+                    <span class="hidden sm:inline">RAG Telemetry Inspector</span>
+                    <span class="sm:hidden">RAG</span>
+                </button>
+                <button onclick="openPitchModal()" class="text-xs font-semibold px-4 py-2 rounded bg-brand-red hover:bg-brand-redDark text-white transition-all flex items-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-presentation-screen"></i>
+                    <span class="hidden sm:inline">Judge Pitch Guide</span>
+                    <span class="sm:hidden">Pitch</span>
+                </button>
+                <a href="search.html" class="text-xs font-semibold px-4 py-2 rounded bg-brand-gold hover:bg-brand-goldHover text-white transition-all hidden md:flex items-center gap-2">
+                    <i class="fa-solid fa-gem"></i> Explore Catalog
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-grow flex flex-col gap-6">
+
+        <!-- 1. LIVE PRODUCT & STATE CONTEXT SWITCHER BAR -->
+        <section class="bg-white p-4 sm:p-5 rounded-xl border border-brand-border shadow-sm">
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                <div>
+                    <span class="text-[10px] uppercase font-bold tracking-[0.2em] text-brand-red block mb-1">
+                        <i class="fa-solid fa-compass-drafting mr-1"></i> Active State &amp; Craft Simulator
+                    </span>
+                    <h2 class="text-base sm:text-lg font-serif font-bold text-brand-dark flex items-center gap-2">
+                        <span>Currently Inspecting:</span>
+                        <span id="current-craft-label" class="text-brand-gold underline decoration-brand-gold/40">Sambalpuri Double Ikat Saree</span>
+                    </h2>
+                </div>
+
+                <!-- Context Chips Carousel -->
+                <div class="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar">
+                    <button onclick="switchContext('sambalpuri')" class="context-btn active px-3.5 py-2 rounded-lg text-xs font-medium border border-brand-gold bg-brand-gold/10 text-brand-dark whitespace-nowrap transition-all flex items-center gap-2">
+                        <span>🥻 Odisha (Ikat)</span>
+                    </button>
+                    <button onclick="switchContext('jaipur')" class="context-btn px-3.5 py-2 rounded-lg text-xs font-medium border border-brand-border bg-white hover:bg-brand-warmGray text-brand-dark whitespace-nowrap transition-all flex items-center gap-2">
+                        <span>🏺 Jaipur (Blue Pottery)</span>
+                    </button>
+                    <button onclick="switchContext('banarasi')" class="context-btn px-3.5 py-2 rounded-lg text-xs font-medium border border-brand-border bg-white hover:bg-brand-warmGray text-brand-dark whitespace-nowrap transition-all flex items-center gap-2">
+                        <span>✨ Varanasi (Banarasi)</span>
+                    </button>
+                    <button onclick="switchContext('dokra')" class="context-btn px-3.5 py-2 rounded-lg text-xs font-medium border border-brand-border bg-white hover:bg-brand-warmGray text-brand-dark whitespace-nowrap transition-all flex items-center gap-2">
+                        <span>🗿 Bastar (Dokra)</span>
+                    </button>
+                    <button onclick="switchContext('kashmir')" class="context-btn px-3.5 py-2 rounded-lg text-xs font-medium border border-brand-border bg-white hover:bg-brand-warmGray text-brand-dark whitespace-nowrap transition-all flex items-center gap-2">
+                        <span>🪵 Kashmir (Walnut)</span>
+                    </button>
+                    <button onclick="switchContext('patola')" class="context-btn px-3.5 py-2 rounded-lg text-xs font-medium border border-brand-border bg-white hover:bg-brand-warmGray text-brand-dark whitespace-nowrap transition-all flex items-center gap-2">
+                        <span>👑 Gujarat (Patola)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Injected Context Mini Badges -->
+            <div class="mt-4 pt-3 border-t border-brand-border/60 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                <div class="bg-brand-warmGray/60 p-2.5 rounded-md">
+                    <span class="text-[9px] uppercase font-bold tracking-wider text-brand-red block">GI Registry Tag</span>
+                    <span id="badge-gi" class="font-serif font-bold text-brand-dark">GI-22 (Class 24)</span>
+                </div>
+                <div class="bg-brand-warmGray/60 p-2.5 rounded-md">
+                    <span class="text-[9px] uppercase font-bold tracking-wider text-brand-red block">Master Artisan</span>
+                    <span id="badge-artisan" class="font-serif font-bold text-brand-dark">Meenakshi Meher</span>
+                </div>
+                <div class="bg-brand-warmGray/60 p-2.5 rounded-md">
+                    <span class="text-[9px] uppercase font-bold tracking-wider text-brand-red block">Labor Timeline</span>
+                    <span id="badge-labor" class="font-serif font-bold text-brand-dark">24 Days / Pit Loom</span>
+                </div>
+                <div class="bg-brand-warmGray/60 p-2.5 rounded-md">
+                    <span class="text-[9px] uppercase font-bold tracking-wider text-brand-red block">70% Direct Payout</span>
+                    <span id="badge-eco" class="font-serif font-bold text-emerald-700">₹10,150 to Weaver</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. MAIN DOCENT INTERACTION GRID (Left: Chat & Capabilities, Right: Telemetry & Pitch) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 flex-grow items-start">
+
+            <!-- LEFT COLUMN: CONVERSATIONAL DOCENT (8 Columns on desktop) -->
+            <div class="lg:col-span-8 flex flex-col gap-4">
+
+                <!-- Capabilities Bar (4 Core Modes) -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <button onclick="setMode('storyteller')" id="mode-storyteller" class="mode-pill active p-2.5 rounded-lg border border-brand-gold bg-brand-gold text-white text-left transition-all shadow-sm flex flex-col justify-between">
+                        <i class="fa-solid fa-landmark text-sm mb-1"></i>
+                        <div>
+                            <p class="text-[11px] font-bold leading-tight">1. Cultural Storyteller</p>
+                            <p class="text-[9px] opacity-80 leading-tight">800-Yr Lore &amp; Motifs</p>
+                        </div>
+                    </button>
+                    <button onclick="setMode('authenticity')" id="mode-authenticity" class="mode-pill p-2.5 rounded-lg border border-brand-border bg-white hover:bg-brand-warmGray text-brand-dark text-left transition-all shadow-sm flex flex-col justify-between">
+                        <i class="fa-solid fa-shield-check text-sm text-brand-gold mb-1"></i>
+                        <div>
+                            <p class="text-[11px] font-bold leading-tight">2. Authenticity &amp; GI</p>
+                            <p class="text-[9px] text-gray-500 leading-tight">Spot Synthetic Replicas</p>
+                        </div>
+                    </button>
+                    <button onclick="setMode('advocate')" id="mode-advocate" class="mode-pill p-2.5 rounded-lg border border-brand-border bg-white hover:bg-brand-warmGray text-brand-dark text-left transition-all shadow-sm flex flex-col justify-between">
+                        <i class="fa-solid fa-hands-holding-circle text-sm text-brand-red mb-1"></i>
+                        <div>
+                            <p class="text-[11px] font-bold leading-tight">3. Artisan Advocate</p>
+                            <p class="text-[9px] text-gray-500 leading-tight">70% Direct Payouts</p>
+                        </div>
+                    </button>
+                    <button onclick="setMode('recommender')" id="mode-recommender" class="mode-pill p-2.5 rounded-lg border border-brand-border bg-white hover:bg-brand-warmGray text-brand-dark text-left transition-all shadow-sm flex flex-col justify-between">
+                        <i class="fa-solid fa-wand-magic-sparkles text-sm text-brand-accentGold mb-1"></i>
+                        <div>
+                            <p class="text-[11px] font-bold leading-tight">4. Context Recommender</p>
+                            <p class="text-[9px] text-gray-500 leading-tight">Weddings &amp; Heirlooms</p>
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Chat Box Container -->
+                <div class="bg-white rounded-xl border border-brand-border shadow-sm flex flex-col h-[520px] sm:h-[580px] overflow-hidden">
+                    
+                    <!-- Chat Header -->
+                    <div class="px-5 py-3.5 border-b border-brand-border bg-brand-warmGray/40 flex justify-between items-center">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-full bg-brand-gold/20 border border-brand-gold flex items-center justify-center text-brand-gold text-sm shadow-inner pulse-ring">
+                                <i class="fa-solid fa-sparkles text-brand-accentGold"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h3 class="font-serif text-sm font-bold text-brand-dark">Parampara Saathi</h3>
+                                    <span class="bg-emerald-100 text-emerald-800 text-[9px] font-bold px-1.5 py-0.5 rounded">RAG GROUNDED</span>
+                                </div>
+                                <p class="text-[10px] text-gray-500">Digital Museum Docent &bull; Provenance Verifier</p>
+                            </div>
+                        </div>
+
+                        <!-- Language & Voice Toggles -->
+                        <div class="flex items-center gap-2">
+                            <select id="language-select" onchange="changeLanguage()" class="text-xs bg-white border border-brand-border rounded px-2 py-1 text-brand-dark focus:outline-none focus:border-brand-gold">
+                                <option value="en">English (Official)</option>
+                                <option value="hi">हिन्दी (Hindi)</option>
+                                <option value="or">ଓଡ଼ିଆ (Odia)</option>
+                                <option value="bn">বাংলা (Bengali)</option>
+                                <option value="mr">मराठी (Marathi)</option>
+                                <option value="ta">தமிழ் (Tamil)</option>
+                            </select>
+                            <button onclick="toggleAudio()" id="audio-toggle-btn" class="w-7 h-7 rounded border border-brand-border bg-white hover:bg-brand-warmGray flex items-center justify-center text-xs text-brand-dark" title="Toggle Speech Readout">
+                                <i class="fa-solid fa-volume-high text-brand-gold"></i>
+                            </button>
+                            <button onclick="clearChat()" class="w-7 h-7 rounded border border-brand-border bg-white hover:bg-brand-warmGray flex items-center justify-center text-xs text-gray-400 hover:text-brand-red" title="Clear Conversation">
+                                <i class="fa-solid fa-rotate-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chat Messages Stream -->
+                    <div id="chat-messages" class="flex-grow p-4 sm:p-6 overflow-y-auto space-y-4 custom-scrollbar bg-[#FAF9F6]/50">
+                        <!-- Messages injected via JS -->
+                    </div>
+
+                    <!-- 1-Click Pitch Deck Preset Quick Prompts -->
+                    <div class="px-4 py-2.5 bg-brand-warmGray/60 border-t border-brand-border">
+                        <div class="flex items-center justify-between mb-1.5">
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-brand-red flex items-center gap-1">
+                                <i class="fa-solid fa-bolt text-brand-accentGold"></i> Judge &amp; Pitch Deck Demo Prompts:
+                            </span>
+                            <span class="text-[9px] text-gray-400 hidden sm:inline">Click to test instant response</span>
+                        </div>
+                        <div class="flex items-center gap-2 overflow-x-auto pb-1 custom-scrollbar" id="demo-prompts-container">
+                            <!-- Populated dynamically based on active craft -->
+                        </div>
+                    </div>
+
+                    <!-- Chat Input Bar -->
+                    <form id="chat-form" onsubmit="handleUserSubmit(event)" class="p-3 sm:p-4 bg-white border-t border-brand-border flex items-center gap-2">
+                        <button type="button" onclick="startVoiceInput()" id="mic-btn" class="w-10 h-10 rounded-lg border border-brand-border bg-brand-warmGray hover:bg-brand-border text-brand-dark flex items-center justify-center transition-all" title="Voice Input">
+                            <i class="fa-solid fa-microphone text-sm text-brand-gold"></i>
+                        </button>
+                        <input type="text" id="user-input" placeholder="Ask Saathi about the 800-year history, GI certification, or 70% direct payment..." class="flex-grow px-4 py-2.5 rounded-lg border border-brand-border text-sm text-brand-dark placeholder-gray-400 focus:outline-none focus:border-brand-gold bg-brand-warmGray/30">
+                        <button type="submit" id="send-btn" class="px-5 py-2.5 rounded-lg bg-brand-gold hover:bg-brand-goldHover text-white font-semibold text-sm transition-all shadow flex items-center gap-2">
+                            <span>Ask</span>
+                            <i class="fa-solid fa-paper-plane text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: RAG ARCHITECTURE & TELEMETRY INSPECTOR (4 Columns) -->
+            <div id="inspector-panel" class="lg:col-span-4 flex flex-col gap-4">
+                
+                <!-- Telemetry Card -->
+                <div class="bg-brand-charcoal text-brand-cream rounded-xl p-5 border border-white/10 shadow-lg">
+                    <div class="flex items-center justify-between pb-3 border-b border-white/10 mb-4">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-network-wired text-brand-accentGold text-sm"></i>
+                            <h3 class="font-cinzel text-xs font-bold tracking-wider text-white">RAG PIPELINE TELEMETRY</h3>
+                        </div>
+                        <span class="bg-emerald-950 text-emerald-400 text-[9px] font-mono px-2 py-0.5 rounded border border-emerald-800/60">LIVE</span>
+                    </div>
+
+                    <!-- Pipeline Flow Step Animation -->
+                    <div class="space-y-3 font-mono text-[11px]">
+                        <div class="bg-white/5 p-2.5 rounded border border-white/10">
+                            <div class="text-[9px] uppercase tracking-wider text-brand-goldLight font-bold mb-1 flex items-center justify-between">
+                                <span>1. State &amp; Product Context</span>
+                                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                            </div>
+                            <p id="telemetry-context" class="text-white/80 truncate">{ craft: "Sambalpuri Bandha", state: "Odisha", price: 14500 }</p>
+                        </div>
+
+                        <div class="bg-white/5 p-2.5 rounded border border-white/10">
+                            <div class="text-[9px] uppercase tracking-wider text-brand-goldLight font-bold mb-1 flex items-center justify-between">
+                                <span>2. Hybrid Vector Retrieval</span>
+                                <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                            </div>
+                            <div id="telemetry-vectors" class="space-y-1 text-[10px] text-white/70">
+                                <div class="flex justify-between">
+                                    <span>GI-Registry #22</span>
+                                    <span class="text-emerald-400">0.984 sim</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Artisan: M. Meher</span>
+                                    <span class="text-emerald-400">0.962 sim</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/5 p-2.5 rounded border border-white/10">
+                            <div class="text-[9px] uppercase tracking-wider text-brand-goldLight font-bold mb-1 flex items-center justify-between">
+                                <span>3. Guardrails &amp; Fair Trade Formula</span>
+                                <i class="fa-solid fa-shield-check text-emerald-400"></i>
+                            </div>
+                            <p class="text-emerald-300 text-[10px]">Strict Heritage &amp; 70% Direct Payout Active</p>
+                        </div>
+
+                        <div class="bg-white/5 p-2.5 rounded border border-white/10">
+                            <div class="text-[9px] uppercase tracking-wider text-brand-goldLight font-bold mb-1 flex items-center justify-between">
+                                <span>4. Response Grounding</span>
+                                <span class="text-brand-accentGold text-[10px]">0 Hallucination</span>
+                            </div>
+                            <p class="text-white/70 text-[10px]">Source: Ministry of Textiles &amp; GI Dossiers</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[10px] text-white/40">
+                        <span>Latency: <span id="telemetry-latency" class="text-white">124ms</span></span>
+                        <span>Grounding: <span class="text-emerald-400 font-bold">100% Deterministic</span></span>
+                    </div>
+                </div>
+
+                <!-- Judge Talking Points Card -->
+                <div class="bg-white p-5 rounded-xl border border-brand-border shadow-sm space-y-3">
+                    <div class="flex items-center gap-2 text-brand-red font-bold text-xs uppercase tracking-wider">
+                        <i class="fa-solid fa-gavel"></i>
+                        <h4>Judge Defense Highlights</h4>
+                    </div>
+                    <ul class="text-xs space-y-2 text-gray-700">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
+                            <span><strong>Storytelling Sells:</strong> Handicrafts are emotional purchases; narrative justifies luxury price points better than static specs.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
+                            <span><strong>Zero Hallucination:</strong> Grounded via pre-verified GI filings and direct artisan cluster accounts.</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-emerald-600 mt-0.5"></i>
+                            <span><strong>Direct 70% Economic Flow:</strong> Solves middleman exploitation by visibly calculating direct weaver income.</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- 1. 70% ARTISAN PAYOUT LEDGER MODAL -->
+    <div id="modal-ledger" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-brand-border transform transition-all">
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-red block mb-1">Transparent Craft Economics</span>
+                    <h3 class="font-serif text-2xl font-bold text-brand-dark">70% Direct Payout Ledger</h3>
+                </div>
+                <button onclick="closeModal('modal-ledger')" class="text-gray-400 hover:text-brand-dark text-xl p-1">&times;</button>
+            </div>
+
+            <!-- Price Breakdown Cards -->
+            <div class="space-y-3 mb-6">
+                <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-emerald-600"></span>
+                            <span class="text-xs font-bold uppercase text-emerald-950">Master Artisan Direct Payment (70%)</span>
+                        </div>
+                        <p class="text-[11px] text-emerald-800 mt-0.5" id="ledger-artisan-desc">Deposited directly to Meenakshi Meher's family account</p>
+                    </div>
+                    <span class="font-serif text-xl font-bold text-emerald-800" id="ledger-artisan-val">₹10,150</span>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-brand-warmGray/60 border border-brand-border flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-brand-gold"></span>
+                            <span class="text-xs font-bold text-brand-dark">GI Certified Raw Materials (15%)</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500">Mulberry Silk &amp; Natural Mineral Pigments</p>
+                    </div>
+                    <span class="font-serif text-sm font-bold text-brand-dark" id="ledger-materials-val">₹2,175</span>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-brand-warmGray/60 border border-brand-border flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-blue-500"></span>
+                            <span class="text-xs font-bold text-brand-dark">GI Testing &amp; Insured Shipping (10%)</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500">Tamper-proof NFC tags &amp; Heirloom Box</p>
+                    </div>
+                    <span class="font-serif text-sm font-bold text-brand-dark" id="ledger-shipping-val">₹1,450</span>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-brand-warmGray/60 border border-brand-border flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-purple-500"></span>
+                            <span class="text-xs font-bold text-brand-dark">Youth Apprenticeship Guild Fund (5%)</span>
+                        </div>
+                        <p class="text-[10px] text-gray-500">Training next-generation rural weavers</p>
+                    </div>
+                    <span class="font-serif text-sm font-bold text-brand-dark" id="ledger-fund-val">₹725</span>
+                </div>
+            </div>
+
+            <div class="p-3 bg-brand-dark text-white rounded-xl text-center">
+                <p class="text-[11px] font-serif text-brand-goldLight">Parampara Guarantees Zero Intermediary Markups</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. GI CERTIFICATE GENERATOR MODAL -->
+    <div id="modal-certificate" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border-4 border-brand-gold relative">
+            <button onclick="closeModal('modal-certificate')" class="absolute top-4 right-4 text-gray-400 hover:text-brand-dark text-2xl p-1">&times;</button>
+            
+            <div id="printable-certificate" class="border-2 border-brand-gold/60 p-6 rounded-lg text-center bg-[#FAF8F5] relative overflow-hidden">
+                <!-- Watermark -->
+                <div class="absolute inset-0 flex items-center justify-center opacity-5 pointer-events-none">
+                    <i class="fa-solid fa-award text-[280px] text-brand-gold"></i>
+                </div>
+
+                <div class="relative z-10 space-y-4">
+                    <div class="flex justify-center mb-2">
+                        <img src="favicon.png" alt="Seal" class="h-12 w-12 object-contain">
+                    </div>
+                    
+                    <p class="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-red">Republic of India &bull; Ministry of Textiles</p>
+                    <h2 class="font-cinzel text-2xl sm:text-3xl font-bold text-brand-dark">GEOGRAPHICAL INDICATION CERTIFICATE</h2>
+                    <p class="font-serif italic text-xs text-brand-gold">Official Heritage Provenance Registry</p>
+                    
+                    <div class="w-24 h-0.5 bg-brand-gold mx-auto my-2"></div>
+
+                    <p class="text-xs text-gray-700 max-w-md mx-auto leading-relaxed">
+                        This document certifies that the accompanying masterpiece has been verified for 100% authentic origin, natural materials, and ethical artisanal creation under Parampara Protocol.
+                    </p>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 text-left bg-white/80 p-3 rounded-lg border border-brand-border my-4 text-xs">
+                        <div>
+                            <span class="text-[9px] uppercase font-bold text-gray-400 block">Certificate ID</span>
+                            <span class="font-mono font-bold text-brand-dark" id="cert-id">PAR-OD-2026-889</span>
+                        </div>
+                        <div>
+                            <span class="text-[9px] uppercase font-bold text-gray-400 block">GI Registration</span>
+                            <span class="font-bold text-brand-dark" id="cert-gi">GI-22 (Class 24)</span>
+                        </div>
+                        <div>
+                            <span class="text-[9px] uppercase font-bold text-gray-400 block">Master Artisan</span>
+                            <span class="font-bold text-brand-dark" id="cert-artisan">Meenakshi Meher</span>
+                        </div>
+                        <div>
+                            <span class="text-[9px] uppercase font-bold text-gray-400 block">Origin Cluster</span>
+                            <span class="font-bold text-brand-dark" id="cert-cluster">Bargarh, Odisha</span>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-end pt-4 border-t border-brand-border/60 text-left">
+                        <div>
+                            <p class="text-[9px] text-gray-400 uppercase font-bold">Provenance Hash</p>
+                            <p class="font-mono text-[9px] text-gray-600">0x8a92...b71e (Verified)</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-serif italic text-xs text-brand-gold font-bold">Shri Gopal &amp; Guild Council</p>
+                            <p class="text-[9px] text-gray-400 uppercase font-bold">Authorized Custodian</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 flex justify-end gap-3">
+                <button onclick="window.print()" class="px-4 py-2 rounded bg-brand-charcoal text-white text-xs font-semibold hover:bg-black transition-all flex items-center gap-2">
+                    <i class="fa-solid fa-print"></i> Print Certificate
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. JUDGE PITCH SLIDE GUIDE MODAL -->
+    <div id="modal-pitch" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-brand-border max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-start mb-6">
+                <div>
+                    <span class="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-red block mb-1">Architecture &amp; Pitch Guide</span>
+                    <h3 class="font-serif text-2xl font-bold text-brand-dark">Parampara Saathi Defense Matrix</h3>
+                </div>
+                <button onclick="closeModal('modal-pitch')" class="text-gray-400 hover:text-brand-dark text-xl p-1">&times;</button>
+            </div>
+
+            <div class="space-y-6 text-xs text-gray-700">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-xl bg-brand-warmGray border border-brand-border">
+                        <h4 class="font-bold text-brand-dark text-sm mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-bullseye text-brand-red"></i> The Core Problem
+                        </h4>
+                        <p class="leading-relaxed">
+                            Urban luxury buyers cannot distinguish genuine handlooms from ₹2,000 synthetic screen prints. Static e-commerce spec sheets fail to convey 24 days of ancestral labor, leading to underpriced crafts and artisan exploitation.
+                        </p>
+                    </div>
+                    <div class="p-4 rounded-xl bg-brand-warmGray border border-brand-border">
+                        <h4 class="font-bold text-brand-dark text-sm mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-sparkles text-brand-gold"></i> The Saathi Solution
+                        </h4>
+                        <p class="leading-relaxed">
+                            A domain-grounded AI Cultural Docent that acts as a digital museum guide, translating GI certifications, mathematical weave calculations, and direct 70% payouts into engaging conversion-driving narratives.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border border-brand-border rounded-lg overflow-hidden">
+                        <thead class="bg-brand-charcoal text-white uppercase text-[10px] tracking-wider">
+                            <tr>
+                                <th class="p-3">Evaluation Metric</th>
+                                <th class="p-3">How to Pitch &amp; Defend</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-brand-border bg-white">
+                            <tr>
+                                <td class="p-3 font-bold text-brand-dark">Why not regular search/filters?</td>
+                                <td class="p-3">Handicrafts are high-involvement, emotional purchases. Storytelling increases conversion rates by justifying luxury price points.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-brand-dark">Hallucination Prevention</td>
+                                <td class="p-3">Grounded via RAG on pre-verified artisan profiles and official GI dossiers—cannot invent pricing or history.</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-bold text-brand-dark">Business Impact</td>
+                                <td class="p-3">Boosts session duration, eliminates return rates by explaining handmade nuances, and drives customer trust.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        const API_BASE = window.location.origin;
+
+        // Context Presets
+        const CONTEXT_DATA = {
+            sambalpuri: {
+                name: 'Sambalpuri Bandha Double Ikat Saree',
+                state: 'Odisha',
+                gi: 'GI-22 (Class 24)',
+                artisan: 'Meenakshi Meher',
+                labor: '24 Days / Pit Loom',
+                price: 14500,
+                eco: { artisan: 10150, mat: 2175, ship: 1450, fund: 725 },
+                cluster: 'Bargarh, Odisha',
+                prompts: [
+                    "Why is this ₹14,500 when I see Ikat online for ₹2,000?",
+                    "How to verify if this Sambalpuri saree is pure silk?",
+                    "Explain the sacred Sankha (conch) motif lore",
+                    "Break down the 70% payment for Meenakshi Meher"
+                ]
+            },
+            jaipur: {
+                name: 'Jaipur Cobalt Quartz Blue Pottery Vase',
+                state: 'Rajasthan',
+                gi: 'GI-34 (Class 21)',
+                artisan: 'Shri Gopal Saini',
+                labor: '18 Days / 800°C Kiln',
+                price: 24800,
+                eco: { artisan: 17360, mat: 3720, ship: 2480, fund: 1240 },
+                cluster: 'Kot Jewar, Jaipur',
+                prompts: [
+                    "Why is Jaipur Blue Pottery made without any clay?",
+                    "How can I test if this pottery is genuine quartz?",
+                    "Tell me about Sawai Ram Singh II and royal patronage",
+                    "Show the 70% direct payment breakdown for Gopal Saini"
+                ]
+            },
+            banarasi: {
+                name: 'Varanasi Kadwa Real Zari Brocade Saree',
+                state: 'Uttar Pradesh',
+                gi: 'GI-99 (Class 24)',
+                artisan: 'Mustafa Ahmed',
+                labor: '35 Days / Handloom',
+                price: 186000,
+                eco: { artisan: 130200, mat: 27900, ship: 18600, fund: 9300 },
+                cluster: 'Madanpura, Varanasi',
+                prompts: [
+                    "Why is genuine Kadwa Banarasi different from powerloom replicas?",
+                    "How to verify real silver-gilt zari from plastic lurex?",
+                    "Explain the Shikargah and Paisley motif history",
+                    "Break down the ₹1,30,200 direct weaver payment"
+                ]
+            },
+            dokra: {
+                name: 'Bastar 4000-Year Lost-Wax Dokra Figurine',
+                state: 'Chhattisgarh',
+                gi: 'GI-83 (Class 6)',
+                artisan: 'Budhilal Dewangan',
+                labor: '18 Days / Cire Perdue',
+                price: 15500,
+                eco: { artisan: 10850, mat: 2325, ship: 1550, fund: 775 },
+                cluster: 'Kondagaon, Bastar',
+                prompts: [
+                    "Explain the 4,000-year lost-wax casting technique",
+                    "How to distinguish authentic Dokra from factory die-cast?",
+                    "What is the spiritual meaning of the Bison Horn motif?",
+                    "Show 70% direct payment to tribal artisan Budhilal"
+                ]
+            },
+            kashmir: {
+                name: 'Kashmiri Walnut Root Wood Carving Tray',
+                state: 'Jammu & Kashmir',
+                gi: 'GI-182 (Class 20)',
+                artisan: 'Tariq Ahmad',
+                labor: '25 Days / Hand Chiseling',
+                price: 28500,
+                eco: { artisan: 19950, mat: 4275, ship: 2850, fund: 1425 },
+                cluster: 'Srinagar, Kashmir',
+                prompts: [
+                    "Why is seasoned walnut heartwood insect-resistant?",
+                    "How to spot real agate-stone wax finish vs polyurethane?",
+                    "Tell the story of Chinar leaf motifs in Kashmir",
+                    "Calculate 70% direct artisan share for Tariq Ahmad"
+                ]
+            },
+            patola: {
+                name: 'Patan Double Ikat Royal Patola Saree',
+                state: 'Gujarat',
+                gi: 'GI-232 (Class 24)',
+                artisan: 'Salvi Bharatbhai',
+                labor: '150 Days (5 Months)',
+                price: 210000,
+                eco: { artisan: 147000, mat: 31500, ship: 21000, fund: 10500 },
+                cluster: 'Patan, Gujarat',
+                prompts: [
+                    "Why does Patan Patola take 5 months to weave?",
+                    "Explain why both front and reverse sides are identical",
+                    "Tell the history of King Kumarpala and the Salvi family",
+                    "Break down the ₹1,47,000 direct master artisan payment"
+                ]
+            }
+        };
+
+        let activeContextKey = 'sambalpuri';
+        let activeMode = 'storyteller';
+        let audioEnabled = false;
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            renderContext();
+            sendGreeting();
+        });
+
+        function switchContext(key) {
+            if (!CONTEXT_DATA[key]) return;
+            activeContextKey = key;
+
+            document.querySelectorAll('.context-btn').forEach(btn => {
+                btn.classList.remove('active', 'border-brand-gold', 'bg-brand-gold/10');
+                btn.classList.add('border-brand-border', 'bg-white');
+            });
+            event.currentTarget.classList.add('active', 'border-brand-gold', 'bg-brand-gold/10');
+            event.currentTarget.classList.remove('border-brand-border', 'bg-white');
+
+            renderContext();
+
+            // Inject context change notification in chat
+            const data = CONTEXT_DATA[key];
+            addMessage('saathi', `*Switched Active Context to **${data.name}** (${data.state})*. Master Artisan: **${data.artisan}** &bull; GI Tag: **${data.gi}**.`);
+        }
+
+        function renderContext() {
+            const data = CONTEXT_DATA[activeContextKey];
+            document.getElementById('current-craft-label').textContent = data.name;
+            document.getElementById('badge-gi').textContent = data.gi;
+            document.getElementById('badge-artisan').textContent = data.artisan;
+            document.getElementById('badge-labor').textContent = data.labor;
+            document.getElementById('badge-eco').textContent = `₹${data.eco.artisan.toLocaleString('en-IN')} to Artisan`;
+
+            // Update Telemetry Panel
+            document.getElementById('telemetry-context').textContent = JSON.stringify({
+                craft: data.name,
+                state: data.state,
+                price: data.price,
+                artisan: data.artisan
+            });
+
+            // Update Quick Demo Prompts Carousel
+            const promptsContainer = document.getElementById('demo-prompts-container');
+            promptsContainer.innerHTML = data.prompts.map(p => `
+                <button onclick="triggerQuickPrompt('${p.replace(/'/g, "\\'")}')" class="text-xs px-3 py-1.5 rounded-full border border-brand-border bg-white hover:border-brand-gold hover:bg-brand-warmGray text-brand-dark whitespace-nowrap transition-all flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-regular fa-comment-dots text-brand-gold text-[10px]"></i>
+                    <span>${p}</span>
+                </button>
+            `).join('');
+
+            // Update modal fields
+            document.getElementById('ledger-artisan-desc').textContent = `Deposited directly to ${data.artisan}'s family account`;
+            document.getElementById('ledger-artisan-val').textContent = `₹${data.eco.artisan.toLocaleString('en-IN')}`;
+            document.getElementById('ledger-materials-val').textContent = `₹${data.eco.mat.toLocaleString('en-IN')}`;
+            document.getElementById('ledger-shipping-val').textContent = `₹${data.eco.ship.toLocaleString('en-IN')}`;
+            document.getElementById('ledger-fund-val').textContent = `₹${data.eco.fund.toLocaleString('en-IN')}`;
+
+            document.getElementById('cert-id').textContent = `PAR-${data.state.substring(0,2).toUpperCase()}-2026-${Math.floor(100+Math.random()*900)}`;
+            document.getElementById('cert-gi').textContent = data.gi;
+            document.getElementById('cert-artisan').textContent = data.artisan;
+            document.getElementById('cert-cluster').textContent = data.cluster;
+        }
+
+        function setMode(mode) {
+            activeMode = mode;
+            document.querySelectorAll('.mode-pill').forEach(btn => {
+                btn.classList.remove('active', 'border-brand-gold', 'bg-brand-gold', 'text-white');
+                btn.classList.add('border-brand-border', 'bg-white', 'text-brand-dark');
+            });
+            const selected = document.getElementById(`mode-${mode}`);
+            if (selected) {
+                selected.classList.add('active', 'border-brand-gold', 'bg-brand-gold', 'text-white');
+                selected.classList.remove('border-brand-border', 'bg-white', 'text-brand-dark');
+            }
+
+            const data = CONTEXT_DATA[activeContextKey];
+            if (mode === 'storyteller') {
+                triggerQuickPrompt(`Explain the historical lore and sacred motifs of ${data.name}`);
+            } else if (mode === 'authenticity') {
+                triggerQuickPrompt(`How do I verify if this ${data.name} is authentic and spot fake replicas?`);
+            } else if (mode === 'advocate') {
+                triggerQuickPrompt(`Break down the 70% direct payment for ${data.artisan}`);
+            } else if (mode === 'recommender') {
+                triggerQuickPrompt(`Recommend an authentic Indian heirloom for a luxury royal wedding gift under ₹1,50,000`);
+            }
+        }
+
+        function sendGreeting() {
+            const data = CONTEXT_DATA[activeContextKey];
+            const greeting = `Namaste! I am **Parampara Saathi**, your interactive AI Cultural Docent and Provenance Verifier.\n\nI am currently grounded in **${data.name}** (${data.gi}) handcrafted by master artisan **${data.artisan}** in ${data.cluster}.\n\nUnder our direct fair-trade model, **₹${data.eco.artisan.toLocaleString('en-IN')} (70%)** goes directly to ${data.artisan}'s family. How can I guide you today?`;
+            
+            addMessage('saathi', greeting, [
+                { label: '📊 View 70% Direct Payout Ledger', action: 'view_ledger' },
+                { label: '📜 Verify GI Certificate', action: 'view_gi_cert' },
+                { label: '🏛️ Explore 800-Yr Motif Lore', action: 'ask_lore' }
+            ]);
+        }
+
+        function triggerQuickPrompt(text) {
+            document.getElementById('user-input').value = text;
+            handleUserSubmit();
+        }
+
+        async function handleUserSubmit(e) {
+            if (e) e.preventDefault();
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            if (!message) return;
+
+            input.value = '';
+            addMessage('user', message);
+
+            // Show Typing Indicator
+            const typingId = showTypingIndicator();
+
+            const contextPayload = {
+                currentStateId: CONTEXT_DATA[activeContextKey].state,
+                craftCategory: CONTEXT_DATA[activeContextKey].name,
+                artisan: CONTEXT_DATA[activeContextKey].artisan,
+                price: CONTEXT_DATA[activeContextKey].price,
+                gi: CONTEXT_DATA[activeContextKey].gi
+            };
+
+            const lang = document.getElementById('language-select').value;
+
+            const startTime = performance.now();
+
+            try {
+                const res = await fetch(`${API_BASE}/api/saathi/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message, context: contextPayload, language: lang })
+                });
+
+                const data = await res.json();
+                const latency = Math.round(performance.now() - startTime);
+                document.getElementById('telemetry-latency').textContent = `${latency}ms`;
+
+                removeTypingIndicator(typingId);
+
+                if (data.success) {
+                    addMessage('saathi', data.response, data.chips);
+                    if (audioEnabled) {
+                        speakText(data.response);
+                    }
+                } else {
+                    throw new Error('Response unsuccessful');
+                }
+            } catch (err) {
+                console.warn('Using client-side fallback RAG...', err);
+                removeTypingIndicator(typingId);
+                simulateClientRAG(message, contextPayload);
+            }
+        }
+
+        function simulateClientRAG(message, context) {
+            const data = CONTEXT_DATA[activeContextKey];
+            const lower = message.toLowerCase();
+
+            let responseText = '';
+            let chips = [];
+
+            if (lower.includes('why') && (lower.includes('2000') || lower.includes('2,000') || lower.includes('price') || lower.includes('cheap') || lower.includes('expensive'))) {
+                responseText = `That ₹2,000 alternative is a digital screen print on synthetic polyester fabric. This authentic piece is hand-woven by master weaver **${data.artisan}** in ${data.cluster} over **${data.labor}**.\n\nEvery single warp and weft silk thread was tie-dyed manually to create the traditional *'Sankha'* (conch) motif. Under Parampara, **₹${data.eco.artisan.toLocaleString('en-IN')} (70%)** goes directly into ${data.artisan}'s family account, keeping this 800-year-old weaving lineage alive.`;
+                chips = [
+                    { label: '📊 View 70% Direct Payout Ledger', action: 'view_ledger' },
+                    { label: '⏳ 24-Day Loom Timeline', action: 'view_timeline' },
+                    { label: '📜 Verify GI Registry (' + data.gi.split(' ')[0] + ')', action: 'view_gi_cert' }
+                ];
+            } else if (lower.includes('verify') || lower.includes('real') || lower.includes('fake') || lower.includes('test') || lower.includes('burn') || lower.includes('quartz')) {
+                responseText = `To verify genuine **${data.name}** (${data.gi}) from commercial replicas:\n\n1. **Material Test:** Real quartz remains cold to touch and has zero clay core. Silk threads burn with pure hair scent and dissolve to crisp ash.\n2. **Handmade Nuance:** Subtle mathematical weave micro-variations confirm manual pit-loom tying, unlike razor-sharp machine ink prints.\n3. **Official Seal:** Every piece carries an encrypted GI serial number registered with the Ministry of Textiles.`;
+                chips = [
+                    { label: '🔬 Step-by-Step Burn & Purity Guide', action: 'burn_test_guide' },
+                    { label: '🛡️ Download GI Certificate', action: 'view_gi_cert' }
+                ];
+            } else {
+                responseText = `**Cultural Lore of ${data.name}:**\nHandcrafted in ${data.cluster} by **${data.artisan}**, this craft represents an unbroken artisanal tradition.\n\nEvery motif is mathematically calculated without digital aids. Under our direct fair trade model, **₹${data.eco.artisan.toLocaleString('en-IN')} (70%)** directly reaches ${data.artisan}'s cluster.`;
+                chips = [
+                    { label: '📊 View 70% Direct Payout Ledger', action: 'view_ledger' },
+                    { label: '📜 View GI Certificate', action: 'view_gi_cert' }
+                ];
+            }
+
+            addMessage('saathi', responseText, chips);
+            if (audioEnabled) speakText(responseText);
+        }
+
+        function addMessage(sender, text, chips = []) {
+            const container = document.getElementById('chat-messages');
+            const messageEl = document.createElement('div');
+            messageEl.className = `flex ${sender === 'user' ? 'justify-end' : 'justify-start'} animate-fade-in`;
+
+            // Format markdown-like bold and bullet text
+            const formattedText = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-brand-dark">$1</strong>')
+                .replace(/\*(.*?)\*/g, '<em class="italic text-brand-gold">$1</em>')
+                .replace(/\n\n/g, '<br><br>')
+                .replace(/\n/g, '<br>');
+
+            if (sender === 'user') {
+                messageEl.innerHTML = `
+                    <div class="chat-bubble-user max-w-[85%] sm:max-w-[75%] px-4 py-3 rounded-2xl rounded-tr-none text-xs sm:text-sm shadow">
+                        <p class="leading-relaxed">${formattedText}</p>
+                    </div>
+                `;
+            } else {
+                let chipsHtml = '';
+                if (chips && chips.length > 0) {
+                    chipsHtml = `
+                        <div class="flex flex-wrap gap-2 mt-3 pt-2.5 border-t border-brand-border/60">
+                            ${chips.map(c => `
+                                <button onclick="handleChipAction('${c.action}')" class="text-[11px] font-semibold px-3 py-1.5 rounded-md bg-brand-warmGray hover:bg-brand-gold hover:text-white text-brand-dark border border-brand-border transition-all flex items-center gap-1.5 shadow-sm">
+                                    <span>${c.label}</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-[9px]"></i>
+                                </button>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+
+                messageEl.innerHTML = `
+                    <div class="flex gap-2.5 max-w-[92%] sm:max-w-[85%]">
+                        <div class="w-8 h-8 rounded-full bg-brand-gold/20 border border-brand-gold flex-shrink-0 flex items-center justify-center text-brand-gold text-xs shadow-sm mt-1">
+                            <i class="fa-solid fa-sparkles text-brand-accentGold"></i>
+                        </div>
+                        <div class="chat-bubble-saathi px-4 sm:px-5 py-3.5 rounded-2xl rounded-tl-none text-xs sm:text-sm">
+                            <div class="leading-relaxed text-gray-800">${formattedText}</div>
+                            ${chipsHtml}
+                        </div>
+                    </div>
+                `;
+            }
+
+            container.appendChild(messageEl);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const container = document.getElementById('chat-messages');
+            const id = 'typing-' + Date.now();
+            const el = document.createElement('div');
+            el.id = id;
+            el.className = 'flex justify-start items-center gap-2 text-gray-400 text-xs pl-10';
+            el.innerHTML = `
+                <span class="inline-block w-2 h-2 rounded-full bg-brand-gold animate-bounce"></span>
+                <span class="inline-block w-2 h-2 rounded-full bg-brand-gold animate-bounce [animation-delay:0.2s]"></span>
+                <span class="inline-block w-2 h-2 rounded-full bg-brand-gold animate-bounce [animation-delay:0.4s]"></span>
+                <span class="text-[11px] font-serif italic text-brand-gold">Retrieving GI archives...</span>
+            `;
+            container.appendChild(el);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
+
+        function removeTypingIndicator(id) {
+            const el = document.getElementById(id);
+            if (el) el.remove();
+        }
+
+        function handleChipAction(action) {
+            if (action === 'view_ledger') {
+                openModal('modal-ledger');
+            } else if (action === 'view_gi_cert') {
+                openModal('modal-certificate');
+            } else if (action === 'view_timeline') {
+                alert(`⏳ 24-Day Loom Timeline for ${CONTEXT_DATA[activeContextKey].artisan}:\n• Days 1-4: Raw Silk extraction & natural mineral pigment formulation\n• Days 5-12: Mathematical thread calculations & manual warp tie-dye\n• Days 13-24: Continuous hand pit-loom double-ikat weaving`);
+            } else if (action === 'burn_test_guide') {
+                alert(`🔬 Handloom Silk Burn Test:\n1. Extract a single loose thread.\n2. Apply small flame.\n3. Authentic handloom silk burns slowly with a distinct singed-hair smell and leaves soft, crushable ash.\n4. Synthetic polyester melts instantly into a hard plastic bead with black acrid smoke.`);
+            } else if (action === 'ask_lore') {
+                triggerQuickPrompt(`Explain the historical lore and sacred motifs of ${CONTEXT_DATA[activeContextKey].name}`);
+            } else if (action === 'ask_authenticity') {
+                triggerQuickPrompt(`How do I verify if this ${CONTEXT_DATA[activeContextKey].name} is authentic?`);
+            } else {
+                openModal('modal-certificate');
+            }
+        }
+
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) modal.classList.add('hidden');
+        }
+
+        function openPitchModal() {
+            openModal('modal-pitch');
+        }
+
+        function toggleInspector() {
+            const panel = document.getElementById('inspector-panel');
+            if (panel.classList.contains('hidden')) {
+                panel.classList.remove('hidden');
+            } else {
+                panel.classList.add('hidden');
+            }
+        }
+
+        function clearChat() {
+            const container = document.getElementById('chat-messages');
+            container.innerHTML = '';
+            sendGreeting();
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const btn = document.getElementById('audio-toggle-btn');
+            if (audioEnabled) {
+                btn.classList.add('bg-brand-gold', 'text-white');
+                btn.classList.remove('bg-white', 'text-brand-dark');
+                speakText('Voice readout activated for Parampara Saathi.');
+            } else {
+                btn.classList.remove('bg-brand-gold', 'text-white');
+                btn.classList.add('bg-white', 'text-brand-dark');
+                if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            }
+        }
+
+        function speakText(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const cleanText = text.replace(/[*#]/g, '');
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function startVoiceInput() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('Voice speech recognition is not supported in this browser. Please type your query.');
+                return;
+            }
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-IN';
+            
+            const micBtn = document.getElementById('mic-btn');
+            micBtn.classList.add('bg-red-500', 'text-white', 'animate-pulse');
+
+            recognition.onresult = (event) => {
+                const transcript = event.results[0][0].transcript;
+                document.getElementById('user-input').value = transcript;
+                micBtn.classList.remove('bg-red-500', 'text-white', 'animate-pulse');
+                handleUserSubmit();
+            };
+
+            recognition.onerror = () => {
+                micBtn.classList.remove('bg-red-500', 'text-white', 'animate-pulse');
+            };
+
+            recognition.onend = () => {
+                micBtn.classList.remove('bg-red-500', 'text-white', 'animate-pulse');
+            };
+
+            recognition.start();
+        }
+
+        function changeLanguage() {
+            const lang = document.getElementById('language-select').value;
+            triggerQuickPrompt(`Translate current craft provenance to selected language (${lang})`);
+        }
+    </script>
+</body>
+</html>

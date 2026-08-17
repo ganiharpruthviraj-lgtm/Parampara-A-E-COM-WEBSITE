@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parampara &bull; Google Stitch Live Preview Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Serif:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .serif { font-family: 'Noto Serif', serif; }
+        .tab-btn.active {
+            background-color: #785600;
+            color: #ffffff;
+            border-color: #785600;
+            box-shadow: 0 4px 12px rgba(120, 86, 0, 0.25);
+        }
+        .device-btn.active {
+            background-color: #1c1b1b;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="bg-stone-900 text-stone-100 min-h-screen flex flex-col overflow-hidden">
+
+    <!-- Top Master Control Bar -->
+    <header class="bg-stone-950 border-b border-stone-800 px-6 py-3 flex flex-wrap items-center justify-between gap-4 z-50 shadow-lg">
+        <!-- Brand & Project Info -->
+        <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-[#785600] flex items-center justify-center text-white font-bold text-base shadow-md">
+                🏺
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <span class="font-bold text-sm tracking-tight">Parampara</span>
+                    <span class="text-[10px] bg-amber-500/20 text-amber-400 font-semibold px-2 py-0.5 rounded border border-amber-500/30">Google Stitch Preview</span>
+                </div>
+                <p class="text-[11px] text-stone-400">Project ID: 7930434279351176396</p>
+            </div>
+        </div>
+
+        <!-- Screen Tabs -->
+        <div class="flex items-center gap-2 bg-stone-900 p-1 rounded-xl border border-stone-800 overflow-x-auto max-w-2xl">
+            <button onclick="loadScreen('hero-mosaic.html', this)" class="tab-btn active px-3.5 py-1.5 rounded-lg text-xs font-semibold text-stone-300 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-layer-group text-[11px]"></i>
+                Dynamic Mosaic Hero
+            </button>
+            <button onclick="loadScreen('dynamic-homepage.html', this)" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-stone-300 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-house text-[11px]"></i>
+                Dynamic Full Homepage
+            </button>
+            <button onclick="loadScreen('product-jaipur-pottery.html', this)" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-stone-300 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-gem text-[11px]"></i>
+                Jaipur Pottery Product
+            </button>
+            <button onclick="loadScreen('index.html', this)" class="tab-btn px-3.5 py-1.5 rounded-lg text-xs font-semibold text-stone-300 hover:text-white transition-all flex items-center gap-2 whitespace-nowrap">
+                <i class="fa-solid fa-map-location-dot text-[11px]"></i>
+                Original 28 States Map
+            </button>
+        </div>
+
+        <!-- Viewport Mode & Direct Link -->
+        <div class="flex items-center gap-3">
+            <div class="hidden sm:flex items-center bg-stone-900 p-1 rounded-lg border border-stone-800 text-xs">
+                <button onclick="setDevice('100%', this)" class="device-btn active px-2.5 py-1 rounded text-stone-400 hover:text-white transition-all" title="Desktop View">
+                    <i class="fa-solid fa-desktop"></i>
+                </button>
+                <button onclick="setDevice('768px', this)" class="device-btn px-2.5 py-1 rounded text-stone-400 hover:text-white transition-all" title="Tablet View">
+                    <i class="fa-solid fa-tablet-screen-button"></i>
+                </button>
+                <button onclick="setDevice('390px', this)" class="device-btn px-2.5 py-1 rounded text-stone-400 hover:text-white transition-all" title="Mobile View">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                </button>
+            </div>
+
+            <a id="direct-link" href="hero-mosaic.html" target="_blank" class="text-xs bg-[#785600] hover:bg-amber-700 text-white font-medium px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 shadow">
+                <span>Open Full Page</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Canvas Preview Container -->
+    <main class="flex-1 bg-stone-900 p-2 sm:p-3 flex items-center justify-center overflow-hidden" style="height: calc(100vh - 65px);">
+        <div id="frame-wrapper" class="w-full h-full max-w-full bg-white rounded-xl overflow-hidden shadow-2xl transition-all duration-300 border border-stone-800 flex flex-col">
+            <iframe id="preview-frame" src="hero-mosaic.html" class="w-full h-full flex-1 border-0" style="min-height: 100%;" frameborder="0"></iframe>
+        </div>
+    </main>
+
+
+    <script>
+        function loadScreen(url, btn) {
+            document.getElementById('preview-frame').src = url;
+            document.getElementById('direct-link').href = url;
+            
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+        }
+
+        function setDevice(width, btn) {
+            const wrapper = document.getElementById('frame-wrapper');
+            wrapper.style.maxWidth = width;
+            
+            document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+        }
+    </script>
+</body>
+</html>

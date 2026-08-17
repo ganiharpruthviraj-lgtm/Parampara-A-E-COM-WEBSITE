@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
         link.href = 'css/buttons.css';
         document.head.appendChild(link);
     }
+
+    // 1b. Inject Parampara Saathi AI Cultural Docent Widget
+    if (!document.querySelector('script[src*="saathi.js"]') && !window.location.pathname.endsWith('saathi.html')) {
+        const saathiScript = document.createElement('script');
+        saathiScript.src = 'js/saathi.js';
+        document.body.appendChild(saathiScript);
+    }
     
     // 2. Mobile Menu Toggle Logic
     const toggleBtn = document.querySelector('[data-landingsite-mobile-menu-toggle]') || document.getElementById('mobile-menu-toggle');

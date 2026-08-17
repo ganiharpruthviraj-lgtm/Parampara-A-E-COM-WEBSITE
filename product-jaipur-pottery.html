@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Jaipur Blue Pottery | Parampara Heritage</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed-dim": "#ffb4a2",
+              "background": "#fcf9f8",
+              "outline": "#817563",
+              "on-surface-variant": "#4f4535",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed-variant": "#8a1d00",
+              "on-tertiary": "#ffffff",
+              "surface-variant": "#e5e2e1",
+              "inverse-on-surface": "#f3f0ef",
+              "primary": "#785600",
+              "inverse-surface": "#313030",
+              "surface-tint": "#7b5800",
+              "on-primary-fixed-variant": "#5d4200",
+              "error": "#ba1a1a",
+              "tertiary": "#b02700",
+              "on-tertiary-fixed": "#3c0700",
+              "on-error-container": "#93000a",
+              "primary-fixed": "#ffdea6",
+              "on-error": "#ffffff",
+              "surface-container": "#f0eded",
+              "on-surface": "#1c1b1b",
+              "on-primary-fixed": "#271900",
+              "error-container": "#ffdad6",
+              "surface": "#fcf9f8",
+              "on-secondary": "#ffffff",
+              "on-primary-container": "#fffbff",
+              "on-secondary-fixed": "#410000",
+              "surface-container-high": "#eae7e7",
+              "on-secondary-container": "#650000",
+              "tertiary-container": "#d73a10",
+              "primary-fixed-dim": "#f7bd48",
+              "on-background": "#1c1b1b",
+              "on-secondary-fixed-variant": "#8f0f07",
+              "surface-dim": "#dcd9d9",
+              "surface-container-highest": "#e5e2e1",
+              "secondary-fixed": "#ffdad4",
+              "secondary": "#b22b1d",
+              "secondary-fixed-dim": "#ffb4a8",
+              "tertiary-fixed": "#ffdad2",
+              "outline-variant": "#d3c4af",
+              "primary-container": "#986d00",
+              "inverse-primary": "#f7bd48",
+              "surface-container-low": "#f6f3f2",
+              "on-tertiary-container": "#fffbff",
+              "surface-bright": "#fcf9f8",
+              "secondary-container": "#fe624e",
+              "surface-container-lowest": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .editorial-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 2rem;
+        }
+    </style>
+    <script src="js/auth.js"></script>
+</head>
+<body class="bg-background text-on-surface font-body selection:bg-primary-fixed selection:text-on-primary-fixed">
+
+    <!-- Top Announcement Bar -->
+    <div class="sticky top-0 z-[60] w-full bg-[#FCF9F8] text-stone-600 font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-[0.2em] py-2 px-4 text-center border-b border-[#785600]/20 flex items-center justify-between min-h-[32px] px-8">
+        <div class="hidden sm:block text-[9px] text-[#785600] font-semibold">STITCH PREVIEW &bull; MASTERPIECE PRODUCT DETAIL</div>
+        <div class="mx-auto sm:mx-0">FREE INSURED SHIPPING ON HERITAGE MASTERPIECES</div>
+        <a href="index.html" class="hidden sm:inline-flex items-center gap-1.5 text-[9px] text-[#b22b1d] font-bold hover:underline">
+            <i class="fa-solid fa-arrow-left"></i> Back to Main Site
+        </a>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-[#FCF9F8]/90 dark:bg-stone-950/90 backdrop-blur-md text-[#785600] font-['Noto_Serif'] tracking-tight text-sm uppercase sticky top-[32px] z-50 border-b border-outline-variant/20">
+        <div class="flex justify-between items-center w-full px-8 py-5 max-w-screen-2xl mx-auto">
+            <!-- Navigation Links (Left) -->
+            <div class="hidden md:flex gap-8">
+                <a class="text-stone-600 font-medium hover:text-[#785600] transition-colors duration-300" href="artisans.html">Our Artisans</a>
+                <a class="text-[#785600] border-b border-[#785600] pb-1 font-bold" href="search.html">Shop</a>
+                <a class="text-stone-600 font-medium hover:text-[#785600] transition-colors duration-300" href="about.html">Stories</a>
+                <a class="text-stone-600 font-medium hover:text-[#785600] transition-colors duration-300" href="states.html">Collections</a>
+            </div>
+            <!-- Brand Logo (Center) -->
+            <a href="index.html" class="text-2xl sm:text-3xl font-['Noto_Serif'] font-bold tracking-tighter text-[#785600]">PARAMPARA</a>
+            <!-- Trailing Icons (Right) -->
+            <div class="flex items-center gap-6">
+                <a href="search.html" class="hover:text-[#785600] transition-colors flex items-center">
+                    <span class="material-symbols-outlined">search</span>
+                </a>
+                <a href="collection.html" class="hover:text-[#785600] transition-colors flex items-center">
+                    <span class="material-symbols-outlined">shopping_bag</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-screen-2xl mx-auto px-8 lg:px-12 space-y-32 py-12">
+        <!-- Hero Section: Asymmetrical Editorial Layout -->
+        <section class="editorial-grid min-h-[819px] items-center">
+            <!-- Product Narrative (Left Side) -->
+            <div class="col-span-12 lg:col-span-5 space-y-8 z-10 order-2 lg:order-1">
+                <div class="space-y-2">
+                    <p class="font-label text-sm uppercase tracking-[0.2em] text-secondary font-semibold">Masterpiece Series 01 &bull; Rajasthan</p>
+                    <h1 class="font-headline text-6xl lg:text-8xl leading-none font-bold tracking-tighter">Jaipur Blue <br/><span class="italic font-normal text-primary">Pottery</span></h1>
+                </div>
+                <p class="text-lg text-on-surface-variant max-w-md leading-relaxed">
+                    A celestial fusion of cobalt and quartz. Hand-painted with the precision of a jeweler, this floral motif vase represents the pinnacle of Rajasthani craftsmanship.
+                </p>
+                <div class="flex items-center gap-8 pt-4">
+                    <div class="space-y-1">
+                        <p class="font-label text-xs uppercase tracking-widest text-outline">Price</p>
+                        <p class="text-3xl font-headline font-bold text-primary">₹24,500</p>
+                    </div>
+                    <!-- Heritage Badge Signature Component -->
+                    <div class="flex items-center gap-3 bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/10">
+                        <div class="w-6 h-6 rounded-full bg-secondary flex items-center justify-center border border-primary-fixed">
+                            <span class="material-symbols-outlined text-[14px] text-white" style="font-variation-settings: 'FILL' 1;">verified</span>
+                        </div>
+                        <span class="font-label text-xs font-bold uppercase tracking-tighter">GI Certified &bull; Authentic</span>
+                    </div>
+                </div>
+                <div class="pt-6 flex flex-wrap gap-4">
+                    <button onclick="toggleCollection('60a8f48pottery', this)" class="bg-gradient-to-r from-primary to-primary-container text-on-primary px-10 py-5 rounded-sm font-label font-bold uppercase tracking-widest text-sm hover:shadow-xl hover:shadow-primary/20 transition-all flex items-center gap-3 group">
+                        <i class="fa-regular fa-bookmark"></i>
+                        <span>Add to Collection</span>
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_right_alt</span>
+                    </button>
+                    <a href="masterpiece.html?state=Rajasthan" class="border-2 border-primary text-primary px-8 py-5 rounded-sm font-label font-bold uppercase tracking-widest text-sm hover:bg-primary/5 transition-all">
+                        View 360° Studio
+                    </a>
+                </div>
+            </div>
+            <!-- High Res Hero Image (Right Side) -->
+            <div class="col-span-12 lg:col-span-7 relative h-[500px] sm:h-[614px] lg:h-[870px] order-1 lg:order-2">
+                <div class="absolute inset-0 bg-surface-container-high rounded-sm overflow-hidden shadow-2xl border border-outline-variant/20">
+                    <img alt="Jaipur Blue Pottery Masterpiece" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRvNfriugx0NdrdLeauMrU-T9Tr87a7nC-J4nvAoCW_TkiqjfVtVIlJP91Ik6MOOER3m_6SHZgiPfHnJtX0iMVO6ZKw1P35uXn8NGIoC6tveTbjBTXulXuQDrOLgugDb06sR0mF6t4wF-P3UOpyzP6wGvXetfE-qoHRIyRhZHpab56fAgLIzl0juu9z7X0LepiTAGCIQw_FSnOvAQtp-CcfOnBcg19DxmOeCqZICVR4LsNoXDtgTix5ZzRMECyixHzagr7bWx_bBs"/>
+                </div>
+                <!-- Decorative Layering -->
+                <div class="absolute -bottom-12 -left-12 hidden lg:block w-48 h-64 bg-surface-container-lowest shadow-2xl p-4 transform -rotate-3 border border-outline-variant/20">
+                    <div class="w-full h-full bg-stone-100 flex items-center justify-center p-2 overflow-hidden">
+                        <img alt="Texture Detail" class="w-full h-full object-cover grayscale brightness-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2bb3AApjyaDu86qEV2hHgz1nr6UaSW7Tx7jP6_uW1-vBfdbREWz4kc-t0Zw4WPOtW7vhHfDE87lbL8TMDdJhllFkTERJP0Y81I3bH_qwASaPFr3FaoiYaw-sexgZayqDF5D6Sohgh_ct0v_H0x0vr4M1LeSHE-5qFqg0MeR1ZRVx53FA1oe-SD2i1jK8nxs6meWOWttCianJydbQ0gZjR4Ol9m5wZ6an81ZKADFJlZCieSR_aWukIw8H_iyf628extGX-Y1qVO-0"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Storytelling Section: Material and History -->
+        <section class="space-y-16">
+            <div class="editorial-grid">
+                <div class="col-span-12 lg:col-span-4">
+                    <h2 class="font-headline text-4xl font-bold border-l-4 border-secondary pl-6 py-2 leading-tight">The Alchemist’s<br/>Legacy</h2>
+                </div>
+                <div class="col-span-12 lg:col-span-7 lg:col-start-6 space-y-8">
+                    <p class="text-xl leading-relaxed text-on-surface italic font-headline">
+                        "Unlike conventional pottery, Jaipur Blue is never made of clay. It is an impossible alchemy of quartz stone powder, powdered glass, Multani Mitti, borax, and water."
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 text-on-surface-variant">
+                        <p class="leading-relaxed">
+                            The technique traveled from Persia to India in the 14th century, finding its true home under the royal patronage of Sawai Ram Singh II. Each piece is glazed with a mixture of cobalt and copper oxide, creating the signature sapphire hue that never loses its brilliance over centuries.
+                        </p>
+                        <p class="leading-relaxed">
+                            The firing process is the most precarious stage. At exactly 800 degrees Celsius, the glass powder melts into a translucent skin, locking the hand-painted motifs forever into a vitreous, jewel-like finish that is both brittle and eternal.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bento Grid of Craft Details -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 min-h-[400px]">
+                <div class="md:col-span-2 bg-surface-container-low rounded-sm p-8 flex flex-col justify-end relative overflow-hidden group shadow-sm">
+                    <img alt="Hand painting process" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0MttpJX-q6lYcHEvMqOR7LHhBJ0CdP5pDeDyNeb8Uvi7gaQKjK6qM_nZNKL8XGpVcbtFkrLjo8_3PJ0yGUCaA7oSmH-bGPUV-2vf8tgtZ5h5rLr7EuKeZZnOYsl3FkRiwm0Mn__hG2GLd7OZlpg852kS6qFE3pFMLhsciwEJwF3gvv7AdHMPOwQOhOptqZtBAG0PWfXg_N4lr58QHWH6RnOsvWsVIDbBSoTCEo9uDRxwj2ozEFqvbIxgFZ4wfg4O-EPMXv9xpPWI"/>
+                    <div class="relative z-10">
+                        <span class="font-label text-[10px] uppercase tracking-[0.3em] text-primary font-bold">Process 01</span>
+                        <h3 class="font-headline text-2xl font-bold mt-2">Dough Preparation</h3>
+                        <p class="text-sm mt-4 max-w-xs text-on-surface-variant">Three days of grinding quartz stone into a silk-like powder before it can be molded by hand.</p>
+                    </div>
+                </div>
+                <div class="bg-surface-container-highest rounded-sm p-8 flex flex-col justify-between shadow-sm">
+                    <span class="material-symbols-outlined text-secondary text-4xl">local_fire_department</span>
+                    <div>
+                        <h3 class="font-headline text-xl font-bold">Low-Fire Alchemy</h3>
+                        <p class="text-xs font-label uppercase tracking-widest mt-2 text-outline">800°C Traditional Kiln</p>
+                    </div>
+                </div>
+                <div class="bg-primary rounded-sm p-8 flex flex-col justify-between text-on-primary shadow-sm">
+                    <span class="material-symbols-outlined text-4xl" style="font-variation-settings: 'FILL' 1;">brush</span>
+                    <div>
+                        <h3 class="font-headline text-xl font-bold text-primary-fixed">Cobalt Pigment</h3>
+                        <p class="text-xs font-label uppercase tracking-widest mt-2 opacity-80">Extracted Persian Minerals</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Master Artisan Section -->
+        <section class="editorial-grid items-center bg-surface-container-lowest p-8 lg:p-20 rounded-sm shadow-sm border border-outline-variant/20">
+            <div class="col-span-12 lg:col-span-5 relative">
+                <div class="aspect-[4/5] bg-stone-200 overflow-hidden rounded-sm relative shadow-2xl">
+                    <img alt="Master Artisan Portrait" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2QdkvZ7CJJjjvIEkc_4wgwHYsLHfRY8R72o-SUTAvzDWjoXUixrBCwnKTI7WR35_JNeTUt_31CklJ2y5NBMpoHJVDjG-ESBTcWaHfWRvO-JnNmlZnNjxtP4jBuUYkstfLEbiIIaDaceAjquJjy49I92GOcQR3MgCBVyYNxykSGLS1UGTyU3mhaL_nKoaDaDM99jRnQ5vK6UWY98yLQPhzHM0bHgmiWVvthUCPHRAvi7GqIGwQIzEAdBdd7nabk1eiQCbYTGTFLdA"/>
+                    <div class="absolute inset-0 bg-primary/10 mix-blend-multiply"></div>
+                </div>
+                <div class="absolute -top-6 -right-6 lg:-right-12 bg-secondary text-white p-6 sm:p-8 rounded-sm shadow-xl max-w-[240px]">
+                    <span class="material-symbols-outlined text-4xl opacity-50">format_quote</span>
+                    <p class="font-headline italic text-lg leading-snug pt-2">My hands only repeat what my ancestors whispered.</p>
+                </div>
+            </div>
+            <div class="col-span-12 lg:col-span-6 lg:col-start-7 space-y-8 mt-12 lg:mt-0">
+                <div>
+                    <p class="font-label text-sm uppercase tracking-widest text-secondary font-bold">The Master Artisan</p>
+                    <h2 class="font-headline text-5xl font-bold mt-2">Shri Gopal Saini</h2>
+                </div>
+                <p class="text-on-surface-variant leading-relaxed text-lg">
+                    A fourth-generation potter and recipient of the Shilp Guru award, Shri Gopal has dedicated five decades to preserving the 'True Blue' of Jaipur. His works are housed in the Victoria and Albert Museum and private collections across six continents.
+                </p>
+                <div class="pt-4 flex flex-col gap-4">
+                    <div class="flex items-center gap-4 text-sm font-label uppercase tracking-wider text-outline">
+                        <span class="w-12 h-px bg-outline-variant"></span>
+                        Awarded President's National Honor
+                    </div>
+                    <div class="flex items-center gap-4 text-sm font-label uppercase tracking-wider text-outline">
+                        <span class="w-12 h-px bg-outline-variant"></span>
+                        34 Years of Mastery &bull; Jaipur Guild
+                    </div>
+                </div>
+                <a class="inline-block font-label text-xs font-bold uppercase tracking-widest text-primary border-b-2 border-primary pb-1 hover:text-secondary hover:border-secondary transition-all" href="artisans.html">View Artisan Directory &rarr;</a>
+            </div>
+        </section>
+
+        <!-- Heritage Certificate Section -->
+        <section class="py-20 border-t border-outline-variant/20">
+            <div class="max-w-4xl mx-auto text-center space-y-12">
+                <div class="space-y-4">
+                    <span class="material-symbols-outlined text-5xl text-primary" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+                    <h2 class="font-headline text-4xl font-bold">Heritage Certificate of Authenticity</h2>
+                    <p class="text-on-surface-variant max-w-2xl mx-auto">Every masterpiece is issued with a unique digital and physical certificate, ensuring its provenance and ethical creation.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-1 px-8 lg:px-0 bg-outline-variant/20 shadow-md">
+                    <div class="bg-background p-8 space-y-4">
+                        <h4 class="font-label text-xs font-bold uppercase tracking-widest text-secondary">Unique Serial ID</h4>
+                        <p class="font-headline text-xl text-on-surface font-bold">PAR-RAJ-7742-XP</p>
+                    </div>
+                    <div class="bg-background p-8 space-y-4">
+                        <h4 class="font-label text-xs font-bold uppercase tracking-widest text-secondary">Origin Cluster</h4>
+                        <p class="font-headline text-xl text-on-surface font-bold">Jaipur, Rajasthan</p>
+                    </div>
+                    <div class="bg-background p-8 space-y-4">
+                        <h4 class="font-label text-xs font-bold uppercase tracking-widest text-secondary">Provenance Rating</h4>
+                        <p class="font-headline text-xl text-on-surface font-bold">100% Authentic GI</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#FCF9F8] dark:bg-stone-950 full-width mt-20 pb-12 font-['Plus_Jakarta_Sans'] text-xs tracking-widest uppercase border-t border-outline-variant/20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 max-w-7xl mx-auto items-center pt-12">
+            <div>
+                <span class="text-xl font-['Noto_Serif'] italic text-[#B22B1D] font-bold">PARAMPARA</span>
+                <p class="mt-4 text-stone-500 normal-case tracking-normal">Preserving the soul of craftsmanship for the digital era.</p>
+            </div>
+            <div class="flex flex-wrap gap-6 justify-center">
+                <a class="text-stone-500 hover:text-[#B22B1D] transition-all opacity-80 hover:opacity-100" href="about.html">About Us</a>
+                <a class="text-stone-500 hover:text-[#B22B1D] transition-all opacity-80 hover:opacity-100" href="artisans.html">Craft Stories</a>
+                <a class="text-stone-500 hover:text-[#B22B1D] transition-all opacity-80 hover:opacity-100" href="states.html">28 States</a>
+                <a class="text-stone-500 hover:text-[#B22B1D] transition-all opacity-80 hover:opacity-100" href="search.html">Collection</a>
+            </div>
+            <div class="text-right text-stone-500">
+                © 2026 Parampara Heritage. Preserving Craftsmanship.
+            </div>
+        </div>
+    </footer>
+    <script src="js/saathi.js"></script>
+</body>
+</html>

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Parampara — Dynamic Homepage Preview</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-high": "#eae7e7",
+              "primary-fixed": "#ffdea6",
+              "on-tertiary-container": "#fffbff",
+              "secondary": "#b22b1d",
+              "surface": "#fcf9f8",
+              "inverse-primary": "#f7bd48",
+              "on-secondary-fixed-variant": "#8f0f07",
+              "on-tertiary": "#ffffff",
+              "tertiary-fixed": "#ffdad2",
+              "secondary-container": "#fe624e",
+              "primary": "#785600",
+              "outline": "#817563",
+              "tertiary-fixed-dim": "#ffb4a2",
+              "on-tertiary-fixed": "#3c0700",
+              "surface-variant": "#e5e2e1",
+              "surface-dim": "#dcd9d9",
+              "on-secondary-fixed": "#410000",
+              "error": "#ba1a1a",
+              "on-background": "#1c1b1b",
+              "on-secondary-container": "#650000",
+              "error-container": "#ffdad6",
+              "surface-bright": "#fcf9f8",
+              "on-primary-container": "#fffbff",
+              "on-primary": "#ffffff",
+              "surface-tint": "#7b5800",
+              "inverse-surface": "#313030",
+              "on-surface-variant": "#4f4535",
+              "on-primary-fixed-variant": "#5d4200",
+              "outline-variant": "#d3c4af",
+              "primary-fixed-dim": "#f7bd48",
+              "primary-container": "#986d00",
+              "secondary-fixed-dim": "#ffb4a8",
+              "surface-container-highest": "#e5e2e1",
+              "on-error": "#ffffff",
+              "on-surface": "#1c1b1b",
+              "inverse-on-surface": "#f3f0ef",
+              "on-secondary": "#ffffff",
+              "secondary-fixed": "#ffdad4",
+              "on-error-container": "#93000a",
+              "on-primary-fixed": "#271900",
+              "surface-container-low": "#f6f3f2",
+              "on-tertiary-fixed-variant": "#8a1d00",
+              "background": "#fcf9f8",
+              "surface-container": "#f0eded",
+              "surface-container-lowest": "#ffffff",
+              "tertiary": "#b02700",
+              "tertiary-container": "#d73a10"
+            },
+            fontFamily: {
+              "headline": ["Noto Serif"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+          },
+        },
+      }
+    </script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fcf9f8; color: #1c1b1b; }
+        .serif { font-family: 'Noto Serif', serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .glass-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+        .heritage-gradient { background: linear-gradient(135deg, #785600 0%, #986d00 100%); }
+    </style>
+    <script src="js/auth.js"></script>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed">
+
+    <!-- Top Announcement Bar -->
+    <div class="sticky top-0 z-[60] w-full bg-[#FCF9F8] text-stone-600 font-['Plus_Jakarta_Sans'] text-[10px] uppercase tracking-[0.2em] py-2 px-4 text-center border-b border-[#785600]/20 flex items-center justify-between min-h-[32px] px-8">
+        <div class="hidden sm:block text-[9px] text-[#785600] font-semibold">STITCH PREVIEW &bull; DYNAMIC HOMEPAGE</div>
+        <div class="mx-auto sm:mx-0">FREE SHIPPING ON ORDERS ABOVE ₹999 | FESTIVE SALE LIVE</div>
+        <a href="index.html" class="hidden sm:inline-flex items-center gap-1.5 text-[9px] text-[#b22b1d] font-bold hover:underline">
+            <i class="fa-solid fa-arrow-left"></i> Back to Main Site
+        </a>
+    </div>
+
+    <!-- Top Navigation Bar -->
+    <nav class="bg-[#FCF9F8]/90 dark:bg-stone-950/90 backdrop-blur-md sticky top-[32px] z-50 transition-all duration-300 border-b border-outline-variant/20">
+        <div class="flex justify-between items-center w-full px-8 py-5 max-w-screen-2xl mx-auto">
+            <div class="hidden md:flex gap-8 items-center">
+                <a class="text-stone-600 font-medium font-['Noto_Serif'] tracking-tight text-sm uppercase hover:text-[#785600] transition-colors duration-300" href="artisans.html">Our Artisans</a>
+                <a class="text-[#785600] border-b border-[#785600] pb-1 font-bold font-['Noto_Serif'] tracking-tight text-sm uppercase" href="search.html">Shop</a>
+            </div>
+            <a class="text-3xl font-['Noto_Serif'] font-bold tracking-tighter text-[#785600]" href="index.html">PARAMPARA</a>
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex gap-8 items-center">
+                    <a class="text-stone-600 font-medium font-['Noto_Serif'] tracking-tight text-sm uppercase hover:text-[#785600] transition-colors duration-300" href="about.html">Stories</a>
+                    <a class="text-stone-600 font-medium font-['Noto_Serif'] tracking-tight text-sm uppercase hover:text-[#785600] transition-colors duration-300" href="states.html">Collections</a>
+                </div>
+                <div class="flex items-center gap-4 text-[#785600]">
+                    <a href="search.html" class="material-symbols-outlined cursor-pointer hover:scale-95 duration-200">search</a>
+                    <a href="collection.html" class="material-symbols-outlined cursor-pointer hover:scale-95 duration-200">shopping_bag</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section: Layered & Dynamic -->
+        <section class="relative min-h-[850px] flex items-center px-8 md:px-20 py-20 overflow-hidden bg-surface">
+            <div class="max-w-screen-2xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <div class="lg:col-span-5 z-10">
+                    <span class="text-secondary font-semibold tracking-[0.2em] text-xs uppercase mb-4 block">28 States &bull; 28 Handcrafted Treasures</span>
+                    <h1 class="text-5xl md:text-7xl serif font-bold text-on-surface leading-[1.1] mb-8 tracking-tighter">
+                        One Country.<br/>
+                        One Masterpiece.<br/>
+                        <span class="text-primary italic">Infinite Pride.</span>
+                    </h1>
+                    <p class="text-on-surface-variant text-lg max-w-md mb-10 leading-relaxed">
+                        Curating the soul of India's artisanal heritage. Every piece tells a story of a thousand hammers and a lifetime of devotion.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="states.html" class="heritage-gradient text-on-primary px-10 py-5 rounded-sm font-medium tracking-wide flex items-center gap-3 hover:shadow-xl transition-all duration-300 scale-100 hover:scale-[1.02] active:scale-95 text-xs font-bold uppercase tracking-widest">
+                            EXPLORE THE COLLECTION
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </a>
+                        <a href="product-jaipur-pottery.html" class="border-2 border-primary text-primary px-8 py-5 rounded-sm font-medium tracking-wide flex items-center gap-2 hover:bg-primary/5 transition-all text-xs font-bold uppercase tracking-widest">
+                            View Masterpiece Demo
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:col-span-7 relative">
+                    <!-- Main Focal Image -->
+                    <div class="relative z-0 ml-auto w-full md:w-4/5 aspect-[4/5] bg-surface-container-low overflow-hidden shadow-2xl rounded-sm">
+                        <img alt="Heritage Artifact" class="w-full h-full object-cover grayscale-[20%] hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAp9xJhLqpFog3f7WX6BeK1woidPYrX6q69d6HB84p0R_4X-r3uD8-D6UeHx-Npq4-fDpInmbT4joYavhcUO-N3Xq-dVNVOTUQRGtgfJwmDTI59-Qi0FQaFE5-Nl6pdXAFv3esKy_e9sc0L97l2IaRMdo2Y2BOP-kc8ZgTYrCdHBKepceD4u_zcBRj2_Ul9kKCaUkXhEnTsvr6j6_cuQYJBmL33MebO5B4N5hRXr38VS4guUpsh-m9fPcXWVJlKg1K0A0rTrUgilNA"/>
+                    </div>
+                    <!-- Secondary Overlapping Image -->
+                    <div class="absolute -bottom-12 -left-8 md:left-0 z-20 w-1/2 md:w-2/5 aspect-square bg-surface-container-high p-2 shadow-2xl border-[12px] border-surface rounded-sm">
+                        <img alt="Artisan Detail" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB46hZpbj1rmU3rVlNoRTR7P8yPkjXFNEuDRiz0dx4YwuxdQF9P5AObyhn7kTujM_N79GQZ-Jbej6W7ytHdeAYk2XZTtaXvullK05S-3hT3AxyHttVpJOA3_DJpRQ7WPRr_nWOpsPibflgRgdWtd9htTkZGURr6pDZRETTVSqUvWBspHa9gH0f5H51OAJpcruBFhrsOD8OjlEyIr52ZAh675zad1Sxe9ULJozv6rpL3wqloM7jjuB4nwb-xEftZ729ET0NPlvXXVNo"/>
+                    </div>
+                    <!-- Decorative Badge -->
+                    <div class="absolute top-10 right-10 z-20 bg-secondary text-white w-24 h-24 rounded-full flex flex-col items-center justify-center text-[10px] tracking-widest font-bold leading-tight shadow-lg border-2 border-primary/20">
+                        <span class="text-center">100%<br/>AUTHENTIC</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Background Text Decoration -->
+            <div class="absolute top-1/2 -right-20 transform -translate-y-1/2 rotate-90 text-[10rem] font-bold text-on-surface/[0.03] select-none pointer-events-none serif">
+                PARAMPARA
+            </div>
+        </section>
+
+        <!-- Featured Collection: Bento Grid -->
+        <section class="py-32 px-8 bg-surface-container-low border-y border-outline-variant/20">
+            <div class="max-w-screen-2xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                    <div>
+                        <h2 class="text-4xl serif font-bold mb-4">Regional Masterpieces</h2>
+                        <div class="h-1 w-24 bg-primary"></div>
+                    </div>
+                    <p class="text-on-surface-variant max-w-md text-right font-light italic">
+                        “Craft is not a hobby, it is the rhythmic beating of a nation's heart.”
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- Jaipur Card (Tall) -->
+                    <a href="product-jaipur-pottery.html" class="md:col-span-1 md:row-span-2 group cursor-pointer relative overflow-hidden bg-surface shadow-sm hover:shadow-xl transition-all duration-500 rounded-sm">
+                        <div class="h-[600px] w-full relative overflow-hidden">
+                            <img alt="Jaipur Craft" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIgAnQZFPke9PUImBiTmAmcV65VDgB0DgxFXuH8OTQXZSwuYRd51LLhAJrYvZOHbiOV_UIMW_GyYleKwkjJSzzTg9m8_LGBCStqiX9syp6QptDeh-zX2ks5oHOnpnc9rwUje7379or-Q7hfQKqvM2dKr81eFZbnpt3VsJxnMOzekx8mIwErTheL0VL834zprLOG_wzwMnqBFvIN0Aul37QNlKX3Vo1xrNXPxHpPNO8xnKq1sAbZHG1QkUPgYtdMuxf6OrxFJwFXH0"/>
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-60 group-hover:opacity-80 transition-opacity"></div>
+                        </div>
+                        <div class="absolute bottom-0 left-0 p-8 text-white w-full">
+                            <span class="text-xs uppercase tracking-widest text-primary-fixed mb-2 block font-semibold">Rajasthan</span>
+                            <h3 class="text-2xl serif font-bold mb-3">Jaipur Blue Pottery</h3>
+                            <p class="text-sm text-stone-300 opacity-0 group-hover:opacity-100 transition-opacity duration-500 line-clamp-2">The iconic cobalt-blue ceramics dating back to the 14th century, made without clay.</p>
+                        </div>
+                    </a>
+
+                    <!-- Kutch Card (Wide) -->
+                    <a href="masterpiece.html?state=Gujarat" class="md:col-span-2 group cursor-pointer relative overflow-hidden bg-surface shadow-sm rounded-sm">
+                        <div class="h-[284px] w-full relative overflow-hidden">
+                            <img alt="Kutch Craft" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcTQG1PycSvuPj-yit4_9WE8E5FIwVrj1rU_M-eGyn9wFoqYqM3P7vAEAUfPT6fGkGSyjBqMIC4KwMff5gqa6MY0k0vgC4xeJRamMv9YWlr87Dyx8tI36MYXHATtGAWC3YuT3TqltheHe38PFZhbwF-cakQVHBQPlgQUvrafnGyF8R5U5HHqHpZISQF6aakzSSkrdM-XmemkXnp1V8j2efMsD2ibEFNzCP6zpqhGSd3UBvDt-PoSetF3_PnxTjeUO5ISdHbHaxKyw"/>
+                            <div class="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors"></div>
+                        </div>
+                        <div class="absolute inset-0 flex flex-col justify-end p-8 text-white">
+                            <span class="text-xs uppercase tracking-widest text-primary-fixed mb-1 block font-semibold">Gujarat</span>
+                            <h3 class="text-2xl serif font-bold">Kutch Mirror Work &amp; Patola</h3>
+                        </div>
+                    </a>
+
+                    <!-- Thanjavur Card -->
+                    <a href="masterpiece.html?state=Tamil+Nadu" class="md:col-span-1 group cursor-pointer relative overflow-hidden bg-surface shadow-sm rounded-sm">
+                        <div class="h-[284px] w-full relative overflow-hidden">
+                            <img alt="Thanjavur Craft" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0xc3HG0-nVRbVxU-l3BYtOWonIzOiw9x8la4PfaJWqkth-4sVsgaNP4ynkmvkmvHMgssk5x937flkNKumin4WCRsKgQ5B8LtRQFsMs5ibKfmX3JXtTtpk203CZyz0MBJfhjGdvy5ucdWyYrC57gALw-IIHAnk_TSQesXcDVgCceg7of3xVmoRTNp9UwnoIRY_OTOgLET6AlyMU4G461TE1Yz5IeQOq3RxTiAMMIBpYKIRm26B1MGZ0L2SicluBLv1yfoXrxTEiw"/>
+                            <div class="absolute inset-0 bg-gradient-to-tr from-secondary/40 to-transparent"></div>
+                        </div>
+                        <div class="absolute bottom-6 left-6 text-white">
+                            <span class="text-xs uppercase tracking-widest opacity-80 mb-1 block font-semibold">Tamil Nadu</span>
+                            <h3 class="text-xl serif font-bold">Thanjavur Gold Art</h3>
+                        </div>
+                    </a>
+
+                    <!-- Varanasi Card (Wide) -->
+                    <a href="masterpiece.html?state=Uttar+Pradesh" class="md:col-span-3 group cursor-pointer relative overflow-hidden bg-surface shadow-sm rounded-sm">
+                        <div class="h-[284px] w-full relative overflow-hidden">
+                            <img alt="Varanasi Craft" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYXTeZDmkSgIzXHq8186xB714YfU-GJf_pCPHDzXCjh6kCmzVo8oAz-yVLvT1dwrTMKcbZc8PLINvd7R_ETs8LQivPZNejRp9QNNXdbesb9wszDgrR3TXNIIQOBCgXTfJf3CUSMd2tXb6TATlzEXRpkVWl2cy7ATaaTrULtvLCbpliYa-KRBE0Cszct4uZlhC3zmWG3-q8LmH1__oou10nMr4VcKX_TNugzaoLU5yeFpnrLuomSvGu0gbhemHdoew7v1ePu1lMYBg"/>
+                            <div class="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
+                        </div>
+                        <div class="absolute inset-y-0 left-0 flex flex-col justify-center p-12 text-white max-w-lg">
+                            <span class="text-xs uppercase tracking-widest text-primary-fixed mb-2 block font-semibold">Uttar Pradesh</span>
+                            <h3 class="text-3xl serif font-bold mb-4">Banarasi Zari Weaving</h3>
+                            <p class="text-sm text-stone-200 opacity-80">Hand-woven silks that carry the weight of empires and the grace of tradition.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Artisan's Story Section -->
+        <section class="py-24 bg-surface flex items-center">
+            <div class="max-w-7xl mx-auto px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                    <div class="relative">
+                        <div class="aspect-[3/4] overflow-hidden shadow-2xl rounded-sm">
+                            <img alt="Artisan Portrait" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSusVjbmMLPXVeESb7__RXtrLn0oXHciu3NdnA7YKsO-RrIrlJ9ufllR2lTwUWYNDurJMfSBd0VmTkS30nRsbLJ_CQ4TAvaQvS3jfcOqowwkVCyzFcSkw8zdmwg6_BDbWoz1-oXeJS4B-Cvv0Eg8IyRYyQjB4mjCjbxnZTGahe1-Ja6TDOGq7hppeTsdXwjjTtQlqSj479LoIw-0XqfFFfELkKO_-xPngsSPze8UeK-j0inY76XThs-WLO5u0DOowOUhDA4Rae5Uk"/>
+                        </div>
+                        <div class="absolute -bottom-10 -right-10 bg-primary p-8 text-on-primary max-w-xs shadow-xl rounded-sm">
+                            <p class="text-sm font-light italic mb-2">Master Craftsman</p>
+                            <h4 class="text-xl serif font-bold">Rahimuddin Khan</h4>
+                        </div>
+                    </div>
+                    <div class="space-y-10 lg:pl-10">
+                        <span class="text-secondary font-bold tracking-widest text-sm uppercase">The Human Thread</span>
+                        <blockquote class="text-3xl md:text-4xl serif italic leading-snug text-on-surface">
+                            "When I work the copper, I am not just making a vessel. I am whispering to my ancestors and preparing a gift for the generations I will never meet."
+                        </blockquote>
+                        <div class="space-y-6">
+                            <p class="text-on-surface-variant leading-loose">
+                                For over fifty years, Rahimuddin has kept the embers of his family's craft alive in the narrow alleys of old Jaipur. Each strike of his hammer is a rhythmic legacy passed down through four generations of master metalworkers.
+                            </p>
+                            <a class="inline-flex items-center gap-2 text-primary font-bold border-b-2 border-primary/20 pb-1 hover:border-primary transition-all group" href="artisans.html">
+                                Read Rahimuddin's full story
+                                <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">east</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Our Process Section -->
+        <section class="py-24 bg-surface-container-low px-8 border-y border-outline-variant/20">
+            <div class="max-w-7xl mx-auto text-center">
+                <h2 class="text-3xl serif font-bold mb-16">The Journey of a Heritage Piece</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-16 relative">
+                    <!-- Step 1 -->
+                    <div class="flex flex-col items-center group">
+                        <div class="w-16 h-16 rounded-full border border-primary/30 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                            <span class="material-symbols-outlined text-3xl">location_on</span>
+                        </div>
+                        <h4 class="text-lg font-bold mb-4 uppercase tracking-tighter">1. Ethical Sourcing</h4>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">We travel to remote clusters to find true masters of traditional techniques, ensuring fair trade and dignity.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="flex flex-col items-center group">
+                        <div class="w-16 h-16 rounded-full border border-primary/30 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                            <span class="material-symbols-outlined text-3xl">verified</span>
+                        </div>
+                        <h4 class="text-lg font-bold mb-4 uppercase tracking-tighter">2. Curated Quality</h4>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">Each item undergoes a rigorous 12-point authentication process to verify materials and artisanal origins.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="flex flex-col items-center group">
+                        <div class="w-16 h-16 rounded-full border border-primary/30 flex items-center justify-center mb-8 group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                            <span class="material-symbols-outlined text-3xl">inventory_2</span>
+                        </div>
+                        <h4 class="text-lg font-bold mb-4 uppercase tracking-tighter">3. Timeless Delivery</h4>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">Your masterpiece is nested in eco-friendly, museum-grade packaging and delivered with its unique artisan certificate.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#FCF9F8] dark:bg-stone-950 pt-20 pb-12 border-t border-outline-variant/20">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 max-w-7xl mx-auto">
+            <div>
+                <a class="text-xl font-['Noto_Serif'] italic text-[#B22B1D] block mb-6 font-bold" href="index.html">PARAMPARA HERITAGE</a>
+                <p class="text-stone-500 text-xs leading-relaxed max-w-xs font-['Plus_Jakarta_Sans'] tracking-wider uppercase">
+                    Preserving the intangible beauty of hand-wrought objects through intentional design and storytelling.
+                </p>
+            </div>
+            <div class="flex flex-col gap-4">
+                <span class="text-[#785600] font-bold font-['Plus_Jakarta_Sans'] text-xs tracking-widest uppercase mb-2">Navigation</span>
+                <a class="text-stone-500 font-['Plus_Jakarta_Sans'] text-xs tracking-widest uppercase hover:text-[#B22B1D] transition-all opacity-80 hover:opacity-100" href="about.html">About Us</a>
+                <a class="text-stone-500 font-['Plus_Jakarta_Sans'] text-xs tracking-widest uppercase hover:text-[#B22B1D] transition-all opacity-80 hover:opacity-100" href="artisans.html">Craft Stories</a>
+                <a class="text-stone-500 font-['Plus_Jakarta_Sans'] text-xs tracking-widest uppercase hover:text-[#B22B1D] transition-all opacity-80 hover:opacity-100" href="states.html">28 States</a>
+            </div>
+            <div class="flex flex-col gap-4">
+                <span class="text-[#785600] font-bold font-['Plus_Jakarta_Sans'] text-xs tracking-widest uppercase mb-2">Connect</span>
+                <a class="text-stone-500 font-['Plus_Jakarta_Sans'] text-xs tracking-widest uppercase hover:text-[#B22B1D] transition-all opacity-80 hover:opacity-100" href="search.html">Collection</a>
+                <a class="text-stone-500 font-['Plus_Jakarta_Sans'] text-xs tracking-widest uppercase hover:text-[#B22B1D] transition-all opacity-80 hover:opacity-100" href="about.html">Shipping Policy</a>
+            </div>
+        </div>
+        <div class="mt-20 text-center">
+            <p class="text-stone-400 text-[10px] tracking-[0.3em] uppercase">© 2026 Parampara Heritage. Preserving Craftsmanship.</p>
+        </div>
+    </footer>
+</body>
+</html>
