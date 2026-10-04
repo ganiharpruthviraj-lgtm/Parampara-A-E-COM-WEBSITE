@@ -2,15 +2,34 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-
 const { OAuth2Client } = require('google-auth-library');
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID || 'dummy-client-id');
 
+const { body, validationResult } = require('express-validator');
+
+const registerValidation = [
+  body('name').trim().notEmpty().withMessage('Name is required').escape(),
+  body('email').isEmail().withMessage('Please enter a valid email address').normalizeEmail(),
+  body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long')
+];
+
+const loginValidation = [
+  body('email').isEmail().withMessage('Please enter a valid email address').normalizeEmail(),
+  body('password').notEmpty().withMessage('Password is required')
+];
+
+const handleValidationErrors = (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message: errors.array()[0].msg, errors: errors.array() });
+  }
+  next();
+};
 
 // @desc    Register a user
 // @route   POST /api/auth/register
 // @access  Public
-router.post('/register', async (req, res) => {
+router.post('/register', registerValidation, handleValidationErrors, async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -45,7 +64,7 @@ router.post('/register', async (req, res) => {
 // @desc    Authenticate a user
 // @route   POST /api/auth/login
 // @access  Public
-router.post('/login', async (req, res) => {
+router.post('/login', loginValidation, handleValidationErrors, async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -83,10 +102,10 @@ router.post('/collection/:id', protect, async (req, res) => {
     const user = await User.findById(req.user._id);
     const productId = req.params.id;
 
-    const isCollected = user.collections.includes(productId);
+    const isCollected = user.collections.some(id => id.toString() === productId.toString());
 
     if (isCollected) {
-      user.collections = user.collections.filter(id => id.toString() !== productId);
+      user.collections = user.collections.filter(id => id.toString() !== productId.toString());
     } else {
       user.collections.push(productId);
     }

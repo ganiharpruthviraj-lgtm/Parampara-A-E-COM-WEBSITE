@@ -20,13 +20,15 @@ const protect = async (req, res, next) => {
 
       next();
     } catch (error) {
-      console.error(error);
+      if (process.env.NODE_ENV !== 'test') {
+        console.error('Auth verification error:', error.message);
+      }
       res.status(401).json({ message: 'Not authorized' });
     }
   }
 
   if (!token) {
-    res.status(401).json({ message: 'Not authorized, no token' });
+    return res.status(401).json({ message: 'Not authorized, no token' });
   }
 };
 
