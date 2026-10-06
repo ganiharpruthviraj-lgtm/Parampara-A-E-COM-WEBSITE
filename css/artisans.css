@@ -1,0 +1,78 @@
+/**
+ * ==============================================================================
+ * Parampara (परंपरा) — Master Artisan Directory Stylesheet
+ * File: css/artisans.css
+ * ==============================================================================
+ * DESIGN RATIONALE:
+ * The Master Artisan directory elevates living national treasures, Shilp Gurus,
+ * and Padma awardees. Unlike a standard e-commerce grid, portraits are framed
+ * with museum-grade dignitary poise and subtle zoom interactions that highlight
+ * the artisan's hands and intricate toolcraft.
+ * ==============================================================================
+ */
+
+/* ------------------------------------------------------------------------------
+ * 1. Cultural Design Tokens & Variables
+ * ------------------------------------------------------------------------------ */
+:root {
+  --primary-color: #B8860B;           /* Royal Warm Gold - Shilp Guru Honors */
+  --accent-color: #D4380D;            /* Terracotta Red - Craft Vitality */
+  --accent2-color: #2F5233;           /* Forest Green - Botanical Dyes */
+  --accent3-color: #7B3F00;           /* Earth Umber - Carved Teakwood */
+  --accent4-color: #C19A6B;           /* Sandstone Gold - Heritage Architecture */
+  --dark-text-color: #1A1A1A;         /* Charcoal Black for deep contrast */
+  --gray-text-color: #6B6B6B;         /* Neutral slate for biographical copy */
+  --light-background-color: #FBF9F4;  /* Warm Khadi Canvas */
+  --medium-background-color: #F5F1E8; /* Muted stone neutral */
+  --font-family-body: 'Inter', sans-serif;
+  --font-family-heading: 'Sora', sans-serif;
+}
+
+/* ------------------------------------------------------------------------------
+ * 2. Base Typography & Canvas Setup
+ * ------------------------------------------------------------------------------ */
+body {
+  font-family: var(--font-family-body);
+  background: var(--light-background-color);
+  color: var(--dark-text-color);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-family-heading);
+  letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------------------------
+ * 3. Artisan Card Image Interactions
+ * ------------------------------------------------------------------------------
+ * Uses a slow 0.5s ease zoom on hover to invite the viewer into the artisan's
+ * workspace without abrupt or jarring motion.
+ * ------------------------------------------------------------------------------ */
+.artisan-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.artisan-card img {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+  will-change: transform;
+}
+
+.artisan-card:hover img {
+  transform: scale(1.05);
+}
+
+/* ------------------------------------------------------------------------------
+ * 4. Staggered Scroll Reveal
+ * ------------------------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}

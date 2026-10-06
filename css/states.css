@@ -1,0 +1,110 @@
+/**
+ * ==============================================================================
+ * Parampara (परंपरा) — 28 States Regional Directory Stylesheet
+ * File: css/states.css
+ * ==============================================================================
+ * DESIGN RATIONALE:
+ * The 28 States directory is the cultural atlas of Parampara. Each regional card
+ * encapsulates a geographical state with its distinctive craft identity.
+ * Visual affordances emphasize tactile depth, diagonal silk sheen on hover,
+ * and floating explore prompts that surface smoothly without visual clutter.
+ * ==============================================================================
+ */
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #FAF9F5; /* Neutral ivory canvas reminiscent of temple stone */
+  color: #1A1A1A;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Sora', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* ------------------------------------------------------------------------------
+ * 1. Staggered Fade-in-Up Entrance
+ * ------------------------------------------------------------------------------
+ * Cubic bezier (0.2, 0.8, 0.2, 1) provides a swift start followed by a gentle,
+ * cushiony deceleration, giving the feeling of weight and prestige.
+ * ------------------------------------------------------------------------------ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  opacity: 0;
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* ------------------------------------------------------------------------------
+ * 2. State Card Zoom & Reveal Choreography
+ * ------------------------------------------------------------------------------
+ * Deep 1.12x scale creates dramatic photographic depth, focusing the user's
+ * eye into the intricate patterns of the region's primary craft.
+ * ------------------------------------------------------------------------------ */
+.card-img {
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+.state-card:hover .card-img {
+  transform: scale(1.12);
+}
+
+/* Explore CTA button is initially tucked 8px down, gliding up on card focus */
+.explore-btn {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.state-card:hover .explore-btn {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ------------------------------------------------------------------------------
+ * 3. Handloom Silk Shimmer Effect
+ * ------------------------------------------------------------------------------
+ * An angled 45-degree specular highlight sweeps across the state card on hover.
+ * This simulates the optical sheen of raw Tussar silk or polished brassware
+ * under direct natural sunlight.
+ * ------------------------------------------------------------------------------ */
+.state-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.state-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 100%
+  );
+  transform: rotate(45deg);
+  transition: all 0.75s ease-in-out;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.state-card:hover::after {
+  left: 100%;
+  top: 100%;
+  opacity: 1;
+}

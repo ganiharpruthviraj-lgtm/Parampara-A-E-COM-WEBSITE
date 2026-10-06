@@ -1,0 +1,46 @@
+/**
+ * ==============================================================================
+ * Parampara (परंपरा) — Masterpiece Detail Page Stylesheet
+ * File: css/masterpiece.css
+ * ==============================================================================
+ * DESIGN RATIONALE:
+ * The Masterpiece detail view is an exhibition showcase for an individual GI-tagged
+ * artifact. The visual hierarchy places primary emphasis on artifact photography,
+ * material provenance, and artisan signature authentication.
+ * ==============================================================================
+ */
+
+body {
+  background-color: #FAF9F6; /* Warm alabaster neutral preventing glare */
+  color: #1C1C1C;            /* Archival carbon ink */
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* ------------------------------------------------------------------------------
+ * Hero Photographic Legibility
+ * ------------------------------------------------------------------------------
+ * Adds a soft ambient drop shadow behind white text overlays when displayed
+ * on high-key or variable handcrafted photographic backdrops.
+ * ------------------------------------------------------------------------------ */
+.text-overlay-shadow {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.65), 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+/* ------------------------------------------------------------------------------
+ * Craft Authenticity Stamp & Seal
+ * ------------------------------------------------------------------------------ */
+.gi-seal {
+  border: 1px dashed #B8860B;
+  background: rgba(184, 134, 11, 0.05);
+  transition: all 0.3s ease;
+}
+.gi-seal:hover {
+  background: rgba(184, 134, 11, 0.1);
+  border-style: solid;
+}

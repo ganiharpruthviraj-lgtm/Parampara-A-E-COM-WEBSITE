@@ -11,7 +11,7 @@ window.STATE_CRAFT_DATA = {
     region: 'west',
     masterArtisan: 'Shri Gopal Saini',
     award: 'Shilp Guru & President Honor',
-    imageUrl: 'assets/products/blue_pottery_vase.png',
+    imageUrl: 'assets/products/blue_pottery_vase.webp',
     description: '14th-century low-fire quartz alchemy from Jaipur, hand-painted with cobalt oxide glaze and enamel work.',
     link: 'state_categories.html?name=Rajasthan#categories-grid'
   },
@@ -22,7 +22,7 @@ window.STATE_CRAFT_DATA = {
     region: 'north',
     masterArtisan: 'Mustafa Ahmed',
     award: 'National Master Weaver',
-    imageUrl: 'assets/products/banarasi_saree.png',
+    imageUrl: 'assets/products/banarasi_saree.webp',
     description: 'Royal Zari-work brocades woven with pure silk and silver-dipped threads alongside delicate Lucknow Chikankari.',
     link: 'state_categories.html?name=Uttar%20Pradesh#categories-grid'
   },
@@ -55,7 +55,7 @@ window.STATE_CRAFT_DATA = {
     region: 'central',
     masterArtisan: 'Annapurna Dasi',
     award: 'Master Pattachitra Artist',
-    imageUrl: 'assets/products/pattachitra_painting.png',
+    imageUrl: 'assets/products/pattachitra_painting.webp',
     description: 'Vivid scroll painting on treated cloth using natural stone colors and intricate silver wire Tarakasi.',
     link: 'state_categories.html?name=Odisha#categories-grid'
   },
@@ -66,7 +66,7 @@ window.STATE_CRAFT_DATA = {
     region: 'central',
     masterArtisan: 'Ramesh Sahu',
     award: 'Tribal Craft State Award',
-    imageUrl: 'assets/products/dokra_figurine.png',
+    imageUrl: 'assets/products/dokra_figurine.webp',
     description: '4,000-year-old non-ferrous lost-wax casting technique producing rustic, hollow metallic tribal sculptures.',
     link: 'state_categories.html?name=Chhattisgarh#categories-grid'
   },

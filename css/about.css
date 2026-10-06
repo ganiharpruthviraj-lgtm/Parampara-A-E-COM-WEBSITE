@@ -1,0 +1,134 @@
+/**
+ * ==============================================================================
+ * Parampara (परंपरा) — About Page Design System & Stylesheet
+ * File: css/about.css
+ * ==============================================================================
+ * DESIGN RATIONALE:
+ * The About page tells the cultural story of India's 28 state craft traditions
+ * and the 70% direct artisan payout thesis. The visual design bridges royal
+ * heritage authenticity with high-end editorial clarity.
+ * ==============================================================================
+ */
+
+/* ------------------------------------------------------------------------------
+ * 1. Cultural Design Tokens & Color Palette
+ * ------------------------------------------------------------------------------
+ * - Royal Warm Gold (#B8860B): Symbolizes traditional Indian metalcraft (brass/bronze)
+ *   and prestigious Shilp Guru / National Award heritage.
+ * - Terracotta Red (#D4380D): Derived from sacred kumkum, temple terracotta tiles,
+ *   and earthen clay pottery across Bengal and Tamil Nadu.
+ * - Forest / Jade (#2F5233): Organic botanical dyes, Nilgiri indigo-green roots.
+ * - Earth Brown (#7B3F00): Carved Sheesham, Walnut, and Teakwood craft tones.
+ * - Warm Parchment (#FBF9F4): Mimics unbleached khadi cotton and handmade paper,
+ *   reducing eye strain compared to harsh #FFFFFF digital white.
+ * ------------------------------------------------------------------------------ */
+:root {
+  --primary-color: #B8860B;           /* Royal Warm Gold */
+  --accent-color: #D4380D;            /* Terracotta Red */
+  --accent2-color: #2F5233;           /* Forest / Botanical Jade */
+  --accent3-color: #7B3F00;           /* Earth Umber / Carved Teak */
+  --accent4-color: #C19A6B;           /* Desert Sand / Tussar Raw Silk */
+  --dark-text-color: #1A1A1A;         /* Charcoal Kohl Black for high legibility */
+  --gray-text-color: #6B6B6B;         /* Secondary muted label text */
+  --light-background-color: #FBF9F4;  /* Warm Khadi Parchment Canvas */
+  --medium-background-color: #F5F1E8; /* Muted stone neutral for cards */
+  --font-family-body: 'Inter', sans-serif;
+  --font-family-heading: 'Sora', sans-serif;
+}
+
+/* ------------------------------------------------------------------------------
+ * 2. Base Typography & Smooth Rendering
+ * ------------------------------------------------------------------------------
+ * Uses Cormorant Garamond for editorial gravitas in cultural headlines,
+ * and Inter for clear, neutral body readability on mobile screens.
+ * ------------------------------------------------------------------------------ */
+body {
+  font-family: var(--font-family-body);
+  background: var(--light-background-color);
+  color: var(--dark-text-color);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.font-sora {
+  font-family: var(--font-family-heading);
+}
+
+/* ------------------------------------------------------------------------------
+ * 3. Scroll Reveal Animation Choreography
+ * ------------------------------------------------------------------------------
+ * Reveals storytelling paragraphs with an organic cubic-bezier ease-out curve.
+ * Gives the impression of an unfolding heirloom manuscript as the user scrolls.
+ * ------------------------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ------------------------------------------------------------------------------
+ * 4. Parallax Background Depth
+ * ------------------------------------------------------------------------------
+ * Imparts tactile weight to artisan workshop photography in the background.
+ * ------------------------------------------------------------------------------ */
+.parallax-bg {
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* ------------------------------------------------------------------------------
+ * 5. Custom Heritage Scrollbar
+ * ------------------------------------------------------------------------------
+ * Slim, non-intrusive scrollbar styled with parchment track and antique gold thumb.
+ * ------------------------------------------------------------------------------ */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--light-background-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent4-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-color);
+}
+
+/* ------------------------------------------------------------------------------
+ * 6. Floating Motion & Frosted Glass Elements
+ * ------------------------------------------------------------------------------
+ * Subtle floating loop for badges, and backdrop-blur glass to float cards
+ * over heritage photography while maintaining 100% WCAG text contrast.
+ * ------------------------------------------------------------------------------ */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating {
+  animation: float 3s ease-in-out infinite;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}

@@ -1,0 +1,6 @@
+/* Custom Styles extracted from state_categories.html */
+
+body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3 { font-family: 'Sora', sans-serif; }
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+    .reveal.active { opacity: 1; transform: translateY(0); }

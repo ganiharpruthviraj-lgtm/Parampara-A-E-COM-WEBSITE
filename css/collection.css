@@ -1,0 +1,143 @@
+/**
+ * ==============================================================================
+ * Parampara (परंपरा) — Collector Saved Masterpieces Stylesheet
+ * File: css/collection.css
+ * ==============================================================================
+ * DESIGN RATIONALE:
+ * The Collector's Personal Gallery treats saved items not as disposable cart items,
+ * but as an intimate museum archive. The layout adopts a masonry waterfall column
+ * structure so varying artifact heights (e.g. elongated Tanjore paintings, brass
+ * statues, wide Pashmina shawls) breathe naturally without arbitrary square cropping.
+ * ==============================================================================
+ */
+
+:root {
+  --primary-color: #B8860B;           /* Royal Warm Gold - Collector Accents */
+  --dark: #1A1A1A;                    /* Deep Charcoal - High-contrast text */
+  --mid: #6B6B6B;                     /* Mid-tone Slate - Secondary descriptors */
+  --cream: #FBF9F4;                   /* Warm Khadi Canvas */
+  --border-light: #E8E2D5;            /* Soft earth border */
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+}
+
+/* ------------------------------------------------------------------------------
+ * Masonry Column Layout
+ * ------------------------------------------------------------------------------
+ * CSS Multi-columns allow natural waterfall packing of artisanal photographs
+ * across mobile (1 column), tablet (2 columns), and desktop (3 columns).
+ * ------------------------------------------------------------------------------ */
+.product-grid {
+  columns: 1;
+  column-gap: 2rem;
+}
+@media (min-width: 700px) {
+  .product-grid {
+    columns: 2;
+  }
+}
+@media (min-width: 1024px) {
+  .product-grid {
+    columns: 3;
+  }
+}
+
+/* ------------------------------------------------------------------------------
+ * Masterpiece Gallery Card
+ * ------------------------------------------------------------------------------
+ * - break-inside: avoid ensures masonry cards never split awkwardly across column breaks.
+ * - 3:4 Aspect Ratio preserves vertical poise typical of luxury museum catalogs.
+ * ------------------------------------------------------------------------------ */
+.product-card {
+  break-inside: avoid;
+  margin-bottom: 2.5rem;
+  cursor: pointer;
+}
+
+.product-card-img {
+  overflow: hidden;
+  background: #F5F1E8;
+  position: relative;
+  aspect-ratio: 3/4;
+  border-radius: 4px;
+}
+
+.product-card-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+}
+
+.product-card:hover .product-card-img img {
+  transform: scale(1.05);
+}
+
+.product-card-body {
+  padding: 1rem 0 0;
+}
+
+/* ------------------------------------------------------------------------------
+ * Typography & Micro-Data Badges
+ * ------------------------------------------------------------------------------ */
+.product-state {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  margin-bottom: 0.3rem;
+}
+
+.product-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.35rem;
+  color: var(--dark);
+  margin-bottom: 0.2rem;
+  line-height: 1.25;
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.product-craft {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #8C8275;
+}
+
+.product-price {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--dark);
+  font-weight: 600;
+}
+
+/* ------------------------------------------------------------------------------
+ * Motion Entrance
+ * ------------------------------------------------------------------------------ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
