@@ -1,5 +1,14 @@
 {
-  "dependencies": {
-    "puppeteer": "^24.40.0"
+  "name": "parampara-ecom-website",
+  "version": "1.0.0",
+  "description": "Parampara - Authentic Indian Handicrafts E-Commerce Platform",
+  "private": true,
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "npm --prefix backend run dev",
+    "test": "npm --prefix backend test"
+  },
+  "devDependencies": {
+    "sharp": "^0.35.5"
   }
 }
