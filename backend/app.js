@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const path = require('path');
 require('dotenv').config();
 
@@ -20,6 +22,12 @@ const defaultDevOrigins = [
   'http://localhost:8080'
 ];
 
+// --- Security Headers (helmet) ---
+// Sets 11 HTTP headers (X-Frame-Options, HSTS, Content-Security-Policy, etc.)
+// that defend against clickjacking, MIME sniffing, XSS, and other common attacks.
+app.use(helmet());
+
+// --- CORS ---
 app.use(cors({
   origin: function (origin, callback) {
     // Allow server-to-server, mobile apps, or curl requests with no origin
@@ -33,12 +41,39 @@ app.use(cors({
   },
   credentials: true
 }));
+
+// Skip rate limiting entirely in the test environment.
+// express-rate-limit v7: max:0 blocks ALL requests, so we use skip() instead.
+const isTestEnv = () => process.env.NODE_ENV === 'test';
+
+// --- Global API Rate Limiter ---
+// 100 requests per IP per 15 minutes across all /api/* routes
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  skip: isTestEnv,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many requests from this IP, please try again after 15 minutes.' }
+});
+
+// --- Auth-Specific Rate Limiter ---
+// 10 requests per IP per 15 minutes — blocks credential stuffing & brute-force
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  skip: isTestEnv,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: 'Too many authentication attempts, please try again after 15 minutes.' }
+});
+
 app.use(express.json());
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/products', require('./routes/products'));
-app.use('/api/saathi', require('./routes/saathi'));
+// Routes (with rate limiting applied)
+app.use('/api/auth', authLimiter, require('./routes/auth'));
+app.use('/api/products', apiLimiter, require('./routes/products'));
+app.use('/api/saathi', apiLimiter, require('./routes/saathi'));
 
 // Serve Static Frontend Files
 app.use(express.static(path.join(__dirname, '..')));

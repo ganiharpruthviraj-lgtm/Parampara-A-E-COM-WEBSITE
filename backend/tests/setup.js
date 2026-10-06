@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 
 let mongoServer;
 
+// Set Jest default timeout for in-memory MongoDB initialization on Windows
+if (typeof jest !== 'undefined') {
+  jest.setTimeout(30000);
+}
+
 const connectTestDB = async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
