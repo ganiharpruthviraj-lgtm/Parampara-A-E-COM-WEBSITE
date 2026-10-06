@@ -1,53 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> <link rel="icon" type="image/png" href="/favicon.png"> <title>Masterpiece | Heritage</title> <script src="https://kit.fontawesome.com/8e98006f77.js" crossorigin="anonymous"></script> <script src="js/auth.js"></script> <script src="https://cdn.tailwindcss.com"></script> <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"> <!-- FontAwesome for Icons --> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"> <script> tailwind.config = { theme: { extend: { fontFamily: { serif: ['"Playfair Display"', 'serif'], sans: ['"Inter"', 'sans-serif'], }, colors: { brand: { bg: '#FAF9F6', gold: '#9A7B4F', goldHover: '#8A6A3F', red: '#A32A29', dark: '#1C1C1C', gray: '#666666', lightGray: '#E5E5E5' } } } } } </script> <style> body { background-color: #FAF9F6; color: #1C1C1C; overflow-x: hidden; } .text-overlay-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.5); } </style>
-</head>
-<body> <!-- Cinematic Preloader --> <div id="preloader" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A] transition-opacity duration-1000"> <div class="relative flex flex-col items-center"> <div class="text-[var(--primary-color)] text-3xl font-serif mb-4 animate-[pulse_2s_ease-in-out_infinite]">Parampara</div> <div class="w-48 h-[1px] bg-white/20 relative overflow-hidden"> <div id="preloader-progress" class="absolute top-0 left-0 h-full w-0 bg-[var(--primary-color)] transition-all duration-[2000ms] ease-out"></div> </div> </div> </div> <!-- Header --> 
-<header id="global-header" class="code-section">
-  <nav class="bg-[var(--light-background-color)] border-b border-[var(--light-border-color)] sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center h-20">
-        <!-- Logo -->
-        <a href="index.html" class="flex items-center">
-          <img src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" alt="Parampara Logo" class="h-12 w-auto">
-        </a>
-        
-        <!-- Desktop Navigation -->
-        <div class="hidden lg:flex items-center space-x-8">
-          <a href="states.html" class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200">All States</a>
-          <a href="artisans.html" class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200">Our Artisans</a>
-          <a href="about.html" class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200">About</a>
-          <a href="search.html" class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200">Shop</a>
-          <a href="search.html" class="bg-[var(--primary-color)] text-[var(--primary-button-text-color)] px-6 py-3 rounded-[var(--button-rounded-radius)] font-semibold hover:bg-[var(--primary-button-hover-bg-color)] transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2">
-            <i class="fa-solid fa-magnifying-glass text-sm"></i> Search
-          </a>
-        </div>
-
-        <!-- Mobile Menu Toggle -->
-        <button id="mobile-menu-toggle" data-landingsite-mobile-menu-toggle="" class="lg:hidden p-2 rounded-md text-[var(--dark-text-color)] hover:bg-[var(--medium-background-color)] transition-colors">
-          <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
-
-      <!-- Mobile Navigation Container (Nested inside max-w-7xl) -->
-      <div id="mobile-menu" data-landingsite-mobile-menu="" class="hidden lg:hidden pb-6">
-        <div class="flex flex-col space-y-4">
-          <a href="states.html" class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors">All States</a>
-          <a href="artisans.html" class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors">Our Artisans</a>
-          <a href="about.html" class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors">About</a>
-          <a href="search.html" class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors">Shop</a>
-          <a href="search.html" class="bg-[var(--primary-color)] text-[var(--primary-button-text-color)] px-6 py-3 rounded-[var(--button-rounded-radius)] font-semibold text-center hover:bg-[var(--primary-button-hover-bg-color)] transition-all flex items-center justify-center gap-2">
-            <i class="fa-solid fa-magnifying-glass text-sm"></i> Search
-          </a>
-        </div>
-      </div>
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="/favicon.png" rel="icon" type="image/png"/>
+  <title>
+   Authenticated Heritage Masterpiece | Parampara — 28 States Craft Archive
+  </title>
+  <meta content="Explore a one-of-a-kind authenticated heritage masterpiece from India's finest craft traditions — hand-made by master artisans with a Certificate of Authenticity." name="description"/>
+  <meta content="product" property="og:type"/>
+  <meta content="Parampara Heritage" property="og:site_name"/>
+  <meta content="Authenticated Heritage Masterpiece | Parampara — 28 States Craft Archive" property="og:title"/>
+  <meta content="Explore a one-of-a-kind authenticated heritage masterpiece from India's finest craft traditions — hand-made by master artisans with a Certificate of Authenticity." property="og:description"/>
+  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" property="og:image"/>
+  <meta content="https://parampara.in/masterpiece.html" property="og:url"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Authenticated Heritage Masterpiece | Parampara — 28 States Craft Archive" name="twitter:title"/>
+  <meta content="Explore a one-of-a-kind authenticated heritage masterpiece from India's finest craft traditions." name="twitter:description"/>
+  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" name="twitter:image"/>
+  <script crossorigin="anonymous" src="https://kit.fontawesome.com/8e98006f77.js">
+  </script>
+  <script src="js/auth.js">
+  </script>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+  <!-- FontAwesome for Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <script>
+   tailwind.config = { theme: { extend: { fontFamily: { serif: ['"Playfair Display"', 'serif'], sans: ['"Inter"', 'sans-serif'], }, colors: { brand: { bg: '#FAF9F6', gold: '#9A7B4F', goldHover: '#8A6A3F', red: '#A32A29', dark: '#1C1C1C', gray: '#666666', lightGray: '#E5E5E5' } } } } }
+  </script>
+  <link href="css/masterpiece.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <!-- Cinematic Preloader -->
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A] transition-opacity duration-1000" id="preloader">
+   <div class="relative flex flex-col items-center">
+    <div class="text-[var(--primary-color)] text-3xl font-serif mb-4 animate-[pulse_2s_ease-in-out_infinite]">
+     Parampara
     </div>
-  </nav>
-</header>
- <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 md:mt-24"> <!-- Hero Section --> <section class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center mb-32 relative"> <!-- Left Text Content --> <div class="order-2 md:order-1"> <p class="text-brand-red text-xs font-bold tracking-[0.2em] uppercase mb-6" id="dynamic-subtitle">Masterpiece Series 01</p> <h1 class="font-serif text-6xl lg:text-8xl font-medium leading-[1.1] mb-8 text-brand-dark" id="dynamic-title"> <span class="block">Jaipur</span> <span class="block">Blue</span> <span class="block italic">Pottery</span> </h1> <p class="text-brand-gray text-base leading-relaxed mb-10 max-w-md" id="dynamic-description"> A celestial fusion of cobalt and quartz. Hand-painted with the precision of a jeweler, this floral motif vase represents the pinnacle of Rajasthan craftsmanship. </p> <div class="flex items-end space-x-6 mb-10"> <div> <p class="text-[10px] text-brand-gray uppercase tracking-widest mb-1">Price</p> <p class="text-2xl font-serif font-semibold text-brand-dark" id="dynamic-price">--</p> </div> <div class="flex items-center space-x-2 bg-gray-100 px-3 py-1.5 rounded-full border border-gray-200"> <span class="w-3 h-3 rounded-full bg-brand-red flex items-center justify-center"> <i class="fa-solid fa-check text-white text-[6px]"></i> </span> <span class="text-[9px] font-bold uppercase tracking-wider text-brand-dark">Heritage Certified</span> </div> </div> <button class="bg-brand-gold hover:bg-brand-goldHover text-white text-xs font-bold uppercase tracking-widest py-4 px-8 rounded flex items-center space-x-3 transition-all transform hover:-translate-y-1 hover:shadow-lg"> <span>Add to Collection</span> <i class="fa-solid fa-arrow-right"></i> </button> </div> <!-- Right Imagery --> <div class="order-1 md:order-2 relative h-[500px] lg:h-[700px] w-full flex justify-end"> <div class="w-full h-full bg-[#1A1A1A] relative shadow-2xl overflow-hidden"> <img id="main-product-image" src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Jaipur Blue Pottery" class="w-full h-full object-cover opacity-90"> </div> <!-- Floating Detail Image --> <div class="absolute -bottom-10 -left-10 md:left-0 w-40 h-48 bg-white p-2 shadow-2xl transform -rotate-6 z-10 transition-transform hover:rotate-0 hover:scale-105 duration-500"> <img id="detail-product-image" src="https://picsum.photos/seed/RajasthanDetail/400/500" alt="Texture Detail" class="w-full h-full object-cover"> </div> </div> </section> <!-- The Alchemist's Legacy Section --> <section class="mb-32"> <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start"> <div class="md:col-span-4 border-l-4 border-brand-red pl-6"> <h2 class="font-serif text-3xl font-bold text-brand-dark leading-tight">The Alchemist's<br>Legacy</h2> </div> <div class="md:col-span-8"> <p class="font-serif text-xl md:text-2xl text-brand-dark italic leading-relaxed mb-8"> "Unlike conventional pottery, Jaipur Blue is never made of clay. It is an impossible alchemy of quartz stone powder, powdered glass, Multani Mitti, borax, and water." </p> <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-sm text-brand-gray leading-loose font-light"> <p> The technique traveled from Persia to India in the 14th century, finding its true home under the royal patronage of Sawai Ram Singh II. Each piece is glazed with a mixture of cobalt and copper oxide, creating the signature sapphire hue that never loses its brilliance over centuries. </p> <p> The firing process is the most precarious stage. At exactly 800 degrees Celsius, the glass powder melts into a translucent skin, locking the hand-painted motifs forever into a vitreous, jewel-like finish that is both brittle and eternal. </p> </div> </div> </div> </section> <!-- Process Grid --> <section class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-32 h-[350px]"> <!-- Card 1 --> <div class="relative bg-gray-200 p-8 flex flex-col justify-end group overflow-hidden cursor-pointer h-full"> <img src="https://images.unsplash.com/photo-1513506003901-1e6a229e0815?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Dough" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"> <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div> <div class="relative z-10"> <p class="text-[10px] text-brand-gold font-bold uppercase tracking-widest mb-1">Process 01</p> <h3 class="font-serif text-2xl text-white mb-2">Dough Preparation</h3> <p class="text-xs text-brand-lightGray font-light leading-relaxed opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">Three days of grinding quartz stone into a silk-like powder before it can be kneaded by hand.</p> </div> </div> <!-- Card 2 --> <div class="bg-[#EFEFEF] p-8 flex flex-col justify-between h-full group cursor-pointer transition-colors hover:bg-[#E5E5E5]"> <div class="text-brand-red text-xl"> <i class="fa-solid fa-fire-flame-curved group-hover:scale-110 transition-transform"></i> </div> <div> <h3 class="font-serif text-2xl text-brand-dark mb-2">Low-Fire Alchemy</h3> <p class="text-[10px] text-brand-gray uppercase tracking-widest font-bold">800°C Traditional Kiln</p> </div> </div> <!-- Card 3 --> <div class="bg-brand-gold p-8 flex flex-col justify-between h-full text-white group cursor-pointer transition-colors hover:bg-brand-goldHover"> <div class="text-white text-xl"> <i class="fa-solid fa-paintbrush group-hover:scale-110 transition-transform"></i> </div> <div> <h3 class="font-serif text-2xl text-white mb-2">Cobalt Pigment</h3> <p class="text-[10px] text-white/80 uppercase tracking-widest font-bold">Extracted Persian Minerals</p> </div> </div> </section> <!-- Artisan Section --> <section class="max-w-5xl mx-auto mb-32"> <div class="flex flex-col md:flex-row items-center gap-16"> <!-- Portrait --> <div class="md:w-5/12 relative"> <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Artisan" class="w-full h-auto grayscale shadow-xl"> <!-- Quote Overlap Block --> <div class="absolute top-1/2 -right-12 md:-right-24 transform -translate-y-1/2 bg-brand-red text-white p-8 shadow-2xl w-64 z-10"> <i class="fa-solid fa-quote-left text-brand-gold/50 text-3xl mb-4"></i> <p class="font-serif italic text-lg leading-relaxed">My hands only repeat what my ancestors whispered.</p> </div> </div> <!-- Bio --> <div class="md:w-7/12 pt-12 md:pt-0 md:pl-16"> <p class="text-[10px] text-brand-red font-bold uppercase tracking-widest mb-2">The Master Artisan</p> <h2 class="font-serif text-4xl lg:text-5xl font-bold text-brand-dark mb-6" id="artisan-name">--</h2> <p class="text-sm text-brand-gray leading-loose font-light mb-8" id="artisan-bio">Loading artisan history...</p> <div class="space-y-4 mb-8"> <div class="flex items-center space-x-4"> <div class="w-8 border-t border-brand-gray"></div> <span class="text-[10px] text-brand-gray font-bold uppercase tracking-widest">Awarded President's National Honor</span> </div> <div class="flex items-center space-x-4"> <div class="w-8 border-t border-brand-gray"></div> <span class="text-[10px] text-brand-gray font-bold uppercase tracking-widest">34 Years of Mastery</span> </div> </div> <a href="#" class="inline-block border-b border-brand-dark pb-1 text-xs font-bold uppercase tracking-widest text-brand-dark hover:text-brand-gold hover:border-brand-gold transition-colors"> View Artisan Profile </a> </div> </div> </section> <!-- Certificate Section --> <section class="max-w-4xl mx-auto text-center border-t border-brand-lightGray pt-20"> <div class="text-brand-gold text-3xl mb-6"> <i class="fa-solid fa-award"></i> </div> <h2 class="font-serif text-3xl font-bold text-brand-dark mb-4">Heritage Certificate of Authenticity</h2> <p class="text-sm text-brand-gray font-light mb-16 max-w-lg mx-auto leading-relaxed"> Every masterpiece is issued with a unique digital and physical certificate, ensuring its provenance and ethical creation. </p> <div class="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-brand-lightGray"> <div class="py-4 md:py-0"> <p class="text-[10px] text-brand-red font-bold uppercase tracking-widest mb-3">Piece ID</p> <p class="font-serif text-lg text-brand-dark tracking-wider">JPR-7742-XP</p> </div> <div class="py-4 md:py-0"> <p class="text-[10px] text-brand-red font-bold uppercase tracking-widest mb-3">Source</p> <p class="font-serif text-lg text-brand-dark tracking-wider">Jaipur, RJ</p> </div> <div class="py-4 md:py-0"> <p class="text-[10px] text-brand-red font-bold uppercase tracking-widest mb-3">Carbon Footprint</p> <p class="font-serif text-lg text-brand-dark font-semibold tracking-wider">Net Zero Kiln</p> </div> </div> </section> </main> <!-- Footer --> <footer class="bg-brand-dark text-white/50 py-12 text-xs border-t border-white/10 mt-20"> <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6"> <div class="font-serif text-xl text-white tracking-widest">HERITAGE <span class="text-brand-gold italic text-sm">Editorial</span></div> <div class="flex space-x-8 uppercase tracking-widest font-semibold"> <a href="#" class="hover:text-white transition-colors">About Us</a> <a href="#" class="hover:text-white transition-colors">Craft Stories</a> <a href="#" class="hover:text-white transition-colors">Sustainability</a> </div> <div class="text-right"> &copy; 2026 HERITAGE EDITORIAL. PRESERVING CRAFTSMANSHIP. </div> </div> </footer> <!-- DYNAMIC LOGIC SCRIPT --> <script>
-  const API_URL = `${window.GLOBAL_API_BASE || ''}/api/products`;
+    <div class="w-48 h-[1px] bg-white/20 relative overflow-hidden">
+     <div class="absolute top-0 left-0 h-full w-0 bg-[var(--primary-color)] transition-all duration-[2000ms] ease-out" id="preloader-progress">
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- Header -->
+  <header class="code-section" id="global-header">
+   <nav class="bg-[var(--light-background-color)] border-b border-[var(--light-border-color)] sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="flex justify-between items-center h-20">
+      <!-- Logo -->
+      <a class="flex items-center" href="index.html">
+       <img alt="Parampara Logo" class="h-12 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+      </a>
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex items-center space-x-8">
+       <a class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200" href="states.html">
+        All States
+       </a>
+       <a class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200" href="artisans.html">
+        Our Artisans
+       </a>
+       <a class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200" href="about.html">
+        About
+       </a>
+       <a class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200" href="search.html">
+        Shop
+       </a>
+       <a class="bg-[var(--primary-color)] text-[var(--primary-button-text-color)] px-6 py-3 rounded-[var(--button-rounded-radius)] font-semibold hover:bg-[var(--primary-button-hover-bg-color)] transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2" href="search.html">
+        <i class="fa-solid fa-magnifying-glass text-sm">
+        </i>
+        Search
+       </a>
+      </div>
+      <!-- Mobile Menu Toggle -->
+      <button class="lg:hidden p-2 rounded-md text-[var(--dark-text-color)] hover:bg-[var(--medium-background-color)] transition-colors" data-landingsite-mobile-menu-toggle="" id="mobile-menu-toggle">
+       <svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        </path>
+       </svg>
+      </button>
+     </div>
+     <!-- Mobile Navigation Container (Nested inside max-w-7xl) -->
+     <div class="hidden lg:hidden pb-6" data-landingsite-mobile-menu="" id="mobile-menu">
+      <div class="flex flex-col space-y-4">
+       <a class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors" href="states.html">
+        All States
+       </a>
+       <a class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors" href="artisans.html">
+        Our Artisans
+       </a>
+       <a class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors" href="about.html">
+        About
+       </a>
+       <a class="text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors" href="search.html">
+        Shop
+       </a>
+       <a class="bg-[var(--primary-color)] text-[var(--primary-button-text-color)] px-6 py-3 rounded-[var(--button-rounded-radius)] font-semibold text-center hover:bg-[var(--primary-button-hover-bg-color)] transition-all flex items-center justify-center gap-2" href="search.html">
+        <i class="fa-solid fa-magnifying-glass text-sm">
+        </i>
+        Search
+       </a>
+      </div>
+     </div>
+    </div>
+   </nav>
+  </header>
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 md:mt-24">
+   <!-- Hero Section -->
+   <section class="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-24 items-center mb-32 relative">
+    <!-- Left Text Content -->
+    <div class="order-2 md:order-1">
+     <p class="text-brand-red text-xs font-bold tracking-[0.2em] uppercase mb-6" id="dynamic-subtitle">
+      Masterpiece Series 01
+     </p>
+     <h1 class="font-serif text-6xl lg:text-8xl font-medium leading-[1.1] mb-8 text-brand-dark" id="dynamic-title">
+      <span class="block">
+       Jaipur
+      </span>
+      <span class="block">
+       Blue
+      </span>
+      <span class="block italic">
+       Pottery
+      </span>
+     </h1>
+     <p class="text-brand-gray text-base leading-relaxed mb-10 max-w-md" id="dynamic-description">
+      A celestial fusion of cobalt and quartz. Hand-painted with the precision of a jeweler, this floral motif vase represents the pinnacle of Rajasthan craftsmanship.
+     </p>
+     <div class="flex items-end space-x-6 mb-10">
+      <div>
+       <p class="text-[10px] text-brand-gray uppercase tracking-widest mb-1">
+        Price
+       </p>
+       <p class="text-2xl font-serif font-semibold text-brand-dark" id="dynamic-price">
+        --
+       </p>
+      </div>
+      <div class="flex items-center space-x-2 bg-gray-100 px-3 py-1.5 rounded-full border border-gray-200">
+       <span class="w-3 h-3 rounded-full bg-brand-red flex items-center justify-center">
+        <i class="fa-solid fa-check text-white text-[6px]">
+        </i>
+       </span>
+       <span class="text-[9px] font-bold uppercase tracking-wider text-brand-dark">
+        Heritage Certified
+       </span>
+      </div>
+     </div>
+     <button class="bg-brand-gold hover:bg-brand-goldHover text-white text-xs font-bold uppercase tracking-widest py-4 px-8 rounded flex items-center space-x-3 transition-all transform hover:-translate-y-1 hover:shadow-lg">
+      <span>
+       Add to Collection
+      </span>
+      <i class="fa-solid fa-arrow-right">
+      </i>
+     </button>
+    </div>
+    <!-- Right Imagery -->
+    <div class="order-1 md:order-2 relative h-[500px] lg:h-[700px] w-full flex justify-end">
+     <div class="w-full h-full bg-[#1A1A1A] relative shadow-2xl overflow-hidden">
+      <img alt="Jaipur Blue Pottery" class="w-full h-full object-cover opacity-90" id="main-product-image" src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"/>
+     </div>
+     <!-- Floating Detail Image -->
+     <div class="absolute -bottom-10 -left-10 md:left-0 w-40 h-48 bg-white p-2 shadow-2xl transform -rotate-6 z-10 transition-transform hover:rotate-0 hover:scale-105 duration-500">
+      <img alt="Texture Detail" class="w-full h-full object-cover" id="detail-product-image" src="https://picsum.photos/seed/RajasthanDetail/400/500"/>
+     </div>
+    </div>
+   </section>
+   <!-- The Alchemist's Legacy Section -->
+   <section class="mb-32">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+     <div class="md:col-span-4 border-l-4 border-brand-red pl-6">
+      <h2 class="font-serif text-3xl font-bold text-brand-dark leading-tight">
+       The Alchemist's
+       <br/>
+       Legacy
+      </h2>
+     </div>
+     <div class="md:col-span-8">
+      <p class="font-serif text-xl md:text-2xl text-brand-dark italic leading-relaxed mb-8">
+       "Unlike conventional pottery, Jaipur Blue is never made of clay. It is an impossible alchemy of quartz stone powder, powdered glass, Multani Mitti, borax, and water."
+      </p>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 text-sm text-brand-gray leading-loose font-light">
+       <p>
+        The technique traveled from Persia to India in the 14th century, finding its true home under the royal patronage of Sawai Ram Singh II. Each piece is glazed with a mixture of cobalt and copper oxide, creating the signature sapphire hue that never loses its brilliance over centuries.
+       </p>
+       <p>
+        The firing process is the most precarious stage. At exactly 800 degrees Celsius, the glass powder melts into a translucent skin, locking the hand-painted motifs forever into a vitreous, jewel-like finish that is both brittle and eternal.
+       </p>
+      </div>
+     </div>
+    </div>
+   </section>
+   <!-- Process Grid -->
+   <section class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-32 h-[350px]">
+    <!-- Card 1 -->
+    <div class="relative bg-gray-200 p-8 flex flex-col justify-end group overflow-hidden cursor-pointer h-full">
+     <img alt="Dough" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://images.unsplash.com/photo-1513506003901-1e6a229e0815?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80"/>
+     <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+     </div>
+     <div class="relative z-10">
+      <p class="text-[10px] text-brand-gold font-bold uppercase tracking-widest mb-1">
+       Process 01
+      </p>
+      <h3 class="font-serif text-2xl text-white mb-2">
+       Dough Preparation
+      </h3>
+      <p class="text-xs text-brand-lightGray font-light leading-relaxed opacity-0 transform translate-y-4 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+       Three days of grinding quartz stone into a silk-like powder before it can be kneaded by hand.
+      </p>
+     </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="bg-[#EFEFEF] p-8 flex flex-col justify-between h-full group cursor-pointer transition-colors hover:bg-[#E5E5E5]">
+     <div class="text-brand-red text-xl">
+      <i class="fa-solid fa-fire-flame-curved group-hover:scale-110 transition-transform">
+      </i>
+     </div>
+     <div>
+      <h3 class="font-serif text-2xl text-brand-dark mb-2">
+       Low-Fire Alchemy
+      </h3>
+      <p class="text-[10px] text-brand-gray uppercase tracking-widest font-bold">
+       800°C Traditional Kiln
+      </p>
+     </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="bg-brand-gold p-8 flex flex-col justify-between h-full text-white group cursor-pointer transition-colors hover:bg-brand-goldHover">
+     <div class="text-white text-xl">
+      <i class="fa-solid fa-paintbrush group-hover:scale-110 transition-transform">
+      </i>
+     </div>
+     <div>
+      <h3 class="font-serif text-2xl text-white mb-2">
+       Cobalt Pigment
+      </h3>
+      <p class="text-[10px] text-white/80 uppercase tracking-widest font-bold">
+       Extracted Persian Minerals
+      </p>
+     </div>
+    </div>
+   </section>
+   <!-- Artisan Section -->
+   <section class="max-w-5xl mx-auto mb-32">
+    <div class="flex flex-col md:flex-row items-center gap-16">
+     <!-- Portrait -->
+     <div class="md:w-5/12 relative">
+      <img alt="Artisan" class="w-full h-auto grayscale shadow-xl" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80"/>
+      <!-- Quote Overlap Block -->
+      <div class="absolute top-1/2 -right-12 md:-right-24 transform -translate-y-1/2 bg-brand-red text-white p-8 shadow-2xl w-64 z-10">
+       <i class="fa-solid fa-quote-left text-brand-gold/50 text-3xl mb-4">
+       </i>
+       <p class="font-serif italic text-lg leading-relaxed">
+        My hands only repeat what my ancestors whispered.
+       </p>
+      </div>
+     </div>
+     <!-- Bio -->
+     <div class="md:w-7/12 pt-12 md:pt-0 md:pl-16">
+      <p class="text-[10px] text-brand-red font-bold uppercase tracking-widest mb-2">
+       The Master Artisan
+      </p>
+      <h2 class="font-serif text-4xl lg:text-5xl font-bold text-brand-dark mb-6" id="artisan-name">
+       --
+      </h2>
+      <p class="text-sm text-brand-gray leading-loose font-light mb-8" id="artisan-bio">
+       Loading artisan history...
+      </p>
+      <div class="space-y-4 mb-8">
+       <div class="flex items-center space-x-4">
+        <div class="w-8 border-t border-brand-gray">
+        </div>
+        <span class="text-[10px] text-brand-gray font-bold uppercase tracking-widest">
+         Awarded President's National Honor
+        </span>
+       </div>
+       <div class="flex items-center space-x-4">
+        <div class="w-8 border-t border-brand-gray">
+        </div>
+        <span class="text-[10px] text-brand-gray font-bold uppercase tracking-widest">
+         34 Years of Mastery
+        </span>
+       </div>
+      </div>
+      <a class="inline-block border-b border-brand-dark pb-1 text-xs font-bold uppercase tracking-widest text-brand-dark hover:text-brand-gold hover:border-brand-gold transition-colors" href="#">
+       View Artisan Profile
+      </a>
+     </div>
+    </div>
+   </section>
+   <!-- Certificate Section -->
+   <section class="max-w-4xl mx-auto text-center border-t border-brand-lightGray pt-20">
+    <div class="text-brand-gold text-3xl mb-6">
+     <i class="fa-solid fa-award">
+     </i>
+    </div>
+    <h2 class="font-serif text-3xl font-bold text-brand-dark mb-4">
+     Heritage Certificate of Authenticity
+    </h2>
+    <p class="text-sm text-brand-gray font-light mb-16 max-w-lg mx-auto leading-relaxed">
+     Every masterpiece is issued with a unique digital and physical certificate, ensuring its provenance and ethical creation.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 divide-y md:divide-y-0 md:divide-x divide-brand-lightGray">
+     <div class="py-4 md:py-0">
+      <p class="text-[10px] text-brand-red font-bold uppercase tracking-widest mb-3">
+       Piece ID
+      </p>
+      <p class="font-serif text-lg text-brand-dark tracking-wider">
+       JPR-7742-XP
+      </p>
+     </div>
+     <div class="py-4 md:py-0">
+      <p class="text-[10px] text-brand-red font-bold uppercase tracking-widest mb-3">
+       Source
+      </p>
+      <p class="font-serif text-lg text-brand-dark tracking-wider">
+       Jaipur, RJ
+      </p>
+     </div>
+     <div class="py-4 md:py-0">
+      <p class="text-[10px] text-brand-red font-bold uppercase tracking-widest mb-3">
+       Carbon Footprint
+      </p>
+      <p class="font-serif text-lg text-brand-dark font-semibold tracking-wider">
+       Net Zero Kiln
+      </p>
+     </div>
+    </div>
+   </section>
+  </main>
+  <!-- Footer -->
+  <footer class="bg-brand-dark text-white/50 py-12 text-xs border-t border-white/10 mt-20">
+   <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
+    <div class="font-serif text-xl text-white tracking-widest">
+     HERITAGE
+     <span class="text-brand-gold italic text-sm">
+      Editorial
+     </span>
+    </div>
+    <div class="flex space-x-8 uppercase tracking-widest font-semibold">
+     <a class="hover:text-white transition-colors" href="#">
+      About Us
+     </a>
+     <a class="hover:text-white transition-colors" href="#">
+      Craft Stories
+     </a>
+     <a class="hover:text-white transition-colors" href="#">
+      Sustainability
+     </a>
+    </div>
+    <div class="text-right">
+     © 2026 HERITAGE EDITORIAL. PRESERVING CRAFTSMANSHIP.
+    </div>
+   </div>
+  </footer>
+  <!-- DYNAMIC LOGIC SCRIPT -->
+  <script>
+   const API_URL = `${window.GLOBAL_API_BASE || ''}/api/products`;
   
   const fallbackDetails = {
     'fallback-1': { name: 'Royal Meenakari Choker', state: 'Rajasthan', craft: 'Enamel Jewelry', price: 96000, description: 'A timeless masterpiece of Rajasthani craftsmanship, featuring intricate hand-painted enamel and semi-precious stones.', imageUrl: 'https://picsum.photos/seed/re/800/800', artisan: 'Gopal Saini', artisanBio: 'A 4th generation master jeweler from Jaipur, specializing in the precision art of Meenakari.' },
@@ -110,6 +420,19 @@
   function renderMasterpiece(product, isFallback = false) {
       // Update basic info
       document.title = `${product.name} | Parampara Heritage`;
+      // Dynamically update OG/Twitter meta tags for rich social sharing
+      const setMeta = (attr, val, content) => {
+        let el = document.querySelector(`meta[${attr}="${val}"]`);
+        if (el) el.setAttribute('content', content);
+      };
+      const desc = `${product.description} — A ${product.craft} masterpiece from ${product.state}, certified by Parampara Heritage.`;
+      setMeta('name', 'description', desc);
+      setMeta('property', 'og:title', `${product.name} | Parampara Heritage`);
+      setMeta('property', 'og:description', desc);
+      setMeta('property', 'og:image', product.imageUrl || '');
+      setMeta('name', 'twitter:title', `${product.name} | Parampara Heritage`);
+      setMeta('name', 'twitter:description', desc);
+      setMeta('name', 'twitter:image', product.imageUrl || '');
       document.getElementById('dynamic-subtitle').textContent = `MASTERPIECE OF ${product.state.toUpperCase()}`;
       document.getElementById('dynamic-description').textContent = product.description;
       document.getElementById('dynamic-price').textContent = `₹ ${product.price.toLocaleString('en-IN')}${isFallback ? ' (Approx)' : ''}`;
@@ -154,11 +477,15 @@
   }
 
   loadMasterpiece();
- </script>
- <!-- Lenis smooth scrolling -->
- <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script> <script> const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, }); function raf(time) { lenis.raf(time); requestAnimationFrame(raf); } requestAnimationFrame(raf); </script>
-<script>
-/* Preloader Logic */
+  </script>
+  <!-- Lenis smooth scrolling -->
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js">
+  </script>
+  <script>
+   const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, }); function raf(time) { lenis.raf(time); requestAnimationFrame(raf); } requestAnimationFrame(raf);
+  </script>
+  <script>
+   /* Preloader Logic */
 document.addEventListener('DOMContentLoaded', () => {
   const preloader = document.getElementById('preloader');
   const progress = document.getElementById('preloader-progress');
@@ -172,6 +499,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
   }
 });
-</script>
-<script src="js/nav.js"></script></body>
+  </script>
+  <script src="js/nav.js">
+  </script>
+ </body>
 </html>

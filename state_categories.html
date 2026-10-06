@@ -1,104 +1,135 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/png" href="/favicon.png">
-  <title>State Categories | Parampara</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    h1, h2, h3 { font-family: 'Sora', sans-serif; }
-    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
-    .reveal.active { opacity: 1; transform: translateY(0); }
-  </style>
-</head>
-<body class="flex flex-col min-h-screen">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="/favicon.png" rel="icon" type="image/png"/>
+  <title>
+   State Craft Categories | Parampara — 28 Indian States
+  </title>
+  <meta content="Explore heritage craft categories across all 28 states of India. From Rajasthani Blue Pottery to Pashmina weaving and Tanjore paintings." name="description"/>
+  <meta content="website" property="og:type"/>
+  <meta content="Parampara Heritage" property="og:site_name"/>
+  <meta content="State Craft Categories | Parampara — 28 Indian States" property="og:title"/>
+  <meta content="Explore heritage craft categories across all 28 states of India. Discover certified masterpieces by master artisans." property="og:description"/>
+  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" property="og:image"/>
+  <meta content="https://parampara.in/state_categories.html" property="og:url"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="State Craft Categories | Parampara — 28 Indian States" name="twitter:title"/>
+  <meta content="Explore heritage craft categories across all 28 states of India. Discover certified masterpieces by master artisans." name="twitter:description"/>
+  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" name="twitter:image"/>
+  <script src="https://cdn.tailwindcss.com">
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+  <link href="css/state_categories.css" rel="stylesheet"/>
+ </head>
+ <body class="flex flex-col min-h-screen">
   <!-- Cinematic Preloader -->
-  <div id="preloader" class="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A] transition-opacity duration-1000">
-    <div class="relative flex flex-col items-center">
-      <div class="text-[#B8860B] text-3xl font-serif mb-4 animate-[pulse_2s_ease-in-out_infinite]">Parampara</div>
-      <div class="w-48 h-[1px] bg-white/20 relative overflow-hidden">
-        <div id="preloader-progress" class="absolute top-0 left-0 h-full w-0 bg-[#B8860B] transition-all duration-[2000ms] ease-out"></div>
-      </div>
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A] transition-opacity duration-1000" id="preloader">
+   <div class="relative flex flex-col items-center">
+    <div class="text-[#B8860B] text-3xl font-serif mb-4 animate-[pulse_2s_ease-in-out_infinite]">
+     Parampara
     </div>
+    <div class="w-48 h-[1px] bg-white/20 relative overflow-hidden">
+     <div class="absolute top-0 left-0 h-full w-0 bg-[#B8860B] transition-all duration-[2000ms] ease-out" id="preloader-progress">
+     </div>
+    </div>
+   </div>
   </div>
-
   <!-- Top Navigation / Header -->
-  <header id="global-header" class="code-section">
-    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-20">
-          <!-- Logo -->
-          <a href="index.html" class="flex items-center">
-            <img src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" alt="Parampara Logo" class="h-12 w-auto">
-          </a>
-          
-          <!-- Desktop Navigation -->
-          <div class="hidden lg:flex items-center space-x-8">
-            <a href="states.html" class="text-gray-800 hover:text-[#B8860B] font-medium transition-colors duration-200">All States</a>
-            <a href="artisans.html" class="text-gray-800 hover:text-[#B8860B] font-medium transition-colors duration-200">Our Artisans</a>
-            <a href="about.html" class="text-gray-800 hover:text-[#B8860B] font-medium transition-colors duration-200">About</a>
-            <a href="search.html" class="text-gray-800 hover:text-[#B8860B] font-medium transition-colors duration-200">Shop</a>
-            <a href="search.html" class="bg-[#B8860B] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#8B6508] transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg> Search
-            </a>
-          </div>
-
-          <!-- Mobile Menu Toggle -->
-          <button id="mobile-menu-toggle" class="lg:hidden p-2 rounded-md text-gray-800 hover:bg-gray-100 transition-colors">
-            <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
-          </button>
-        </div>
+  <header class="code-section" id="global-header">
+   <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+     <div class="flex justify-between items-center h-20">
+      <!-- Logo -->
+      <a class="flex items-center" href="index.html">
+       <img alt="Parampara Logo" class="h-12 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+      </a>
+      <!-- Desktop Navigation -->
+      <div class="hidden lg:flex items-center space-x-8">
+       <a class="text-gray-800 hover:text-[#B8860B] font-medium transition-colors duration-200" href="states.html">
+        All States
+       </a>
+       <a class="text-gray-800 hover:text-[#B8860B] font-medium transition-colors duration-200" href="artisans.html">
+        Our Artisans
+       </a>
+       <a class="text-gray-800 hover:text-[#B8860B] font-medium transition-colors duration-200" href="about.html">
+        About
+       </a>
+       <a class="text-gray-800 hover:text-[#B8860B] font-medium transition-colors duration-200" href="search.html">
+        Shop
+       </a>
+       <a class="bg-[#B8860B] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#8B6508] transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2" href="search.html">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+         <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+         </path>
+        </svg>
+        Search
+       </a>
       </div>
-    </nav>
+      <!-- Mobile Menu Toggle -->
+      <button class="lg:hidden p-2 rounded-md text-gray-800 hover:bg-gray-100 transition-colors" id="mobile-menu-toggle">
+       <svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        </path>
+       </svg>
+      </button>
+     </div>
+    </div>
+   </nav>
   </header>
-
   <!-- State Hero Section -->
   <div class="bg-gradient-to-r from-[#2F5233] to-[#1A1A1A] text-white py-16 relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-      <!-- Left Side: Text and Tagline -->
-      <div class="text-center md:text-left md:w-3/5 reveal">
-        <span class="text-sm font-bold tracking-widest text-[#B8860B] uppercase mb-2 block">Curated Categories</span>
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-4" id="state-title">Loading State...</h1>
-        <p class="text-xl md:text-2xl text-[#E8E3D6] font-medium mb-6 italic leading-relaxed" id="state-tagline"></p>
-        <p class="text-md md:text-lg text-gray-300">
-          Discover the finest authentic treasures from <span id="state-name-display" class="text-white font-semibold">this state</span>. Pick a category to explore the masterpieces.
-        </p>
-      </div>
-      <!-- Right Side: State Image -->
-      <div class="md:w-2/5 flex justify-center md:justify-end w-full">
-        <div class="relative w-full max-w-sm aspect-video rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-4 border-[#B8860B]/40 transform hover:scale-105 transition-transform duration-500">
-          <img id="state-image" src="https://picsum.photos/seed/India/800/600" alt="State Imagery" class="w-full h-full object-cover">
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-          <div class="absolute bottom-4 right-4 text-white font-bold tracking-widest uppercase text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" id="state-image-caption"></div>
-        </div>
-      </div>
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
+    <!-- Left Side: Text and Tagline -->
+    <div class="text-center md:text-left md:w-3/5 reveal">
+     <span class="text-sm font-bold tracking-widest text-[#B8860B] uppercase mb-2 block">
+      Curated Categories
+     </span>
+     <h1 class="text-4xl md:text-5xl font-extrabold mb-4" id="state-title">
+      Loading State...
+     </h1>
+     <p class="text-xl md:text-2xl text-[#E8E3D6] font-medium mb-6 italic leading-relaxed" id="state-tagline">
+     </p>
+     <p class="text-md md:text-lg text-gray-300">
+      Discover the finest authentic treasures from
+      <span class="text-white font-semibold" id="state-name-display">
+       this state
+      </span>
+      . Pick a category to explore the masterpieces.
+     </p>
     </div>
+    <!-- Right Side: State Image -->
+    <div class="md:w-2/5 flex justify-center md:justify-end w-full">
+     <div class="relative w-full max-w-sm aspect-video rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-4 border-[#B8860B]/40 transform hover:scale-105 transition-transform duration-500">
+      <img alt="State Imagery" class="w-full h-full object-cover" id="state-image" src="https://picsum.photos/seed/India/800/600"/>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+      </div>
+      <div class="absolute bottom-4 right-4 text-white font-bold tracking-widest uppercase text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" id="state-image-caption">
+      </div>
+     </div>
+    </div>
+   </div>
   </div>
-
   <!-- Categories Grid -->
   <main class="flex-grow max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 w-full" id="categories-grid-section">
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="categories-grid">
-      <!-- Injected by JavaScript -->
-    </div>
+   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="categories-grid">
+    <!-- Injected by JavaScript -->
+   </div>
   </main>
-
   <!-- Simple Footer -->
   <footer class="bg-white border-t border-gray-100 py-12 text-center text-gray-500 mt-auto">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex flex-col items-center gap-6">
-        <img src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" alt="Parampara Logo" class="h-10 w-auto opacity-50 grayscale">
-        <p class="max-w-md text-sm leading-relaxed">&copy; 2026 Parampara. Preserving the heritage of 28 states, one masterpiece at a time. All rights reserved.</p>
-      </div>
+   <div class="max-w-7xl mx-auto px-4">
+    <div class="flex flex-col items-center gap-6">
+     <img alt="Parampara Logo" class="h-10 w-auto opacity-50 grayscale" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+     <p class="max-w-md text-sm leading-relaxed">
+      © 2026 Parampara. Preserving the heritage of 28 states, one masterpiece at a time. All rights reserved.
+     </p>
     </div>
+   </div>
   </footer>
-
   <script>
-    /* 1. Get the State Name from query params */
+   /* 1. Get the State Name from query params */
     const params = new URLSearchParams(window.location.search);
     let rawStateName = params.get('name') || params.get('state');
     
@@ -224,11 +255,11 @@
       }
     });
   </script>
-
   <!-- Lenis for smooth scrolling -->
-  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js">
+  </script>
   <script>
-    const lenis = new Lenis({
+   const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
@@ -240,9 +271,178 @@
     requestAnimationFrame(raf);
   </script>
   <!-- FOOTER -->
-  <footer id="global-footer" class="code-section bg-[var(--dark-background-color)] text-white mt-12"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"> <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12"> <!-- Brand Column --> <div class="col-span-2 md:col-span-4 lg:col-span-1"> <a href="index.html" class="inline-block mb-6"> <img data-logo="" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" alt="Parampara Logo" class="h-12 w-auto brightness-0 invert"> </a> <p class="text-gray-400 text-sm leading-relaxed mb-6" style="font-family: var(--font-family-body);"> One State. One Masterpiece. Discover India's most iconic handcrafted treasures from each of the 28 states. </p> <div class="flex gap-4"> <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors"> <i class="fa-brands fa-instagram" aria-hidden="true"></i> </a> <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors"> <i class="fa-brands fa-facebook-f" aria-hidden="true"></i> </a> <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors"> <i class="fa-brands fa-twitter" aria-hidden="true"></i> </a> <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors"> <i class="fa-brands fa-youtube" aria-hidden="true"></i> </a> </div> </div> <!-- Quick Links --> <div> <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);"> Explore </h4> <ul class="space-y-3"> <li class=""> <a href="states.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">All 28 States</a> </li> <li class=""> <a href="search.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Shop All</a> </li> <li> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">How It Works</a> </li> <li> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Our Technology</a> </li> <li> <a href="search.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Gift Guide</a> </li> </ul> </div> <!-- About --> <div class=""> <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);"> About </h4> <ul class="space-y-3"> <li class=""> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Our Story</a> </li> <li> <a href="artisans.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Our Artisans</a> </li> <li> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Community Impact</a> </li> <li> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Cultural Heritage</a> </li> <li> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Blog</a> </li> </ul> </div> <!-- Support --> <div> <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);"> Support </h4> <ul class="space-y-3"> <li> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Contact Us</a> </li> <li> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">FAQ</a> </li> <li> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Shipping &amp; Returns</a> </li> <li> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Authenticity</a> </li> <li> <a href="search.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Corporate Gifting</a> </li> </ul> </div> <!-- Legal --> <div class=""> <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);"> Legal </h4> <ul class="space-y-3"> <li class=""> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Privacy Policy</a> </li> <li class=""> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Terms of Service</a> </li> <li class=""> <a href="about.html" class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm">Refund Policy</a> </li> </ul> </div> </div> <!-- Bottom Bar --> <div class="mt-12 pt-8 border-t border-white/10"> <div class="flex flex-col md:flex-row justify-between items-center gap-4"> <p class="text-gray-500 text-sm" style="font-family: var(--font-family-body);"> © 2026 Parampara. Preserving India's Craft Heritage. </p> <div class="flex items-center gap-6"> <img src="https://cdn-icons-png.flaticon.com/128/349/349221.png" alt="Visa" class="h-6 opacity-50 hover:opacity-100 transition-opacity"> <img src="https://cdn-icons-png.flaticon.com/128/349/349228.png" alt="Mastercard" class="h-6 opacity-50 hover:opacity-100 transition-opacity"> <img src="https://cdn-icons-png.flaticon.com/128/349/349230.png" alt="Amex" class="h-6 opacity-50 hover:opacity-100 transition-opacity"> <img src="https://cdn-icons-png.flaticon.com/128/174/174861.png" alt="PayPal" class="h-6 opacity-50 hover:opacity-100 transition-opacity"> </div> </div> </div> </div> </footer>
-
-  <script src="js/auth.js"></script>
-  <script src="js/nav.js"></script>
-</body>
+  <footer class="code-section bg-[var(--dark-background-color)] text-white mt-12" id="global-footer">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
+     <!-- Brand Column -->
+     <div class="col-span-2 md:col-span-4 lg:col-span-1">
+      <a class="inline-block mb-6" href="index.html">
+       <img alt="Parampara Logo" class="h-12 w-auto brightness-0 invert" data-logo="" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+      </a>
+      <p class="text-gray-400 text-sm leading-relaxed mb-6" style="font-family: var(--font-family-body);">
+       One State. One Masterpiece. Discover India's most iconic handcrafted treasures from each of the 28 states.
+      </p>
+      <div class="flex gap-4">
+       <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors" href="#">
+        <i aria-hidden="true" class="fa-brands fa-instagram">
+        </i>
+       </a>
+       <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors" href="#">
+        <i aria-hidden="true" class="fa-brands fa-facebook-f">
+        </i>
+       </a>
+       <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors" href="#">
+        <i aria-hidden="true" class="fa-brands fa-twitter">
+        </i>
+       </a>
+       <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors" href="#">
+        <i aria-hidden="true" class="fa-brands fa-youtube">
+        </i>
+       </a>
+      </div>
+     </div>
+     <!-- Quick Links -->
+     <div>
+      <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);">
+       Explore
+      </h4>
+      <ul class="space-y-3">
+       <li class="">
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="states.html">
+         All 28 States
+        </a>
+       </li>
+       <li class="">
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="search.html">
+         Shop All
+        </a>
+       </li>
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         How It Works
+        </a>
+       </li>
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         Our Technology
+        </a>
+       </li>
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="search.html">
+         Gift Guide
+        </a>
+       </li>
+      </ul>
+     </div>
+     <!-- About -->
+     <div class="">
+      <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);">
+       About
+      </h4>
+      <ul class="space-y-3">
+       <li class="">
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         Our Story
+        </a>
+       </li>
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="artisans.html">
+         Our Artisans
+        </a>
+       </li>
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         Community Impact
+        </a>
+       </li>
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         Cultural Heritage
+        </a>
+       </li>
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         Blog
+        </a>
+       </li>
+      </ul>
+     </div>
+     <!-- Support -->
+     <div>
+      <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);">
+       Support
+      </h4>
+      <ul class="space-y-3">
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         Contact Us
+        </a>
+       </li>
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         FAQ
+        </a>
+       </li>
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         Shipping &amp; Returns
+        </a>
+       </li>
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         Authenticity
+        </a>
+       </li>
+       <li>
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="search.html">
+         Corporate Gifting
+        </a>
+       </li>
+      </ul>
+     </div>
+     <!-- Legal -->
+     <div class="">
+      <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);">
+       Legal
+      </h4>
+      <ul class="space-y-3">
+       <li class="">
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         Privacy Policy
+        </a>
+       </li>
+       <li class="">
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         Terms of Service
+        </a>
+       </li>
+       <li class="">
+        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
+         Refund Policy
+        </a>
+       </li>
+      </ul>
+     </div>
+    </div>
+    <!-- Bottom Bar -->
+    <div class="mt-12 pt-8 border-t border-white/10">
+     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-gray-500 text-sm" style="font-family: var(--font-family-body);">
+       © 2026 Parampara. Preserving India's Craft Heritage.
+      </p>
+      <div class="flex items-center gap-6">
+       <img alt="Visa" class="h-6 opacity-50 hover:opacity-100 transition-opacity" src="https://cdn-icons-png.flaticon.com/128/349/349221.png"/>
+       <img alt="Mastercard" class="h-6 opacity-50 hover:opacity-100 transition-opacity" src="https://cdn-icons-png.flaticon.com/128/349/349228.png"/>
+       <img alt="Amex" class="h-6 opacity-50 hover:opacity-100 transition-opacity" src="https://cdn-icons-png.flaticon.com/128/349/349230.png"/>
+       <img alt="PayPal" class="h-6 opacity-50 hover:opacity-100 transition-opacity" src="https://cdn-icons-png.flaticon.com/128/174/174861.png"/>
+      </div>
+     </div>
+    </div>
+   </div>
+  </footer>
+  <script src="js/auth.js">
+  </script>
+  <script src="js/nav.js">
+  </script>
+ </body>
 </html>
