@@ -13,7 +13,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Shilp Guru & President Honor',
     imageUrl: 'assets/products/blue_pottery_vase.webp',
     description: '14th-century low-fire quartz alchemy from Jaipur, hand-painted with cobalt oxide glaze and enamel work.',
-    link: 'state_categories.html?name=Rajasthan#categories-grid'
+    link: 'state_categories.html?name=Rajasthan'
   },
   'IN-UP': {
     name: 'Uttar Pradesh',
@@ -24,7 +24,7 @@ window.STATE_CRAFT_DATA = {
     award: 'National Master Weaver',
     imageUrl: 'assets/products/banarasi_saree.webp',
     description: 'Royal Zari-work brocades woven with pure silk and silver-dipped threads alongside delicate Lucknow Chikankari.',
-    link: 'state_categories.html?name=Uttar%20Pradesh#categories-grid'
+    link: 'state_categories.html?name=Uttar%20Pradesh'
   },
   'IN-GJ': {
     name: 'Gujarat',
@@ -35,7 +35,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Export Excellence Awardee',
     imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAprV_evWv9fBTiuUU5-pgVoyqsyfFJtyrmNnPruafwHfhWanZMghKy4PxZAtKqnqWA50if4mC3KXl49fO-GQkLepxkU25MqMHjH1pC-_3Rcs2937xi0qHrG7e17vU3RSs_v5mNFMlienR329eOfn2REG04Enzb_B9Wx9mrKklRw1nTr3STtYThY40LUCLv6vXO2EgcrJDsR34eErjtmTbD9Fi8IsGh-ysGLyUViwBK3NGqZqgrTLGf',
     description: 'Double-ikat silk weaving of Patan where warp and weft threads are individually tie-dyed before weaving.',
-    link: 'state_categories.html?name=Gujarat#categories-grid'
+    link: 'state_categories.html?name=Gujarat'
   },
   'IN-TN': {
     name: 'Tamil Nadu',
@@ -46,7 +46,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Heritage Master Goldsmith',
     imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDeITt6rebpBA8djqWobOyk4s0GE8wPMEAVByzrVK65MCsS0HFWuEI3BTKFyrAdMAWN3adq19WqcwyNYKO1mDmP5dYGoWd0HvV0WrLk5NP38NAyHXWOdInBpw7mjbqJxKiDTGPZiPNL20N3tnWMR94xJW-EOrErX4U9d31w-27veKgB-UZopnNE7npCFjGTcJMPk9C6CHIPRp3y2TdI-_Nx7onXUhtjTX-JXNovA3YLJ5KI2FNBeVSS',
     description: 'Heavy mulberry silk with pure gold zari borders and sacred 24k gold leaf Thanjavur relief paintings.',
-    link: 'state_categories.html?name=Tamil%20Nadu#categories-grid'
+    link: 'state_categories.html?name=Tamil%20Nadu'
   },
   'IN-OR': {
     name: 'Odisha',
@@ -57,7 +57,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Master Pattachitra Artist',
     imageUrl: 'assets/products/pattachitra_painting.webp',
     description: 'Vivid scroll painting on treated cloth using natural stone colors and intricate silver wire Tarakasi.',
-    link: 'state_categories.html?name=Odisha#categories-grid'
+    link: 'state_categories.html?name=Odisha'
   },
   'IN-CT': {
     name: 'Chhattisgarh',
@@ -68,7 +68,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Tribal Craft State Award',
     imageUrl: 'assets/products/dokra_figurine.webp',
     description: '4,000-year-old non-ferrous lost-wax casting technique producing rustic, hollow metallic tribal sculptures.',
-    link: 'state_categories.html?name=Chhattisgarh#categories-grid'
+    link: 'state_categories.html?name=Chhattisgarh'
   },
   'IN-JK': {
     name: 'Jammu and Kashmir',
@@ -79,7 +79,7 @@ window.STATE_CRAFT_DATA = {
     award: 'UNESCO Heritage Recognition',
     imageUrl: 'https://picsum.photos/seed/kashmirWood/600/400',
     description: 'Ultra-fine hand-spun Changthangi goat Pashmina and intricately carved walnut wood chests.',
-    link: 'state_categories.html?name=Jammu%20and%20Kashmir#categories-grid'
+    link: 'state_categories.html?name=Jammu%20and%20Kashmir'
   },
   'IN-BR': {
     name: 'Bihar',
@@ -90,7 +90,7 @@ window.STATE_CRAFT_DATA = {
     award: 'National Awardee · Mithila Art',
     imageUrl: 'https://picsum.photos/seed/RatanDevi/600/600',
     description: 'Ancient Mithila folk canvas painting using twig brushes, natural dyes, and geometric narrative line work.',
-    link: 'state_categories.html?name=Bihar#categories-grid'
+    link: 'state_categories.html?name=Bihar'
   },
   'IN-MP': {
     name: 'Madhya Pradesh',
@@ -101,7 +101,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Padma Shri Awardee',
     imageUrl: 'https://picsum.photos/seed/MadhyaPradesh/600/400',
     description: 'Feather-light sheer silk-cotton Chanderi weaves adorned with golden zari and mythic dots of Gond painting.',
-    link: 'state_categories.html?name=Madhya%20Pradesh#categories-grid'
+    link: 'state_categories.html?name=Madhya%20Pradesh'
   },
   'IN-AS': {
     name: 'Assam',
@@ -112,7 +112,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Master Weaver Award',
     imageUrl: 'https://picsum.photos/seed/Assam/600/400',
     description: 'Naturally lustrous golden-yellow Muga silk, exclusive to the Brahmaputra valley, growing richer with every wash.',
-    link: 'state_categories.html?name=Assam#categories-grid'
+    link: 'state_categories.html?name=Assam'
   },
   'IN-KL': {
     name: 'Kerala',
@@ -123,7 +123,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Metallurgy Heritage Craftsman',
     imageUrl: 'https://picsum.photos/seed/Kerala/600/400',
     description: 'Secret copper-tin alloy front-surface metal mirrors handcrafted without silvering or glass.',
-    link: 'state_categories.html?name=Kerala#categories-grid'
+    link: 'state_categories.html?name=Kerala'
   },
   'IN-KA': {
     name: 'Karnataka',
@@ -134,7 +134,7 @@ window.STATE_CRAFT_DATA = {
     award: 'State Shilpa Award',
     imageUrl: 'https://picsum.photos/seed/Karnataka/600/400',
     description: 'Aromatic Malnad sandalwood relief sculpture and pure gold zari-bordered Mysore silk sarees.',
-    link: 'state_categories.html?name=Karnataka#categories-grid'
+    link: 'state_categories.html?name=Karnataka'
   },
   'IN-MH': {
     name: 'Maharashtra',
@@ -145,7 +145,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Master Loom Weaver',
     imageUrl: 'https://picsum.photos/seed/Maharashtra/600/400',
     description: 'Handwoven silk sarees with peacock tapestries in pure gold zari and ancient Warli white-pigment ritual motifs.',
-    link: 'state_categories.html?name=Maharashtra#categories-grid'
+    link: 'state_categories.html?name=Maharashtra'
   },
   'IN-WB': {
     name: 'West Bengal',
@@ -156,7 +156,7 @@ window.STATE_CRAFT_DATA = {
     award: 'National Master Weaver',
     imageUrl: 'https://picsum.photos/seed/WestBengal/600/400',
     description: 'Featherweight sheer muslin Jamdani woven on pit looms using floating supplementary wrap threads.',
-    link: 'state_categories.html?name=West%20Bengal#categories-grid'
+    link: 'state_categories.html?name=West%20Bengal'
   },
   'IN-PB': {
     name: 'Punjab',
@@ -167,7 +167,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Folk Textile Master',
     imageUrl: 'https://picsum.photos/seed/Punjab/600/400',
     description: 'Vibrant geometric untwisted silk thread damask stitching on coarse cotton khaddar.',
-    link: 'state_categories.html?name=Punjab#categories-grid'
+    link: 'state_categories.html?name=Punjab'
   },
   'IN-HP': {
     name: 'Himachal Pradesh',
@@ -178,7 +178,7 @@ window.STATE_CRAFT_DATA = {
     award: 'National Handloom Award',
     imageUrl: 'https://picsum.photos/seed/HimachalPradesh/600/400',
     description: 'Geometric woollen border shawls and double-sided needlework silk Chamba miniature embroidery.',
-    link: 'state_categories.html?name=Himachal%20Pradesh#categories-grid'
+    link: 'state_categories.html?name=Himachal%20Pradesh'
   },
   'IN-AP': {
     name: 'Andhra Pradesh',
@@ -189,7 +189,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Shilp Guru Awardee',
     imageUrl: 'https://picsum.photos/seed/AndhraPradesh/600/400',
     description: 'Pen-drawn freehand organic dye Kalamkari on cotton depicting temple iconography and epics.',
-    link: 'state_categories.html?name=Andhra%20Pradesh#categories-grid'
+    link: 'state_categories.html?name=Andhra%20Pradesh'
   },
   'IN-TG': {
     name: 'Telangana',
@@ -200,7 +200,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Padma Shri Awardee',
     imageUrl: 'https://picsum.photos/seed/Telangana/600/400',
     description: 'Blackened zinc-copper alloy encrusted with delicate pure silver wire inlay and geometric Ikats.',
-    link: 'state_categories.html?name=Telangana#categories-grid'
+    link: 'state_categories.html?name=Telangana'
   },
   'IN-UT': {
     name: 'Uttarakhand',
@@ -211,7 +211,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Kumaon Folk Art Preservation',
     imageUrl: 'https://picsum.photos/seed/Uttarakhand/600/400',
     description: 'Sacred ritualistic red-clay and rice-paste floor/wall motifs along with high-altitude Ringal bamboo weaving.',
-    link: 'state_categories.html?name=Uttarakhand#categories-grid'
+    link: 'state_categories.html?name=Uttarakhand'
   },
   'IN-JH': {
     name: 'Jharkhand',
@@ -222,7 +222,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Tribal Heritage Award',
     imageUrl: 'https://picsum.photos/seed/Jharkhand/600/400',
     description: 'Natural earth-pigment mural painting executed by tribal women celebrating harvest and fertility.',
-    link: 'state_categories.html?name=Jharkhand#categories-grid'
+    link: 'state_categories.html?name=Jharkhand'
   },
   'IN-GA': {
     name: 'Goa',
@@ -233,7 +233,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Luso-Indian Tile Master',
     imageUrl: 'https://picsum.photos/seed/Goa/600/400',
     description: 'Hand-painted cobalt glazed ceramic tiles reflecting 400 years of Portuguese-Goan fusion.',
-    link: 'state_categories.html?name=Goa#categories-grid'
+    link: 'state_categories.html?name=Goa'
   },
   'IN-HR': {
     name: 'Haryana',
@@ -244,7 +244,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Terracotta Master Craftsman',
     imageUrl: 'https://picsum.photos/seed/Haryana/600/400',
     description: 'Traditional low-fire red clay water vessels and thick handloom durries.',
-    link: 'state_categories.html?name=Haryana#categories-grid'
+    link: 'state_categories.html?name=Haryana'
   },
   'IN-SK': {
     name: 'Sikkim',
@@ -255,7 +255,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Monastic Thangka Master',
     imageUrl: 'https://picsum.photos/seed/Sikkim/600/400',
     description: 'Sacred Buddhist Thangka scroll paintings on silk canvas detailed with ground gold leaf.',
-    link: 'state_categories.html?name=Sikkim#categories-grid'
+    link: 'state_categories.html?name=Sikkim'
   },
   'IN-AR': {
     name: 'Arunachal Pradesh',
@@ -266,7 +266,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Dawn-Lit Tribal Award',
     imageUrl: 'https://picsum.photos/seed/ArunachalPradesh/600/400',
     description: 'Intricate seed bead neckwear and loin-loom geometric tribal tapestries.',
-    link: 'state_categories.html?name=Arunachal%20Pradesh#categories-grid'
+    link: 'state_categories.html?name=Arunachal%20Pradesh'
   },
   'IN-ML': {
     name: 'Meghalaya',
@@ -277,7 +277,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Ahimsa Silk Pioneer',
     imageUrl: 'https://picsum.photos/seed/Meghalaya/600/400',
     description: 'Non-violent Ahimsa Eri silk processed without harming silkworms, dyed in organic forest barks.',
-    link: 'state_categories.html?name=Meghalaya#categories-grid'
+    link: 'state_categories.html?name=Meghalaya'
   },
   'IN-NL': {
     name: 'Nagaland',
@@ -288,7 +288,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Naga Cultural Lineage Honor',
     imageUrl: 'https://picsum.photos/seed/Nagaland/600/400',
     description: 'Hand-spun warrior shawls featuring symbolic tribal stripes and traditional glass bead ornaments.',
-    link: 'state_categories.html?name=Nagaland#categories-grid'
+    link: 'state_categories.html?name=Nagaland'
   },
   'IN-MN': {
     name: 'Manipur',
@@ -299,7 +299,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Padma Shri Awardee',
     imageUrl: 'https://picsum.photos/seed/Manipur/600/400',
     description: 'Black earthenware Longpi pottery shaped by hand from weathered serpentinite stone powder.',
-    link: 'state_categories.html?name=Manipur#categories-grid'
+    link: 'state_categories.html?name=Manipur'
   },
   'IN-MZ': {
     name: 'Mizoram',
@@ -310,7 +310,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Mizo Weaving Master',
     imageUrl: 'https://picsum.photos/seed/Mizoram/600/400',
     description: 'Intricately patterned ceremonial Puan fabric woven on traditional waist-frame looms.',
-    link: 'state_categories.html?name=Mizoram#categories-grid'
+    link: 'state_categories.html?name=Mizoram'
   },
   'IN-TR': {
     name: 'Tripura',
@@ -321,7 +321,7 @@ window.STATE_CRAFT_DATA = {
     award: 'Bamboo Master Craftsman',
     imageUrl: 'https://picsum.photos/seed/Tripura/600/400',
     description: 'Ultra-fine split bamboo lampshades, screens, and furniture crafted from indigenous bamboo species.',
-    link: 'state_categories.html?name=Tripura#categories-grid'
+    link: 'state_categories.html?name=Tripura'
   }
 };
 

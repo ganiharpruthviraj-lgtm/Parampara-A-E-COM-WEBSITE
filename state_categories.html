@@ -206,7 +206,7 @@
       <!-- Right: State Heritage Card & Image -->
       <div class="lg:col-span-5 flex justify-center lg:justify-end">
         <div class="relative w-full max-w-md aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border-4 border-[#B8860B]/50 group">
-          <img alt="State Heritage" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" id="state-image" src="https://picsum.photos/seed/IndiaCrafts/800/600" loading="lazy"/>
+          <img alt="State Heritage" onerror="this.onerror=null; this.src='https://picsum.photos/seed/IndiaCrafts/800/600';" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" id="state-image" src="https://picsum.photos/seed/IndiaCrafts/800/600" loading="lazy"/>
           <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
           <div class="absolute bottom-5 left-5 right-5 flex justify-between items-end">
             <div>
@@ -228,39 +228,51 @@
   <!-- ========================================================================= -->
   <!-- 2. CATEGORY SECTION (Curated Craft Classifications for this State) -->
   <!-- ========================================================================= -->
-  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 w-full" id="categories-section">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-4 border-b border-gray-200">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4 w-full" id="categories-section">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6 pb-3 border-b border-gray-200">
       <div>
-        <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-[#B8860B] mb-2">
+        <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-[#B8860B] mb-1">
           <span>Hierarchy Step 2</span>
           <span class="opacity-40">•</span>
           <span>Craft Categories</span>
         </div>
-        <h2 class="text-3xl sm:text-4xl font-extrabold font-sora text-gray-900">
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-sora text-gray-900">
           Craft Categories in <span class="text-[#B8860B]" id="state-category-name">State</span>
         </h2>
-        <p class="text-sm sm:text-base text-gray-600 mt-2 max-w-2xl">
-          Select any category below to filter the official registered craft items and view legal certificates.
+        <p class="text-xs sm:text-sm text-gray-600 mt-1 max-w-2xl">
+          Click any craft category below to filter items and explore registered masterpieces.
         </p>
       </div>
 
       <!-- Reset / All Categories Button -->
-      <button id="show-all-categories-btn" class="self-start md:self-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-300 hover:border-[#B8860B] text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#B8860B] bg-white transition-all shadow-sm">
+      <button id="show-all-categories-btn" class="self-start md:self-auto inline-flex items-center gap-2 px-4 py-2 rounded-full border border-gray-300 hover:border-[#B8860B] text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#B8860B] bg-white transition-all shadow-sm">
         <i class="fa-solid fa-shapes"></i>
         <span>Show All Items (<span id="total-state-items-badge">0</span>)</span>
       </button>
     </div>
 
     <!-- Category Cards Grid -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6" id="categories-grid">
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4" id="categories-grid">
       <!-- Injected by JavaScript based on available crafts in this State -->
+    </div>
+
+    <!-- Visual Connecting Banner between Categories and Products -->
+    <div class="mt-4 flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 bg-[#FAF9F5] border border-gray-200 rounded-xl text-xs text-gray-600 shadow-sm">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span id="category-status-indicator" class="font-medium text-gray-700">Showing all certified craft items below. Click any card above to filter.</span>
+      </div>
+      <a href="#items-section" class="inline-flex items-center gap-1.5 font-bold text-[#B8860B] hover:text-[#8B6508] uppercase tracking-wider text-[11px] transition-colors">
+        <span>View Products Below</span>
+        <i class="fa-solid fa-arrow-down text-[10px]"></i>
+      </a>
     </div>
   </section>
 
   <!-- ========================================================================= -->
   <!-- 3. ITEMS SECTION (Authentic Masterpieces & GI Registered Products) -->
   <!-- ========================================================================= -->
-  <section class="bg-white border-t border-gray-200 py-16 w-full" id="items-section">
+  <section class="bg-white border-t border-gray-200 pt-6 pb-16 w-full" id="items-section">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Items Header Bar -->
@@ -674,32 +686,57 @@
         return;
       }
 
-      grid.innerHTML = categoriesList.map(cat => {
+      // Prepend "All Crafts" card
+      const isAllActive = currentCategory === 'All';
+      const allCardHtml = `
+        <div onclick="selectCategory('All')" class="category-card ${isAllActive ? 'active' : ''} bg-white rounded-2xl p-4 border border-gray-200 cursor-pointer transition-all duration-300 hover:border-[#B8860B] flex flex-col justify-between group shadow-sm">
+          <div class="flex items-center justify-between mb-3">
+            <div class="category-icon-wrapper w-10 h-10 rounded-xl ${isAllActive ? 'bg-[#B8860B] text-white' : 'bg-[#FAF9F5] text-[#B8860B]'} flex items-center justify-center text-lg transition-all duration-300 group-hover:bg-[#B8860B] group-hover:text-white">
+              <i class="fa-solid fa-shapes"></i>
+            </div>
+            <span class="text-xs font-bold px-2 py-0.5 rounded-full ${isAllActive ? 'bg-[#B8860B]/10 text-[#B8860B]' : 'bg-gray-100 text-gray-600'} group-hover:bg-[#B8860B]/10 group-hover:text-[#B8860B] transition-colors">
+              ${stateProducts.length} All
+            </span>
+          </div>
+          <div>
+            <h3 class="category-title text-sm sm:text-base font-bold ${isAllActive ? 'text-[#B8860B]' : 'text-gray-900'} mb-0.5 transition-colors group-hover:text-[#B8860B] font-sora">
+              All Crafts
+            </h3>
+            <p class="text-[11px] text-gray-500 line-clamp-1">
+              Entire State Registry
+            </p>
+          </div>
+        </div>
+      `;
+
+      const categoryCardsHtml = categoriesList.map(cat => {
         const count = counts[cat];
         const iconClass = CATEGORY_ICONS[cat] || "fa-solid fa-hands-holding-circle";
         const isActive = currentCategory === cat;
 
         return `
-          <div onclick="selectCategory('${cat}')" class="category-card ${isActive ? 'active' : ''} bg-white rounded-2xl p-5 border border-gray-200 cursor-pointer transition-all duration-300 hover:border-[#B8860B] flex flex-col justify-between group shadow-sm">
-            <div class="flex items-center justify-between mb-4">
-              <div class="category-icon-wrapper w-12 h-12 rounded-xl bg-[#FAF9F5] text-[#B8860B] flex items-center justify-center text-xl transition-all duration-300 group-hover:bg-[#B8860B] group-hover:text-white">
+          <div onclick="selectCategory('${cat}')" class="category-card ${isActive ? 'active' : ''} bg-white rounded-2xl p-4 border border-gray-200 cursor-pointer transition-all duration-300 hover:border-[#B8860B] flex flex-col justify-between group shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+              <div class="category-icon-wrapper w-10 h-10 rounded-xl ${isActive ? 'bg-[#B8860B] text-white' : 'bg-[#FAF9F5] text-[#B8860B]'} flex items-center justify-center text-lg transition-all duration-300 group-hover:bg-[#B8860B] group-hover:text-white">
                 <i class="${iconClass}"></i>
               </div>
-              <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 group-hover:bg-[#B8860B]/10 group-hover:text-[#B8860B] transition-colors">
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full ${isActive ? 'bg-[#B8860B]/10 text-[#B8860B]' : 'bg-gray-100 text-gray-600'} group-hover:bg-[#B8860B]/10 group-hover:text-[#B8860B] transition-colors">
                 ${count} ${count === 1 ? 'Craft' : 'Crafts'}
               </span>
             </div>
             <div>
-              <h3 class="category-title text-base font-bold text-gray-900 mb-1 transition-colors group-hover:text-[#B8860B] font-sora">
+              <h3 class="category-title text-sm sm:text-base font-bold ${isActive ? 'text-[#B8860B]' : 'text-gray-900'} mb-0.5 transition-colors group-hover:text-[#B8860B] font-sora">
                 ${cat}
               </h3>
-              <p class="text-xs text-gray-500 line-clamp-1">
+              <p class="text-[11px] text-gray-500 line-clamp-1">
                 Authentic ${cat.toLowerCase()}
               </p>
             </div>
           </div>
         `;
       }).join('');
+
+      grid.innerHTML = allCardHtml + categoryCardsHtml;
     }
 
     // Select a Category
@@ -707,6 +744,17 @@
       currentCategory = cat;
       renderCategories();
       renderItems();
+
+      // Update indicator banner
+      const indicator = document.getElementById('category-status-indicator');
+      if (indicator) {
+        if (cat === 'All') {
+          indicator.textContent = `Showing all ${stateProducts.length} certified craft items below. Click any card above to filter.`;
+        } else {
+          const count = stateProducts.filter(p => p.category === cat).length;
+          indicator.textContent = `Filtered by "${cat}" — showing ${count} certified ${count === 1 ? 'masterpiece' : 'masterpieces'} below.`;
+        }
+      }
 
       // Smooth scroll to items section
       const itemsSec = document.getElementById('items-section');
@@ -754,7 +802,7 @@
             <div>
               <!-- Image Container with GI Badge & Wishlist -->
               <div class="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-gray-100">
-                <img src="${imgUrl}" alt="${item.name}" class="item-image w-full h-full object-cover transition-transform duration-700" loading="lazy">
+                <img src="${imgUrl}" alt="${item.name}" onerror="this.onerror=null; this.src='https://picsum.photos/seed/' + encodeURIComponent(this.alt.replace(/[^a-zA-Z]/g, '')) + '/800/800';" class="item-image w-full h-full object-cover transition-transform duration-700" loading="lazy">
                 
                 <!-- Official GI Badge -->
                 <div class="absolute top-3 left-3 z-10">
@@ -942,8 +990,14 @@
       loadState(st);
     });
 
-    // Preloader Dismiss
+    // Preloader Dismiss & Init
     document.addEventListener('DOMContentLoaded', () => {
+      // Remove any lingering hash that jumps past the hero
+      if (window.location.hash) {
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+        window.scrollTo(0, 0);
+      }
+
       initStateSelector();
       loadState(currentState);
 

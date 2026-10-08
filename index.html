@@ -533,6 +533,66 @@
         </div>
        </div>
       </section>
+
+      <!-- ========================================================================= -->
+      <!-- DYNAMIC STATE PRODUCTS SECTION (Triggered on Map Click) -->
+      <!-- ========================================================================= -->
+      <section class="py-20 bg-white border-t border-[var(--light-border-color)] relative z-20" id="state-products-section">
+       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Section Header -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 pb-6 border-b border-gray-100">
+         <div>
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#B8860B]/10 border border-[#B8860B]/30 text-[#B8860B] text-xs font-bold uppercase tracking-wider mb-3">
+           <i class="fa-solid fa-map-location-dot"></i>
+           <span>Interactive Map Selection</span>
+           <span class="opacity-40">•</span>
+           <span id="state-products-badge-name">Rajasthan</span>
+          </div>
+          <h2 class="text-3xl sm:text-4xl font-extrabold font-serif text-[var(--dark-text-color)] tracking-tight">
+           Craft Items from <span class="text-[#B8860B] italic" id="state-products-title">Rajasthan</span>
+          </h2>
+          <p class="text-sm sm:text-base text-gray-600 mt-2 max-w-3xl leading-relaxed" id="state-products-subtitle">
+           Explore authentic GI-certified masterpieces and traditional creations from this state.
+          </p>
+         </div>
+         <div class="flex flex-wrap items-center gap-3">
+          <span class="bg-[#FAF9F5] border border-gray-200 text-gray-700 text-xs font-semibold px-4 py-2 rounded-full shadow-sm" id="state-products-count-pill">
+           Showing <strong class="text-[#B8860B]" id="state-products-count">0</strong> Registered Items
+          </span>
+          <a class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#B8860B] hover:bg-[#8B6508] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md hover:shadow-lg" id="state-products-vault-btn" href="state_categories.html?name=Rajasthan">
+           <span>Explore Full Vault</span>
+           <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+         </div>
+        </div>
+
+        <!-- Category Tabs Filter -->
+        <div class="flex flex-wrap items-center gap-2.5 mb-8 pb-2 border-b border-gray-100 overflow-x-auto" id="state-products-category-tabs">
+         <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Products Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="state-products-grid">
+         <!-- Populated by JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="hidden text-center py-16 px-4 bg-[#FAF9F5] rounded-3xl border border-gray-200 my-6" id="state-products-empty">
+         <div class="w-14 h-14 mx-auto mb-3 bg-white rounded-full flex items-center justify-center text-2xl shadow-sm text-gray-400">
+          🏺
+         </div>
+         <h3 class="text-lg font-bold font-serif text-gray-800 mb-1">No Crafts in This Category</h3>
+         <p class="text-xs text-gray-500 max-w-sm mx-auto mb-4">
+          Select another category or click below to view all items from this state.
+         </p>
+         <button onclick="filterStateProductsCategory('All')" class="bg-[#B8860B] text-white px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#8B6508] transition-colors shadow">
+          View All Items from State
+         </button>
+        </div>
+
+       </div>
+      </section>
+
       <section class="relative py-20 lg:py-32 bg-[var(--medium-background-color)] overflow-hidden code-section" id="sumi3wa">
        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -1388,7 +1448,7 @@ const container = document.getElementById('india-map-container');
       path.addEventListener('click', () => {
         hideTooltip();
         const stateName = path.getAttribute('title') || 'Rajasthan';
-        window.location.href = `state_categories.html?name=${encodeURIComponent(stateName)}#categories-grid`;
+        window.location.href = `state_categories.html?name=${encodeURIComponent(stateName)}`;
       });
     });
   }
