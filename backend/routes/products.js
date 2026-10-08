@@ -49,7 +49,10 @@ router.get('/', async (req, res) => {
           const regexStr = '^' + category.replace(/[eé]/g, '[eé]') + '$';
           query.category = { $regex: regexStr, $options: 'i' };
         }
-        if (state) query.state = { $regex: state, $options: 'i' };
+        if (state) {
+          const statePattern = state.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\b(and|&)\b/gi, '(and|&)');
+          query.state = { $regex: statePattern, $options: 'i' };
+        }
         if (minPrice || maxPrice) {
           query.price = {};
           if (minPrice) query.price.$gte = Number(minPrice);
@@ -69,8 +72,9 @@ router.get('/', async (req, res) => {
     let list = GI_DATA.map(giToProduct);
 
     if (state && state.trim()) {
-      const stateTerm = state.toLowerCase().trim();
-      list = list.filter(p => p.state.toLowerCase().includes(stateTerm));
+      const statePattern = state.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\b(and|&)\b/gi, '(and|&)');
+      const stateRegex = new RegExp(statePattern, 'i');
+      list = list.filter(p => stateRegex.test(p.state));
     }
 
     if (category && category.trim() && category.toLowerCase() !== 'all') {

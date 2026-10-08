@@ -493,11 +493,11 @@
   <!-- JAVASCRIPT APPLICATION LOGIC -->
   <!-- ========================================================================= -->
   <script>
-    // All 28 States of India
+    // All States and Union Territories of India
     const ALL_28_STATES = [
       "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
-      "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
-      "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+      "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand",
+      "Karnataka", "Kerala", "Ladakh", "Madhya Pradesh", "Maharashtra", "Manipur",
       "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
       "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
       "Uttar Pradesh", "Uttarakhand", "West Bengal"
@@ -506,6 +506,8 @@
     // State Taglines Dictionary
     const STATE_NARRATIVES = {
       "Himachal Pradesh": "The Serene Abode of Kullu Shawls and Chamba Rumal Himalayan Embroideries.",
+      "Jammu and Kashmir": "The Paradise of Pashmina Shawls, Hand-Knot Silk Carpets, Papier-Mâché, and Walnut Wood Carvings.",
+      "Ladakh": "The High-Altitude Sanctuary of Pashmina (Lena), Wood Carvings, and Himalayan Heritage.",
       "Punjab": "The Vibrant Heart of Phulkari Silk Needlework and Celebrated Folk Traditions.",
       "Haryana": "The Rugged Heritage of Panipat Punja Flat-Woven Dhurries and Terracotta Art.",
       "Uttarakhand": "High-Altitude Himalayan Bhotiya Thulma Blankets and Sacred Valley Weaves.",
@@ -559,15 +561,25 @@
     let stateProducts = [];
     let stateGiData = [];
 
+    // Helper function to resolve state name from URL or input string
+    function resolveStateName(param) {
+      if (!param || !param.trim()) return "Rajasthan";
+      const cleaned = param.trim();
+      const normParam = cleaned.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]/g, '');
+      
+      const matched = ALL_28_STATES.find(s => {
+        const normS = s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]/g, '');
+        return normS === normParam || normS.includes(normParam) || normParam.includes(normS);
+      });
+      
+      return matched || cleaned;
+    }
+
     // Parse URL parameter
     const urlParams = new URLSearchParams(window.location.search);
     const paramState = urlParams.get('name') || urlParams.get('state');
     if (paramState) {
-      // Find matching state case-insensitively
-      const matched = ALL_28_STATES.find(s => s.toLowerCase() === paramState.toLowerCase().trim());
-      if (matched) {
-        currentState = matched;
-      }
+      currentState = resolveStateName(paramState);
     }
 
     // Initialize State Dropdown

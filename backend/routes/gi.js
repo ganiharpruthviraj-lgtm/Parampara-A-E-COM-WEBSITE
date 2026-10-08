@@ -60,9 +60,9 @@ router.get('/', (req, res) => {
 
     // State filter
     if (state && state !== 'All') {
-      results = results.filter(item =>
-        item.state.toLowerCase().includes(state.toLowerCase())
-      );
+      const statePattern = state.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\b(and|&)\b/gi, '(and|&)');
+      const stateRegex = new RegExp(statePattern, 'i');
+      results = results.filter(item => stateRegex.test(item.state));
     }
 
     // Region filter
