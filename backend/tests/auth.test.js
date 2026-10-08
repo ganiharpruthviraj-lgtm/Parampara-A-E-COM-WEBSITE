@@ -195,4 +195,27 @@ describe('Authentication API & JWT Verification', () => {
       expect(res.body.collections).not.toContain(mockProductId);
     });
   });
+
+  describe('GET /api/auth/config & POST /api/auth/google', () => {
+    it('should return google auth config status from GET /api/auth/config', async () => {
+      const res = await request(app).get('/api/auth/config');
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toHaveProperty('googleClientId');
+      expect(res.body).toHaveProperty('isGoogleConfigured');
+    });
+
+    it('should return 400 when GOOGLE_CLIENT_ID is not properly configured', async () => {
+      const originalClientId = process.env.GOOGLE_CLIENT_ID;
+      process.env.GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID_GOES_HERE';
+
+      const res = await request(app)
+        .post('/api/auth/google')
+        .send({ token: 'dummy_token' });
+
+      expect(res.statusCode).toBe(400);
+      expect(res.body.message).toMatch(/Google OAuth is not configured/i);
+
+      process.env.GOOGLE_CLIENT_ID = originalClientId;
+    });
+  });
 });

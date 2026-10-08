@@ -52,7 +52,7 @@
      <div class="flex justify-between items-center h-20">
       <!-- Logo -->
       <a class="flex items-center" href="index.html">
-       <img alt="Parampara Logo" class="h-12 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+       <img alt="Parampara Logo" class="h-12 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" loading="lazy"/>
       </a>
       <!-- Desktop Navigation -->
       <div class="hidden lg:flex items-center space-x-8">
@@ -148,7 +148,7 @@
        </span>
       </div>
      </div>
-     <button class="bg-brand-gold hover:bg-brand-goldHover text-white text-xs font-bold uppercase tracking-widest py-4 px-8 rounded flex items-center space-x-3 transition-all transform hover:-translate-y-1 hover:shadow-lg">
+     <button id="acquire-masterpiece-btn" class="bg-brand-gold hover:bg-brand-goldHover text-white text-xs font-bold uppercase tracking-widest py-4 px-8 rounded flex items-center space-x-3 transition-all transform hover:-translate-y-1 hover:shadow-lg">
       <span>
        Add to Collection
       </span>
@@ -159,11 +159,11 @@
     <!-- Right Imagery -->
     <div class="order-1 md:order-2 relative h-[500px] lg:h-[700px] w-full flex justify-end">
      <div class="w-full h-full bg-[#1A1A1A] relative shadow-2xl overflow-hidden">
-      <img alt="Jaipur Blue Pottery" class="w-full h-full object-cover opacity-90" id="main-product-image" src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80"/>
+      <img alt="Jaipur Blue Pottery" class="w-full h-full object-cover opacity-90" id="main-product-image" src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80" loading="lazy"/>
      </div>
      <!-- Floating Detail Image -->
      <div class="absolute -bottom-10 -left-10 md:left-0 w-40 h-48 bg-white p-2 shadow-2xl transform -rotate-6 z-10 transition-transform hover:rotate-0 hover:scale-105 duration-500">
-      <img alt="Texture Detail" class="w-full h-full object-cover" id="detail-product-image" src="https://picsum.photos/seed/RajasthanDetail/400/500"/>
+      <img alt="Texture Detail" class="w-full h-full object-cover" id="detail-product-image" src="https://picsum.photos/seed/RajasthanDetail/400/500" loading="lazy"/>
      </div>
     </div>
    </section>
@@ -196,7 +196,7 @@
    <section class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-32 h-[350px]">
     <!-- Card 1 -->
     <div class="relative bg-gray-200 p-8 flex flex-col justify-end group overflow-hidden cursor-pointer h-full">
-     <img alt="Dough" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://images.unsplash.com/photo-1513506003901-1e6a229e0815?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80"/>
+     <img alt="Dough" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://images.unsplash.com/photo-1513506003901-1e6a229e0815?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80" loading="lazy"/>
      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
      </div>
      <div class="relative z-10">
@@ -247,7 +247,7 @@
     <div class="flex flex-col md:flex-row items-center gap-16">
      <!-- Portrait -->
      <div class="md:w-5/12 relative">
-      <img alt="Artisan" class="w-full h-auto grayscale shadow-xl" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80"/>
+      <img alt="Artisan" class="w-full h-auto grayscale shadow-xl" src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=600&amp;q=80" loading="lazy"/>
       <!-- Quote Overlap Block -->
       <div class="absolute top-1/2 -right-12 md:-right-24 transform -translate-y-1/2 bg-brand-red text-white p-8 shadow-2xl w-64 z-10">
        <i class="fa-solid fa-quote-left text-brand-gold/50 text-3xl mb-4">
@@ -451,13 +451,28 @@
       document.getElementById('artisan-name').textContent = product.artisan || 'Traditional Artisan';
       document.getElementById('artisan-bio').textContent = product.artisanBio || 'This heritage craft is preserved by community masters along the banks of ancient rivers.';
 
-      // Update Collection Button
-      const collectionBtn = document.querySelector('main button');
-      if (collectionBtn) {
-          collectionBtn.onclick = () => toggleCollection(productId || product._id || 'fallback', collectionBtn);
-          
-          // Check if already in collection (requires profile fetch)
-          checkCollectionState(productId, collectionBtn);
+      // Update Acquire / Checkout Button
+      const acquireBtn = document.getElementById('acquire-masterpiece-btn');
+      if (acquireBtn) {
+          acquireBtn.onclick = () => {
+              const cartItem = {
+                  id: productId || product._id,
+                  name: product.name,
+                  price: product.price || 24500,
+                  state: product.state,
+                  origin: `${product.state}, India`,
+                  imageUrl: product.imageUrl,
+                  craft: product.craft
+              };
+              try {
+                  let cart = JSON.parse(localStorage.getItem('parampara_cart') || '[]');
+                  if (!Array.isArray(cart)) cart = [];
+                  cart.push(cartItem);
+                  localStorage.setItem('parampara_cart', JSON.stringify(cart));
+                  window.dispatchEvent(new Event('cart-updated'));
+              } catch(e) {}
+              window.location.href = `checkout.html?name=${encodeURIComponent(cartItem.name)}&price=${cartItem.price}&origin=${encodeURIComponent(cartItem.origin)}`;
+          };
       }
   }
 
@@ -500,7 +515,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
   </script>
-  <script src="js/nav.js">
-  </script>
+  <script src="js/components.js"></script>
+  <script src="js/nav.js"></script>
  </body>
 </html>

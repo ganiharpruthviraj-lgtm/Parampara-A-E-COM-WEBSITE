@@ -142,3 +142,30 @@ window.onAuthSuccess = (data) => {
     localStorage.setItem('user', JSON.stringify({ name: data.name, email: data.email }));
     updateGlobalNav();
 };
+
+/**
+ * Dynamic Google OAuth Client ID Loader
+ * Fetches configured Google Client ID from backend /api/auth/config and updates g_id_onload element.
+ */
+async function initGoogleAuthConfig() {
+    try {
+        const res = await fetch(`${window.GLOBAL_API_BASE}/api/auth/config`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (data && data.googleClientId) {
+            window.GOOGLE_CLIENT_ID = data.googleClientId;
+            const gIdOnload = document.getElementById('g_id_onload');
+            if (gIdOnload) {
+                gIdOnload.setAttribute('data-client_id', data.googleClientId);
+            }
+        }
+    } catch (err) {
+        // Backend offline or config unavailable
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGoogleAuthConfig);
+} else {
+    initGoogleAuthConfig();
+}

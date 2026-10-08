@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="/favicon.png" rel="icon" type="image/png"/>
+  <title>Checkout | Parampara Heritage — Secure Order</title>
+  <meta content="Complete your heritage craft purchase securely. Authentic GI-tagged masterpieces with 70% direct artisan payout. Free insured shipping on all orders." name="description"/>
+  <meta content="website" property="og:type"/>
+  <meta content="Parampara Heritage" property="og:site_name"/>
+  <meta content="Checkout | Parampara Heritage" property="og:title"/>
+  <meta content="Complete your order of authentic Indian heritage crafts. Secure checkout with free insured shipping." property="og:description"/>
+  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" property="og:image"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+  <!-- Icons -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <!-- Material Symbols -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script src="js/auth.js"></script>
+  <link href="css/checkout.css" rel="stylesheet"/>
+ </head>
+ <body>
+  <!-- Announcement Bar -->
+  <div class="announcement-bar" id="announcement-bar">
+   <span><i class="fa-solid fa-shield-halved"></i> Secured by 256-bit SSL Encryption</span>
+   <span class="sep">·</span>
+   <span><i class="fa-solid fa-truck"></i> Free Insured Shipping on All Heritage Orders</span>
+   <span class="sep">·</span>
+   <span><i class="fa-solid fa-rotate-left"></i> 15-Day Easy Returns</span>
+  </div>
+
+  <!-- Header -->
+  <header class="checkout-header">
+   <a class="logo-link" href="index.html">
+    <img alt="Parampara Heritage" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=300"/>
+   </a>
+   <div class="header-steps">
+    <span class="step active"><i class="fa-solid fa-cart-shopping"></i> Cart</span>
+    <span class="step-divider"></span>
+    <span class="step active" id="step-shipping"><i class="fa-solid fa-location-dot"></i> Shipping</span>
+    <span class="step-divider"></span>
+    <span class="step" id="step-payment"><i class="fa-solid fa-credit-card"></i> Payment</span>
+    <span class="step-divider"></span>
+    <span class="step" id="step-confirm"><i class="fa-solid fa-circle-check"></i> Confirm</span>
+   </div>
+   <a class="back-link" href="search.html"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</a>
+  </header>
+
+  <!-- Toast -->
+  <div id="toast"></div>
+
+  <!-- Main Layout -->
+  <main class="checkout-main">
+
+   <!-- LEFT: Checkout Form -->
+   <section class="checkout-form-section">
+
+    <!-- ── STEP 1: Shipping ── -->
+    <div class="form-step" id="form-shipping">
+     <div class="step-header">
+      <span class="step-num">1</span>
+      <h2>Shipping Information</h2>
+     </div>
+
+     <div class="form-grid">
+      <div class="field-group">
+       <label for="first-name">First Name</label>
+       <input id="first-name" placeholder="Arjun" type="text" autocomplete="given-name"/>
+      </div>
+      <div class="field-group">
+       <label for="last-name">Last Name</label>
+       <input id="last-name" placeholder="Sharma" type="text" autocomplete="family-name"/>
+      </div>
+      <div class="field-group full">
+       <label for="email-checkout">Email Address</label>
+       <input id="email-checkout" placeholder="you@example.com" type="email" autocomplete="email"/>
+       <span class="field-hint"><i class="fa-solid fa-envelope"></i> Order confirmation will be sent here</span>
+      </div>
+      <div class="field-group full">
+       <label for="phone">Phone Number</label>
+       <input id="phone" placeholder="+91 98765 43210" type="tel" autocomplete="tel"/>
+      </div>
+      <div class="field-group full">
+       <label for="address1">Street Address</label>
+       <input id="address1" placeholder="House No, Street Name, Colony" type="text" autocomplete="address-line1"/>
+      </div>
+      <div class="field-group full">
+       <label for="address2">Apartment, Suite, etc. <span class="optional">(Optional)</span></label>
+       <input id="address2" placeholder="Flat / Building / Tower" type="text" autocomplete="address-line2"/>
+      </div>
+      <div class="field-group">
+       <label for="city">City</label>
+       <input id="city" placeholder="New Delhi" type="text" autocomplete="address-level2"/>
+      </div>
+      <div class="field-group">
+       <label for="state-select">State</label>
+       <select id="state-select" autocomplete="address-level1">
+        <option value="">Select State</option>
+        <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
+        <option>Bihar</option><option>Chhattisgarh</option><option>Goa</option>
+        <option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option>
+        <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
+        <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option>
+        <option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option>
+        <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
+        <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
+        <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
+        <option>West Bengal</option><option>Delhi</option><option>Jammu &amp; Kashmir</option>
+       </select>
+      </div>
+      <div class="field-group">
+       <label for="pincode">PIN Code</label>
+       <input id="pincode" maxlength="6" placeholder="110001" type="text" autocomplete="postal-code"/>
+      </div>
+      <div class="field-group full">
+       <label>Delivery Speed</label>
+       <div class="delivery-options">
+        <label class="delivery-opt selected" id="std-delivery" for="del-std">
+         <input checked id="del-std" name="delivery" type="radio" value="standard"/>
+         <div class="del-info">
+          <span class="del-name"><i class="fa-solid fa-box"></i> Standard — 5–7 Days</span>
+          <span class="del-price free">FREE</span>
+         </div>
+         <span class="del-sub">Tracked, insured handoff via BlueDart</span>
+        </label>
+        <label class="delivery-opt" id="exp-delivery" for="del-exp">
+         <input id="del-exp" name="delivery" type="radio" value="express"/>
+         <div class="del-info">
+          <span class="del-name"><i class="fa-solid fa-bolt"></i> Express — 2–3 Days</span>
+          <span class="del-price">₹299</span>
+         </div>
+         <span class="del-sub">Priority white-glove packaging</span>
+        </label>
+       </div>
+      </div>
+     </div>
+
+     <button class="btn-primary" id="btn-to-payment" onclick="goToPayment()">
+      <span>Continue to Payment</span>
+      <i class="fa-solid fa-arrow-right"></i>
+     </button>
+    </div>
+
+    <!-- ── STEP 2: Payment ── -->
+    <div class="form-step hidden" id="form-payment">
+     <button class="back-step-btn" onclick="goToShipping()">
+      <i class="fa-solid fa-arrow-left"></i> Back to Shipping
+     </button>
+     <div class="step-header">
+      <span class="step-num">2</span>
+      <h2>Payment Details</h2>
+     </div>
+
+     <div class="payment-methods">
+      <button class="pay-method active" id="pm-card" onclick="selectPayMethod('card', this)">
+       <i class="fa-regular fa-credit-card"></i> Card
+      </button>
+      <button class="pay-method" id="pm-upi" onclick="selectPayMethod('upi', this)">
+       <img alt="UPI" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/100px-UPI-Logo-vector.svg.png" style="height:18px; vertical-align:middle; margin-right:4px;" loading="lazy"/> UPI
+      </button>
+      <button class="pay-method" id="pm-netbanking" onclick="selectPayMethod('netbanking', this)">
+       <i class="fa-solid fa-building-columns"></i> Net Banking
+      </button>
+      <button class="pay-method" id="pm-cod" onclick="selectPayMethod('cod', this)">
+       <i class="fa-solid fa-money-bill-wave"></i> Cash on Delivery
+      </button>
+     </div>
+
+     <!-- Card Panel -->
+     <div class="pay-panel" id="panel-card">
+      <div class="form-grid">
+       <div class="field-group full">
+        <label for="card-number">Card Number</label>
+        <div class="input-with-icon">
+         <i class="fa-regular fa-credit-card input-icon"></i>
+         <input id="card-number" maxlength="19" placeholder="1234  5678  9012  3456" type="text"/>
+         <div class="card-brand-icons">
+          <img alt="Visa" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/60px-Visa_Inc._logo.svg.png" loading="lazy"/>
+          <img alt="Mastercard" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastercard_2019_logo.svg/60px-Mastercard_2019_logo.svg.png" loading="lazy"/>
+          <img alt="RuPay" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/RuPay-logo.png/100px-RuPay-logo.png" loading="lazy"/>
+         </div>
+        </div>
+       </div>
+       <div class="field-group full">
+        <label for="card-name">Name on Card</label>
+        <input id="card-name" placeholder="As printed on your card" type="text"/>
+       </div>
+       <div class="field-group">
+        <label for="card-expiry">Expiry Date</label>
+        <input id="card-expiry" maxlength="5" placeholder="MM / YY" type="text"/>
+       </div>
+       <div class="field-group">
+        <label for="card-cvv">CVV <i class="fa-solid fa-circle-question" title="3-digit code on the back of your card"></i></label>
+        <input id="card-cvv" maxlength="4" placeholder="•••" type="password"/>
+       </div>
+      </div>
+      <div class="security-note">
+       <i class="fa-solid fa-lock"></i>
+       Your card details are encrypted end-to-end. We never store CVV numbers.
+      </div>
+     </div>
+
+     <!-- UPI Panel -->
+     <div class="pay-panel hidden" id="panel-upi">
+      <div class="field-group full">
+       <label for="upi-id">UPI ID</label>
+       <div class="input-with-icon">
+        <i class="fa-solid fa-at input-icon"></i>
+        <input id="upi-id" placeholder="yourname@upi" type="text"/>
+       </div>
+       <span class="field-hint">e.g. 9876543210@ybl, name@paytm, name@okaxis</span>
+      </div>
+      <div class="upi-apps">
+       <span>Or pay with:</span>
+       <div class="upi-app-grid">
+        <button class="upi-app-btn" onclick="selectUpiApp('PhonePe')"><img alt="PhonePe" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/PhonePe_Logo.svg/60px-PhonePe_Logo.svg.png" loading="lazy"/>PhonePe</button>
+        <button class="upi-app-btn" onclick="selectUpiApp('GPay')"><img alt="GPay" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/60px-Google_Pay_Logo.svg.png" loading="lazy"/>GPay</button>
+        <button class="upi-app-btn" onclick="selectUpiApp('Paytm')"><img alt="Paytm" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Paytm_logo.png/100px-Paytm_logo.png" loading="lazy"/>Paytm</button>
+        <button class="upi-app-btn" onclick="selectUpiApp('BHIM')"><img alt="BHIM" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/BHIM_Logo.svg/60px-BHIM_Logo.svg.png" loading="lazy"/>BHIM</button>
+       </div>
+      </div>
+     </div>
+
+     <!-- Net Banking Panel -->
+     <div class="pay-panel hidden" id="panel-netbanking">
+      <div class="field-group full">
+       <label for="bank-select">Select Your Bank</label>
+       <select id="bank-select">
+        <option value="">Choose Bank</option>
+        <option>State Bank of India</option>
+        <option>HDFC Bank</option>
+        <option>ICICI Bank</option>
+        <option>Axis Bank</option>
+        <option>Kotak Mahindra Bank</option>
+        <option>Bank of Baroda</option>
+        <option>Punjab National Bank</option>
+        <option>Canara Bank</option>
+        <option>Yes Bank</option>
+        <option>IDBI Bank</option>
+        <option>IndusInd Bank</option>
+        <option>Federal Bank</option>
+       </select>
+      </div>
+      <div class="security-note">
+       <i class="fa-solid fa-lock"></i>
+       You will be redirected to your bank's secure portal to complete payment.
+      </div>
+     </div>
+
+     <!-- COD Panel -->
+     <div class="pay-panel hidden" id="panel-cod">
+      <div class="cod-info">
+       <div class="cod-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+       <div>
+        <h4>Cash on Delivery</h4>
+        <p>Pay ₹<span id="cod-amount">24,500</span> in cash when your heritage masterpiece is delivered. An additional COD fee of ₹99 will apply.</p>
+        <ul>
+         <li><i class="fa-solid fa-check"></i> No advance payment required</li>
+         <li><i class="fa-solid fa-check"></i> Pay only on delivery</li>
+         <li><i class="fa-solid fa-check"></i> Available across India</li>
+        </ul>
+       </div>
+      </div>
+     </div>
+
+     <button class="btn-primary" id="btn-place-order" onclick="placeOrder()">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span id="order-btn-text">Place Secure Order — ₹24,500</span>
+     </button>
+     <p class="order-disclaimer">
+      By placing your order, you agree to our <a href="about.html">Terms of Service</a> and <a href="about.html">Privacy Policy</a>. Your payment is protected by bank-grade 256-bit SSL encryption.
+     </p>
+    </div>
+
+    <!-- ── STEP 3: Confirmation ── -->
+    <div class="form-step hidden" id="form-confirm">
+     <div class="confirm-success">
+      <div class="confirm-icon">
+       <i class="fa-solid fa-circle-check"></i>
+      </div>
+      <h2>Order Confirmed!</h2>
+      <p class="confirm-tagline">Your heritage masterpiece is now reserved. A confirmation has been sent to your email.</p>
+      <div class="confirm-order-card">
+       <div class="confirm-row">
+        <span>Order ID</span>
+        <strong id="confirm-order-id">PAR-2026-XXXX</strong>
+       </div>
+       <div class="confirm-row">
+        <span>Item</span>
+        <strong id="confirm-item-name">Jaipur Blue Pottery</strong>
+       </div>
+       <div class="confirm-row">
+        <span>Total Paid</span>
+        <strong id="confirm-total">₹24,500</strong>
+       </div>
+       <div class="confirm-row">
+        <span>Estimated Delivery</span>
+        <strong id="confirm-delivery">Oct 12–14, 2026</strong>
+       </div>
+       <div class="confirm-row">
+        <span>Artisan Payout</span>
+        <strong class="artisan-payout"><i class="fa-solid fa-hand-holding-heart"></i> ₹17,150 (70%) directly to artisan</strong>
+       </div>
+      </div>
+      <div class="confirm-actions">
+       <a class="btn-primary" href="collection.html">
+        <i class="fa-regular fa-bookmark"></i> View My Collection
+       </a>
+       <a class="btn-outline" href="search.html">
+        <i class="fa-solid fa-store"></i> Continue Exploring
+       </a>
+      </div>
+      <div class="heritage-note">
+       <i class="fa-solid fa-leaf"></i>
+       <span>Every purchase funds a living craft tradition. Your piece will arrive with a physical Certificate of Authenticity and QR-linked artisan story.</span>
+      </div>
+     </div>
+    </div>
+
+   </section>
+
+   <!-- RIGHT: Order Summary -->
+   <aside class="order-summary">
+    <div class="summary-card">
+     <h3 class="summary-title">Your Order</h3>
+
+     <!-- Product -->
+     <div class="summary-product" id="summary-product">
+      <div class="product-img-wrap">
+       <img alt="Jaipur Blue Pottery" id="summary-product-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRvNfriugx0NdrdLeauMrU-T9Tr87a7nC-J4nvAoCW_TkiqjfVtVIlJP91Ik6MOOER3m_6SHZgiPfHnJtX0iMVO6ZKw1P35uXn8NGIoC6tveTbjBTXulXuQDrOLgugDb06sR0mF6t4wF-P3UOpyzP6wGvXetfE-qoHRIyRhZHpab56fAgLIzl0juu9z7X0LepiTAGCIQw_FSnOvAQtp-CcfOnBcg19DxmOeCqZICVR4LsNoXDtgTix5ZzRMECyixHzagr7bWx_bBs" loading="lazy"/>
+       <span class="qty-badge">1</span>
+      </div>
+      <div class="product-info">
+       <p class="product-name" id="summary-product-name">Jaipur Blue Pottery</p>
+       <p class="product-origin"><i class="fa-solid fa-location-dot"></i> Rajasthan, India</p>
+       <p class="product-cert"><span class="gi-badge">GI Certified</span> · Masterpiece Series 01</p>
+      </div>
+      <div class="product-price" id="summary-product-price">₹24,500</div>
+     </div>
+
+     <!-- Artisan Transparency -->
+     <div class="artisan-transparency">
+      <h4><i class="fa-solid fa-chart-pie"></i> Where Your Money Goes</h4>
+      <div class="transparency-bar">
+       <div class="bar-segment artisan" style="width:70%" title="Artisan: 70%"></div>
+       <div class="bar-segment platform" style="width:20%" title="Parampara: 20%"></div>
+       <div class="bar-segment logistics" style="width:10%" title="Logistics: 10%"></div>
+      </div>
+      <div class="bar-legend">
+       <span><span class="dot artisan-dot"></span> Artisan 70%</span>
+       <span><span class="dot platform-dot"></span> Platform 20%</span>
+       <span><span class="dot logistics-dot"></span> Logistics 10%</span>
+      </div>
+     </div>
+
+     <!-- Promo Code -->
+     <div class="promo-section">
+      <div class="promo-input-wrap">
+       <input id="promo-input" placeholder="Heritage code (e.g. ARTISAN10)" type="text"/>
+       <button id="promo-btn" onclick="applyPromo()">Apply</button>
+      </div>
+      <div class="promo-msg hidden" id="promo-msg"></div>
+     </div>
+
+     <!-- Price Breakdown -->
+     <div class="price-breakdown">
+      <div class="price-row">
+       <span>Subtotal</span>
+       <span id="price-subtotal">₹24,500</span>
+      </div>
+      <div class="price-row discount hidden" id="row-discount">
+       <span id="discount-label">Promo Discount</span>
+       <span class="green" id="price-discount">−₹0</span>
+      </div>
+      <div class="price-row">
+       <span>Shipping</span>
+       <span class="green" id="price-shipping">FREE</span>
+      </div>
+      <div class="price-row">
+       <span>GST (12%)</span>
+       <span id="price-gst">₹2,940</span>
+      </div>
+      <div class="price-row total">
+       <span>Total</span>
+       <span id="price-total">₹27,440</span>
+      </div>
+     </div>
+
+     <!-- Trust Badges -->
+     <div class="trust-badges">
+      <div class="trust-item">
+       <i class="fa-solid fa-shield-halved"></i>
+       <span>SSL Secured</span>
+      </div>
+      <div class="trust-item">
+       <i class="fa-solid fa-award"></i>
+       <span>GI Certified</span>
+      </div>
+      <div class="trust-item">
+       <i class="fa-solid fa-rotate-left"></i>
+       <span>15-Day Returns</span>
+      </div>
+      <div class="trust-item">
+       <i class="fa-solid fa-truck"></i>
+       <span>Free Shipping</span>
+      </div>
+     </div>
+    </div>
+
+    <!-- Artisan Story Card -->
+    <div class="artisan-story-card">
+     <div class="artisan-avatar">
+      <img alt="Shri Gopal Saini" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2QdkvZ7CJJjjvIEkc_4wgwHYsLHfRY8R72o-SUTAvzDWjoXUixrBCwnKTI7WR35_JNeTUt_31CklJ2y5NBMpoHJVDjG-ESBTcWaHfWRvO-JnNmlZnNjxtP4jBuUYkstfLEbiIIaDaceAjquJjy49I92GOcQR3MgCBVyYNxykSGLS1UGTyU3mhaL_nKoaDaDM99jRnQ5vK6UWY98yLQPhzHM0bHgmiWVvthUCPHRAvi7GqIGwQIzEAdBdd7nabk1eiQCbYTGTFLdA" loading="lazy"/>
+     </div>
+     <div class="artisan-story-text">
+      <p class="artisan-story-name" id="artisan-name">Shri Gopal Saini</p>
+      <p class="artisan-story-craft" id="artisan-craft">Master Potter · Jaipur, Rajasthan</p>
+      <p class="artisan-story-quote">"My hands only repeat what my ancestors whispered."</p>
+      <p class="artisan-payout-info">Your purchase sends <strong id="artisan-amount">₹17,150</strong> directly to this artisan.</p>
+     </div>
+    </div>
+   </aside>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="checkout-footer">
+   <p>© 2026 Parampara Heritage · <a href="about.html">Terms</a> · <a href="about.html">Privacy</a> · <a href="about.html">Refund Policy</a></p>
+   <div class="footer-badges">
+    <i class="fa-brands fa-cc-visa fa-2x"></i>
+    <i class="fa-brands fa-cc-mastercard fa-2x"></i>
+    <i class="fa-solid fa-lock"></i>
+   </div>
+  </footer>
+
+  <script>
+  /* ─── Checkout Logic ─────────────────────────────────── */
+
+  // ── State
+  let currentPayMethod = 'card';
+  let expressDelivery = false;
+  let promoApplied = false;
+
+  let BASE_PRICE = 24500;
+  const GST_RATE   = 0.12;
+  const EXPRESS_FEE = 299;
+  const COD_FEE     = 99;
+
+  // ── Toast
+  function showToast(msg, type = 'info') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast-show ' + type;
+    setTimeout(() => t.className = '', 3500);
+  }
+
+  // ── Format INR
+  function formatINR(n) {
+    return '₹' + n.toLocaleString('en-IN');
+  }
+
+  // ── Recalculate totals
+  function recalculate() {
+    let subtotal = BASE_PRICE;
+    let discount = 0;
+    if (promoApplied) { discount = Math.round(subtotal * 0.10); }
+    const afterDiscount = subtotal - discount;
+    const shipping = expressDelivery ? EXPRESS_FEE : 0;
+    const cod = (currentPayMethod === 'cod') ? COD_FEE : 0;
+    const gst = Math.round(afterDiscount * GST_RATE);
+    const total = afterDiscount + shipping + cod + gst;
+    const artisanPayout = Math.round(subtotal * 0.70);
+
+    document.getElementById('price-subtotal').textContent = formatINR(subtotal);
+    document.getElementById('price-shipping').textContent = (shipping + cod) === 0 ? 'FREE' : formatINR(shipping + cod);
+    document.getElementById('price-shipping').className = (shipping + cod) === 0 ? 'green' : '';
+    document.getElementById('price-gst').textContent = formatINR(gst);
+    document.getElementById('price-total').textContent = formatINR(total);
+    document.getElementById('artisan-amount').textContent = formatINR(artisanPayout);
+    document.getElementById('cod-amount').textContent = total.toLocaleString('en-IN');
+    document.getElementById('order-btn-text').textContent = `Place Secure Order — ${formatINR(total)}`;
+
+    if (discount > 0) {
+      document.getElementById('row-discount').classList.remove('hidden');
+      document.getElementById('price-discount').textContent = '−' + formatINR(discount);
+    } else {
+      document.getElementById('row-discount').classList.add('hidden');
+    }
+  }
+
+  // ── Delivery toggle
+  document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+    radio.addEventListener('change', function() {
+      expressDelivery = this.value === 'express';
+      document.querySelectorAll('.delivery-opt').forEach(o => o.classList.remove('selected'));
+      this.closest('.delivery-opt').classList.add('selected');
+      recalculate();
+    });
+  });
+
+  // ── Payment method
+  function selectPayMethod(method, btn) {
+    currentPayMethod = method;
+    document.querySelectorAll('.pay-method').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.pay-panel').forEach(p => p.classList.add('hidden'));
+    document.getElementById('panel-' + method).classList.remove('hidden');
+    recalculate();
+  }
+
+  // ── UPI App selection
+  function selectUpiApp(app) {
+    showToast(`Opening ${app}... (demo mode 🏺)`, 'info');
+  }
+
+  // ── Promo code
+  const VALID_PROMOS = { 'ARTISAN10': 10, 'HERITAGE15': 15, 'PARAMPARA': 10 };
+  function applyPromo() {
+    const code = document.getElementById('promo-input').value.trim().toUpperCase();
+    const msg  = document.getElementById('promo-msg');
+    msg.classList.remove('hidden');
+    if (VALID_PROMOS[code]) {
+      promoApplied = true;
+      msg.textContent = `✓ Code "${code}" applied — ${VALID_PROMOS[code]}% off!`;
+      msg.className = 'promo-msg success';
+      document.getElementById('discount-label').textContent = `${VALID_PROMOS[code]}% Heritage Discount`;
+      showToast(`Promo applied! ${VALID_PROMOS[code]}% off 🎉`, 'success');
+    } else {
+      promoApplied = false;
+      msg.textContent = '✕ Invalid promo code. Try ARTISAN10.';
+      msg.className = 'promo-msg error';
+    }
+    recalculate();
+  }
+
+  // ── Step navigation: Shipping → Payment
+  function goToPayment() {
+    const fields = ['first-name','last-name','email-checkout','phone','address1','city','state-select','pincode'];
+    for (const id of fields) {
+      const el = document.getElementById(id);
+      if (!el.value.trim()) {
+        el.classList.add('field-error');
+        el.focus();
+        showToast('Please fill in all required fields 🏺', 'error');
+        return;
+      }
+      el.classList.remove('field-error');
+    }
+    document.getElementById('form-shipping').classList.add('hidden');
+    document.getElementById('form-payment').classList.remove('hidden');
+    document.getElementById('step-payment').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goToShipping() {
+    document.getElementById('form-payment').classList.add('hidden');
+    document.getElementById('form-shipping').classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Place Order (Demo)
+  function placeOrder() {
+    const btn = document.getElementById('btn-place-order');
+    const btnText = document.getElementById('order-btn-text');
+    btn.disabled = true;
+    btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+
+    // Simulate payment processing
+    setTimeout(() => {
+      const orderId = 'PAR-2026-' + Math.floor(Math.random() * 9000 + 1000);
+      const deliveryDate = new Date();
+      deliveryDate.setDate(deliveryDate.getDate() + (expressDelivery ? 3 : 7));
+      const opts = { month: 'short', day: 'numeric', year: 'numeric' };
+      const delivEnd = new Date(deliveryDate);
+      delivEnd.setDate(delivEnd.getDate() + 2);
+
+      document.getElementById('confirm-order-id').textContent = orderId;
+      document.getElementById('confirm-item-name').textContent = document.getElementById('summary-product-name').textContent;
+      document.getElementById('confirm-total').textContent = document.getElementById('price-total').textContent;
+      document.getElementById('confirm-delivery').textContent =
+        deliveryDate.toLocaleDateString('en-IN', opts) + ' – ' + delivEnd.toLocaleDateString('en-IN', opts);
+
+      // Show confirmation step
+      document.getElementById('form-payment').classList.add('hidden');
+      document.getElementById('form-confirm').classList.remove('hidden');
+      document.getElementById('step-confirm').classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      showToast('🎉 Order placed! Your heritage masterpiece is reserved.', 'success');
+    }, 2200);
+  }
+
+  // ── Card input formatting
+  const cardInput = document.getElementById('card-number');
+  if (cardInput) {
+    cardInput.addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '').substring(0, 16);
+      this.value = v.replace(/(.{4})/g, '$1  ').trim();
+    });
+  }
+  const expiryInput = document.getElementById('card-expiry');
+  if (expiryInput) {
+    expiryInput.addEventListener('input', function() {
+      let v = this.value.replace(/\D/g, '');
+      if (v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2,4);
+      this.value = v;
+    });
+  }
+
+  // ── Load cart from URL params or localStorage
+  (function loadCart() {
+    const params = new URLSearchParams(window.location.search);
+    let itemData = null;
+
+    if (params.get('name') || params.get('product')) {
+      itemData = {
+        name: params.get('name') || params.get('product'),
+        price: parseInt(params.get('price')) || 24500,
+        origin: params.get('origin') || params.get('state') || 'India',
+        imageUrl: params.get('image') || params.get('img'),
+        giNumber: params.get('gi') || params.get('giNumber')
+      };
+    } else {
+      try {
+        const stored = localStorage.getItem('parampara_cart');
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            itemData = parsed[parsed.length - 1];
+          } else if (parsed && parsed.name) {
+            itemData = parsed;
+          }
+        }
+      } catch (e) {}
+    }
+
+    if (itemData) {
+      if (itemData.name) {
+        document.getElementById('summary-product-name').textContent = itemData.name;
+        const confirmName = document.getElementById('confirm-item-name');
+        if (confirmName) confirmName.textContent = itemData.name;
+      }
+      if (itemData.price) {
+        BASE_PRICE = Number(itemData.price);
+        document.getElementById('summary-product-price').textContent = formatINR(BASE_PRICE);
+      }
+      if (itemData.origin) {
+        const originEl = document.querySelector('.product-origin');
+        if (originEl) originEl.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${itemData.origin}`;
+      }
+      if (itemData.imageUrl) {
+        const imgEl = document.getElementById('summary-product-img');
+        if (imgEl) imgEl.src = itemData.imageUrl;
+      }
+      if (itemData.giNumber) {
+        const certEl = document.querySelector('.product-cert');
+        if (certEl) certEl.innerHTML = `<span class="gi-badge">GI Certified</span> · ${itemData.giNumber}`;
+      }
+    }
+  })();
+
+  // ── Init
+  recalculate();
+  </script>
+ </body>
+</html>

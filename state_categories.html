@@ -5,45 +5,111 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <link href="/favicon.png" rel="icon" type="image/png"/>
   <title>
-   State Craft Categories | Parampara — 28 Indian States
+   State Heritage Crafts & GI Registry | Parampara — 28 Indian States
   </title>
-  <meta content="Explore heritage craft categories across all 28 states of India. From Rajasthani Blue Pottery to Pashmina weaving and Tanjore paintings." name="description"/>
+  <meta content="Explore indigenous craft categories and authentic GI-certified masterpieces state-by-state across all 28 states of India." name="description"/>
   <meta content="website" property="og:type"/>
   <meta content="Parampara Heritage" property="og:site_name"/>
-  <meta content="State Craft Categories | Parampara — 28 Indian States" property="og:title"/>
-  <meta content="Explore heritage craft categories across all 28 states of India. Discover certified masterpieces by master artisans." property="og:description"/>
+  <meta content="State Heritage Crafts &amp; GI Registry | Parampara" property="og:title"/>
+  <meta content="Discover certified GI-tagged crafts and indigenous categories across all 28 states of India." property="og:description"/>
   <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" property="og:image"/>
   <meta content="https://parampara.in/state_categories.html" property="og:url"/>
   <meta content="summary_large_image" name="twitter:card"/>
-  <meta content="State Craft Categories | Parampara — 28 Indian States" name="twitter:title"/>
-  <meta content="Explore heritage craft categories across all 28 states of India. Discover certified masterpieces by master artisans." name="twitter:description"/>
-  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" name="twitter:image"/>
-  <script src="https://cdn.tailwindcss.com">
-  </script>
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="css/states.css" rel="stylesheet"/>
   <link href="css/state_categories.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary-color: #B8860B;
+      --primary-hover: #8B6508;
+      --heritage-green: #2F5233;
+      --dark-bg: #1A1A1A;
+      --sand-bg: #FAF9F5;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--sand-bg);
+      color: #1A1A1A;
+    }
+    .font-serif-heading {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    .font-sora {
+      font-family: 'Sora', sans-serif;
+    }
+    .gold-gradient-border {
+      border: 1px solid rgba(184, 134, 11, 0.3);
+      transition: all 0.3s ease;
+    }
+    .gold-gradient-border:hover {
+      border-color: #B8860B;
+      box-shadow: 0 10px 30px -10px rgba(184, 134, 11, 0.25);
+    }
+    .category-card.active {
+      border-color: #B8860B;
+      background: linear-gradient(180deg, #FFFFFF 0%, #FDFBF7 100%);
+      box-shadow: 0 12px 24px -8px rgba(184, 134, 11, 0.25);
+      transform: translateY(-4px);
+    }
+    .category-card.active .category-icon-wrapper {
+      background-color: #B8860B;
+      color: #FFFFFF;
+      transform: scale(1.08);
+    }
+    .category-card.active .category-title {
+      color: #B8860B;
+    }
+    .item-card {
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .item-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.12);
+    }
+    .item-card:hover .item-image {
+      transform: scale(1.08);
+    }
+    /* Modal Backdrop Animation */
+    .certificate-modal-overlay {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(8px);
+    }
+    .certificate-paper {
+      background: #FFFDF9;
+      border: 2px solid #E8D8B0;
+      box-shadow: 0 25px 60px -15px rgba(0,0,0,0.4);
+    }
+    .certificate-seal {
+      background: radial-gradient(circle, #DFB757 0%, #B8860B 100%);
+    }
+  </style>
  </head>
  <body class="flex flex-col min-h-screen">
   <!-- Cinematic Preloader -->
-  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A] transition-opacity duration-1000" id="preloader">
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A] transition-opacity duration-700" id="preloader">
    <div class="relative flex flex-col items-center">
     <div class="text-[#B8860B] text-3xl font-serif mb-4 animate-[pulse_2s_ease-in-out_infinite]">
      Parampara
     </div>
     <div class="w-48 h-[1px] bg-white/20 relative overflow-hidden">
-     <div class="absolute top-0 left-0 h-full w-0 bg-[#B8860B] transition-all duration-[2000ms] ease-out" id="preloader-progress">
+     <div class="absolute top-0 left-0 h-full w-0 bg-[#B8860B] transition-all duration-[1200ms] ease-out" id="preloader-progress">
      </div>
     </div>
+    <p class="text-xs text-gray-400 mt-3 tracking-widest uppercase">Opening Heritage Vault...</p>
    </div>
   </div>
-  <!-- Top Navigation / Header -->
+
+  <!-- Global Header / Top Navigation -->
   <header class="code-section" id="global-header">
    <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div class="flex justify-between items-center h-20">
       <!-- Logo -->
       <a class="flex items-center" href="index.html">
-       <img alt="Parampara Logo" class="h-12 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+       <img alt="Parampara Logo" class="h-12 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" loading="lazy"/>
       </a>
       <!-- Desktop Navigation -->
       <div class="hidden lg:flex items-center space-x-8">
@@ -60,389 +126,839 @@
         Shop
        </a>
        <a class="bg-[#B8860B] text-white px-6 py-3 rounded-full font-semibold hover:bg-[#8B6508] transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2" href="search.html">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-         <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-         </path>
-        </svg>
+        <i class="fa-solid fa-magnifying-glass text-sm"></i>
         Search
        </a>
       </div>
       <!-- Mobile Menu Toggle -->
       <button class="lg:hidden p-2 rounded-md text-gray-800 hover:bg-gray-100 transition-colors" id="mobile-menu-toggle">
-       <svg class="h-6 w-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
-        <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-        </path>
+       <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
        </svg>
       </button>
      </div>
     </div>
    </nav>
   </header>
-  <!-- State Hero Section -->
-  <div class="bg-gradient-to-r from-[#2F5233] to-[#1A1A1A] text-white py-16 relative overflow-hidden">
-   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
-    <!-- Left Side: Text and Tagline -->
-    <div class="text-center md:text-left md:w-3/5 reveal">
-     <span class="text-sm font-bold tracking-widest text-[#B8860B] uppercase mb-2 block">
-      Curated Categories
-     </span>
-     <h1 class="text-4xl md:text-5xl font-extrabold mb-4" id="state-title">
-      Loading State...
-     </h1>
-     <p class="text-xl md:text-2xl text-[#E8E3D6] font-medium mb-6 italic leading-relaxed" id="state-tagline">
-     </p>
-     <p class="text-md md:text-lg text-gray-300">
-      Discover the finest authentic treasures from
-      <span class="text-white font-semibold" id="state-name-display">
-       this state
-      </span>
-      . Pick a category to explore the masterpieces.
-     </p>
-    </div>
-    <!-- Right Side: State Image -->
-    <div class="md:w-2/5 flex justify-center md:justify-end w-full">
-     <div class="relative w-full max-w-sm aspect-video rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-4 border-[#B8860B]/40 transform hover:scale-105 transition-transform duration-500">
-      <img alt="State Imagery" class="w-full h-full object-cover" id="state-image" src="https://picsum.photos/seed/India/800/600"/>
-      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
-      </div>
-      <div class="absolute bottom-4 right-4 text-white font-bold tracking-widest uppercase text-xl drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]" id="state-image-caption">
-      </div>
-     </div>
-    </div>
-   </div>
-  </div>
-  <!-- Categories Grid -->
-  <main class="flex-grow max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8 w-full" id="categories-grid-section">
-   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8" id="categories-grid">
-    <!-- Injected by JavaScript -->
-   </div>
-  </main>
-  <!-- Simple Footer -->
-  <footer class="bg-white border-t border-gray-100 py-12 text-center text-gray-500 mt-auto">
-   <div class="max-w-7xl mx-auto px-4">
-    <div class="flex flex-col items-center gap-6">
-     <img alt="Parampara Logo" class="h-10 w-auto opacity-50 grayscale" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
-     <p class="max-w-md text-sm leading-relaxed">
-      © 2026 Parampara. Preserving the heritage of 28 states, one masterpiece at a time. All rights reserved.
-     </p>
-    </div>
-   </div>
-  </footer>
-  <script>
-   /* 1. Get the State Name from query params */
-    const params = new URLSearchParams(window.location.search);
-    let rawStateName = params.get('name') || params.get('state');
+
+  <!-- ========================================================================= -->
+  <!-- 1. PARTICULAR STATE SECTION (Hero & Official Heritage Provenance) -->
+  <!-- ========================================================================= -->
+  <section class="bg-gradient-to-r from-[#2F5233] via-[#1F3A22] to-[#1A1A1A] text-white py-14 sm:py-20 relative overflow-hidden" id="state-section">
+   <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#B8860B_1px,transparent_1px)] [background-size:24px_24px]"></div>
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     
-    if (!rawStateName) {
-      rawStateName = 'India';
-    }
+    <!-- State Breadcrumbs & Quick State Switcher -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-white/10">
+      <div class="flex items-center gap-2 text-xs text-gray-300 font-medium tracking-wide">
+        <a href="index.html" class="hover:text-[#B8860B] transition-colors">Home</a>
+        <span class="opacity-40">/</span>
+        <a href="states.html" class="hover:text-[#B8860B] transition-colors">28 Indian States</a>
+        <span class="opacity-40">/</span>
+        <span class="text-[#B8860B] font-bold" id="state-breadcrumb">Loading...</span>
+      </div>
+      
+      <!-- Quick State Selector Dropdown -->
+      <div class="flex items-center gap-3">
+        <label for="state-selector" class="text-xs uppercase tracking-widest text-[#B8860B] font-bold hidden sm:inline-block">
+          <i class="fa-solid fa-location-dot mr-1"></i> Switch State:
+        </label>
+        <select id="state-selector" class="bg-black/40 border border-[#B8860B]/50 text-white text-xs sm:text-sm rounded-full px-4 py-2 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] cursor-pointer">
+          <!-- Populated by JS with all 28 states -->
+        </select>
+      </div>
+    </div>
 
-    /* Format name */
-    const stateName = rawStateName
-      .split(/[- ]+/)
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-      .join(' ');
-
-    /* 2. State Data Dictionary */
-    const stateData = {
-      "Himachal Pradesh": "The Land of Pine Wooden Crafts and Unforgettable Himalayan Landscapes.",
-      "Punjab": "The Heart of Phulkari Textiles & Clothing and the Spirit of Hospitality.",
-      "Haryana": "The Traditional Craft of Terracotta Home Décor and Highway Heritage.",
-      "Uttarakhand": "The Abode of Himalayan Natural Beauty Products and Sacred Herbs.",
-      "Uttar Pradesh": "The Grandeur of Chikankari Textiles & Clothing and Brass Artistry.",
-      "Rajasthan": "The Incredible Land of Meenakari Jewelry & Bangles and Marble Masterpieces.",
-      "Gujarat": "The Vibrant Soul of Bandhani Textiles & Clothing and Lacquer Art.",
-      "Maharashtra": "The Royal Heritage of Paithani Silk and Kolhapuri Jewelry & Bangles.",
-      "Goa": "The Coastal Bliss of Cashew Food & Sweets and Tropical Home Accents.",
-      "Karnataka": "The Scented World of Sandalwood Wooden Crafts and Mysore Silk.",
-      "Kerala": "God’s Own Spices, Organic Agricultural Products, and Ayurvedic Care.",
-      "Tamil Nadu": "The Enchanting Legacy of Kanchipuram Textiles and Temple Bronzes.",
-      "Andhra Pradesh": "The Home of Famous Kondapalli Toys and Spicy Traditional Flavors.",
-      "Telangana": "The Confluence of Hyderabadi Pearl Jewelry and Bidriware Art.",
-      "Madhya Pradesh": "The Heart of Chanderi Textiles and Ancient Tribal Cave Art.",
-      "Chhattisgarh": "The Soul of Dhokra Metal Home Décor and Tribal Traditions.",
-      "Odisha": "The Land of Pattachitra Paintings & Art and Silver Filigree Jewelry.",
-      "West Bengal": "The Artistic Hub of Terracotta Toys and Iconic Jamdani Weaves.",
-      "Bihar": "The Radiant Spirit of Madhubani Paintings & Art and Bhagalpuri Silk.",
-      "Jharkhand": "The Natural Beauty of Tussar Silk and Handcrafted Wooden Crafts.",
-      "Sikkim": "The Small but Beautiful Paradise of Organic Natural Beauty Products.",
-      "Arunachal Pradesh": "The Land of Dawn-Lit Mountains and Hand-Woven Textiles.",
-      "Assam": "The Awesome Essence of Muga Silk and Premium Agricultural Products.",
-      "Meghalaya": "The Abode of Clouds and Unique Cane & Bamboo Home Décor.",
-      "Nagaland": "The Land of Festivals and Exotic Beaded Jewelry & Bangles.",
-      "Manipur": "The Jewel of Kauna Reed Gift Collections and Traditional Handlooms.",
-      "Mizoram": "The Peaceful Hills of Bamboo Toys and Vibrant Tribal Weaves.",
-      "Tripura": "The Fine Craftsmanship of Cane and Bamboo Wooden Crafts.",
-      "Andaman and Nicobar Islands": "The Tropical Treasure of Shell Jewelry and Tribal Artistry.",
-      "Ladakh": "The High-Altitude Haven of Pashmina Woolens and Thangka Paintings.",
-      "Jammu and Kashmir": "The Paradise on Earth for Pashmina Textiles and Walnut Wood Carvings.",
-      "Delhi": "The Melting Pot of Zari Embroidery and Mughlai Culinary Delights.",
-      "Puducherry": "The French Riviera of Handmade Paper and Artistic Pottery.",
-      "Chandigarh": "The Modern Hub of Artistic Home Accents and Architectural Heritage.",
-      "Dadra and Nagar Haveli and Daman and Diu": "The Coastal Fusion of Tribal Weaving and Maritime Crafts.",
-      "Lakshadweep": "The Coral Sanctuary of Coconut Husk Crafts and Oceanic Treasures."
-    };
-
-    /* 3. Update Content */
-    document.getElementById('state-title').textContent = stateName;
-    document.getElementById('state-name-display').textContent = stateName;
-    document.title = `${stateName} | Parampara Categories`;
-
-    const tagline = stateData[stateName] || "Discover the incredible heritage and craftsmanship of India.";
-    document.getElementById('state-tagline').textContent = tagline;
-
-    document.getElementById('state-image').src = `https://picsum.photos/seed/${encodeURIComponent(stateName)}/800/600`;
-    document.getElementById('state-image-caption').textContent = stateName;
-
-    /* 4. Categories */
-    const categories = [
-      { name: "Toys", icon: "🧸" },
-      { name: "Home Décor", icon: "🏺" },
-      { name: "Paintings & Art", icon: "🎨" },
-      { name: "Textiles & Clothing", icon: "🧣" },
-      { name: "Jewelry & Bangles", icon: "📿" },
-      { name: "Food & Sweets", icon: "🍯" },
-      { name: "Agricultural Products", icon: "🌾" },
-      { name: "Wooden Crafts", icon: "🪑" },
-      { name: "Natural Beauty Products", icon: "🌿" },
-      { name: "Gift Collections", icon: "🎁" }
-    ];
-
-    const grid = document.getElementById('categories-grid');
-    categories.forEach(category => {
-      const card = document.createElement('a');
-      card.href = `search.html?state=${encodeURIComponent(stateName)}&category=${encodeURIComponent(category.name)}`;
-      card.className = "flex flex-col bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden group border border-gray-100 hover:border-[#B8860B] hover:-translate-y-1 cursor-pointer reveal";
-      card.innerHTML = `
-        <div class="h-40 bg-gray-50 group-hover:bg-[#B8860B] flex items-center justify-center transition-colors duration-300 relative overflow-hidden">
-          <span class="text-6xl transform group-hover:scale-110 transition-transform duration-300 drop-shadow-md z-10">${category.icon}</span>
-          <div class="absolute w-32 h-32 bg-white opacity-20 rounded-full -bottom-10 -right-10 group-hover:scale-150 transition-transform duration-700"></div>
+    <!-- Main State Overview Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <!-- Left: State Title, Culture Tagline, GI Certification Summary -->
+      <div class="lg:col-span-7">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-black/40 border border-[#B8860B]/60 text-[#B8860B] text-xs font-bold uppercase tracking-wider mb-4">
+          <i class="fa-solid fa-stamp"></i>
+          <span>Official GI Registry of India · Legal Masterpieces</span>
         </div>
-        <div class="p-6 text-center flex-grow flex flex-col justify-center">
-          <h3 class="text-xl font-bold text-gray-900 group-hover:text-[#B8860B] transition-colors">${category.name}</h3>
-          <p class="text-gray-500 mt-2 text-sm leading-relaxed">
-            Explore authentic ${category.name.toLowerCase()} sourced directly from ${stateName}'s finest artisans.
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold font-sora text-white mb-4 tracking-tight" id="state-title">
+          Loading State...
+        </h1>
+        <p class="text-lg sm:text-xl font-serif-heading italic text-[#E8E3D6] mb-6 leading-relaxed" id="state-tagline">
+          Loading heritage narrative...
+        </p>
+        
+        <!-- Official GI Database Stats Strip for this State -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-white/10">
+          <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+            <span class="text-2xl sm:text-3xl font-extrabold text-[#B8860B] block" id="state-gi-count">0</span>
+            <span class="text-xs uppercase tracking-wider text-gray-300 font-medium">Registered GI Crafts</span>
+          </div>
+          <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+            <span class="text-2xl sm:text-3xl font-extrabold text-white block" id="state-artisan-count">0+</span>
+            <span class="text-xs uppercase tracking-wider text-gray-300 font-medium">Master Artisans</span>
+          </div>
+          <div class="col-span-2 sm:col-span-1 bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+            <span class="text-xs font-bold text-green-400 flex items-center gap-1.5 mb-1">
+              <i class="fa-solid fa-circle-check"></i> IP India Certified
+            </span>
+            <span class="text-[11px] text-gray-300 block leading-tight">100% Provenance Guaranteed under GI Act</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: State Heritage Card & Image -->
+      <div class="lg:col-span-5 flex justify-center lg:justify-end">
+        <div class="relative w-full max-w-md aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border-4 border-[#B8860B]/50 group">
+          <img alt="State Heritage" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" id="state-image" src="https://picsum.photos/seed/IndiaCrafts/800/600" loading="lazy"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent"></div>
+          <div class="absolute bottom-5 left-5 right-5 flex justify-between items-end">
+            <div>
+              <span class="text-[10px] tracking-widest text-[#B8860B] uppercase font-bold block mb-1">Regional Craft Cluster</span>
+              <h3 class="text-xl font-bold text-white tracking-wide" id="state-image-caption">India</h3>
+            </div>
+            <a href="#items-section" class="inline-flex items-center gap-1.5 bg-[#B8860B] hover:bg-[#8B6508] text-white text-xs font-bold px-4 py-2 rounded-full transition-colors shadow">
+              <span>View Items</span>
+              <i class="fa-solid fa-arrow-down text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 2. CATEGORY SECTION (Curated Craft Classifications for this State) -->
+  <!-- ========================================================================= -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 w-full" id="categories-section">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10 pb-4 border-b border-gray-200">
+      <div>
+        <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-[#B8860B] mb-2">
+          <span>Hierarchy Step 2</span>
+          <span class="opacity-40">•</span>
+          <span>Craft Categories</span>
+        </div>
+        <h2 class="text-3xl sm:text-4xl font-extrabold font-sora text-gray-900">
+          Craft Categories in <span class="text-[#B8860B]" id="state-category-name">State</span>
+        </h2>
+        <p class="text-sm sm:text-base text-gray-600 mt-2 max-w-2xl">
+          Select any category below to filter the official registered craft items and view legal certificates.
+        </p>
+      </div>
+
+      <!-- Reset / All Categories Button -->
+      <button id="show-all-categories-btn" class="self-start md:self-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gray-300 hover:border-[#B8860B] text-xs font-bold uppercase tracking-wider text-gray-700 hover:text-[#B8860B] bg-white transition-all shadow-sm">
+        <i class="fa-solid fa-shapes"></i>
+        <span>Show All Items (<span id="total-state-items-badge">0</span>)</span>
+      </button>
+    </div>
+
+    <!-- Category Cards Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6" id="categories-grid">
+      <!-- Injected by JavaScript based on available crafts in this State -->
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 3. ITEMS SECTION (Authentic Masterpieces & GI Registered Products) -->
+  <!-- ========================================================================= -->
+  <section class="bg-white border-t border-gray-200 py-16 w-full" id="items-section">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Items Header Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-gray-100">
+        <div>
+          <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-[#B8860B] mb-1">
+            <span>Hierarchy Step 3</span>
+            <span class="opacity-40">•</span>
+            <span>Registered Craft Items</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold font-sora text-gray-900" id="items-section-title">
+            Items in All Categories
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-500 mt-1" id="items-section-subtitle">
+            Showing all certified GI masterpieces and traditional creations from this state.
           </p>
         </div>
-      `;
-      grid.appendChild(card);
-    });
 
-    /* Observer for reveal animations */
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('active');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1 });
+        <!-- Filter Count Pill -->
+        <div class="flex items-center gap-3">
+          <span class="bg-[#FAF9F5] border border-gray-200 text-gray-700 text-xs font-semibold px-4 py-2 rounded-full shadow-sm" id="items-counter-pill">
+            Showing <strong class="text-[#B8860B]" id="items-count-display">0</strong> Items
+          </span>
+        </div>
+      </div>
 
-    setTimeout(() => {
-      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-    }, 100);
+      <!-- Items Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="items-grid">
+        <!-- Rendered by JavaScript -->
+      </div>
 
-    /* Preloader Logic */
-    document.addEventListener('DOMContentLoaded', () => {
-      const preloader = document.getElementById('preloader');
-      const progress = document.getElementById('preloader-progress');
-      if (progress) setTimeout(() => { progress.style.width = '100%'; }, 100);
-      if (preloader) {
-        setTimeout(() => {
-          preloader.style.opacity = '0';
-          setTimeout(() => { preloader.style.display = 'none'; }, 1000);
-        }, 1000);
-      }
-    });
-  </script>
-  <!-- Lenis for smooth scrolling -->
-  <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js">
-  </script>
-  <script>
-   const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-    });
-    function raf(time) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-    requestAnimationFrame(raf);
-  </script>
-  <!-- FOOTER -->
-  <footer class="code-section bg-[var(--dark-background-color)] text-white mt-12" id="global-footer">
+      <!-- Empty State (Shown if no items match category) -->
+      <div class="hidden text-center py-20 px-4 bg-[#FAF9F5] rounded-3xl border border-gray-200 my-8" id="empty-items-state">
+        <div class="w-16 h-16 mx-auto mb-4 bg-white rounded-full flex items-center justify-center text-3xl shadow-sm text-gray-400">
+          🏺
+        </div>
+        <h3 class="text-xl font-bold font-sora text-gray-800 mb-2">No Registered Crafts in This Specific Category</h3>
+        <p class="text-sm text-gray-500 max-w-md mx-auto mb-6">
+          This state does not currently have GI-tagged items in this category. You can explore other categories or view all items from this state.
+        </p>
+        <button onclick="selectCategory('All')" class="bg-[#B8860B] text-white px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider hover:bg-[#8B6508] transition-colors shadow">
+          View All Items from this State
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================================================= -->
+  <!-- 4. OFFICIAL GI REGISTRY CERTIFICATE & PROVENANCE MODAL -->
+  <!-- ========================================================================= -->
+  <div class="fixed inset-0 z-[120] hidden items-center justify-center p-4 sm:p-6 certificate-modal-overlay" id="certificate-modal">
+    <div class="relative w-full max-w-3xl max-h-[92vh] overflow-y-auto certificate-paper rounded-2xl p-6 sm:p-10 text-gray-900">
+      
+      <!-- Close Button -->
+      <button onclick="closeCertificateModal()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition-colors">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <!-- Certificate Header: Official Seal & Government of India Reference -->
+      <div class="text-center pb-6 border-b-2 border-[#B8860B]/30 mb-6">
+        <div class="w-14 h-14 mx-auto mb-3 rounded-full certificate-seal flex items-center justify-center text-white text-2xl shadow-md border-2 border-white">
+          🏛️
+        </div>
+        <span class="text-[10px] sm:text-xs font-extrabold tracking-[0.25em] text-[#8B6508] uppercase block mb-1">
+          Government of India · Geographical Indications Registry
+        </span>
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-serif-heading text-[#1A1A1A] tracking-tight">
+          Certificate of Geographical Indication
+        </h2>
+        <p class="text-xs text-gray-500 italic mt-1 font-serif-heading">
+          Issued under The Geographical Indications of Goods (Registration and Protection) Act, 1999
+        </p>
+      </div>
+
+      <!-- Official Certificate Credentials Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white/70 p-5 rounded-xl border border-[#E8D8B0] mb-6 text-sm">
+        <div>
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold block">GI Application Number</span>
+          <span class="font-mono font-bold text-gray-900 text-base" id="modal-gi-number">-</span>
+        </div>
+        <div>
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold block">Official Status</span>
+          <span class="inline-flex items-center gap-1.5 text-xs font-bold text-green-700 bg-green-50 px-2.5 py-1 rounded-full border border-green-200" id="modal-gi-status">
+            <i class="fa-solid fa-circle-check"></i> Registered
+          </span>
+        </div>
+        <div>
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold block">Registered Craft Name</span>
+          <span class="font-bold text-gray-900" id="modal-craft-name">-</span>
+        </div>
+        <div>
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold block">State & Territory Provenance</span>
+          <span class="font-semibold text-gray-900" id="modal-craft-state">-</span>
+        </div>
+        <div>
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold block">Registration Year</span>
+          <span class="font-semibold text-gray-900" id="modal-craft-year">-</span>
+        </div>
+        <div>
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold block">Category Classification</span>
+          <span class="font-semibold text-gray-900" id="modal-craft-category">-</span>
+        </div>
+        <div class="md:col-span-2">
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold block">Authorized Applicant Body</span>
+          <span class="font-medium text-gray-800" id="modal-applicant">-</span>
+        </div>
+        <div>
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold block">Artisan Cluster Size</span>
+          <span class="font-semibold text-gray-900" id="modal-artisan-count">-</span>
+        </div>
+        <div>
+          <span class="text-xs text-gray-500 uppercase tracking-wider font-semibold block">International Export</span>
+          <span class="font-semibold text-[#8B6508]" id="modal-export-status">Certified for Export</span>
+        </div>
+      </div>
+
+      <!-- Description & Provenance Note -->
+      <div class="mb-6">
+        <h4 class="text-xs uppercase font-bold tracking-widest text-gray-700 mb-2">Heritage Narrative & Authenticity Criteria</h4>
+        <p class="text-sm text-gray-600 leading-relaxed font-serif-heading text-justify" id="modal-description">
+          -
+        </p>
+      </div>
+
+      <!-- Legal Guarantee Banner -->
+      <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-xl text-xs text-amber-900 flex items-start gap-3 mb-6">
+        <i class="fa-solid fa-shield-halved text-lg text-[#B8860B] mt-0.5"></i>
+        <div>
+          <strong class="font-bold block">Protected by Law</strong>
+          Parampara guarantees that every piece bearing this GI certification is hand-crafted exclusively within the officially delimited geographical cluster using traditional indigenous methods.
+        </div>
+      </div>
+
+      <!-- Modal Actions -->
+      <div class="flex flex-col sm:flex-row items-center justify-end gap-3 pt-4 border-t border-gray-200">
+        <button onclick="closeCertificateModal()" class="w-full sm:w-auto px-6 py-2.5 rounded-full border border-gray-300 text-gray-700 hover:bg-gray-100 text-xs font-bold uppercase tracking-wider transition-colors">
+          Close Certificate
+        </button>
+        <button id="modal-buy-btn" class="w-full sm:w-auto px-6 py-2.5 rounded-full bg-[#B8860B] hover:bg-[#8B6508] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-md">
+          <i class="fa-solid fa-bag-shopping mr-1.5"></i> Add Masterpiece to Bag
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Global Footer -->
+  <footer class="code-section bg-[#1A1A1A] text-white mt-auto" id="global-footer">
    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
     <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12">
      <!-- Brand Column -->
      <div class="col-span-2 md:col-span-4 lg:col-span-1">
       <a class="inline-block mb-6" href="index.html">
-       <img alt="Parampara Logo" class="h-12 w-auto brightness-0 invert" data-logo="" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+       <img alt="Parampara Logo" class="h-12 w-auto brightness-0 invert" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" loading="lazy"/>
       </a>
-      <p class="text-gray-400 text-sm leading-relaxed mb-6" style="font-family: var(--font-family-body);">
+      <p class="text-gray-400 text-sm leading-relaxed mb-6 font-sans">
        One State. One Masterpiece. Discover India's most iconic handcrafted treasures from each of the 28 states.
       </p>
       <div class="flex gap-4">
-       <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors" href="#">
-        <i aria-hidden="true" class="fa-brands fa-instagram">
-        </i>
+       <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#B8860B] transition-colors" href="#">
+        <i class="fa-brands fa-instagram"></i>
        </a>
-       <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors" href="#">
-        <i aria-hidden="true" class="fa-brands fa-facebook-f">
-        </i>
+       <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#B8860B] transition-colors" href="#">
+        <i class="fa-brands fa-facebook-f"></i>
        </a>
-       <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors" href="#">
-        <i aria-hidden="true" class="fa-brands fa-twitter">
-        </i>
-       </a>
-       <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[var(--primary-color)] transition-colors" href="#">
-        <i aria-hidden="true" class="fa-brands fa-youtube">
-        </i>
+       <a class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#B8860B] transition-colors" href="#">
+        <i class="fa-brands fa-twitter"></i>
        </a>
       </div>
      </div>
      <!-- Quick Links -->
      <div>
-      <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);">
-       Explore
-      </h4>
+      <h4 class="text-white font-semibold mb-4 font-sora">Explore</h4>
       <ul class="space-y-3">
-       <li class="">
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="states.html">
-         All 28 States
-        </a>
-       </li>
-       <li class="">
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="search.html">
-         Shop All
-        </a>
-       </li>
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         How It Works
-        </a>
-       </li>
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         Our Technology
-        </a>
-       </li>
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="search.html">
-         Gift Guide
-        </a>
-       </li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="states.html">All 28 States</a></li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="search.html">Shop All</a></li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="about.html">Our Technology</a></li>
       </ul>
      </div>
-     <!-- About -->
-     <div class="">
-      <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);">
-       About
-      </h4>
+     <!-- Artisans -->
+     <div>
+      <h4 class="text-white font-semibold mb-4 font-sora">Artisans</h4>
       <ul class="space-y-3">
-       <li class="">
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         Our Story
-        </a>
-       </li>
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="artisans.html">
-         Our Artisans
-        </a>
-       </li>
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         Community Impact
-        </a>
-       </li>
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         Cultural Heritage
-        </a>
-       </li>
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         Blog
-        </a>
-       </li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="artisans.html">Our Artisans</a></li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="about.html">GI Registry Verification</a></li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="about.html">Community Impact</a></li>
       </ul>
      </div>
      <!-- Support -->
      <div>
-      <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);">
-       Support
-      </h4>
+      <h4 class="text-white font-semibold mb-4 font-sora">Support</h4>
       <ul class="space-y-3">
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         Contact Us
-        </a>
-       </li>
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         FAQ
-        </a>
-       </li>
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         Shipping &amp; Returns
-        </a>
-       </li>
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         Authenticity
-        </a>
-       </li>
-       <li>
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="search.html">
-         Corporate Gifting
-        </a>
-       </li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="about.html">Contact Us</a></li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="about.html">Authenticity</a></li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="about.html">Shipping &amp; Returns</a></li>
       </ul>
      </div>
      <!-- Legal -->
-     <div class="">
-      <h4 class="text-white font-semibold mb-4" style="font-family: var(--font-family-heading);">
-       Legal
-      </h4>
+     <div>
+      <h4 class="text-white font-semibold mb-4 font-sora">Legal</h4>
       <ul class="space-y-3">
-       <li class="">
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         Privacy Policy
-        </a>
-       </li>
-       <li class="">
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         Terms of Service
-        </a>
-       </li>
-       <li class="">
-        <a class="text-gray-400 hover:text-[var(--primary-color)] transition-colors text-sm" href="about.html">
-         Refund Policy
-        </a>
-       </li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="about.html">Privacy Policy</a></li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="about.html">Terms of Service</a></li>
+       <li><a class="text-gray-400 hover:text-[#B8860B] transition-colors text-sm" href="about.html">GI Compliance</a></li>
       </ul>
      </div>
     </div>
     <!-- Bottom Bar -->
-    <div class="mt-12 pt-8 border-t border-white/10">
-     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-      <p class="text-gray-500 text-sm" style="font-family: var(--font-family-body);">
-       © 2026 Parampara. Preserving India's Craft Heritage.
-      </p>
-      <div class="flex items-center gap-6">
-       <img alt="Visa" class="h-6 opacity-50 hover:opacity-100 transition-opacity" src="https://cdn-icons-png.flaticon.com/128/349/349221.png"/>
-       <img alt="Mastercard" class="h-6 opacity-50 hover:opacity-100 transition-opacity" src="https://cdn-icons-png.flaticon.com/128/349/349228.png"/>
-       <img alt="Amex" class="h-6 opacity-50 hover:opacity-100 transition-opacity" src="https://cdn-icons-png.flaticon.com/128/349/349230.png"/>
-       <img alt="PayPal" class="h-6 opacity-50 hover:opacity-100 transition-opacity" src="https://cdn-icons-png.flaticon.com/128/174/174861.png"/>
-      </div>
-     </div>
+    <div class="mt-12 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500">
+     <p>© 2026 Parampara. Preserving India's Craft Heritage across 28 States.</p>
+     <p class="text-xs text-gray-600">Geographical Indications Data aligned with IP India &amp; Development Commissioner (Handicrafts)</p>
     </div>
    </div>
   </footer>
-  <script src="js/auth.js">
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <!-- ========================================================================= -->
+  <script>
+    // All 28 States of India
+    const ALL_28_STATES = [
+      "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
+      "Goa", "Gujarat", "Haryana", "Himachal Pradesh", "Jharkhand",
+      "Karnataka", "Kerala", "Madhya Pradesh", "Maharashtra", "Manipur",
+      "Meghalaya", "Mizoram", "Nagaland", "Odisha", "Punjab",
+      "Rajasthan", "Sikkim", "Tamil Nadu", "Telangana", "Tripura",
+      "Uttar Pradesh", "Uttarakhand", "West Bengal"
+    ];
+
+    // State Taglines Dictionary
+    const STATE_NARRATIVES = {
+      "Himachal Pradesh": "The Serene Abode of Kullu Shawls and Chamba Rumal Himalayan Embroideries.",
+      "Punjab": "The Vibrant Heart of Phulkari Silk Needlework and Celebrated Folk Traditions.",
+      "Haryana": "The Rugged Heritage of Panipat Punja Flat-Woven Dhurries and Terracotta Art.",
+      "Uttarakhand": "High-Altitude Himalayan Bhotiya Thulma Blankets and Sacred Valley Weaves.",
+      "Uttar Pradesh": "The Imperial Grandeur of Banarasi Brocades and Delicate Chikankari Needlework.",
+      "Rajasthan": "The Land of Maharajas: Blue Quartz Pottery, Meenakari Jewelry, and Royal Block Prints.",
+      "Gujarat": "The Intricate Splendor of Patan Patola Double Ikat and Vibrant Bandhani Silk.",
+      "Maharashtra": "The Royal Paithani Gold Borders and Century-Old Kolhapuri Craft Guilds.",
+      "Goa": "Coastal Heritage of Traditional Feni Distillation and Maritime Clay Craftsmanship.",
+      "Karnataka": "The Heavenly Fragrance of Mysore Sandalwood and Pure Mulberry Silk Weaves.",
+      "Kerala": "God's Own Country: Aranmula Metal Mirrors, Balaramapuram Cotton, and Spices.",
+      "Tamil Nadu": "The Sacred Temple Legacy of Kanchipuram Silk and Thanjavur Gold Foil Art.",
+      "Andhra Pradesh": "The Timeless Charm of Kondapalli Wooden Toys and Machilipatnam Kalamkari.",
+      "Telangana": "The Royal Nizam Heritage of Bidriware Silver Inlay and Pochampally Ikat.",
+      "Madhya Pradesh": "The Regal Heart of Chanderi Weaving and Ancient Tribal Bell-Metal Traditions.",
+      "Chhattisgarh": "The Indigenous Wonder of Bastar Lost-Wax Dokra Metal and Bell Casting.",
+      "Odisha": "The Sacred Pattachitra Palm-Leaf Scrolls and Nuapatna Tie-and-Dye Silks.",
+      "West Bengal": "The Revered Aroma of Darjeeling Tea and Royal Baluchari Mythological Weaves.",
+      "Bihar": "The Storytelling Mastery of Madhubani Folk Art and Bhagalpuri Tussar Silk.",
+      "Jharkhand": "The Forest Sanctuary of Wild Tussar Silks and Tribal Wood Carvings.",
+      "Sikkim": "The Pristine Himalayan Heartland of Organic Spices and Sacred Hand-Weaves.",
+      "Arunachal Pradesh": "The Dawn-Lit Mountains of Geometric Idu Mishmi Tribal Loin-Loom Weaves.",
+      "Assam": "The Golden Radiance of Wild Muga Silk and Heritage Assam Valley Teas.",
+      "Meghalaya": "The Cloud Valley of Intricate Cane, Bamboo, and Indigenous Eri Peace Silk.",
+      "Nagaland": "The Warrior Tradition of Naga Beaded Necklaces and Distinctive Tribal Shawls.",
+      "Manipur": "The Jewel of Water Reed Kauna Crafts and Traditional Shaphee Lanphee Weaves.",
+      "Mizoram": "The Prestigious Legacy of Tawlhlohpuan Warrior Fabrics and Bamboo Weaving.",
+      "Tripura": "The Masterful Fine Craftsmanship of Cane, Bamboo, and Pachra Tribal Handlooms."
+    };
+
+    // Category Icons Mapping
+    const CATEGORY_ICONS = {
+      "Textiles & Weaves": "fa-solid fa-scroll",
+      "Pottery & Ceramics": "fa-solid fa-mug-hot",
+      "Jewelry & Ornaments": "fa-solid fa-gem",
+      "Wooden Crafts": "fa-solid fa-tree",
+      "Metal Crafts": "fa-solid fa-hammer",
+      "Art & Paintings": "fa-solid fa-palette",
+      "Embroidery": "fa-solid fa-feather-pointed",
+      "Leather Crafts": "fa-solid fa-shoe-prints",
+      "Home Furnishing": "fa-solid fa-couch",
+      "Bamboo Crafts": "fa-solid fa-spa",
+      "Natural Products": "fa-solid fa-leaf",
+      "Beverages": "fa-solid fa-mug-saucer",
+      "Spices": "fa-solid fa-pepper-hot",
+      "Toys": "fa-solid fa-shapes"
+    };
+
+    // State Variables
+    let currentState = "Rajasthan";
+    let currentCategory = "All";
+    let stateProducts = [];
+    let stateGiData = [];
+
+    // Parse URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramState = urlParams.get('name') || urlParams.get('state');
+    if (paramState) {
+      // Find matching state case-insensitively
+      const matched = ALL_28_STATES.find(s => s.toLowerCase() === paramState.toLowerCase().trim());
+      if (matched) {
+        currentState = matched;
+      }
+    }
+
+    // Initialize State Dropdown
+    function initStateSelector() {
+      const select = document.getElementById('state-selector');
+      select.innerHTML = ALL_28_STATES.map(st => `
+        <option value="${st}" ${st === currentState ? 'selected' : ''}>${st}</option>
+      `).join('');
+
+      select.addEventListener('change', (e) => {
+        loadState(e.target.value);
+        // Update URL without full reload
+        const newUrl = `${window.location.pathname}?name=${encodeURIComponent(e.target.value)}`;
+        window.history.pushState({ state: e.target.value }, '', newUrl);
+      });
+    }
+
+    // Load data and render page for a state
+    async function loadState(stateName) {
+      currentState = stateName;
+      currentCategory = "All";
+
+      // Update state hero section elements
+      document.getElementById('state-title').textContent = stateName;
+      document.getElementById('state-breadcrumb').textContent = stateName;
+      document.getElementById('state-category-name').textContent = stateName;
+      document.getElementById('state-image-caption').textContent = stateName;
+      document.title = `${stateName} Heritage Crafts & GI Registry | Parampara`;
+
+      const narrative = STATE_NARRATIVES[stateName] || "Discover the iconic certified craft traditions of India's heritage states.";
+      document.getElementById('state-tagline').textContent = narrative;
+      document.getElementById('state-image').src = `https://picsum.photos/seed/${encodeURIComponent(stateName.replace(/[^a-zA-Z]/g, ''))}/800/600`;
+
+      // Update selector
+      const select = document.getElementById('state-selector');
+      if (select) select.value = stateName;
+
+      // Fetch State Items & GI Data
+      try {
+        const [prodRes, giRes] = await Promise.all([
+          fetch(`/api/products?state=${encodeURIComponent(stateName)}`).catch(() => null),
+          fetch(`/api/gi?state=${encodeURIComponent(stateName)}`).catch(() => null)
+        ]);
+
+        if (prodRes && prodRes.ok) {
+          const pData = await prodRes.json();
+          stateProducts = pData.products || [];
+        } else {
+          stateProducts = [];
+        }
+
+        if (giRes && giRes.ok) {
+          const gData = await giRes.json();
+          stateGiData = gData.data || [];
+        } else {
+          stateGiData = [];
+        }
+      } catch (err) {
+        console.warn('API error, using local fallback:', err);
+      }
+
+      // If products empty, convert gi records to product items
+      if (stateProducts.length === 0 && stateGiData.length > 0) {
+        stateProducts = stateGiData.map(gi => ({
+          _id: gi.id,
+          name: gi.name,
+          state: gi.state,
+          craft: gi.craft,
+          category: gi.subCategory || gi.category,
+          price: gi.price || 18500,
+          imageUrl: gi.imageUrl,
+          badge: 'GI Registered',
+          description: gi.description,
+          artisan: gi.applicant,
+          artisanCount: gi.artisanCount,
+          district: gi.district,
+          giNumber: gi.giNumber,
+          registrationYear: gi.registrationYear,
+          exportEligible: gi.exportEligible,
+          giTagged: true
+        }));
+      }
+
+      // Update stats
+      const giCount = stateGiData.length > 0 ? stateGiData.length : stateProducts.filter(p => p.giTagged).length;
+      document.getElementById('state-gi-count').textContent = giCount;
+
+      const totalArtisans = stateGiData.reduce((acc, item) => acc + (item.artisanCount || 0), 0);
+      document.getElementById('state-artisan-count').textContent = totalArtisans > 0 ? `${totalArtisans.toLocaleString()}` : `${stateProducts.length * 1200}+`;
+      document.getElementById('total-state-items-badge').textContent = stateProducts.length;
+
+      // Render Categories & Items
+      renderCategories();
+      renderItems();
+    }
+
+    // Render Categories for this State
+    function renderCategories() {
+      const grid = document.getElementById('categories-grid');
+      
+      // Calculate category counts
+      const counts = {};
+      stateProducts.forEach(p => {
+        const cat = p.category || 'Handicrafts';
+        counts[cat] = (counts[cat] || 0) + 1;
+      });
+
+      const categoriesList = Object.keys(counts);
+
+      if (categoriesList.length === 0) {
+        grid.innerHTML = `
+          <div class="col-span-full py-8 text-center text-gray-500 font-serif-heading text-lg">
+            No craft categories currently registered for ${currentState}.
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = categoriesList.map(cat => {
+        const count = counts[cat];
+        const iconClass = CATEGORY_ICONS[cat] || "fa-solid fa-hands-holding-circle";
+        const isActive = currentCategory === cat;
+
+        return `
+          <div onclick="selectCategory('${cat}')" class="category-card ${isActive ? 'active' : ''} bg-white rounded-2xl p-5 border border-gray-200 cursor-pointer transition-all duration-300 hover:border-[#B8860B] flex flex-col justify-between group shadow-sm">
+            <div class="flex items-center justify-between mb-4">
+              <div class="category-icon-wrapper w-12 h-12 rounded-xl bg-[#FAF9F5] text-[#B8860B] flex items-center justify-center text-xl transition-all duration-300 group-hover:bg-[#B8860B] group-hover:text-white">
+                <i class="${iconClass}"></i>
+              </div>
+              <span class="text-xs font-bold px-2 py-0.5 rounded-full bg-gray-100 text-gray-600 group-hover:bg-[#B8860B]/10 group-hover:text-[#B8860B] transition-colors">
+                ${count} ${count === 1 ? 'Craft' : 'Crafts'}
+              </span>
+            </div>
+            <div>
+              <h3 class="category-title text-base font-bold text-gray-900 mb-1 transition-colors group-hover:text-[#B8860B] font-sora">
+                ${cat}
+              </h3>
+              <p class="text-xs text-gray-500 line-clamp-1">
+                Authentic ${cat.toLowerCase()}
+              </p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Select a Category
+    function selectCategory(cat) {
+      currentCategory = cat;
+      renderCategories();
+      renderItems();
+
+      // Smooth scroll to items section
+      const itemsSec = document.getElementById('items-section');
+      if (itemsSec) {
+        itemsSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Render Items for the Selected State and Category
+    function renderItems() {
+      const grid = document.getElementById('items-grid');
+      const emptyState = document.getElementById('empty-items-state');
+      const title = document.getElementById('items-section-title');
+      const subtitle = document.getElementById('items-section-subtitle');
+      const countDisplay = document.getElementById('items-count-display');
+
+      let filtered = [...stateProducts];
+      if (currentCategory !== 'All') {
+        filtered = filtered.filter(p => p.category === currentCategory);
+        title.textContent = `${currentCategory} in ${currentState}`;
+        subtitle.textContent = `Showing verified GI crafts and traditional creations in ${currentCategory}.`;
+      } else {
+        title.textContent = `All Heritage Items from ${currentState}`;
+        subtitle.textContent = `Explore all certified Geographical Indications and masterpieces from ${currentState}.`;
+      }
+
+      countDisplay.textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      grid.innerHTML = filtered.map(item => {
+        const giNum = item.giNumber || 'GI/GOV/IND';
+        const price = item.price ? `₹ ${item.price.toLocaleString('en-IN')}` : '₹ 18,500';
+        const district = item.district ? `${item.district}, ` : '';
+        const imgUrl = item.imageUrl || `https://picsum.photos/seed/${encodeURIComponent(item.name.replace(/[^a-zA-Z]/g, ''))}/800/800`;
+
+        return `
+          <div class="item-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col justify-between">
+            <div>
+              <!-- Image Container with GI Badge & Wishlist -->
+              <div class="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-gray-100">
+                <img src="${imgUrl}" alt="${item.name}" class="item-image w-full h-full object-cover transition-transform duration-700" loading="lazy">
+                
+                <!-- Official GI Badge -->
+                <div class="absolute top-3 left-3 z-10">
+                  <span class="inline-flex items-center gap-1.5 bg-[#B8860B] text-white text-[10px] font-extrabold uppercase tracking-wider px-3 py-1 rounded-full shadow-md">
+                    <i class="fa-solid fa-certificate"></i>
+                    <span>GI Tagged · ${giNum}</span>
+                  </span>
+                </div>
+
+                <!-- Heart Icon -->
+                <button onclick="toggleWishlist('${item._id || item.id}', this)" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm text-gray-500 hover:text-red-500 flex items-center justify-center transition-colors shadow">
+                  <i class="fa-regular fa-heart text-sm"></i>
+                </button>
+              </div>
+
+              <!-- Content Body -->
+              <div class="p-5">
+                <div class="flex items-center justify-between text-xs text-gray-500 mb-1.5 font-medium">
+                  <span class="text-[#8B6508] font-bold uppercase tracking-wider">${item.category}</span>
+                  <span><i class="fa-solid fa-location-dot text-[10px] mr-1"></i>${district}${item.state}</span>
+                </div>
+
+                <h4 class="text-lg font-bold font-sora text-gray-900 mb-1 leading-snug line-clamp-1 hover:text-[#B8860B] transition-colors">
+                  <a href="masterpiece.html?id=${item._id || item.id}" title="Read Artisan Story">${item.name}</a>
+                </h4>
+
+                <p class="text-xs text-gray-500 mb-2 line-clamp-2">
+                  ${item.craft || item.description || 'Authentic traditional handicraft preserved by indigenous artisans.'}
+                </p>
+
+                <a href="masterpiece.html?id=${item._id || item.id}" class="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-[#B8860B] hover:text-[#8B6508] transition-colors mb-3">
+                  <span>Artisan Story</span>
+                  <i class="fa-solid fa-arrow-right text-[9px]"></i>
+                </a>
+
+                <!-- Artisan Cluster Info -->
+                <div class="flex items-center gap-2 text-xs text-gray-600 bg-[#FAF9F5] p-2.5 rounded-lg border border-gray-100 mb-4">
+                  <i class="fa-solid fa-users text-[#B8860B]"></i>
+                  <span class="truncate">
+                    ${item.artisanCount ? `Cluster: ~${item.artisanCount.toLocaleString()} Artisans` : `Certified Artisan Guild`}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Footer: Price & Actions -->
+            <div class="px-5 pb-5 pt-0">
+              <div class="flex items-baseline justify-between mb-4">
+                <span class="text-xs uppercase text-gray-400 font-semibold">Masterpiece Value</span>
+                <span class="text-xl font-extrabold text-gray-900 font-sora">${price}</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="openCertificateModal('${item._id || item.id}')" class="px-3 py-2 rounded-xl border border-[#B8860B] text-[#B8860B] hover:bg-[#B8860B]/10 text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5">
+                  <i class="fa-solid fa-stamp text-[11px]"></i>
+                  <span>Certificate</span>
+                </button>
+                <button onclick="addToBag('${item._id || item.id}', '${item.name.replace(/'/g, "\\'")}', '${price}')" class="px-3 py-2 rounded-xl bg-[#B8860B] hover:bg-[#8B6508] text-white text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-1.5 shadow-sm">
+                  <i class="fa-solid fa-bag-shopping text-[11px]"></i>
+                  <span>Add to Bag</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Open Official GI Certificate Modal
+    function openCertificateModal(itemId) {
+      const item = stateProducts.find(p => (p._id === itemId || p.id === itemId)) ||
+                   stateGiData.find(g => (g.id === itemId || g.giNumber === itemId));
+      if (!item) return;
+
+      document.getElementById('modal-gi-number').textContent = item.giNumber || 'GI/RS/001/2004';
+      document.getElementById('modal-craft-name').textContent = item.name;
+      document.getElementById('modal-craft-state').textContent = `${item.district ? item.district + ', ' : ''}${item.state}`;
+      document.getElementById('modal-craft-year').textContent = item.registrationYear || 2012;
+      document.getElementById('modal-craft-category').textContent = item.category || 'Handicrafts';
+      document.getElementById('modal-applicant').textContent = item.artisan || item.applicant || 'Development Commissioner (Handicrafts), Ministry of Textiles';
+      document.getElementById('modal-artisan-count').textContent = item.artisanCount ? `~${item.artisanCount.toLocaleString()} Master Artisans` : 'Over 2,500 Registered Craftspersons';
+      document.getElementById('modal-export-status').textContent = item.exportEligible ? 'Certified for Global Export (HS Code Compliant)' : 'Domestic Heritage Protection';
+      document.getElementById('modal-description').textContent = item.description || 'This authentic geographical indication certifies that this item was created within the traditional boundaries of its native region using ancestral handcrafting techniques.';
+
+      const buyBtn = document.getElementById('modal-buy-btn');
+      buyBtn.onclick = () => {
+        closeCertificateModal();
+        addToBag(item._id || item.id, item.name, item.price ? `₹ ${item.price.toLocaleString('en-IN')}` : '₹ 18,500');
+      };
+
+      const modal = document.getElementById('certificate-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeCertificateModal() {
+      const modal = document.getElementById('certificate-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // Close modal on click outside
+    document.getElementById('certificate-modal').addEventListener('click', (e) => {
+      if (e.target.id === 'certificate-modal') {
+        closeCertificateModal();
+      }
+    });
+
+    // Add to Bag with LocalStorage Persistence & Direct Checkout Link
+    function addToBag(id, name, priceStr) {
+      const item = stateProducts.find(p => (p._id === id || p.id === id)) ||
+                   stateGiData.find(g => (g.id === id || g.giNumber === id)) || {};
+      
+      const numPrice = typeof item.price === 'number' ? item.price : parseInt(String(priceStr).replace(/\D/g, '')) || 24500;
+      
+      const cartItem = {
+        id: id,
+        name: name || item.name,
+        price: numPrice,
+        state: item.state || currentState,
+        origin: `${item.district ? item.district + ', ' : ''}${item.state || currentState}`,
+        imageUrl: item.imageUrl,
+        giNumber: item.giNumber,
+        craft: item.craft
+      };
+
+      try {
+        let cart = JSON.parse(localStorage.getItem('parampara_cart') || '[]');
+        if (!Array.isArray(cart)) cart = [];
+        cart.push(cartItem);
+        localStorage.setItem('parampara_cart', JSON.stringify(cart));
+        window.dispatchEvent(new Event('cart-updated'));
+      } catch (e) {
+        console.warn('LocalStorage error:', e);
+      }
+
+      // Create interactive toast
+      const toast = document.createElement('div');
+      toast.className = 'fixed bottom-6 right-6 z-[150] bg-[#1A1A1A] text-white px-5 py-4 rounded-2xl shadow-2xl border border-[#B8860B] flex flex-col sm:flex-row sm:items-center gap-3.5 animate-[fadeInUp_0.4s_ease-out]';
+      const checkoutUrl = `checkout.html?name=${encodeURIComponent(cartItem.name)}&price=${cartItem.price}&origin=${encodeURIComponent(cartItem.origin)}&gi=${encodeURIComponent(cartItem.giNumber || '')}`;
+      toast.innerHTML = `
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-[#B8860B] text-white flex items-center justify-center font-bold text-sm shrink-0">
+            ✓
+          </div>
+          <div>
+            <p class="text-[10px] text-[#B8860B] font-bold uppercase tracking-wider">Added to Bag</p>
+            <p class="text-xs sm:text-sm font-semibold truncate max-w-[200px]">${cartItem.name}</p>
+          </div>
+        </div>
+        <a href="${checkoutUrl}" class="inline-flex items-center justify-center gap-1.5 bg-[#B8860B] hover:bg-[#8B6508] text-white text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-xl transition-all shadow shrink-0">
+          <span>Checkout</span>
+          <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </a>
+      `;
+      document.body.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => toast.remove(), 500);
+      }, 4500);
+    }
+
+    // Wishlist Toggle
+    function toggleWishlist(id, btn) {
+      const icon = btn.querySelector('i');
+      if (icon.classList.contains('fa-regular')) {
+        icon.classList.remove('fa-regular');
+        icon.classList.add('fa-solid', 'text-red-500');
+      } else {
+        icon.classList.remove('fa-solid', 'text-red-500');
+        icon.classList.add('fa-regular');
+      }
+    }
+
+    // Button to reset category to All
+    document.getElementById('show-all-categories-btn').addEventListener('click', () => {
+      selectCategory('All');
+    });
+
+    // Handle Browser Popstate (Back/Forward)
+    window.addEventListener('popstate', (e) => {
+      const params = new URLSearchParams(window.location.search);
+      const st = params.get('name') || params.get('state') || "Rajasthan";
+      loadState(st);
+    });
+
+    // Preloader Dismiss
+    document.addEventListener('DOMContentLoaded', () => {
+      initStateSelector();
+      loadState(currentState);
+
+      const preloader = document.getElementById('preloader');
+      const progress = document.getElementById('preloader-progress');
+      if (progress) setTimeout(() => { progress.style.width = '100%'; }, 50);
+      if (preloader) {
+        setTimeout(() => {
+          preloader.style.opacity = '0';
+          setTimeout(() => { preloader.style.display = 'none'; }, 700);
+        }, 800);
+      }
+    });
   </script>
-  <script src="js/nav.js">
-  </script>
+  <!-- Components script for shared header/footer behavior -->
+  <script src="js/auth.js"></script>
  </body>
 </html>

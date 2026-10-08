@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="/favicon.png" rel="icon" type="image/png"/>
+  <title>GI Registry — India's Geographical Indications Database | Parampara</title>
+  <meta name="description" content="Official demo of India's Geographical Indications (GI) Registry with 50+ registered crafts, textiles, art forms and agricultural products from all states. Powered by Parampara Heritage."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:title" content="GI Registry — India's Geographical Indications Database | Parampara"/>
+  <meta property="og:description" content="Search and explore India's 50+ GI-tagged handicrafts, textiles, art forms, and agricultural products. Filter by state, category, region and more."/>
+  <meta name="twitter:card" content="summary_large_image"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    /* ====================================================
+       GI REGISTRY — DESIGN SYSTEM
+    ==================================================== */
+    :root {
+      --bg-deep:       #0a0c10;
+      --bg-card:       #11141b;
+      --bg-glass:      rgba(17, 20, 27, 0.85);
+      --bg-hover:      #1a1f2e;
+      --border-dim:    rgba(255,255,255,0.07);
+      --border-active: rgba(212,175,55,0.5);
+
+      --gold:          #d4af37;
+      --gold-light:    #f0d060;
+      --gold-muted:    rgba(212,175,55,0.15);
+      --saffron:       #FF6B00;
+      --saffron-muted: rgba(255,107,0,0.12);
+      --green-india:   #138808;
+      --green-muted:   rgba(19,136,8,0.12);
+      --teal:          #00b4d8;
+      --teal-muted:    rgba(0,180,216,0.12);
+      --purple:        #7c3aed;
+      --purple-muted:  rgba(124,58,237,0.12);
+
+      --text-bright:   #f0ede8;
+      --text-mid:      #9ea3b0;
+      --text-dim:      #5c6070;
+
+      --radius-sm:     8px;
+      --radius-md:     14px;
+      --radius-lg:     20px;
+      --radius-xl:     28px;
+
+      --shadow-card:   0 8px 32px rgba(0,0,0,0.4);
+      --shadow-glow:   0 0 24px rgba(212,175,55,0.12);
+
+      --font-display:  'Cormorant Garamond', serif;
+      --font-body:     'Inter', sans-serif;
+      --font-heading:  'Sora', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-bright);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ---- Scrollbar ---- */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--gold-muted); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+    /* ====================================================
+       PRELOADER
+    ==================================================== */
+    #preloader {
+      position: fixed; inset: 0; z-index: 999;
+      background: var(--bg-deep);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 16px;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+    #preloader.hidden { opacity: 0; visibility: hidden; }
+    .preloader-logo {
+      font-family: var(--font-display);
+      font-size: 2rem; color: var(--gold);
+      letter-spacing: 0.1em;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    .preloader-bar {
+      width: 200px; height: 2px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 1px; overflow: hidden;
+    }
+    .preloader-progress {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--gold), var(--saffron));
+      border-radius: 1px;
+      animation: loadBar 1.4s ease-out forwards;
+    }
+    @keyframes loadBar { to { width: 100%; } }
+    @keyframes pulse { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+    /* ====================================================
+       NAVBAR
+    ==================================================== */
+    .navbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10, 12, 16, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-dim);
+      padding: 0 max(24px, calc((100% - 1400px) / 2));
+      height: 70px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo img { height: 38px; }
+    .nav-links {
+      display: flex; align-items: center; gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-mid);
+      font-size: 0.875rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text-bright); }
+    .nav-links a.active { color: var(--gold); }
+    .nav-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--gold-muted);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      padding: 6px 14px; border-radius: 20px;
+      font-size: 0.8rem; font-weight: 600;
+      text-decoration: none;
+    }
+    .nav-badge:hover { background: var(--gold); color: #000 !important; }
+
+    /* ====================================================
+       HERO SECTION
+    ==================================================== */
+    .hero {
+      position: relative;
+      padding: 80px max(24px, calc((100% - 1400px) / 2)) 60px;
+      overflow: hidden;
+      background: radial-gradient(ellipse 80% 50% at 50% -10%,
+        rgba(212,175,55,0.15) 0%, transparent 70%);
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--saffron-muted);
+      border: 1px solid rgba(255,107,0,0.3);
+      color: var(--saffron); font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      font-weight: 400; line-height: 1.15;
+      color: var(--text-bright);
+      margin-bottom: 16px;
+    }
+    .hero-title .accent { color: var(--gold); font-style: italic; }
+    .hero-subtitle {
+      font-size: 1.05rem; color: var(--text-mid);
+      max-width: 600px; line-height: 1.7;
+      margin-bottom: 32px;
+    }
+    .hero-pills {
+      display: flex; flex-wrap: wrap; gap: 10px;
+      margin-bottom: 20px;
+    }
+    .hero-pill {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      padding: 8px 16px; border-radius: 20px;
+      font-size: 0.82rem; color: var(--text-mid);
+    }
+    .hero-pill .icon { color: var(--gold); }
+
+    /* ====================================================
+       STATS BAR
+    ==================================================== */
+    .stats-bar {
+      padding: 0 max(24px, calc((100% - 1400px) / 2));
+      margin-bottom: 40px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      text-align: center;
+      transition: border-color 0.2s, transform 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--saffron));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .stat-card:hover { border-color: var(--gold); transform: translateY(-2px); }
+    .stat-card:hover::before { opacity: 1; }
+    .stat-value {
+      font-family: var(--font-heading);
+      font-size: 2rem; font-weight: 700;
+      color: var(--gold);
+      display: block; margin-bottom: 4px;
+    }
+    .stat-label { font-size: 0.78rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ====================================================
+       MAIN LAYOUT
+    ==================================================== */
+    .main {
+      padding: 0 max(24px, calc((100% - 1400px) / 2)) 80px;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 28px;
+    }
+    @media (max-width: 900px) {
+      .main { grid-template-columns: 1fr; }
+    }
+
+    /* ====================================================
+       SIDEBAR FILTERS
+    ==================================================== */
+    .sidebar {
+      position: sticky; top: 86px;
+      height: calc(100vh - 100px);
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+    .sidebar::-webkit-scrollbar { width: 3px; }
+    .sidebar::-webkit-scrollbar-thumb { background: var(--border-dim); }
+
+    .filter-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+    .filter-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .filter-title {
+      font-family: var(--font-heading);
+      font-size: 0.9rem; font-weight: 600;
+      color: var(--text-bright);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .filter-title i { color: var(--gold); }
+    .clear-btn {
+      background: none; border: 1px solid var(--border-dim);
+      color: var(--text-dim); font-size: 0.75rem;
+      padding: 4px 10px; border-radius: 6px; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .clear-btn:hover { border-color: var(--saffron); color: var(--saffron); }
+
+    .filter-group { margin-bottom: 20px; }
+    .filter-label {
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 8px; display: block;
+    }
+    .filter-select, .filter-input {
+      width: 100%;
+      background: var(--bg-deep);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-sm);
+      color: var(--text-bright);
+      font-size: 0.85rem; font-family: var(--font-body);
+      padding: 9px 12px;
+      appearance: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .filter-select:focus, .filter-input:focus {
+      outline: none; border-color: var(--gold);
+    }
+    .select-wrapper { position: relative; }
+    .select-wrapper::after {
+      content: '▾';
+      position: absolute; right: 10px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim); pointer-events: none; font-size: 0.8rem;
+    }
+
+    .year-range {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    }
+
+    .filter-chips {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 8px;
+    }
+    .filter-chip {
+      background: none; border: 1px solid var(--border-dim);
+      color: var(--text-dim); font-size: 0.75rem;
+      padding: 4px 10px; border-radius: 12px; cursor: pointer;
+      transition: all 0.2s; white-space: nowrap;
+    }
+    .filter-chip:hover { border-color: var(--gold-light); color: var(--gold-light); }
+    .filter-chip.active {
+      background: var(--gold-muted);
+      border-color: var(--gold); color: var(--gold);
+    }
+
+    /* Portal links */
+    .portal-links {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-dim);
+    }
+    .portal-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: var(--radius-sm);
+      text-decoration: none;
+      color: var(--text-mid); font-size: 0.8rem;
+      border: 1px solid var(--border-dim);
+      margin-bottom: 8px;
+      transition: all 0.2s;
+    }
+    .portal-link:hover { border-color: var(--gold); color: var(--gold); }
+    .portal-link i { color: var(--gold); width: 14px; text-align: center; }
+
+    /* ====================================================
+       CONTENT AREA
+    ==================================================== */
+    .content {}
+
+    /* Search bar */
+    .search-row {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px;
+    }
+    .search-wrapper {
+      position: relative; flex: 1;
+    }
+    .search-icon {
+      position: absolute; left: 16px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim); font-size: 0.9rem;
+    }
+    #search-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-md);
+      color: var(--text-bright);
+      font-family: var(--font-body); font-size: 0.95rem;
+      padding: 14px 14px 14px 44px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    #search-input:focus {
+      outline: none; border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212,175,55,0.1);
+    }
+    #search-input::placeholder { color: var(--text-dim); }
+
+    .view-toggles {
+      display: flex; gap: 6px;
+    }
+    .view-btn {
+      background: var(--bg-card); border: 1px solid var(--border-dim);
+      color: var(--text-dim); width: 40px; height: 40px;
+      border-radius: var(--radius-sm); cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; transition: all 0.2s;
+    }
+    .view-btn.active { border-color: var(--gold); color: var(--gold); background: var(--gold-muted); }
+
+    /* Results header */
+    .results-header {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 16px; flex-wrap: wrap; gap: 10px;
+    }
+    .results-info { font-size: 0.85rem; color: var(--text-dim); }
+    .results-info strong { color: var(--text-bright); }
+    .sort-row { display: flex; align-items: center; gap: 8px; }
+    .sort-label { font-size: 0.8rem; color: var(--text-dim); }
+    .sort-select {
+      background: var(--bg-card); border: 1px solid var(--border-dim);
+      color: var(--text-bright); font-size: 0.8rem; font-family: var(--font-body);
+      padding: 6px 12px; border-radius: var(--radius-sm); cursor: pointer;
+    }
+    .sort-select:focus { outline: none; border-color: var(--gold); }
+
+    /* Active filters display */
+    .active-filters {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 16px;
+    }
+    .active-tag {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--gold-muted); border: 1px solid var(--gold);
+      color: var(--gold-light); font-size: 0.75rem;
+      padding: 4px 10px; border-radius: 12px;
+    }
+    .active-tag button {
+      background: none; border: none; color: var(--gold);
+      cursor: pointer; font-size: 0.7rem; padding: 0; line-height: 1;
+    }
+
+    /* ====================================================
+       GRID VIEW
+    ==================================================== */
+    #results-grid.grid-view {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    #results-grid.list-view {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+
+    .gi-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      position: relative; overflow: hidden;
+    }
+    .gi-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--gold), var(--saffron));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .gi-card:hover {
+      border-color: rgba(212,175,55,0.3);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card);
+    }
+    .gi-card:hover::before { transform: scaleX(1); }
+
+    /* List view card */
+    #results-grid.list-view .gi-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 16px; align-items: center;
+      padding: 16px 20px;
+    }
+
+    .card-logo {
+      font-size: 2.4rem; line-height: 1;
+      width: 54px; height: 54px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg-hover); border-radius: var(--radius-sm);
+      flex-shrink: 0;
+    }
+    .card-body { flex: 1; min-width: 0; }
+    .card-gi-num {
+      font-size: 0.68rem; color: var(--text-dim);
+      font-family: 'Courier New', monospace; letter-spacing: 0.05em;
+      margin-bottom: 4px;
+    }
+    .card-name {
+      font-family: var(--font-heading);
+      font-size: 1rem; font-weight: 600;
+      color: var(--text-bright);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      margin-bottom: 4px;
+    }
+    .card-location {
+      font-size: 0.78rem; color: var(--text-dim);
+      display: flex; align-items: center; gap: 4px;
+      margin-bottom: 8px;
+    }
+    .card-location i { color: var(--saffron); font-size: 0.7rem; }
+    .card-desc {
+      font-size: 0.8rem; color: var(--text-mid); line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 12px; flex-wrap: wrap; gap: 6px;
+    }
+    .card-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .badge {
+      font-size: 0.68rem; font-weight: 600;
+      padding: 3px 8px; border-radius: 10px;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .badge-category {
+      background: var(--saffron-muted); color: var(--saffron);
+      border: 1px solid rgba(255,107,0,0.25);
+    }
+    .badge-export {
+      background: var(--green-muted); color: var(--green-india);
+      border: 1px solid rgba(19,136,8,0.25);
+    }
+    .badge-handicraft {
+      background: var(--teal-muted); color: var(--teal);
+      border: 1px solid rgba(0,180,216,0.25);
+    }
+    .badge-agricultural {
+      background: var(--green-muted); color: #4ade80;
+      border: 1px solid rgba(74,222,128,0.25);
+    }
+    .badge-year {
+      background: var(--gold-muted); color: var(--gold);
+      border: 1px solid rgba(212,175,55,0.25);
+    }
+    .card-artisans {
+      font-size: 0.75rem; color: var(--text-dim);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .card-artisans i { color: var(--gold); font-size: 0.7rem; }
+
+    /* Grid-view specifics */
+    #results-grid.grid-view .card-logo { margin-bottom: 12px; }
+    #results-grid.grid-view .card-gi-num { margin-bottom: 6px; }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center; padding: 60px 20px; color: var(--text-dim);
+    }
+    .empty-state i { font-size: 3rem; margin-bottom: 16px; display: block; color: var(--border-dim); }
+    .empty-state h3 { font-size: 1.2rem; color: var(--text-mid); margin-bottom: 8px; }
+
+    /* Loading skeleton */
+    .skeleton {
+      background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-hover) 50%, var(--bg-card) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: var(--radius-sm);
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* ====================================================
+       PAGINATION
+    ==================================================== */
+    .pagination {
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px; margin-top: 32px;
+    }
+    .page-btn {
+      width: 36px; height: 36px;
+      background: var(--bg-card); border: 1px solid var(--border-dim);
+      color: var(--text-mid); border-radius: var(--radius-sm);
+      cursor: pointer; font-size: 0.85rem; font-family: var(--font-body);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .page-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .page-btn.active { background: var(--gold-muted); border-color: var(--gold); color: var(--gold); font-weight: 600; }
+    .page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    /* ====================================================
+       DETAIL MODAL
+    ==================================================== */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px;
+      opacity: 0; visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .modal-overlay.open { opacity: 1; visibility: visible; }
+    .modal {
+      background: var(--bg-card);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-xl);
+      max-width: 760px; width: 100%;
+      max-height: 88vh; overflow-y: auto;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.3s ease;
+    }
+    .modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+    .modal-header {
+      padding: 28px 28px 0;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute; top: 20px; right: 20px;
+      background: var(--bg-hover); border: 1px solid var(--border-dim);
+      color: var(--text-dim); width: 36px; height: 36px;
+      border-radius: 50%; cursor: pointer; font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { border-color: var(--saffron); color: var(--saffron); }
+
+    .modal-logo-row {
+      display: flex; align-items: flex-start; gap: 18px;
+      margin-bottom: 16px;
+    }
+    .modal-logo {
+      font-size: 3.5rem; line-height: 1;
+      width: 80px; height: 80px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--bg-hover);
+      border: 1px solid var(--border-dim);
+      border-radius: var(--radius-md);
+      flex-shrink: 0;
+    }
+    .modal-title-block {}
+    .modal-gi-num {
+      font-size: 0.75rem; color: var(--gold);
+      font-family: 'Courier New', monospace; letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+    .modal-name {
+      font-family: var(--font-display);
+      font-size: 1.8rem; font-weight: 500; color: var(--text-bright);
+      margin-bottom: 8px; line-height: 1.2;
+    }
+    .modal-badges { display: flex; gap: 8px; flex-wrap: wrap; }
+    .modal-divider {
+      height: 1px; background: var(--border-dim);
+      margin: 20px 0;
+    }
+    .modal-body { padding: 0 28px 28px; }
+    .modal-desc {
+      font-size: 0.95rem; color: var(--text-mid); line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .modal-meta-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 14px; margin-bottom: 24px;
+    }
+    @media (max-width: 500px) {
+      .modal-meta-grid { grid-template-columns: 1fr; }
+    }
+    .meta-item {}
+    .meta-key {
+      font-size: 0.7rem; font-weight: 600;
+      color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em;
+      margin-bottom: 4px;
+    }
+    .meta-value {
+      font-size: 0.9rem; color: var(--text-bright);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .meta-value i { color: var(--gold); font-size: 0.8rem; }
+
+    .tags-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .tag {
+      background: var(--bg-hover); border: 1px solid var(--border-dim);
+      color: var(--text-mid); font-size: 0.75rem;
+      padding: 4px 10px; border-radius: 10px;
+    }
+    .tag.clickable { cursor: pointer; transition: all 0.2s; }
+    .tag.clickable:hover { border-color: var(--gold); color: var(--gold); }
+
+    .note-box {
+      background: var(--gold-muted);
+      border: 1px solid rgba(212,175,55,0.2);
+      border-left: 3px solid var(--gold);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px; margin-bottom: 24px;
+      font-size: 0.85rem; color: var(--text-mid);
+    }
+    .note-box strong { color: var(--gold); }
+
+    .related-section {}
+    .related-title {
+      font-size: 0.85rem; font-weight: 600; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+    .related-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+    }
+    .related-card {
+      background: var(--bg-hover); border: 1px solid var(--border-dim);
+      border-radius: var(--radius-sm); padding: 12px;
+      cursor: pointer; transition: all 0.2s;
+      display: flex; gap: 10px; align-items: center;
+    }
+    .related-card:hover { border-color: var(--gold); }
+    .related-logo { font-size: 1.5rem; }
+    .related-name { font-size: 0.82rem; font-weight: 600; color: var(--text-bright); }
+    .related-state { font-size: 0.73rem; color: var(--text-dim); }
+
+    .modal-actions {
+      display: flex; gap: 10px; margin-top: 24px;
+    }
+    .modal-btn {
+      display: flex; align-items: center; gap: 8px;
+      padding: 10px 20px; border-radius: var(--radius-sm);
+      font-size: 0.85rem; font-weight: 600; cursor: pointer;
+      text-decoration: none; border: none; transition: all 0.2s;
+    }
+    .modal-btn-primary {
+      background: var(--gold); color: #0a0c10; flex: 1; justify-content: center;
+    }
+    .modal-btn-primary:hover { background: var(--gold-light); }
+    .modal-btn-outline {
+      background: var(--bg-hover); border: 1px solid var(--border-dim);
+      color: var(--text-mid);
+    }
+    .modal-btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ====================================================
+       TOAST NOTIFICATIONS
+    ==================================================== */
+    .toast-container {
+      position: fixed; bottom: 24px; right: 24px;
+      z-index: 500; display: flex; flex-direction: column; gap: 10px;
+    }
+    .toast {
+      background: var(--bg-card); border: 1px solid var(--border-dim);
+      border-radius: var(--radius-sm); padding: 12px 18px;
+      font-size: 0.85rem; color: var(--text-bright);
+      display: flex; align-items: center; gap: 10px;
+      transform: translateX(100px); opacity: 0;
+      transition: all 0.3s ease; min-width: 240px;
+      box-shadow: var(--shadow-card);
+    }
+    .toast.show { transform: translateX(0); opacity: 1; }
+    .toast i { color: var(--gold); }
+    .toast.success { border-color: rgba(19,136,8,0.4); }
+    .toast.success i { color: var(--green-india); }
+
+    /* ====================================================
+       FOOTER STRIP
+    ==================================================== */
+    .gi-footer {
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-dim);
+      padding: 24px max(24px, calc((100% - 1400px) / 2));
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .footer-text { font-size: 0.8rem; color: var(--text-dim); }
+    .footer-text a { color: var(--gold); text-decoration: none; }
+    .footer-logos { display: flex; gap: 16px; align-items: center; }
+    .footer-badge {
+      font-size: 0.72rem; color: var(--text-dim);
+      background: var(--bg-hover); border: 1px solid var(--border-dim);
+      padding: 4px 10px; border-radius: 10px;
+    }
+
+    /* ====================================================
+       RESPONSIVE
+    ==================================================== */
+    @media (max-width: 900px) {
+      .sidebar { position: static; height: auto; }
+      .hero { padding-top: 50px; }
+      #results-grid.grid-view { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+      #results-grid.list-view .gi-card { grid-template-columns: auto 1fr; }
+      #results-grid.list-view .gi-card .card-footer { grid-column: 1 / -1; }
+    }
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .modal-meta-grid { grid-template-columns: 1fr; }
+      .related-grid { grid-template-columns: 1fr; }
+      #results-grid.grid-view { grid-template-columns: 1fr; }
+      #results-grid.list-view .gi-card { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Preloader -->
+  <div id="preloader">
+    <div class="preloader-logo">Parampara</div>
+    <div class="preloader-bar"><div class="preloader-progress"></div></div>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <a class="nav-logo" href="index.html">
+      <img src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" alt="Parampara Logo"/>
+    </a>
+    <ul class="nav-links">
+      <li><a href="states.html">All States</a></li>
+      <li><a href="artisans.html">Artisans</a></li>
+      <li><a href="search.html">Shop</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="gi-registry.html" class="active">GI Registry</a></li>
+    </ul>
+    <a href="search.html" class="nav-badge">
+      <i class="fa fa-certificate"></i> GI Tagged
+    </a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">
+      <i class="fa fa-shield-halved"></i>
+      Official Demo · Ministry of Commerce & Industry
+    </div>
+    <h1 class="hero-title">
+      India's <span class="accent">Geographical Indications</span><br/>Registry Database
+    </h1>
+    <p class="hero-subtitle">
+      Explore 50+ registered GI-tagged crafts, textiles, art forms and agricultural products from across all Indian states — modeled on the IP India GI Registry, Indian Handicrafts Portal, and GiTAGGED Platform.
+    </p>
+    <div class="hero-pills">
+      <div class="hero-pill"><span class="icon">🏛️</span> Inspired by IP India GI Portal</div>
+      <div class="hero-pill"><span class="icon">🧵</span> Indian Handicrafts Ministry Data</div>
+      <div class="hero-pill"><span class="icon">🗺️</span> GiTAGGED State-wise Catalog</div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span class="stat-value" id="stat-total">50</span>
+        <span class="stat-label">GI Registrations</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="stat-states">29</span>
+        <span class="stat-label">States Represented</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="stat-artisans">3.8M+</span>
+        <span class="stat-label">Artisans Supported</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="stat-since">2004</span>
+        <span class="stat-label">GI Act Since</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="stat-export">82%</span>
+        <span class="stat-label">Export Eligible</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="main">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="filter-panel">
+        <div class="filter-header">
+          <div class="filter-title"><i class="fa fa-sliders"></i> Filters</div>
+          <button class="clear-btn" id="clear-all-btn" onclick="clearAllFilters()">Clear All</button>
+        </div>
+
+        <!-- Search (mobile) -->
+        <div class="filter-group" style="display:none" id="mobile-search-group">
+          <label class="filter-label">Search</label>
+          <input class="filter-input" id="mobile-search" type="text" placeholder="Search GI items…"/>
+        </div>
+
+        <!-- Category -->
+        <div class="filter-group">
+          <label class="filter-label">Category</label>
+          <div class="filter-chips">
+            <button class="filter-chip active" data-filter="category" data-value="All">All</button>
+            <button class="filter-chip" data-filter="category" data-value="Handicrafts">Handicrafts</button>
+            <button class="filter-chip" data-filter="category" data-value="Agricultural">Agricultural</button>
+          </div>
+        </div>
+
+        <!-- Region -->
+        <div class="filter-group">
+          <label class="filter-label">Region</label>
+          <div class="select-wrapper">
+            <select class="filter-select" id="filter-region" onchange="applyFilters()">
+              <option value="">All Regions</option>
+              <option>North India</option>
+              <option>South India</option>
+              <option>East India</option>
+              <option>West India</option>
+              <option>Central India</option>
+              <option>North-East India</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- State -->
+        <div class="filter-group">
+          <label class="filter-label">State</label>
+          <div class="select-wrapper">
+            <select class="filter-select" id="filter-state" onchange="applyFilters()">
+              <option value="">All States</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Sub Category -->
+        <div class="filter-group">
+          <label class="filter-label">Sub-Category</label>
+          <div class="select-wrapper">
+            <select class="filter-select" id="filter-subcategory" onchange="applyFilters()">
+              <option value="">All Types</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Year Range -->
+        <div class="filter-group">
+          <label class="filter-label">Registration Year</label>
+          <div class="year-range">
+            <input class="filter-input" id="filter-year-from" type="number" min="2004" max="2024" placeholder="From" onchange="applyFilters()"/>
+            <input class="filter-input" id="filter-year-to" type="number" min="2004" max="2024" placeholder="To" onchange="applyFilters()"/>
+          </div>
+        </div>
+
+        <!-- Export Eligible -->
+        <div class="filter-group">
+          <label class="filter-label">Export Eligible</label>
+          <div class="filter-chips">
+            <button class="filter-chip active" data-filter="export" data-value="">All</button>
+            <button class="filter-chip" data-filter="export" data-value="true">Yes</button>
+            <button class="filter-chip" data-filter="export" data-value="false">No</button>
+          </div>
+        </div>
+
+        <!-- Official Portal Links -->
+        <div class="portal-links">
+          <p class="filter-label">Official Sources</p>
+          <a class="portal-link" href="https://search.ipindia.gov.in/GIRPublicSearch/" target="_blank" rel="noopener">
+            <i class="fa fa-external-link-alt"></i> IP India GI Registry
+          </a>
+          <a class="portal-link" href="https://indian.handicrafts.gov.in/" target="_blank" rel="noopener">
+            <i class="fa fa-external-link-alt"></i> Indian Handicrafts Portal
+          </a>
+          <a class="portal-link" href="https://www.gitagged.com/statewise/" target="_blank" rel="noopener">
+            <i class="fa fa-external-link-alt"></i> GiTAGGED Platform
+          </a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CONTENT AREA -->
+    <div class="content">
+      <!-- Search bar (desktop) -->
+      <div class="search-row">
+        <div class="search-wrapper">
+          <i class="fa fa-search search-icon"></i>
+          <input type="text" id="search-input" placeholder="Search by name, state, craft, tag…" autocomplete="off"/>
+        </div>
+        <div class="view-toggles">
+          <button class="view-btn active" id="grid-btn" onclick="setView('grid')" title="Grid view">
+            <i class="fa fa-th-large"></i>
+          </button>
+          <button class="view-btn" id="list-btn" onclick="setView('list')" title="List view">
+            <i class="fa fa-list"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Active filters -->
+      <div class="active-filters" id="active-filters"></div>
+
+      <!-- Results header -->
+      <div class="results-header">
+        <div class="results-info" id="results-info">Showing all <strong>50</strong> GI registrations</div>
+        <div class="sort-row">
+          <span class="sort-label">Sort:</span>
+          <select class="sort-select" id="sort-select" onchange="applyFilters()">
+            <option value="registrationYear">Year (Oldest)</option>
+            <option value="registrationYearDesc">Year (Newest)</option>
+            <option value="name">Name A–Z</option>
+            <option value="artisanCount">Most Artisans</option>
+            <option value="state">State A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Results grid/list -->
+      <div id="results-grid" class="grid-view"></div>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </div>
+
+  <!-- GI Detail Modal -->
+  <div class="modal-overlay" id="modal-overlay" onclick="handleModalClick(event)">
+    <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-header">
+        <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+        <div class="modal-logo-row">
+          <div class="modal-logo" id="modal-logo"></div>
+          <div class="modal-title-block">
+            <div class="modal-gi-num" id="modal-gi-num"></div>
+            <div class="modal-name" id="modal-title"></div>
+            <div class="modal-badges" id="modal-badges"></div>
+          </div>
+        </div>
+        <div class="modal-divider"></div>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc" id="modal-desc"></p>
+
+        <div class="modal-meta-grid" id="modal-meta"></div>
+
+        <div class="tags-row" id="modal-tags"></div>
+
+        <div class="note-box" id="modal-note" style="display:none">
+          <strong>📌 Heritage Note:</strong> <span id="modal-note-text"></span>
+        </div>
+
+        <div class="related-section" id="related-section" style="display:none">
+          <div class="related-title">Related GI Items</div>
+          <div class="related-grid" id="related-grid"></div>
+        </div>
+
+        <div class="modal-actions">
+          <a class="modal-btn modal-btn-primary" href="search.html" id="modal-shop-link">
+            <i class="fa fa-shopping-bag"></i> Shop Authentic Products
+          </a>
+          <button class="modal-btn modal-btn-outline" onclick="copyGINumber()">
+            <i class="fa fa-copy"></i> Copy GI No.
+          </button>
+          <button class="modal-btn modal-btn-outline" onclick="shareItem()">
+            <i class="fa fa-share-alt"></i> Share
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="gi-footer">
+    <div class="footer-text">
+      Data modeled from 
+      <a href="https://search.ipindia.gov.in/GIRPublicSearch/" target="_blank" rel="noopener">IP India GI Registry</a>, 
+      <a href="https://indian.handicrafts.gov.in/" target="_blank" rel="noopener">Indian Handicrafts Portal</a> &amp; 
+      <a href="https://www.gitagged.com/statewise/" target="_blank" rel="noopener">GiTAGGED Platform</a> — Demo Version by Parampara Heritage
+    </div>
+    <div class="footer-logos">
+      <span class="footer-badge">🏛️ IP India</span>
+      <span class="footer-badge">🧵 Ministry of Textiles</span>
+      <span class="footer-badge">📜 GI Act 1999</span>
+    </div>
+  </footer>
+
+  <script>
+    // ====================================================
+    //  GI REGISTRY — CLIENT-SIDE APPLICATION
+    // ====================================================
+
+    const API_BASE = 'http://localhost:5000/api/gi';
+    const ITEMS_PER_PAGE = 15;
+
+    let allData = [];
+    let filteredData = [];
+    let currentPage = 1;
+    let currentView = 'grid';
+    let currentModal = null;
+    let debounceTimer;
+
+    const state = {
+      q: '',
+      category: 'All',
+      region: '',
+      stateFilter: '',
+      subCategory: '',
+      exportEligible: '',
+      yearFrom: '',
+      yearTo: '',
+      sortBy: 'registrationYear'
+    };
+
+    // ---- Init ----
+    window.addEventListener('DOMContentLoaded', async () => {
+      await loadData();
+      populateFilterDropdowns();
+      setupSearch();
+      applyFilters();
+      updateStats();
+      setTimeout(() => {
+        document.getElementById('preloader').classList.add('hidden');
+      }, 800);
+    });
+
+    // ---- Load Data ----
+    async function loadData() {
+      try {
+        const response = await fetch(`${API_BASE}?limit=100`);
+        if (!response.ok) throw new Error('API unavailable');
+        const json = await response.json();
+        allData = json.data || [];
+      } catch (e) {
+        // Fallback: fetch the local JSON directly
+        try {
+          const res = await fetch('/backend/data/gi-database.json');
+          allData = await res.json();
+        } catch {
+          allData = [];
+          showToast('Could not load GI data. Please start the backend server.', 'error');
+        }
+      }
+    }
+
+    // ---- Populate filter dropdowns from data ----
+    function populateFilterDropdowns() {
+      const states = [...new Set(allData.map(i => i.state))].sort();
+      const subCats = [...new Set(allData.map(i => i.subCategory))].sort();
+
+      const stateSelect = document.getElementById('filter-state');
+      states.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s; opt.textContent = s;
+        stateSelect.appendChild(opt);
+      });
+
+      const subCatSelect = document.getElementById('filter-subcategory');
+      subCats.forEach(sc => {
+        const opt = document.createElement('option');
+        opt.value = sc; opt.textContent = sc;
+        subCatSelect.appendChild(opt);
+      });
+    }
+
+    // ---- Search setup ----
+    function setupSearch() {
+      const input = document.getElementById('search-input');
+      input.addEventListener('input', (e) => {
+        clearTimeout(debounceTimer);
+        state.q = e.target.value;
+        debounceTimer = setTimeout(applyFilters, 250);
+      });
+    }
+
+    // ---- Main filter + sort + paginate ----
+    function applyFilters() {
+      // Read DOM state
+      state.region = document.getElementById('filter-region').value;
+      state.stateFilter = document.getElementById('filter-state').value;
+      state.subCategory = document.getElementById('filter-subcategory').value;
+      state.yearFrom = document.getElementById('filter-year-from').value;
+      state.yearTo = document.getElementById('filter-year-to').value;
+      state.sortBy = document.getElementById('sort-select').value;
+
+      let results = [...allData];
+
+      // Text search
+      if (state.q.trim()) {
+        const terms = state.q.toLowerCase().trim().split(/\s+/);
+        results = results.filter(item => {
+          const blob = [item.name, item.description, item.craft,
+            item.state, item.district, item.subCategory,
+            item.applicant, ...(item.tags || [])].join(' ').toLowerCase();
+          return terms.every(t => blob.includes(t));
+        });
+      }
+
+      // Category
+      if (state.category && state.category !== 'All') {
+        results = results.filter(i => i.category === state.category);
+      }
+
+      // Region
+      if (state.region) results = results.filter(i => i.region === state.region);
+
+      // State
+      if (state.stateFilter) results = results.filter(i => i.state === state.stateFilter);
+
+      // SubCategory
+      if (state.subCategory) results = results.filter(i => i.subCategory === state.subCategory);
+
+      // Export
+      if (state.exportEligible !== '') {
+        const flag = state.exportEligible === 'true';
+        results = results.filter(i => i.exportEligible === flag);
+      }
+
+      // Year range
+      if (state.yearFrom) results = results.filter(i => i.registrationYear >= parseInt(state.yearFrom));
+      if (state.yearTo) results = results.filter(i => i.registrationYear <= parseInt(state.yearTo));
+
+      // Sort
+      switch (state.sortBy) {
+        case 'name': results.sort((a, b) => a.name.localeCompare(b.name)); break;
+        case 'registrationYearDesc': results.sort((a, b) => b.registrationYear - a.registrationYear); break;
+        case 'artisanCount': results.sort((a, b) => b.artisanCount - a.artisanCount); break;
+        case 'state': results.sort((a, b) => a.state.localeCompare(b.state)); break;
+        default: results.sort((a, b) => a.registrationYear - b.registrationYear);
+      }
+
+      filteredData = results;
+      currentPage = 1;
+      renderResults();
+      renderPagination();
+      renderActiveFilters();
+      updateResultsInfo();
+    }
+
+    // ---- Render result cards ----
+    function renderResults() {
+      const grid = document.getElementById('results-grid');
+      const start = (currentPage - 1) * ITEMS_PER_PAGE;
+      const page = filteredData.slice(start, start + ITEMS_PER_PAGE);
+
+      if (page.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <i class="fa fa-search"></i>
+            <h3>No GI items found</h3>
+            <p>Try adjusting your search or filters</p>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = page.map(item => renderCard(item)).join('');
+    }
+
+    function renderCard(item) {
+      const catBadge = item.category === 'Handicrafts'
+        ? `<span class="badge badge-handicraft">${item.category}</span>`
+        : `<span class="badge badge-agricultural">${item.category}</span>`;
+
+      const exportBadge = item.exportEligible
+        ? `<span class="badge badge-export">Export Ready</span>` : '';
+
+      const artisansFormatted = item.artisanCount >= 100000
+        ? (item.artisanCount / 100000).toFixed(1) + 'L'
+        : item.artisanCount >= 1000
+        ? (item.artisanCount / 1000).toFixed(0) + 'K'
+        : item.artisanCount;
+
+      return `
+        <div class="gi-card" onclick="openModal('${item.id}')" id="card-${item.id}" 
+             role="button" tabindex="0" 
+             onkeydown="if(event.key==='Enter')openModal('${item.id}')">
+          <div class="card-logo">${item.logo}</div>
+          <div class="card-body">
+            <div class="card-gi-num">${item.giNumber}</div>
+            <div class="card-name">${item.name}</div>
+            <div class="card-location">
+              <i class="fa fa-map-marker-alt"></i>
+              ${item.district !== 'Multiple' ? item.district + ', ' : ''}${item.state}
+            </div>
+            <div class="card-desc">${item.description}</div>
+          </div>
+          <div class="card-footer">
+            <div class="card-badges">
+              ${catBadge}
+              ${exportBadge}
+              <span class="badge badge-year">${item.registrationYear}</span>
+            </div>
+            <div class="card-artisans">
+              <i class="fa fa-users"></i> ${artisansFormatted} artisans
+            </div>
+          </div>
+        </div>`;
+    }
+
+    // ---- Pagination ----
+    function renderPagination() {
+      const total = filteredData.length;
+      const totalPages = Math.ceil(total / ITEMS_PER_PAGE);
+      const container = document.getElementById('pagination');
+
+      if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+      let html = `
+        <button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+          <i class="fa fa-chevron-left"></i>
+        </button>`;
+
+      for (let p = 1; p <= totalPages; p++) {
+        if (p === 1 || p === totalPages || (p >= currentPage - 2 && p <= currentPage + 2)) {
+          html += `<button class="page-btn ${p === currentPage ? 'active' : ''}" onclick="goToPage(${p})">${p}</button>`;
+        } else if (p === currentPage - 3 || p === currentPage + 3) {
+          html += `<span class="page-btn" style="cursor:default;opacity:0.4">…</span>`;
+        }
+      }
+
+      html += `
+        <button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+          <i class="fa fa-chevron-right"></i>
+        </button>`;
+
+      container.innerHTML = html;
+    }
+
+    function goToPage(p) {
+      const totalPages = Math.ceil(filteredData.length / ITEMS_PER_PAGE);
+      if (p < 1 || p > totalPages) return;
+      currentPage = p;
+      renderResults();
+      renderPagination();
+      document.querySelector('.content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ---- Results info ----
+    function updateResultsInfo() {
+      const total = filteredData.length;
+      const start = (currentPage - 1) * ITEMS_PER_PAGE + 1;
+      const end = Math.min(currentPage * ITEMS_PER_PAGE, total);
+      document.getElementById('results-info').innerHTML =
+        total === 0
+          ? 'No results found'
+          : `Showing <strong>${start}–${end}</strong> of <strong>${total}</strong> GI registrations`;
+    }
+
+    // ---- Stats ----
+    function updateStats() {
+      if (!allData.length) return;
+      const totalArtisans = allData.reduce((s, i) => s + (i.artisanCount || 0), 0);
+      const exportCount = allData.filter(i => i.exportEligible).length;
+      const states = new Set(allData.map(i => i.state)).size;
+
+      document.getElementById('stat-total').textContent = allData.length;
+      document.getElementById('stat-states').textContent = states;
+      document.getElementById('stat-artisans').textContent = formatNumber(totalArtisans);
+      document.getElementById('stat-export').textContent = Math.round(exportCount / allData.length * 100) + '%';
+    }
+
+    function formatNumber(n) {
+      if (n >= 10000000) return (n / 10000000).toFixed(1) + 'Cr';
+      if (n >= 100000) return (n / 100000).toFixed(1) + 'L';
+      if (n >= 1000) return (n / 1000).toFixed(0) + 'K';
+      return n;
+    }
+
+    // ---- Active Filters Display ----
+    function renderActiveFilters() {
+      const container = document.getElementById('active-filters');
+      const tags = [];
+
+      if (state.q) tags.push({ label: `Search: "${state.q}"`, clear: () => { state.q = ''; document.getElementById('search-input').value = ''; applyFilters(); } });
+      if (state.category !== 'All') tags.push({ label: `Category: ${state.category}`, clear: () => { state.category = 'All'; document.querySelectorAll('[data-filter="category"]').forEach(b => b.classList.toggle('active', b.dataset.value === 'All')); applyFilters(); } });
+      if (state.region) tags.push({ label: `Region: ${state.region}`, clear: () => { state.region = ''; document.getElementById('filter-region').value = ''; applyFilters(); } });
+      if (state.stateFilter) tags.push({ label: `State: ${state.stateFilter}`, clear: () => { state.stateFilter = ''; document.getElementById('filter-state').value = ''; applyFilters(); } });
+      if (state.subCategory) tags.push({ label: `Type: ${state.subCategory}`, clear: () => { state.subCategory = ''; document.getElementById('filter-subcategory').value = ''; applyFilters(); } });
+      if (state.exportEligible !== '') tags.push({ label: `Export: ${state.exportEligible === 'true' ? 'Yes' : 'No'}`, clear: () => { state.exportEligible = ''; document.querySelectorAll('[data-filter="export"]').forEach(b => b.classList.toggle('active', b.dataset.value === '')); applyFilters(); } });
+      if (state.yearFrom) tags.push({ label: `From: ${state.yearFrom}`, clear: () => { state.yearFrom = ''; document.getElementById('filter-year-from').value = ''; applyFilters(); } });
+      if (state.yearTo) tags.push({ label: `To: ${state.yearTo}`, clear: () => { state.yearTo = ''; document.getElementById('filter-year-to').value = ''; applyFilters(); } });
+
+      container.innerHTML = tags.map((t, i) => `
+        <span class="active-tag">
+          ${t.label}
+          <button onclick="clearFilterTag(${i})" aria-label="Remove filter">&times;</button>
+        </span>`).join('');
+
+      // Store clearers
+      window._filterClearers = tags.map(t => t.clear);
+    }
+
+    function clearFilterTag(i) {
+      window._filterClearers[i]?.();
+    }
+
+    function clearAllFilters() {
+      state.q = ''; state.category = 'All'; state.region = '';
+      state.stateFilter = ''; state.subCategory = '';
+      state.exportEligible = ''; state.yearFrom = ''; state.yearTo = '';
+
+      document.getElementById('search-input').value = '';
+      document.getElementById('filter-region').value = '';
+      document.getElementById('filter-state').value = '';
+      document.getElementById('filter-subcategory').value = '';
+      document.getElementById('filter-year-from').value = '';
+      document.getElementById('filter-year-to').value = '';
+
+      document.querySelectorAll('[data-filter="category"]').forEach(b =>
+        b.classList.toggle('active', b.dataset.value === 'All'));
+      document.querySelectorAll('[data-filter="export"]').forEach(b =>
+        b.classList.toggle('active', b.dataset.value === ''));
+
+      applyFilters();
+    }
+
+    // ---- Filter chips ----
+    document.addEventListener('click', (e) => {
+      const chip = e.target.closest('[data-filter]');
+      if (!chip) return;
+
+      const filter = chip.dataset.filter;
+      const value = chip.dataset.value;
+
+      // Deactivate siblings, activate this
+      document.querySelectorAll(`[data-filter="${filter}"]`).forEach(b => b.classList.remove('active'));
+      chip.classList.add('active');
+
+      if (filter === 'category') state.category = value;
+      if (filter === 'export') state.exportEligible = value;
+
+      applyFilters();
+    });
+
+    // ---- View toggle ----
+    function setView(view) {
+      currentView = view;
+      const grid = document.getElementById('results-grid');
+      grid.className = view === 'grid' ? 'grid-view' : 'list-view';
+      document.getElementById('grid-btn').classList.toggle('active', view === 'grid');
+      document.getElementById('list-btn').classList.toggle('active', view === 'list');
+      renderResults();
+    }
+
+    // ====================================================
+    //  MODAL
+    // ====================================================
+    function openModal(id) {
+      const item = allData.find(i => i.id === id);
+      if (!item) return;
+      currentModal = item;
+
+      // Logo & title
+      document.getElementById('modal-logo').textContent = item.logo;
+      document.getElementById('modal-gi-num').textContent = item.giNumber;
+      document.getElementById('modal-title').textContent = item.name;
+
+      // Badges
+      const catClass = item.category === 'Handicrafts' ? 'badge-handicraft' : 'badge-agricultural';
+      const exportBadge = item.exportEligible
+        ? `<span class="badge badge-export"><i class="fa fa-globe"></i> Export Ready</span>` : '';
+      document.getElementById('modal-badges').innerHTML = `
+        <span class="badge ${catClass}">${item.category}</span>
+        <span class="badge badge-year"><i class="fa fa-calendar"></i> ${item.registrationYear}</span>
+        ${exportBadge}`;
+
+      // Description
+      document.getElementById('modal-desc').textContent = item.description;
+
+      // Meta grid
+      const artisansFormatted = item.artisanCount >= 100000
+        ? (item.artisanCount / 100000).toFixed(1) + ' Lakh'
+        : item.artisanCount >= 1000
+        ? (item.artisanCount / 1000).toFixed(0) + ',000+'
+        : item.artisanCount;
+
+      document.getElementById('modal-meta').innerHTML = `
+        <div class="meta-item">
+          <div class="meta-key">State / UT</div>
+          <div class="meta-value"><i class="fa fa-map-marker-alt"></i> ${item.state}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-key">District / Region</div>
+          <div class="meta-value"><i class="fa fa-location-dot"></i> ${item.district}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-key">Craft Type</div>
+          <div class="meta-value"><i class="fa fa-tools"></i> ${item.craft}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-key">Sub-Category</div>
+          <div class="meta-value"><i class="fa fa-tag"></i> ${item.subCategory}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-key">Registration Year</div>
+          <div class="meta-value"><i class="fa fa-calendar-check"></i> ${item.registrationYear}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-key">Application Year</div>
+          <div class="meta-value"><i class="fa fa-calendar"></i> ${item.applicationYear}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-key">Applicant</div>
+          <div class="meta-value"><i class="fa fa-building"></i> ${item.applicant}</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-key">Artisans Supported</div>
+          <div class="meta-value"><i class="fa fa-users"></i> ${artisansFormatted}</div>
+        </div>`;
+
+      // Tags
+      document.getElementById('modal-tags').innerHTML = (item.tags || [])
+        .map(t => `<span class="tag clickable" onclick="searchTag('${t}')">#${t}</span>`)
+        .join('');
+
+      // Note
+      if (item.note) {
+        document.getElementById('modal-note').style.display = '';
+        document.getElementById('modal-note-text').textContent = item.note;
+      } else {
+        document.getElementById('modal-note').style.display = 'none';
+      }
+
+      // Related items
+      const related = allData
+        .filter(i => i.id !== item.id && (i.state === item.state || i.subCategory === item.subCategory))
+        .slice(0, 4);
+
+      if (related.length > 0) {
+        document.getElementById('related-section').style.display = '';
+        document.getElementById('related-grid').innerHTML = related.map(r => `
+          <div class="related-card" onclick="openModal('${r.id}')">
+            <div class="related-logo">${r.logo}</div>
+            <div>
+              <div class="related-name">${r.name}</div>
+              <div class="related-state">${r.state} · ${r.registrationYear}</div>
+            </div>
+          </div>`).join('');
+      } else {
+        document.getElementById('related-section').style.display = 'none';
+      }
+
+      // Open
+      document.getElementById('modal-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+
+      // Update URL hash
+      window.history.replaceState(null, '', `#gi-${item.id}`);
+    }
+
+    function closeModal() {
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+      currentModal = null;
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+
+    function handleModalClick(e) {
+      if (e.target === document.getElementById('modal-overlay')) closeModal();
+    }
+
+    // Close on ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Handle deep link on load
+    window.addEventListener('load', () => {
+      const hash = window.location.hash;
+      if (hash && hash.startsWith('#gi-')) {
+        const id = hash.replace('#gi-', '');
+        setTimeout(() => openModal(id), 600);
+      }
+    });
+
+    // ---- Modal actions ----
+    function copyGINumber() {
+      if (!currentModal) return;
+      navigator.clipboard.writeText(currentModal.giNumber).then(() => {
+        showToast(`GI Number ${currentModal.giNumber} copied to clipboard`, 'success');
+      });
+    }
+
+    function shareItem() {
+      if (!currentModal) return;
+      const url = `${window.location.origin}${window.location.pathname}#gi-${currentModal.id}`;
+      if (navigator.share) {
+        navigator.share({ title: currentModal.name, text: currentModal.description, url });
+      } else {
+        navigator.clipboard.writeText(url).then(() =>
+          showToast('Link copied to clipboard', 'success'));
+      }
+    }
+
+    function searchTag(tag) {
+      closeModal();
+      state.q = tag;
+      document.getElementById('search-input').value = tag;
+      applyFilters();
+    }
+
+    // ====================================================
+    //  TOAST
+    // ====================================================
+    function showToast(message, type = 'info') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+      toast.innerHTML = `<i class="fa ${icon}"></i> ${message}`;
+      container.appendChild(toast);
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => toast.classList.add('show'));
+      });
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+  </script>
+</body>
+</html>

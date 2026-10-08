@@ -3,7 +3,6 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { OAuth2Client } = require('google-auth-library');
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID || 'dummy-client-id');
 
 const { body, validationResult } = require('express-validator');
 
@@ -136,15 +135,50 @@ const generateToken = (id) => {
   });
 };
 
+const helperIsGoogleConfigured = (clientId) => {
+  return (
+    clientId &&
+    clientId !== 'YOUR_GOOGLE_CLIENT_ID_GOES_HERE' &&
+    clientId !== 'GOOGLE_CLIENT_ID_PLACEHOLDER' &&
+    clientId !== 'dummy-client-id' &&
+    clientId !== 'YOUR_GOOGLE_CLIENT_ID'
+  );
+};
+
+// @desc    Get public auth configuration (e.g. Google Client ID)
+// @route   GET /api/auth/config
+// @access  Public
+router.get('/config', (req, res) => {
+  const clientId = process.env.GOOGLE_CLIENT_ID || '';
+  const isConfigured = helperIsGoogleConfigured(clientId);
+  res.json({
+    googleClientId: isConfigured ? clientId : '',
+    isGoogleConfigured: isConfigured
+  });
+});
+
 // @desc    Authenticate/Register a user with Google
 // @route   POST /api/auth/google
 // @access  Public
 router.post('/google', async (req, res) => {
   try {
     const { token } = req.body;
-    const ticket = await googleClient.verifyIdToken({
+    const clientId = process.env.GOOGLE_CLIENT_ID;
+
+    if (!helperIsGoogleConfigured(clientId)) {
+      return res.status(400).json({
+        message: 'Google OAuth is not configured on the server. Please set GOOGLE_CLIENT_ID in backend/.env with your Google Cloud Console Client ID.'
+      });
+    }
+
+    if (!token) {
+      return res.status(400).json({ message: 'Google ID Token is required.' });
+    }
+
+    const client = new OAuth2Client(clientId);
+    const ticket = await client.verifyIdToken({
       idToken: token,
-      audience: process.env.GOOGLE_CLIENT_ID,
+      audience: clientId,
     });
     const payload = ticket.getPayload();
     const { email, name } = payload;
@@ -164,7 +198,7 @@ router.post('/google', async (req, res) => {
     });
   } catch (error) {
     console.error("Google Auth Error:", error);
-    res.status(401).json({ message: 'Google Authentication Failed. Make sure GOOGLE_CLIENT_ID is set.' });
+    res.status(401).json({ message: 'Google Authentication Failed: ' + error.message });
   }
 });
 

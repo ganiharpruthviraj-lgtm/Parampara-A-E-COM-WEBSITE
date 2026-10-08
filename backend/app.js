@@ -23,9 +23,56 @@ const defaultDevOrigins = [
 ];
 
 // --- Security Headers (helmet) ---
-// Sets 11 HTTP headers (X-Frame-Options, HSTS, Content-Security-Policy, etc.)
-// that defend against clickjacking, MIME sniffing, XSS, and other common attacks.
-app.use(helmet());
+// Configured to permit required CDN assets, Google Sign-In SDK, and fonts
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          "https://cdn.tailwindcss.com",
+          "https://accounts.google.com",
+          "https://cdnjs.cloudflare.com",
+          "https://unpkg.com"
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+          "https://cdnjs.cloudflare.com"
+        ],
+        fontSrc: [
+          "'self'",
+          "https://fonts.gstatic.com",
+          "https://cdnjs.cloudflare.com"
+        ],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "blob:",
+          "https://assets.ls-assets.com",
+          "https://cdn-icons-png.flaticon.com",
+          "https://picsum.photos",
+          "https://*.googleusercontent.com"
+        ],
+        connectSrc: [
+          "'self'",
+          "http://localhost:5000",
+          "http://127.0.0.1:5000",
+          "https://accounts.google.com",
+          "https://parampara-a-e-com-website-1.onrender.com"
+        ],
+        frameSrc: [
+          "'self'",
+          "https://accounts.google.com"
+        ]
+      }
+    }
+  })
+);
 
 // --- CORS ---
 app.use(cors({
@@ -47,7 +94,7 @@ app.use(cors({
 const isTestEnv = () => process.env.NODE_ENV === 'test';
 
 // --- Global API Rate Limiter ---
-// 100 requests per IP per 15 minutes across all /api/* routes
+// 100 requests per IP per 15 minutes across general /api/* routes
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -58,10 +105,10 @@ const apiLimiter = rateLimit({
 });
 
 // --- Auth-Specific Rate Limiter ---
-// 10 requests per IP per 15 minutes — blocks credential stuffing & brute-force
+// 30 requests per IP per 15 minutes for login/register endpoints
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 10,
+  max: 30,
   skip: isTestEnv,
   standardHeaders: true,
   legacyHeaders: false,
@@ -70,10 +117,41 @@ const authLimiter = rateLimit({
 
 app.use(express.json());
 
-// Routes (with rate limiting applied)
-app.use('/api/auth', authLimiter, require('./routes/auth'));
+// --- Startup Production Readiness Warnings ---
+(function checkProductionReadiness() {
+  const warnings = [];
+  const jwtSecret = process.env.JWT_SECRET || '';
+  const googleClientId = process.env.GOOGLE_CLIENT_ID || '';
+
+  if (!jwtSecret || jwtSecret.length < 32 || jwtSecret === 'your_jwt_secret_64_character_random_hex_string_here') {
+    warnings.push('⚠️  JWT_SECRET is weak or not set. Generate one: node -e "console.log(require(\'crypto\').randomBytes(64).toString(\'hex\'))"');
+  }
+  if (['YOUR_GOOGLE_CLIENT_ID_GOES_HERE', 'GOOGLE_CLIENT_ID_PLACEHOLDER', 'dummy-client-id', 'YOUR_GOOGLE_CLIENT_ID', ''].includes(googleClientId)) {
+    warnings.push('ℹ️  GOOGLE_CLIENT_ID is not configured — Google Sign-In will be disabled.');
+  }
+  if (process.env.NODE_ENV === 'production') {
+    if (!process.env.ALLOWED_ORIGINS) {
+      warnings.push('⚠️  ALLOWED_ORIGINS is not set in production — CORS will use dev defaults.');
+    }
+  }
+  if (warnings.length > 0) {
+    console.warn('\n╔══════════════════════════════════════════════╗');
+    console.warn('║       PARAMPARA PRODUCTION READINESS         ║');
+    console.warn('╚══════════════════════════════════════════════╝');
+    warnings.forEach(w => console.warn(w));
+    console.warn('');
+  }
+})();
+
+// Apply rate limiters appropriately
+app.use('/api/auth/login', authLimiter);
+app.use('/api/auth/register', authLimiter);
+app.use('/api/auth/google', authLimiter);
+app.use('/api/health', require('./routes/health'));  // No rate limit — used by uptime monitors
+app.use('/api/auth', apiLimiter, require('./routes/auth'));
 app.use('/api/products', apiLimiter, require('./routes/products'));
 app.use('/api/saathi', apiLimiter, require('./routes/saathi'));
+app.use('/api/gi', apiLimiter, require('./routes/gi'));
 
 // Serve Static Frontend Files
 app.use(express.static(path.join(__dirname, '..')));
