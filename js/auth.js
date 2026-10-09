@@ -11,25 +11,43 @@ function updateGlobalNav() {
     const userJson = localStorage.getItem('user');
     const user = userJson ? JSON.parse(userJson) : null;
 
+    // Handle explicitly IDed nav-signin-btn on index.html, states.html, etc.
+    const signinButtons = document.querySelectorAll('#nav-signin-btn, .nav-signin-btn');
+    signinButtons.forEach(btn => {
+        if (token && user) {
+            btn.href = '#';
+            btn.className = 'bg-[var(--primary-color)] text-white px-5 py-2.5 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 text-sm cursor-pointer shadow-md hover:bg-[var(--primary-button-hover-bg-color)]';
+            btn.innerHTML = `<i class="fa-solid fa-user-check text-base"></i> <span>${user.name ? user.name.split(' ')[0] : 'Member'}</span>`;
+            btn.title = 'Click to Sign Out';
+            btn.onclick = (e) => {
+                e.preventDefault();
+                if (confirm(`Signed in as ${user.name || 'Collector'}.\nDo you want to sign out from Parampara Heritage Archive? 🏺`)) {
+                    handleLogout();
+                }
+            };
+        } else {
+            btn.href = 'login.html';
+            btn.className = 'border border-[var(--primary-color)] text-[var(--primary-color)] hover:bg-[var(--primary-color)] hover:text-white px-5 py-2.5 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 text-sm cursor-pointer';
+            btn.innerHTML = `<i class="fa-regular fa-circle-user text-base"></i> <span>Sign In</span>`;
+            btn.onclick = null;
+        }
+    });
+
     // Find all headers on the page
     const headers = document.querySelectorAll('header');
     
     headers.forEach(header => {
-        // Find containers for navigation icons/links - expanded to match index, artisans, and states pages
         const navContainers = header.querySelectorAll('.flex.items-center.space-x-8, .flex.items-center.gap-8, .flex.items-center.space-x-6, .flex.items-center.gap-6, .flex.items-center.space-x-4');
         
         navContainers.forEach(container => {
-            // Check if we already injected the auth link
             if (container.querySelector('#auth-link')) return;
 
             const authLink = document.createElement('a');
             authLink.id = 'auth-link';
-            // Set link to login if not logged in, or prevent default if logged in (for logout dialog)
             authLink.href = token ? '#' : 'login.html';
             authLink.className = 'text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200 flex items-center gap-2 mr-2 cursor-pointer';
             
             if (token) {
-                // Add the Collection Link inside the same container
                 const collectionLink = document.createElement('a');
                 collectionLink.href = 'collection.html';
                 collectionLink.className = 'text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200 flex items-center gap-2 mr-6';
@@ -45,14 +63,12 @@ function updateGlobalNav() {
                     }
                 };
             } else {
-                // If on login/register page, hide the sign in link to avoid redundancy
                 const page = window.location.pathname.split('/').pop();
                 if (page === 'login.html' || page === 'register.html') return;
 
                 authLink.innerHTML = `<i class="fa-regular fa-circle-user text-lg text-[var(--primary-color)]"></i> <span class="hidden sm:inline">Sign In</span>`;
             }
             
-            // Prepend to the container
             container.prepend(authLink);
         });
     });
