@@ -23,7 +23,7 @@ const defaultDevOrigins = [
 ];
 
 // --- Security Headers (helmet) ---
-// Configured to permit required CDN assets, Google Sign-In SDK, and fonts
+// Configured to permit required CDN assets, Google Sign-In SDK, fonts, images, and inline event listeners
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -37,6 +37,10 @@ app.use(
           "https://accounts.google.com",
           "https://cdnjs.cloudflare.com",
           "https://unpkg.com"
+        ],
+        scriptSrcAttr: [
+          "'self'",
+          "'unsafe-inline'"
         ],
         styleSrc: [
           "'self'",
@@ -56,6 +60,7 @@ app.use(
           "https://assets.ls-assets.com",
           "https://cdn-icons-png.flaticon.com",
           "https://picsum.photos",
+          "https://images.unsplash.com",
           "https://*.googleusercontent.com"
         ],
         connectSrc: [
@@ -77,7 +82,6 @@ app.use(
 // --- CORS ---
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow server-to-server, mobile apps, or curl requests with no origin
     if (!origin) return callback(null, true);
 
     const originsList = allowedOrigins.length > 0 ? allowedOrigins : defaultDevOrigins;
@@ -89,12 +93,9 @@ app.use(cors({
   credentials: true
 }));
 
-// Skip rate limiting entirely in the test environment.
-// express-rate-limit v7: max:0 blocks ALL requests, so we use skip() instead.
 const isTestEnv = () => process.env.NODE_ENV === 'test';
 
 // --- Global API Rate Limiter ---
-// 100 requests per IP per 15 minutes across general /api/* routes
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
@@ -105,7 +106,6 @@ const apiLimiter = rateLimit({
 });
 
 // --- Auth-Specific Rate Limiter ---
-// 30 requests per IP per 15 minutes for login/register endpoints
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 30,
@@ -127,7 +127,7 @@ app.use(express.json());
     warnings.push('⚠️  JWT_SECRET is weak or not set. Generate one: node -e "console.log(require(\'crypto\').randomBytes(64).toString(\'hex\'))"');
   }
   if (['YOUR_GOOGLE_CLIENT_ID_GOES_HERE', 'GOOGLE_CLIENT_ID_PLACEHOLDER', 'dummy-client-id', 'YOUR_GOOGLE_CLIENT_ID', ''].includes(googleClientId)) {
-    warnings.push('ℹ️  GOOGLE_CLIENT_ID is not configured — Google Sign-In will be disabled.');
+    warnings.push('ℹ️  GOOGLE_CLIENT_ID is not configured — Google Sign-In will use fallback demo session.');
   }
   if (process.env.NODE_ENV === 'production') {
     if (!process.env.ALLOWED_ORIGINS) {
@@ -143,11 +143,11 @@ app.use(express.json());
   }
 })();
 
-// Apply rate limiters appropriately
+// Apply rate limiters
 app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/register', authLimiter);
 app.use('/api/auth/google', authLimiter);
-app.use('/api/health', require('./routes/health'));  // No rate limit — used by uptime monitors
+app.use('/api/health', require('./routes/health'));
 app.use('/api/auth', apiLimiter, require('./routes/auth'));
 app.use('/api/products', apiLimiter, require('./routes/products'));
 app.use('/api/saathi', apiLimiter, require('./routes/saathi'));
