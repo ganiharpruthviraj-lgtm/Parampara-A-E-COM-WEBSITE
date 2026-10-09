@@ -7,12 +7,13 @@ const sendSMS = async (phoneNumber, otpCode) => {
   const formattedPhone = phoneNumber.replace(/[^0-9]/g, '');
   
   // 1. Fast2SMS Integration (India Default)
-  if (process.env.FAST2SMS_API_KEY) {
+  const fastKey = process.env.FAST2SMS_API_KEY;
+  if (fastKey && !fastKey.includes('your_') && !fastKey.includes('placeholder')) {
     try {
       const response = await fetch('https://www.fast2sms.com/dev/bulkV2', {
         method: 'POST',
         headers: {
-          'authorization': process.env.FAST2SMS_API_KEY,
+          'authorization': fastKey,
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -30,7 +31,10 @@ const sendSMS = async (phoneNumber, otpCode) => {
   }
 
   // 2. Twilio Integration (Global Fallback)
-  if (process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN && process.env.TWILIO_PHONE_NUMBER) {
+  const twilioSid = process.env.TWILIO_ACCOUNT_SID;
+  const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
+  const twilioPhone = process.env.TWILIO_PHONE_NUMBER;
+  if (twilioSid && twilioAuthToken && twilioPhone && !twilioSid.includes('your_')) {
     try {
       const auth = Buffer.from(`${process.env.TWILIO_ACCOUNT_SID}:${process.env.TWILIO_AUTH_TOKEN}`).toString('base64');
       const bodyParams = new URLSearchParams({
