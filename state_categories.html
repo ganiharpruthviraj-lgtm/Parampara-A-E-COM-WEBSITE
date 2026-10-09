@@ -276,7 +276,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       
       <!-- Items Header Bar -->
-      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-4 border-b border-gray-100">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 pb-4 border-b border-gray-100">
         <div>
           <div class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-[#B8860B] mb-1">
             <span>Hierarchy Step 3</span>
@@ -291,8 +291,20 @@
           </p>
         </div>
 
-        <!-- Filter Count Pill -->
-        <div class="flex items-center gap-3">
+        <!-- Search, Sort & Counter Controls -->
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="relative">
+            <input id="state-search-input" type="text" placeholder="Search craft, artisan or city..." class="bg-white border border-gray-300 text-xs rounded-full pl-9 pr-4 py-2 w-48 sm:w-60 focus:outline-none focus:border-[#B8860B] shadow-sm"/>
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-gray-400 text-xs"></i>
+          </div>
+
+          <select id="state-sort-select" class="bg-white border border-gray-300 text-xs rounded-full px-4 py-2 focus:outline-none cursor-pointer shadow-sm">
+            <option value="default">Sort: Default</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="rating">Highest Rated</option>
+          </select>
+
           <span class="bg-[#FAF9F5] border border-gray-200 text-gray-700 text-xs font-semibold px-4 py-2 rounded-full shadow-sm" id="items-counter-pill">
             Showing <strong class="text-[#B8860B]" id="items-count-display">0</strong> Items
           </span>
@@ -919,6 +931,9 @@
       const subtitle = document.getElementById('items-section-subtitle');
       const countDisplay = document.getElementById('items-count-display');
 
+      const searchVal = (document.getElementById('state-search-input')?.value || '').toLowerCase().trim();
+      const sortVal = document.getElementById('state-sort-select')?.value || 'default';
+
       let filtered = [...stateProducts];
       if (currentCategory !== 'All') {
         filtered = filtered.filter(p => p.category === currentCategory);
@@ -928,6 +943,22 @@
         title.textContent = `All Heritage Items from ${currentState}`;
         subtitle.textContent = `Explore all certified Geographical Indications and masterpieces from ${currentState}.`;
       }
+
+      if (searchVal) {
+        filtered = filtered.filter(p => {
+          const t = (p.title || p.name || '').toLowerCase();
+          const d = (p.description || '').toLowerCase();
+          const o = (p.originHub || p.district || '').toLowerCase();
+          const c = (p.category || '').toLowerCase();
+          const a = (p.artisan || '').toLowerCase();
+          const g = (p.craft || p.giTag || '').toLowerCase();
+          return t.includes(searchVal) || d.includes(searchVal) || o.includes(searchVal) || c.includes(searchVal) || a.includes(searchVal) || g.includes(searchVal);
+        });
+      }
+
+      if (sortVal === 'price-asc') filtered.sort((a,b) => (a.price || 0) - (b.price || 0));
+      if (sortVal === 'price-desc') filtered.sort((a,b) => (b.price || 0) - (a.price || 0));
+      if (sortVal === 'rating') filtered.sort((a,b) => (b.rating || 0) - (a.rating || 0));
 
       countDisplay.textContent = filtered.length;
 
@@ -1148,6 +1179,14 @@
 
       initStateSelector();
       loadState(currentState);
+
+      document.getElementById('state-search-input')?.addEventListener('input', () => {
+        renderItems();
+      });
+
+      document.getElementById('state-sort-select')?.addEventListener('change', () => {
+        renderItems();
+      });
 
       const preloader = document.getElementById('preloader');
       const progress = document.getElementById('preloader-progress');
