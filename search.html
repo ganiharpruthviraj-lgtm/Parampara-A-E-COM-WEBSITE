@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
  <head>
   <meta charset="utf-8"/>
@@ -691,15 +691,36 @@
       renderProducts(data.products || []);
     } catch (error) {
       clearTimeout(timeoutId);
-      console.warn('Using fallback data while API wakes up...', error);
-      // Filter fallbacks based on current selections to maintain a working UI
+      console.warn('Using local static catalog fallback...', error);
+      
+      let catalog = fallbackProducts;
+      try {
+        const localRes = await fetch('backend/data/gi-database.json');
+        if (localRes.ok) {
+          const giItems = await localRes.json();
+          catalog = giItems.map(g => ({
+            _id: g.id,
+            id: g.id,
+            name: g.name || g.title,
+            state: g.state,
+            craft: g.craft,
+            category: g.category || g.subCategory,
+            price: g.price || 4800,
+            badge: g.giTag || 'GI Tagged',
+            imageUrl: g.imageUrl || g.image
+          }));
+        }
+      } catch(e) {}
+
+      // Filter catalog based on search & category & state
       const normalizedCategory = normalizeCategory(currentParams.category);
-      const filtered = fallbackProducts.filter(p => {
-        const matchesState = !currentParams.state || p.state.toLowerCase().includes(currentParams.state.toLowerCase());
-        const matchesCategory = !normalizedCategory || p.category.toLowerCase() === normalizedCategory.toLowerCase();
+      const filtered = catalog.filter(p => {
+        const matchesState = !currentParams.state || (p.state && p.state.toLowerCase().includes(currentParams.state.toLowerCase()));
+        const matchesCategory = !normalizedCategory || (p.category && p.category.toLowerCase().includes(normalizedCategory.toLowerCase()));
         const matchesSearch = !currentParams.q || 
-          p.name.toLowerCase().includes(currentParams.q.toLowerCase()) || 
-          p.craft.toLowerCase().includes(currentParams.q.toLowerCase());
+          (p.name && p.name.toLowerCase().includes(currentParams.q.toLowerCase())) || 
+          (p.craft && p.craft.toLowerCase().includes(currentParams.q.toLowerCase())) ||
+          (p.state && p.state.toLowerCase().includes(currentParams.q.toLowerCase()));
         return matchesState && matchesCategory && matchesSearch;
       });
       renderProducts(filtered, true);
