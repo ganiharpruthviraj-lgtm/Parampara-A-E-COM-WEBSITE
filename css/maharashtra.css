@@ -1,0 +1,202 @@
+/* =========================================================
+   MAHARASHTRA GI COLLECTION — DESIGN SYSTEM & STYLESHEET
+   Palette: Royal Saffron (#D97706, #B45309), Deep Charcoal (#111827),
+   Warm Eggshell (#FDFBF7), Ivory Neutral (#F5F0E6), Gold Accents (#D4AF37),
+   Emerald GI Badges (#059669, #D1FAE5)
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --mh-saffron: #D97706;
+  --mh-saffron-dark: #B45309;
+  --mh-saffron-light: #FFFBEB;
+  --mh-gold: #D4AF37;
+  --mh-charcoal: #111827;
+  --mh-sand-bg: #FDFBF7;
+  --mh-border: #E5E0D8;
+  --mh-emerald-bg: #ECFDF5;
+  --mh-emerald-text: #047857;
+  --mh-emerald-border: #A7F3D0;
+  --mh-amber-bg: #FEF3C7;
+  --mh-amber-text: #92400E;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: var(--mh-sand-bg);
+  color: var(--mh-charcoal);
+}
+
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Hero Section */
+.mh-hero {
+  background: linear-gradient(135deg, #18181B 0%, #27272A 50%, #451A03 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.mh-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(217, 119, 6, 0.15) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+.mh-badge-pill {
+  background: rgba(217, 119, 6, 0.15);
+  border: 1px solid rgba(217, 119, 6, 0.5);
+  color: #FBBF24;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Category Filter Pills */
+.mh-cat-pill {
+  background: #FFFFFF;
+  border: 1px solid var(--mh-border);
+  color: #4B5563;
+  padding: 0.6rem 1.2rem;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.mh-cat-pill:hover,
+.mh-cat-pill.active {
+  background: var(--mh-saffron);
+  border-color: var(--mh-saffron-dark);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(217, 119, 6, 0.3);
+  transform: translateY(-1px);
+}
+
+.mh-cat-pill.active .mh-pill-count {
+  background: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+}
+
+.mh-pill-count {
+  background: #F3F4F6;
+  color: #6B7280;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 9999px;
+  transition: all 0.25s ease;
+}
+
+/* Product Cards */
+.mh-card {
+  background: #FFFFFF;
+  border: 1px solid var(--mh-border);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mh-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+  border-color: var(--mh-saffron);
+}
+
+.mh-card-img-wrap {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: #F3F4F6;
+}
+
+.mh-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mh-card:hover .mh-card-img {
+  transform: scale(1.06);
+}
+
+/* GI Emerald Badge */
+.mh-gi-badge {
+  background-color: var(--mh-emerald-bg);
+  color: var(--mh-emerald-text);
+  border: 1px solid var(--mh-emerald-border);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Origin Hub Amber Badge */
+.mh-hub-badge {
+  background-color: var(--mh-amber-bg);
+  color: var(--mh-amber-text);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Modal Overlay */
+.mh-modal-overlay {
+  background: rgba(17, 24, 39, 0.8);
+  backdrop-filter: blur(8px);
+}
+
+.mh-modal-card {
+  background: #FFFFFF;
+  border: 1px solid var(--mh-border);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  border-radius: 1.5rem;
+}
+
+/* Smooth Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.4s ease-out forwards;
+}

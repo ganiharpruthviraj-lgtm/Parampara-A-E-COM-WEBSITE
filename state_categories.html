@@ -665,6 +665,38 @@
 
       // Static Fallback logic when running on static server without backend API
       if (stateProducts.length === 0) {
+        // Try loading local maharashtra-products.json
+        if (stateName.toLowerCase() === 'maharashtra') {
+          try {
+            const localMhRes = await fetch('data/maharashtra-products.json');
+            if (localMhRes.ok) {
+              const mhItems = await localMhRes.json();
+              stateProducts = mhItems.map(item => ({
+                _id: item.id,
+                id: item.id,
+                name: item.title,
+                title: item.title,
+                state: item.state || 'Maharashtra',
+                craft: item.giTag,
+                category: item.category,
+                price: item.price,
+                imageUrl: item.image,
+                badge: 'GI Registered',
+                description: item.description,
+                artisan: item.artisan,
+                artisanCount: 3200,
+                district: item.originHub ? item.originHub.split(',')[0] : 'Maharashtra',
+                giNumber: item.giTag ? `GI/${item.giTag.replace(/[^A-Z]/gi, '').toUpperCase()}` : 'GI/MH/REG',
+                registrationYear: 2014,
+                exportEligible: true,
+                giTagged: true
+              }));
+            }
+          } catch(e) {
+            console.warn('Failed to load data/maharashtra-products.json:', e);
+          }
+        }
+
         // Try loading local karnataka-products.json
         if (stateName.toLowerCase() === 'karnataka') {
           try {

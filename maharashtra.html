@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="/favicon.png" rel="icon" type="image/png"/>
+  <title>Maharashtra GI Collection | Parampara — 14 Registered Masterpieces</title>
+  <meta content="Discover 14 officially GI-certified art and handicraft masterpieces from Maharashtra — Paithani Sarees, Warli Paintings, Kolhapuri Chappals, Miraj Sitars & more." name="description"/>
+  <meta content="website" property="og:type"/>
+  <meta content="Parampara Heritage" property="og:site_name"/>
+  <meta content="Maharashtra GI Collection | Parampara" property="og:title"/>
+  <meta content="14 GI-tagged Maharashtra art & handicrafts — Royal Paithani, Warli Folk Art, Kolhapuri Leather, Miraj Instruments & more." property="og:description"/>
+  <meta content="https://parampara.in/maharashtra.html" property="og:url"/>
+
+  <!-- Fonts & FontAwesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Playfair+Display:ital,wght@0,500;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="css/states.css" rel="stylesheet"/>
+  <link href="css/maharashtra.css" rel="stylesheet"/>
+ </head>
+ <body class="flex flex-col min-h-screen">
+
+  <!-- Header / Navigation -->
+  <header class="bg-white border-b border-gray-100 sticky top-0 z-50">
+   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-20">
+     <!-- Logo -->
+     <a class="flex items-center" href="index.html">
+      <img alt="Parampara Logo" class="h-12 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" loading="lazy"/>
+     </a>
+     <!-- Desktop Links -->
+     <div class="hidden lg:flex items-center space-x-8">
+      <a class="text-gray-800 hover:text-[#D97706] font-medium transition-colors" href="states.html">
+       All 28 States
+      </a>
+      <a class="text-[#D97706] font-bold transition-colors" href="maharashtra.html">
+       Maharashtra (14)
+      </a>
+      <a class="text-emerald-700 font-bold transition-colors" href="karnataka.html">
+       Karnataka (9)
+      </a>
+      <a class="text-gray-800 hover:text-[#D97706] font-medium transition-colors" href="search.html">
+       Shop All
+      </a>
+      <a class="bg-[#D97706] text-white px-6 py-2.5 rounded-full font-semibold hover:bg-[#B45309] transition-all shadow-md flex items-center gap-2 text-sm" href="search.html">
+       <i class="fa-solid fa-magnifying-glass text-xs"></i>
+       Search Catalog
+      </a>
+     </div>
+    </div>
+   </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="mh-hero text-white py-14 sm:py-20 relative">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <!-- Breadcrumb & State Switcher -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-8 pb-6 border-b border-white/10">
+     <div class="flex items-center gap-2 text-xs text-gray-300 font-medium">
+      <a href="index.html" class="hover:text-[#FBBF24] transition-colors">Home</a>
+      <span class="opacity-40">/</span>
+      <a href="states.html" class="hover:text-[#FBBF24] transition-colors">28 Indian States</a>
+      <span class="opacity-40">/</span>
+      <span class="text-[#FBBF24] font-bold">Maharashtra</span>
+     </div>
+
+     <!-- Quick Switcher -->
+     <div class="flex items-center gap-3">
+      <label class="text-xs uppercase tracking-widest text-[#FBBF24] font-bold hidden sm:inline-block">
+       <i class="fa-solid fa-location-dot mr-1"></i> Switch Collection:
+      </label>
+      <select id="state-collection-selector" class="bg-black/50 border border-[#FBBF24]/50 text-white text-xs sm:text-sm rounded-full px-4 py-2 focus:outline-none cursor-pointer">
+       <option value="maharashtra.html" selected>Maharashtra Collection (14 GI Items)</option>
+       <option value="karnataka.html">Karnataka Collection (9 GI Items)</option>
+       <option value="state_categories.html">All Heritage States (23 Items)</option>
+      </select>
+     </div>
+    </div>
+
+    <!-- Main Hero Banner Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+     <div class="lg:col-span-8">
+      <div class="mh-badge-pill mb-4">
+       <i class="fa-solid fa-certificate"></i>
+       <span>Official GI Registry of India · 14 Masterpiece Crafts</span>
+      </div>
+      <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold font-cinzel text-white mb-4 tracking-tight">
+       Maharashtra <span class="text-[#FBBF24]">GI Collection</span>
+      </h1>
+      <p class="text-lg sm:text-xl font-playfair italic text-amber-100 mb-6 leading-relaxed">
+       The Royal Paithani Gold Borders, Sahyadri Warli Folk Art, and Century-Old Kolhapuri Craft Guilds.
+      </p>
+
+      <!-- GI Stats -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 border-t border-white/10">
+       <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+        <span class="text-3xl font-extrabold text-[#FBBF24] block">14</span>
+        <span class="text-xs uppercase tracking-wider text-gray-300 font-medium">Registered GI Crafts</span>
+       </div>
+       <div class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+        <span class="text-3xl font-extrabold text-white block">3,200+</span>
+        <span class="text-xs uppercase tracking-wider text-gray-300 font-medium">Master Artisans</span>
+       </div>
+       <div class="col-span-2 sm:col-span-1 bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+        <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5 mb-1">
+         <i class="fa-solid fa-circle-check"></i> IP India Certified
+        </span>
+        <span class="text-[11px] text-gray-300 block leading-tight">100% Provenance Guaranteed under GI Act</span>
+       </div>
+      </div>
+     </div>
+    </div>
+
+   </div>
+  </section>
+
+  <!-- Filter & Controls Section -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4 w-full">
+   <!-- Filter Pills Header -->
+   <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-gray-200">
+    <div>
+     <h2 class="text-2xl font-bold font-cinzel text-gray-900">
+      Filter Craft Categories in <span class="text-[#D97706]">Maharashtra</span>
+     </h2>
+     <p class="text-xs text-gray-500 mt-1">
+      Explore 14 certified Geographical Indication crafts sorted by craft discipline.
+     </p>
+    </div>
+
+    <!-- Search & Sort Controls -->
+    <div class="flex flex-wrap items-center gap-3">
+     <div class="relative">
+      <input id="mh-search-input" type="text" placeholder="Search craft, artisan or city..." class="bg-white border border-gray-300 text-xs rounded-full pl-9 pr-4 py-2 w-48 sm:w-64 focus:outline-none focus:border-[#D97706]"/>
+      <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-gray-400 text-xs"></i>
+     </div>
+
+     <select id="mh-sort-select" class="bg-white border border-gray-300 text-xs rounded-full px-4 py-2 focus:outline-none cursor-pointer">
+      <option value="default">Sort: Default</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="rating">Highest Rated</option>
+     </select>
+    </div>
+   </div>
+
+   <!-- Category Pills Container -->
+   <div class="flex flex-wrap gap-2 overflow-x-auto pb-2" id="mh-category-pills">
+    <!-- Populated by JavaScript -->
+   </div>
+  </section>
+
+  <!-- Product Grid Section -->
+  <section class="bg-white border-t border-gray-200 pt-8 pb-20 w-full" id="items-section">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between mb-6">
+     <span class="text-xs text-gray-500 font-semibold uppercase tracking-wider" id="mh-count-indicator">
+      Showing <strong>14</strong> Registered GI Masterpieces
+     </span>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="mh-products-grid">
+     <!-- Rendered dynamically by JS -->
+    </div>
+   </div>
+  </section>
+
+  <!-- Certificate Modal -->
+  <div class="fixed inset-0 z-[120] hidden items-center justify-center p-4 mh-modal-overlay" id="mh-certificate-modal">
+   <div class="relative w-full max-w-3xl max-h-[92vh] overflow-y-auto mh-modal-card p-6 sm:p-10 text-gray-900">
+    <button onclick="closeModal()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center">
+     <i class="fa-solid fa-xmark text-lg"></i>
+    </button>
+
+    <div class="text-center pb-6 border-b border-amber-200 mb-6">
+     <div class="w-14 h-14 mx-auto mb-3 rounded-full bg-[#D97706] text-white flex items-center justify-center text-2xl shadow-md">
+      🏛️
+     </div>
+     <span class="text-xs font-bold text-[#B45309] uppercase tracking-widest block mb-1">
+      Government of India · Geographical Indications Registry
+     </span>
+     <h2 class="text-2xl sm:text-3xl font-extrabold font-cinzel text-gray-900">
+      Certificate of Geographical Indication
+     </h2>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-amber-50/50 p-5 rounded-xl border border-amber-200 mb-6 text-sm">
+     <div>
+      <span class="text-xs text-gray-500 font-semibold block uppercase">GI Tag Name</span>
+      <span class="font-bold text-gray-900" id="modal-gi-tag">-</span>
+     </div>
+     <div>
+      <span class="text-xs text-gray-500 font-semibold block uppercase">Origin Hub</span>
+      <span class="font-bold text-gray-900" id="modal-origin">-</span>
+     </div>
+     <div>
+      <span class="text-xs text-gray-500 font-semibold block uppercase">Artisan Guild</span>
+      <span class="font-bold text-gray-900" id="modal-artisan">-</span>
+     </div>
+     <div>
+      <span class="text-xs text-gray-500 font-semibold block uppercase">Rating</span>
+      <span class="font-bold text-[#D97706]" id="modal-rating">-</span>
+     </div>
+    </div>
+
+    <div class="mb-6">
+     <h4 class="text-xs uppercase font-bold text-gray-700 mb-2 tracking-wider">Craftsmanship & Provenance Narrative</h4>
+     <p class="text-sm text-gray-600 leading-relaxed font-playfair" id="modal-desc">
+      -
+     </p>
+    </div>
+
+    <div class="flex justify-end gap-3 pt-4 border-t border-gray-200">
+     <button onclick="closeModal()" class="px-6 py-2.5 rounded-full border border-gray-300 text-gray-700 text-xs font-bold uppercase">
+      Close
+     </button>
+     <button id="modal-add-bag-btn" class="px-6 py-2.5 rounded-full bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold uppercase shadow">
+      Add to Bag
+     </button>
+    </div>
+   </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-[#111827] text-white mt-auto py-12">
+   <div class="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400">
+    <p>© 2026 Parampara. Preserving Maharashtra & India's Certified Craft Heritage across 28 States.</p>
+   </div>
+  </footer>
+
+  <!-- Script Application Logic -->
+  <script>
+   let maharashtraProducts = [];
+   let currentCategory = 'All';
+
+   const FALLBACK_IMAGE = 'https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=800&q=80';
+
+   async function loadProducts() {
+     try {
+       const res = await fetch('data/maharashtra-products.json');
+       if (res.ok) {
+         maharashtraProducts = await res.json();
+       }
+     } catch (e) {
+       console.warn('Local fetch error, using inline dataset fallback:', e);
+     }
+
+     if (!maharashtraProducts || maharashtraProducts.length === 0) {
+       // Inline fallback to guarantee rendering
+       maharashtraProducts = [
+         { id: "mh-paithani-01", title: "Yeola Pure Silk Paithani Royal Peacock Saree", state: "Maharashtra", category: "Handloom & Wearable Art", giTag: "Paithani Sarees and Fabrics", originHub: "Yeola (Nashik) & Paithan", artisan: "Yeola Paithani Bunkar Sahakari Sanstha", price: 24500, rating: 4.9, image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=80", description: "Known as the 'Queen of Sarees', woven from mulberry silk and fine gold zari using interlocking weft to render the Mor-Bangadi pallu motif." },
+         { id: "mh-warli-02", title: "Authentic Warli Tarpa Tribal Folk Canvas Art", state: "Maharashtra", category: "Traditional Paintings", giTag: "Warli Painting", originHub: "Jawhar & Dahanu (Palghar)", artisan: "Warli Adivasi Vikas Sanstha", price: 4800, rating: 4.9, image: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=900&q=80", description: "Ritualistic wall art created by Sahyadri indigenous tribes using chewed bamboo twigs, rice flour tempera, celebrating harvest dance." },
+         { id: "mh-kolhapuri-03", title: "Authentic Kolhapuri Handcrafted Leather Chappals", state: "Maharashtra", category: "Leather Craft & Footwear", giTag: "Kolhapuri Chappal", originHub: "Kolhapur", artisan: "Sant Rohidas Leather Craftsmen Cooperative", price: 2850, rating: 4.8, image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=900&q=80", description: "Tanned with hard-myrobalan nuts, hand-stitched using leather cords without iron nails." },
+         { id: "mh-sawantwadi-craft-04", title: "Sawantwadi Lacquered Wooden Toy & Fruit Set", state: "Maharashtra", category: "Wooden Craft & Toys", giTag: "Sawantwadi Wooden Craft", originHub: "Sawantwadi (Sindhudurg)", artisan: "Chitrakar & Kanekar Traditional Guild", price: 2100, rating: 4.7, image: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=900&q=80", description: "Carved from Pangara and Hale wood, polished with non-toxic lac lacquers." },
+         { id: "mh-ganjifa-05", title: "Sawantwadi Royal Dashavatara Ganjifa Playing Cards", state: "Maharashtra", category: "Folk Art & Collectibles", giTag: "Sawantwadi Ganjifa Cards", originHub: "Sawantwadi Palace Artisan Workshop", artisan: "Sawantwadi Palace Artisan Workshop", price: 5200, rating: 4.8, image: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=900&q=80", description: "Circular playing cards hand-painted depicting the ten avatars of Lord Vishnu." },
+         { id: "mh-solapur-chaddar-06", title: "Solapur Jacquard Diamond Weave Cotton Chaddar", state: "Maharashtra", category: "Rugs & Home Textiles", giTag: "Solapur Chaddar", originHub: "Solapur", artisan: "Solapur Zilla Yantramag Dharak Sangh", price: 1850, rating: 4.6, image: "https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=900&q=80", description: "Woven on jacquard looms using heavy-count combed cotton, producing signature diamond relief weaves." },
+         { id: "mh-solapur-towel-07", title: "Solapur High-Absorption Double-Loop Terry Towel", state: "Maharashtra", category: "Rugs & Home Textiles", giTag: "Solapur Terry Towel", originHub: "Solapur", artisan: "Solapur Weavers Cooperative Federation", price: 950, rating: 4.7, image: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=900&q=80", description: "Engineered with double warp-loop structures for rapid moisture absorption." },
+         { id: "mh-karvath-08", title: "Karvath Kati Vidarbha Tussar Silk Saree", state: "Maharashtra", category: "Handloom & Wearable Art", giTag: "Karvath Kati Sarees and Fabrics", originHub: "Andhalgaon & Mohadi (Bhandara)", artisan: "Bhandara Kosa Handloom Weavers Union", price: 11500, rating: 4.9, image: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=900&q=80", description: "Unbleached wild Kosa silk handwoven using a three-shuttle interlocking saw-tooth technique." },
+         { id: "mh-miraj-tanpura-09", title: "Miraj Concert-Grade Tun Wood Tanpura", state: "Maharashtra", category: "Musical Instruments", giTag: "Miraj Tanpura", originHub: "Miraj (Sangli)", artisan: "Shikalgar & Mohiddin Tamboli Lineage", price: 19500, rating: 5.0, image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=900&q=80", description: "Crafted from hollowed Pandharpur river-gourds and seasoned red cedar with bone bridges." },
+         { id: "mh-miraj-sitar-10", title: "Miraj Master Hand-Engraved Classical Sitar", state: "Maharashtra", category: "Musical Instruments", giTag: "Miraj Sitar", originHub: "Miraj (Sangli)", artisan: "Balkrishna Miraj Musical Craft Guild", price: 23500, rating: 4.9, image: "https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=900&q=80", description: "Featuring carved celluloid inlays on seasoned teak tabli, paired with hand-tuned frets." },
+         { id: "mh-hupari-silver-11", title: "Hupari Heritage Seamless Silver Payal & Ghungroos", state: "Maharashtra", category: "Jewellery & Metal Art", giTag: "Hupari Silver Craft", originHub: "Hupari (Kolhapur)", artisan: "Chandi Karkhandar Association Hupari", price: 6400, rating: 4.8, image: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=900&q=80", description: "Crafted from 92.5% sterling silver using die-stamped hollow bead links without solder seams." },
+         { id: "mh-puneri-pagadi-12", title: "Puneri Silk Traditional Crimson Turban (Pagadi)", state: "Maharashtra", category: "Traditional Headwear & Collectibles", giTag: "Puneri Pagadi", originHub: "Pune", artisan: "Murudkar Zendewale & Kosthi Craftsmen", price: 3400, rating: 4.7, image: "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=900&q=80", description: "Historical Maharashtrian headdress wrapped in crimson silk and framed with zari border laces." },
+         { id: "mh-pen-ganesh-13", title: "Pen Hand-Painted Eco-Shadu Clay Ganesh Idol", state: "Maharashtra", category: "Clay Sculpture & Sacred Art", giTag: "Pen Ganesh Idol", originHub: "Pen (Raigad)", artisan: "Pen Murtikar Sanghatana", price: 3800, rating: 4.9, image: "https://images.unsplash.com/photo-1567591414240-e17926fb966f?auto=format&fit=crop&w=900&q=80", description: "Hand-sculpted using biodegradable riverine Shadu clay and painted with mineral pigments." },
+         { id: "mh-tuljapur-kavdi-14", title: "Tuljapur Sacred Polished Kavdi Maal (Necklace)", state: "Maharashtra", category: "Sacred Adornment & Collectibles", giTag: "Kavdi Maal of Tuljapur", originHub: "Tuljapur (Dharashiv)", artisan: "Tuljabhavani Pujak & Artisan Seva Sangha", price: 1200, rating: 4.8, image: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&w=900&q=80", description: "Sacred devotional garland made of marine cowrie shells hand-sorted, smoothed, and knotted." }
+       ];
+     }
+
+     renderCategoryPills();
+     renderProducts();
+   }
+
+   function renderCategoryPills() {
+     const container = document.getElementById('mh-category-pills');
+     const counts = { 'All': maharashtraProducts.length };
+
+     maharashtraProducts.forEach(p => {
+       counts[p.category] = (counts[p.category] || 0) + 1;
+     });
+
+     const categories = Object.keys(counts);
+
+     container.innerHTML = categories.map(cat => `
+       <button onclick="selectCategory('${cat}')" class="mh-cat-pill ${currentCategory === cat ? 'active' : ''}">
+         <span>${cat}</span>
+         <span class="mh-pill-count">${counts[cat]}</span>
+       </button>
+     `).join('');
+   }
+
+   function selectCategory(cat) {
+     currentCategory = cat;
+     renderCategoryPills();
+     renderProducts();
+   }
+
+   function renderProducts() {
+     const grid = document.getElementById('mh-products-grid');
+     const search = document.getElementById('mh-search-input').value.toLowerCase().trim();
+     const sort = document.getElementById('mh-sort-select').value;
+
+     let filtered = maharashtraProducts.filter(p => {
+       const matchCategory = currentCategory === 'All' || p.category === currentCategory;
+       const matchSearch = !search ||
+         p.title.toLowerCase().includes(search) ||
+         p.description.toLowerCase().includes(search) ||
+         p.originHub.toLowerCase().includes(search) ||
+         p.artisan.toLowerCase().includes(search) ||
+         p.giTag.toLowerCase().includes(search);
+       return matchCategory && matchSearch;
+     });
+
+     if (sort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+     if (sort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+     if (sort === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+
+     document.getElementById('mh-count-indicator').innerHTML = `Showing <strong>${filtered.length}</strong> Registered GI Masterpieces`;
+
+     grid.innerHTML = filtered.map(p => `
+       <div class="mh-card">
+         <div>
+           <div class="mh-card-img-wrap">
+             <img src="${p.image}" alt="${p.title}" onerror="this.onerror=null; this.src='${FALLBACK_IMAGE}';" class="mh-card-img" loading="lazy"/>
+             <div class="absolute top-3 left-3 z-10">
+              <span class="mh-gi-badge">
+               <i class="fa-solid fa-stamp"></i>
+               <span>GI Tagged · ${p.giTag}</span>
+              </span>
+             </div>
+             <div class="absolute bottom-3 left-3 z-10">
+              <span class="mh-hub-badge">
+               <i class="fa-solid fa-location-dot"></i>
+               <span>${p.originHub}</span>
+              </span>
+             </div>
+           </div>
+
+           <div class="p-5">
+            <div class="flex items-center justify-between text-xs text-gray-500 mb-1">
+             <span class="text-[#D97706] font-bold uppercase tracking-wider">${p.category}</span>
+             <span class="font-bold text-amber-600"><i class="fa-solid fa-star text-xs mr-1"></i>${p.rating}</span>
+            </div>
+
+            <h3 class="text-base font-bold font-cinzel text-gray-900 mb-1.5 leading-snug line-clamp-1">
+             ${p.title}
+            </h3>
+
+            <p class="text-xs text-gray-500 line-clamp-2 mb-3">
+             ${p.description}
+            </p>
+
+            <div class="text-[11px] text-gray-600 bg-amber-50/60 p-2 rounded-lg border border-amber-100/60 mb-4">
+             <strong class="text-gray-800">Artisan Guild:</strong> ${p.artisan}
+            </div>
+           </div>
+         </div>
+
+         <div class="px-5 pb-5 pt-0">
+          <div class="flex items-baseline justify-between mb-4">
+           <span class="text-xs uppercase text-gray-400 font-semibold">Price</span>
+           <span class="text-xl font-extrabold text-gray-900">₹ ${p.price.toLocaleString('en-IN')}</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+           <button onclick="openModal('${p.id}')" class="px-3 py-2 rounded-xl border border-[#D97706] text-[#D97706] hover:bg-amber-50 text-xs font-bold uppercase flex items-center justify-center gap-1">
+            <i class="fa-solid fa-certificate"></i> Details
+           </button>
+           <button onclick="addToBag('${p.id}')" class="px-3 py-2 rounded-xl bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold uppercase flex items-center justify-center gap-1 shadow">
+            <i class="fa-solid fa-bag-shopping"></i> Add to Bag
+           </button>
+          </div>
+         </div>
+       </div>
+     `).join('');
+   }
+
+   function openModal(id) {
+     const p = maharashtraProducts.find(item => item.id === id);
+     if (!p) return;
+
+     document.getElementById('modal-gi-tag').textContent = p.giTag;
+     document.getElementById('modal-origin').textContent = p.originHub;
+     document.getElementById('modal-artisan').textContent = p.artisan;
+     document.getElementById('modal-rating').textContent = `${p.rating} / 5.0 ⭐`;
+     document.getElementById('modal-desc').textContent = p.description;
+
+     document.getElementById('modal-add-bag-btn').onclick = () => {
+       closeModal();
+       addToBag(p.id);
+     };
+
+     const modal = document.getElementById('mh-certificate-modal');
+     modal.classList.remove('hidden');
+     modal.classList.add('flex');
+   }
+
+   function closeModal() {
+     const modal = document.getElementById('mh-certificate-modal');
+     modal.classList.add('hidden');
+     modal.classList.remove('flex');
+   }
+
+   function addToBag(id) {
+     const p = maharashtraProducts.find(item => item.id === id);
+     if (!p) return;
+
+     try {
+       let cart = JSON.parse(localStorage.getItem('parampara_cart') || '[]');
+       if (!Array.isArray(cart)) cart = [];
+       cart.push({
+         id: p.id,
+         name: p.title,
+         price: p.price,
+         state: 'Maharashtra',
+         origin: p.originHub,
+         imageUrl: p.image,
+         giNumber: p.giTag
+       });
+       localStorage.setItem('parampara_cart', JSON.stringify(cart));
+     } catch(e){}
+
+     const toast = document.createElement('div');
+     toast.className = 'fixed bottom-6 right-6 z-[150] bg-[#111827] text-white px-5 py-4 rounded-2xl shadow-2xl border border-[#D97706] flex items-center gap-3 animate-fade-in-up';
+     toast.innerHTML = `
+       <div class="w-8 h-8 rounded-full bg-[#D97706] text-white flex items-center justify-center font-bold text-sm shrink-0">✓</div>
+       <div>
+         <p class="text-[10px] text-[#FBBF24] font-bold uppercase">Added to Bag</p>
+         <p class="text-xs font-semibold truncate max-w-[200px]">${p.title}</p>
+       </div>
+       <a href="checkout.html" class="bg-[#D97706] text-white text-xs font-bold px-3 py-1.5 rounded-lg uppercase ml-2">Checkout</a>
+     `;
+     document.body.appendChild(toast);
+     setTimeout(() => toast.remove(), 4000);
+   }
+
+   document.getElementById('mh-search-input').addEventListener('input', renderProducts);
+   document.getElementById('mh-sort-select').addEventListener('change', renderProducts);
+   document.getElementById('state-collection-selector').addEventListener('change', (e) => {
+     window.location.href = e.target.value;
+   });
+
+   document.addEventListener('DOMContentLoaded', loadProducts);
+  </script>
+ </body>
+</html>
