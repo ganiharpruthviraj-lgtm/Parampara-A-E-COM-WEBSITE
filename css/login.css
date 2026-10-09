@@ -65,7 +65,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ─── LEFT PANEL ────────────────────── */
+/* ─── LEFT PANEL — ROTATING ARTISAN CAROUSEL ─── */
 .left-panel {
   position: relative;
   flex: 1;
@@ -74,6 +74,20 @@ body {
   background: var(--dark);
 }
 @media (min-width: 1024px) { .left-panel { display: block; } }
+
+.carousel-slides {
+  position: absolute; inset: 0;
+}
+.carousel-slide {
+  position: absolute; inset: 0;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  pointer-events: none;
+}
+.carousel-slide.active {
+  opacity: 1;
+  pointer-events: auto;
+}
 
 .left-bg {
   position: absolute; inset: 0;
@@ -85,13 +99,17 @@ body {
   opacity: 0.45;
   filter: saturate(0.85) contrast(1.05);
   transform: scale(1.05);
-  transition: transform 10s ease-out;
+  transition: transform 12s ease-out;
 }
+.carousel-slide.active .left-bg img {
+  transform: scale(1.0);
+}
+
 .left-overlay {
   position: absolute; inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(26,26,26,0.85) 0%,
+    rgba(26,26,26,0.88) 0%,
     rgba(26,26,26,0.5) 50%,
     rgba(184,134,11,0.2) 100%
   );
@@ -137,13 +155,14 @@ body {
 .left-quote {
   border-left: 2px solid var(--primary-color);
   padding-left: 1.25rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
+  min-height: 85px;
 }
 .left-quote p {
   font-family: var(--font-serif);
   font-size: 1.05rem;
   font-style: italic;
-  color: rgba(255,255,255,0.75);
+  color: rgba(255,255,255,0.78);
   line-height: 1.6;
 }
 .left-quote cite {
@@ -158,11 +177,30 @@ body {
   font-style: normal;
 }
 
+/* Carousel Indicators */
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+.carousel-dot {
+  width: 8px; height: 8px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: all 0.4s ease;
+}
+.carousel-dot.active {
+  width: 24px;
+  background: var(--primary-light);
+}
+
 /* Stats row */
 .stat-row {
   display: flex; gap: 2.5rem;
   border-top: 1px solid rgba(255,255,255,0.12);
-  padding-top: 1.75rem;
+  padding-top: 1.5rem;
 }
 .stat-item p:first-child {
   font-family: var(--font-serif);
@@ -184,7 +222,7 @@ body {
 .craft-badge {
   position: absolute;
   top: 3rem; right: 3rem;
-  background: rgba(26,26,26,0.6);
+  background: rgba(26,26,26,0.65);
   backdrop-filter: blur(16px);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 0.75rem;
@@ -192,6 +230,7 @@ body {
   display: flex; align-items: center; gap: 0.85rem;
   animation: floatBadge 5s ease-in-out infinite;
   box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  z-index: 20;
 }
 @keyframes floatBadge {
   0%,100% { transform: translateY(0); }
@@ -238,7 +277,7 @@ body {
 
 .form-container {
   width: 100%;
-  max-width: 420px;
+  max-width: 430px;
   position: relative; z-index: 1;
 }
 
@@ -247,7 +286,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
 }
 
 .back-link {
@@ -272,23 +311,24 @@ body {
 @media (min-width: 1024px) { .mobile-logo { display: none; } }
 .mobile-logo img { height: 1.8rem; }
 
-/* Auth Mode Tabs */
+/* Auth Mode Tabs (3 Tabs: Sign In, Mobile OTP, Create Account) */
 .auth-tabs {
   display: flex;
   background: var(--cream-dark);
   padding: 4px;
   border-radius: 6px;
   border: 1px solid var(--border);
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
+  gap: 2px;
 }
 .auth-tab {
   flex: 1;
-  padding: 0.6rem 0.5rem;
+  padding: 0.55rem 0.35rem;
   text-align: center;
   font-family: var(--font-display);
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 700;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--mid);
   background: transparent;
@@ -296,6 +336,7 @@ body {
   border-radius: 4px;
   cursor: pointer;
   transition: all 0.25s ease;
+  white-space: nowrap;
 }
 .auth-tab.active {
   background: #fff;
@@ -311,7 +352,7 @@ body {
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--primary-color);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.45rem;
   display: flex; align-items: center; gap: 0.75rem;
 }
 .form-eyebrow::after {
@@ -321,24 +362,24 @@ body {
 }
 .form-title {
   font-family: var(--font-serif);
-  font-size: clamp(2.4rem, 4vw, 3rem);
+  font-size: clamp(2.2rem, 3.8vw, 2.8rem);
   font-weight: 300;
   color: var(--dark);
   line-height: 1.15;
   letter-spacing: -0.01em;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.4rem;
 }
 .form-title em { font-style: italic; color: var(--primary-color); font-weight: 400; }
 .form-subtitle {
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   color: var(--mid);
   font-weight: 300;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
   line-height: 1.5;
 }
 
 /* ─── FORM INPUT FIELDS ─────────────────── */
-.field-group { margin-bottom: 1.25rem; }
+.field-group { margin-bottom: 1.15rem; }
 .field-label {
   display: flex; justify-content: space-between; align-items: center;
   font-family: var(--font-display);
@@ -391,6 +432,86 @@ body {
   box-shadow: 0 0 0 3px rgba(184,134,11,0.12);
 }
 
+/* Phone input prefix */
+.phone-prefix-badge {
+  position: absolute; left: 2.5rem; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--dark);
+  pointer-events: none;
+  z-index: 2;
+}
+.phone-input {
+  padding-left: 5rem !important;
+  font-family: var(--font-sans) !important;
+  letter-spacing: 0.08em;
+}
+
+/* 6-Digit OTP Inputs */
+.otp-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin: 1.25rem 0;
+}
+.otp-input {
+  width: 3.1rem;
+  height: 3.4rem;
+  text-align: center;
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--dark);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.otp-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(184,134,11,0.15);
+}
+
+/* Password Strength Meter */
+.strength-container {
+  margin-top: 0.4rem;
+}
+.strength-bar-bg {
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.3rem;
+}
+.strength-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 2px;
+  transition: width 0.3s ease, background-color 0.3s ease;
+}
+.strength-label {
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--mid);
+}
+
+/* Password Match Badge */
+.match-status {
+  font-family: var(--font-display);
+  font-size: 0.6rem;
+  font-weight: 600;
+  margin-top: 0.3rem;
+  display: block;
+}
+.match-status.valid { color: #2F5233; }
+.match-status.invalid { color: #C53030; }
+
 /* Bottom Accent Line on Focus */
 .input-wrapper::after {
   content: '';
@@ -429,7 +550,7 @@ body {
 /* Remember me row */
 .remember-row {
   display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 .checkbox-container {
   display: flex; align-items: center; gap: 0.6rem;
@@ -546,7 +667,7 @@ body {
 /* ─── DIVIDER ────────────────────────── */
 .or-divider {
   display: flex; align-items: center; gap: 1rem;
-  margin: 1.75rem 0;
+  margin: 1.5rem 0 1.25rem 0;
 }
 .or-divider::before, .or-divider::after {
   content: ''; flex: 1; height: 1px;
@@ -567,7 +688,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0.75rem;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.5rem;
 }
 .btn-social {
   display: flex; align-items: center; justify-content: center; gap: 0.6rem;
@@ -594,11 +715,36 @@ body {
 .btn-social svg { width: 16px; height: 16px; flex-shrink: 0; }
 .btn-social i { font-size: 0.95rem; }
 
+/* ─── SECURITY & TRUST SEALS ────────── */
+.trust-seals-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 1.25rem;
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+.trust-seal-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-display);
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--mid);
+  text-transform: uppercase;
+}
+.trust-seal-item i {
+  color: var(--primary-color);
+  font-size: 0.75rem;
+}
+
 /* ─── BOTTOM BRANDING ───────────────── */
 .bottom-brand {
   display: flex; align-items: center; gap: 0.75rem;
-  margin-top: 2rem;
-  padding-top: 1.5rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--border);
 }
 .bottom-brand-dot {
@@ -621,30 +767,40 @@ body {
 }
 .bottom-brand p a:hover { color: var(--primary-color); }
 
-/* ─── TOAST NOTIFICATION ────────────── */
-#toast {
-  position: fixed; bottom: 2rem; left: 50%;
-  transform: translateX(-50%) translateY(100px);
-  background: var(--dark);
-  color: #fff;
-  padding: 0.85rem 1.75rem;
-  font-family: var(--font-display);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.06em;
-  border-left: 4px solid var(--primary-color);
-  border-radius: 4px;
-  box-shadow: 0 10px 35px rgba(0,0,0,0.3);
-  z-index: 9990;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s;
-  opacity: 0;
-  pointer-events: none;
+/* ─── FORGOT PASSWORD MODAL ─────────── */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: rgba(26,26,26,0.7);
+  backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
 }
-#toast.show {
-  transform: translateX(-50%) translateY(0);
-  opacity: 1;
-  pointer-events: auto;
+.modal-overlay.active {
+  opacity: 1; visibility: visible;
 }
+.modal-card {
+  width: 100%; max-width: 440px;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2.25rem 2rem;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+  transform: translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.modal-overlay.active .modal-card {
+  transform: translateY(0);
+}
+.modal-close {
+  position: absolute; top: 1.25rem; right: 1.25rem;
+  background: transparent; border: none;
+  color: var(--mid); font-size: 1.1rem;
+  cursor: pointer; transition: color 0.2s;
+}
+.modal-close:hover { color: var(--primary-color); }
 
 /* Hidden container helper */
 .hidden-form { display: none !important; }

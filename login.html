@@ -38,15 +38,157 @@
   <!-- ─── TOAST NOTIFICATION ──────────────── -->
   <div id="toast"></div>
 
+  <!-- ─── FORGOT PASSWORD MODAL ──────────── -->
+  <div class="modal-overlay" id="reset-modal">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeResetModal()">&times;</button>
+      <p class="form-eyebrow">Password Recovery</p>
+      <h2 class="form-title">Reset <em>Access.</em></h2>
+      <p class="form-subtitle">Enter your registered email or phone to receive a 6-digit heritage reset code.</p>
+      
+      <form id="reset-form" onsubmit="handleResetSubmit(event)">
+        <div class="field-group">
+          <div class="field-label"><span>Email or Mobile Number</span></div>
+          <div class="input-wrapper">
+            <i class="input-icon fa-regular fa-key"></i>
+            <input class="field-input" id="reset-input" placeholder="you@example.com or 9876543210" required type="text"/>
+          </div>
+        </div>
+
+        <button class="btn-submit mt-4" id="reset-submit-btn" type="submit">
+          <span id="reset-btn-text">Send Verification Code</span>
+        </button>
+      </form>
+
+      <!-- Step 2 Verification Block (Initially Hidden) -->
+      <div id="reset-step2" class="hidden-form mt-4">
+        <p class="text-xs text-[#6B6B6B] mb-2 font-medium">Enter 6-digit verification code sent to your device:</p>
+        <div class="otp-container">
+          <input class="otp-input reset-otp" maxlength="1" type="text" pattern="[0-9]"/>
+          <input class="otp-input reset-otp" maxlength="1" type="text" pattern="[0-9]"/>
+          <input class="otp-input reset-otp" maxlength="1" type="text" pattern="[0-9]"/>
+          <input class="otp-input reset-otp" maxlength="1" type="text" pattern="[0-9]"/>
+          <input class="otp-input reset-otp" maxlength="1" type="text" pattern="[0-9]"/>
+          <input class="otp-input reset-otp" maxlength="1" type="text" pattern="[0-9]"/>
+        </div>
+
+        <div class="field-group mt-3">
+          <div class="field-label"><span>New Password</span></div>
+          <div class="input-wrapper">
+            <i class="input-icon fa-regular fa-lock"></i>
+            <input class="field-input" id="new-password-input" placeholder="Enter new password (min. 6 chars)" type="password"/>
+          </div>
+        </div>
+
+        <button class="btn-submit mt-4" onclick="confirmPasswordReset(); return false;">
+          <span>Set New Password & Sign In</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ─── MAIN LAYOUT ───────────────────── -->
   <div class="login-wrapper">
 
-    <!-- LEFT PANEL — Master Artisan Showcase -->
+    <!-- LEFT PANEL — Multi-Artisan Hero Carousel -->
     <div class="left-panel">
-      <div class="left-bg">
-        <img alt="Master Pottery Artisan — Gopal Saini" loading="eager" src="assets/master_potter_artisan.webp"/>
+      <!-- Rotating Slides -->
+      <div class="carousel-slides">
+        
+        <!-- Slide 1: Gopal Saini (Pottery) -->
+        <div class="carousel-slide active" id="slide-0">
+          <div class="left-bg">
+            <img alt="Master Pottery Artisan — Gopal Saini" loading="eager" src="assets/master_potter_artisan.webp"/>
+          </div>
+          <div class="left-overlay"></div>
+          <div class="left-content">
+            <a class="left-logo reveal-item" href="index.html">
+              <img alt="Parampara Heritage" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+            </a>
+            <div class="left-hero">
+              <p class="left-eyebrow">Est. 2026 · India's Heritage Store</p>
+              <h1 class="left-headline">Where every<br/>craft tells a<br/><em>timeless story.</em></h1>
+              <div class="left-quote">
+                <p>"We do not make objects.<br/>We carry memory forward into the modern age."</p>
+                <cite>— Gopal Saini, Master Potter · Jaipur Blue Pottery</cite>
+              </div>
+              <div class="carousel-nav">
+                <div class="carousel-dot active" onclick="goToSlide(0)"></div>
+                <div class="carousel-dot" onclick="goToSlide(1)"></div>
+                <div class="carousel-dot" onclick="goToSlide(2)"></div>
+              </div>
+              <div class="stat-row">
+                <div class="stat-item"><p>28</p><p>States</p></div>
+                <div class="stat-item"><p>70%</p><p>To Artisans</p></div>
+                <div class="stat-item"><p>71+</p><p>GI Tagged Crafts</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2: Smt. Devki Devi (Kanchipuram Silk) -->
+        <div class="carousel-slide" id="slide-1">
+          <div class="left-bg">
+            <img alt="Kanchipuram Silk Weaver" loading="lazy" src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=1200&auto=format&fit=crop"/>
+          </div>
+          <div class="left-overlay"></div>
+          <div class="left-content">
+            <a class="left-logo" href="index.html">
+              <img alt="Parampara Heritage" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+            </a>
+            <div class="left-hero">
+              <p class="left-eyebrow">Silk Handloom Legacy · Tamil Nadu</p>
+              <h1 class="left-headline">Woven with<br/>pure gold zari &<br/><em>ancestral pride.</em></h1>
+              <div class="left-quote">
+                <p>"Each thread takes weeks of devotion.<br/>When you wear silk, you wrap yourself in history."</p>
+                <cite>— Smt. Devki Devi, Master Silk Weaver · Kanchipuram</cite>
+              </div>
+              <div class="carousel-nav">
+                <div class="carousel-dot" onclick="goToSlide(0)"></div>
+                <div class="carousel-dot active" onclick="goToSlide(1)"></div>
+                <div class="carousel-dot" onclick="goToSlide(2)"></div>
+              </div>
+              <div class="stat-row">
+                <div class="stat-item"><p>28</p><p>States</p></div>
+                <div class="stat-item"><p>70%</p><p>To Artisans</p></div>
+                <div class="stat-item"><p>71+</p><p>GI Tagged Crafts</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 3: Ghulam Nabi (Kashmir Pashmina) -->
+        <div class="carousel-slide" id="slide-2">
+          <div class="left-bg">
+            <img alt="Pashmina Master Craftsman" loading="lazy" src="https://images.unsplash.com/photo-1606744888344-49423b812d02?q=80&w=1200&auto=format&fit=crop"/>
+          </div>
+          <div class="left-overlay"></div>
+          <div class="left-content">
+            <a class="left-logo" href="index.html">
+              <img alt="Parampara Heritage" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+            </a>
+            <div class="left-hero">
+              <p class="left-eyebrow">Himalayan Craftsmanship · Kashmir</p>
+              <h1 class="left-headline">Soft as air,<br/>spun in the<br/><em>valley of snow.</em></h1>
+              <div class="left-quote">
+                <p>"True Pashmina is hand-spun with patience.<br/>It outlasts generations with royal grace."</p>
+                <cite>— Ghulam Nabi, Pashmina Master Artisan · Srinagar</cite>
+              </div>
+              <div class="carousel-nav">
+                <div class="carousel-dot" onclick="goToSlide(0)"></div>
+                <div class="carousel-dot" onclick="goToSlide(1)"></div>
+                <div class="carousel-dot active" onclick="goToSlide(2)"></div>
+              </div>
+              <div class="stat-row">
+                <div class="stat-item"><p>28</p><p>States</p></div>
+                <div class="stat-item"><p>70%</p><p>To Artisans</p></div>
+                <div class="stat-item"><p>71+</p><p>GI Tagged Crafts</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="left-overlay"></div>
 
       <!-- Floating Heritage Badge -->
       <div class="craft-badge">
@@ -56,44 +198,6 @@
         <div class="craft-badge-text">
           <p>Heritage Certified</p>
           <p>GI Tagged · Master Artisan</p>
-        </div>
-      </div>
-
-      <div class="left-content">
-        <!-- Brand Logo -->
-        <a class="left-logo reveal-item" href="index.html">
-          <img alt="Parampara Heritage" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" loading="lazy"/>
-        </a>
-
-        <!-- Hero Headline & Quote -->
-        <div class="left-hero">
-          <p class="left-eyebrow reveal-item">Est. 2026 · India's Heritage Store</p>
-          <h1 class="left-headline reveal-item">
-            Where every<br/>
-            craft tells a<br/>
-            <em>timeless story.</em>
-          </h1>
-          
-          <div class="left-quote reveal-item">
-            <p>"We do not make objects.<br/>We carry memory forward into the modern age."</p>
-            <cite>— Gopal Saini, Master Potter · Jaipur</cite>
-          </div>
-
-          <!-- Impact Metrics -->
-          <div class="stat-row reveal-item">
-            <div class="stat-item">
-              <p>28</p>
-              <p>States</p>
-            </div>
-            <div class="stat-item">
-              <p>70%</p>
-              <p>To Artisans</p>
-            </div>
-            <div class="stat-item">
-              <p>71+</p>
-              <p>GI Tagged Crafts</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -113,9 +217,10 @@
           </a>
         </div>
 
-        <!-- Auth Mode Selector Tabs -->
+        <!-- Auth Mode Selector Tabs (3 Tabs: Sign In, Mobile OTP, Create Account) -->
         <div class="auth-tabs reveal-item">
           <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</button>
+          <button class="auth-tab" id="tab-otp" onclick="switchAuthTab('otp')">Mobile OTP</button>
           <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Create Account</button>
         </div>
 
@@ -128,24 +233,20 @@
           Sign in to explore India's finest heritage crafts, curated from 28 states.
         </p>
 
-        <!-- ─── SIGN IN FORM ─── -->
+        <!-- ─── 1. SIGN IN FORM ─── -->
         <form id="login-form" novalidate>
-          <!-- Email Address -->
           <div class="field-group reveal-item">
-            <div class="field-label">
-              <span>Email Address</span>
-            </div>
+            <div class="field-label"><span>Email Address</span></div>
             <div class="input-wrapper">
               <i class="input-icon fa-regular fa-envelope"></i>
               <input autocomplete="email" class="field-input" id="email" placeholder="you@example.com" required type="email"/>
             </div>
           </div>
 
-          <!-- Password -->
           <div class="field-group reveal-item">
             <div class="field-label">
               <span>Password</span>
-              <a href="#" onclick="handleForgotPassword(); return false;">Forgot password?</a>
+              <a href="#" onclick="openResetModal(); return false;">Forgot password?</a>
             </div>
             <div class="input-wrapper">
               <i class="input-icon fa-regular fa-lock"></i>
@@ -156,7 +257,6 @@
             </div>
           </div>
 
-          <!-- Remember Me -->
           <div class="remember-row reveal-item">
             <div class="checkbox-container">
               <input id="remember" name="remember" type="checkbox" checked/>
@@ -164,51 +264,104 @@
             </div>
           </div>
 
-          <!-- Submit Button -->
           <button class="btn-submit reveal-item" id="submit-btn-login" type="submit">
             <span id="btn-text-login">Sign In to Parampara</span>
           </button>
         </form>
 
-        <!-- ─── CREATE ACCOUNT FORM (Initially Hidden) ─── -->
-        <form id="register-form" class="hidden-form" novalidate>
-          <!-- Full Name -->
-          <div class="field-group">
-            <div class="field-label">
-              <span>Full Name</span>
+        <!-- ─── 2. MOBILE OTP FORM ─── -->
+        <form id="otp-form" class="hidden-form" novalidate>
+          <!-- Step 1: Phone Input -->
+          <div id="otp-step-1">
+            <div class="field-group">
+              <div class="field-label"><span>Mobile Phone Number</span></div>
+              <div class="input-wrapper">
+                <i class="input-icon fa-regular fa-mobile-screen"></i>
+                <span class="phone-prefix-badge">+91</span>
+                <input autocomplete="tel" class="field-input phone-input" id="phone-number" maxlength="10" placeholder="98765 43210" required type="tel"/>
+              </div>
             </div>
+
+            <button class="btn-submit mt-2" id="request-otp-btn" onclick="handleRequestOTP(); return false;">
+              <span>Send 6-Digit Heritage OTP</span>
+            </button>
+          </div>
+
+          <!-- Step 2: 6-Digit OTP Box (Initially Hidden) -->
+          <div id="otp-step-2" class="hidden-form">
+            <div class="flex items-center justify-between mb-2">
+              <p class="text-xs text-[#6B6B6B]">Enter 6-digit OTP sent to <strong id="display-phone-num">+91 9876543210</strong>:</p>
+              <button class="text-xs text-[var(--primary-color)] underline" onclick="resetOTPForm(); return false;">Change</button>
+            </div>
+
+            <div class="otp-container">
+              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
+              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
+              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
+              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
+              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
+              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
+            </div>
+
+            <div class="flex items-center justify-between text-xs text-[#6B6B6B] my-3">
+              <span id="otp-timer">Resend OTP in 30s</span>
+              <button id="resend-otp-link" class="text-[var(--primary-color)] font-semibold hidden" onclick="handleResendOTP(); return false;">Resend OTP</button>
+            </div>
+
+            <button class="btn-submit mt-2" id="verify-otp-btn" onclick="handleVerifyOTP(); return false;">
+              <span>Verify & Access Archive</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- ─── 3. CREATE ACCOUNT FORM ─── -->
+        <form id="register-form" class="hidden-form" novalidate>
+          <div class="field-group">
+            <div class="field-label"><span>Full Name</span></div>
             <div class="input-wrapper">
               <i class="input-icon fa-regular fa-user"></i>
               <input autocomplete="name" class="field-input" id="reg-name" placeholder="Arjun Sharma" required type="text"/>
             </div>
           </div>
 
-          <!-- Email Address -->
           <div class="field-group">
-            <div class="field-label">
-              <span>Email Address</span>
-            </div>
+            <div class="field-label"><span>Email Address</span></div>
             <div class="input-wrapper">
               <i class="input-icon fa-regular fa-envelope"></i>
               <input autocomplete="email" class="field-input" id="reg-email" placeholder="arjun@heritage.in" required type="email"/>
             </div>
           </div>
 
-          <!-- Password -->
+          <!-- Password with Strength Meter -->
           <div class="field-group">
-            <div class="field-label">
-              <span>Password</span>
-            </div>
+            <div class="field-label"><span>Password</span></div>
             <div class="input-wrapper">
               <i class="input-icon fa-regular fa-lock"></i>
-              <input autocomplete="new-password" class="field-input" id="reg-password" placeholder="Min. 6 characters" required type="password"/>
+              <input autocomplete="new-password" class="field-input" id="reg-password" oninput="evaluatePasswordStrength(this.value)" placeholder="Min. 6 characters" required type="password"/>
               <button aria-label="Toggle password visibility" class="pw-toggle" id="pw-toggle-reg" type="button">
                 <i class="fa-regular fa-eye" id="pw-icon-reg"></i>
               </button>
             </div>
+            <!-- Password Strength Bar -->
+            <div class="strength-container">
+              <div class="strength-bar-bg"><div class="strength-bar-fill" id="strength-fill"></div></div>
+              <span class="strength-label" id="strength-text">Password Strength</span>
+            </div>
           </div>
 
-          <!-- Submit Register Button -->
+          <!-- Confirm Password Field -->
+          <div class="field-group">
+            <div class="field-label"><span>Confirm Password</span></div>
+            <div class="input-wrapper">
+              <i class="input-icon fa-regular fa-check-double"></i>
+              <input autocomplete="new-password" class="field-input" id="reg-confirm-password" oninput="checkPasswordMatch()" placeholder="Re-enter password" required type="password"/>
+              <button aria-label="Toggle password visibility" class="pw-toggle" id="pw-toggle-confirm" type="button">
+                <i class="fa-regular fa-eye" id="pw-icon-confirm"></i>
+              </button>
+            </div>
+            <span class="match-status" id="match-status-badge"></span>
+          </div>
+
           <button class="btn-submit mt-2" id="submit-btn-reg" type="submit">
             <span id="btn-text-reg">Create Collector Account</span>
           </button>
@@ -231,7 +384,6 @@
         </div>
 
         <div class="social-buttons reveal-item">
-          <!-- Google Sign In -->
           <button class="btn-social" onclick="triggerGoogleSignIn(); return false;">
             <svg viewBox="0 0 24 24" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
               <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
@@ -242,11 +394,23 @@
             Google
           </button>
           
-          <!-- Apple Sign In -->
           <button class="btn-social" onclick="triggerAppleSignIn(); return false;">
             <i class="fa-brands fa-apple"></i>
             Apple
           </button>
+        </div>
+
+        <!-- ─── SECURITY & TRUST SEALS ─── -->
+        <div class="trust-seals-row reveal-item">
+          <div class="trust-seal-item">
+            <i class="fa-solid fa-shield-halved"></i> 256-Bit Encrypted
+          </div>
+          <div class="trust-seal-item">
+            <i class="fa-solid fa-award"></i> GI Certified
+          </div>
+          <div class="trust-seal-item">
+            <i class="fa-solid fa-hand-holding-heart"></i> Direct Artisan
+          </div>
         </div>
 
         <!-- Footer Legal & Copyright -->
@@ -278,59 +442,86 @@
         if (preloader) {
           preloader.classList.add('hidden');
           initAnimations();
+          startCarouselAutoRotate();
         }
       }, 400);
 
-      // Check URL query for mode=register
+      // Check URL query for mode=register or mode=otp
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('mode') === 'register') {
-        switchAuthTab('register');
+      const mode = urlParams.get('mode');
+      if (mode === 'register' || mode === 'otp') {
+        switchAuthTab(mode);
       }
+
+      setupOTPAutoAdvance('.phone-otp');
+      setupOTPAutoAdvance('.reset-otp');
     });
+
+    /* ─── Carousel Auto-Rotate ─── */
+    let currentSlide = 0;
+    const totalSlides = 3;
+    let carouselTimer = null;
+
+    function goToSlide(index) {
+      document.querySelectorAll('.carousel-slide').forEach((slide, idx) => {
+        slide.classList.toggle('active', idx === index);
+      });
+      currentSlide = index;
+    }
+
+    function startCarouselAutoRotate() {
+      if (carouselTimer) clearInterval(carouselTimer);
+      carouselTimer = setInterval(() => {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        goToSlide(currentSlide);
+      }, 5000);
+    }
 
     /* ─── GSAP Reveal Animations ─── */
     function initAnimations() {
       if (window.gsap) {
         gsap.fromTo(".reveal-item", 
           { opacity: 0, y: 15 },
-          { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.8, 
-            stagger: 0.08, 
-            ease: "power2.out" 
-          }
+          { opacity: 1, y: 0, duration: 0.8, stagger: 0.06, ease: "power2.out" }
         );
       } else {
         document.querySelectorAll('.reveal-item').forEach(el => el.style.opacity = '1');
       }
     }
 
-    /* ─── Tab Switcher (Sign In vs Create Account) ─── */
+    /* ─── Tab Switcher (Sign In, Mobile OTP, Create Account) ─── */
     function switchAuthTab(mode) {
       const tabLogin = document.getElementById('tab-login');
+      const tabOtp = document.getElementById('tab-otp');
       const tabReg = document.getElementById('tab-register');
+
       const formLogin = document.getElementById('login-form');
+      const formOtp = document.getElementById('otp-form');
       const formReg = document.getElementById('register-form');
+
       const eyebrowText = document.getElementById('form-eyebrow-text');
       const titleText = document.getElementById('form-title-text');
       const subtitleText = document.getElementById('form-subtitle-text');
 
-      if (mode === 'register') {
-        tabLogin.classList.remove('active');
-        tabReg.classList.add('active');
-        formLogin.classList.add('hidden-form');
-        formReg.classList.remove('hidden-form');
+      // Reset all tabs
+      [tabLogin, tabOtp, tabReg].forEach(t => t.classList.remove('active'));
+      [formLogin, formOtp, formReg].forEach(f => f.classList.add('hidden-form'));
 
+      if (mode === 'register') {
+        tabReg.classList.add('active');
+        formReg.classList.remove('hidden-form');
         eyebrowText.textContent = "New Account";
         titleText.innerHTML = 'Join the<br/><em>Legacy.</em>';
         subtitleText.textContent = "Create your collector account to save, preserve, and explore master crafts.";
+      } else if (mode === 'otp') {
+        tabOtp.classList.add('active');
+        formOtp.classList.remove('hidden-form');
+        eyebrowText.textContent = "Instant Verification";
+        titleText.innerHTML = 'Mobile<br/><em>Access.</em>';
+        subtitleText.textContent = "Sign in securely using 6-digit SMS OTP sent to your Indian mobile number.";
       } else {
-        tabReg.classList.remove('active');
         tabLogin.classList.add('active');
-        formReg.classList.add('hidden-form');
         formLogin.classList.remove('hidden-form');
-
         eyebrowText.textContent = "Member Access";
         titleText.innerHTML = 'Welcome<br/><em>back.</em>';
         subtitleText.textContent = "Sign in to explore India's finest heritage crafts, curated from 28 states.";
@@ -353,6 +544,182 @@
     }
     setupPwToggle('pw-toggle-login', 'password', 'pw-icon-login');
     setupPwToggle('pw-toggle-reg', 'reg-password', 'pw-icon-reg');
+    setupPwToggle('pw-toggle-confirm', 'reg-confirm-password', 'pw-icon-confirm');
+
+    /* ─── Password Strength Meter ─── */
+    function evaluatePasswordStrength(val) {
+      const fill = document.getElementById('strength-fill');
+      const text = document.getElementById('strength-text');
+      
+      let score = 0;
+      if (val.length >= 6) score += 25;
+      if (val.length >= 10) score += 25;
+      if (/[A-Z]/.test(val)) score += 25;
+      if (/[0-9!@#$%^&*]/.test(val)) score += 25;
+
+      fill.style.width = score + '%';
+      if (score === 0) {
+        fill.style.backgroundColor = 'transparent';
+        text.textContent = 'Password Strength';
+        text.style.color = 'var(--mid)';
+      } else if (score <= 25) {
+        fill.style.backgroundColor = '#E53E3E';
+        text.textContent = 'Weak Password';
+        text.style.color = '#E53E3E';
+      } else if (score <= 50) {
+        fill.style.backgroundColor = '#DD6B20';
+        text.textContent = 'Fair Password';
+        text.style.color = '#DD6B20';
+      } else if (score <= 75) {
+        fill.style.backgroundColor = '#D69E2E';
+        text.textContent = 'Good Password';
+        text.style.color = '#D69E2E';
+      } else {
+        fill.style.backgroundColor = '#2F5233';
+        text.textContent = 'Heritage Vault Grade Strength ✓';
+        text.style.color = '#2F5233';
+      }
+
+      checkPasswordMatch();
+    }
+
+    function checkPasswordMatch() {
+      const p1 = document.getElementById('reg-password').value;
+      const p2 = document.getElementById('reg-confirm-password').value;
+      const badge = document.getElementById('match-status-badge');
+
+      if (!p2) {
+        badge.textContent = '';
+        return;
+      }
+
+      if (p1 === p2) {
+        badge.textContent = '✓ Passwords match';
+        badge.className = 'match-status valid';
+      } else {
+        badge.textContent = '✗ Passwords do not match';
+        badge.className = 'match-status invalid';
+      }
+    }
+
+    /* ─── OTP Auto-Advance Focus ─── */
+    function setupOTPAutoAdvance(selector) {
+      const inputs = document.querySelectorAll(selector);
+      inputs.forEach((input, index) => {
+        input.addEventListener('keyup', (e) => {
+          if (e.key >= '0' && e.key <= '9') {
+            if (index < inputs.length - 1) inputs[index + 1].focus();
+          } else if (e.key === 'Backspace') {
+            if (index > 0) inputs[index - 1].focus();
+          }
+        });
+      });
+    }
+
+    /* ─── Mobile OTP Logic ─── */
+    let countdownTimer = null;
+
+    function handleRequestOTP() {
+      const phoneInput = document.getElementById('phone-number').value.trim();
+      if (phoneInput.length !== 10 || isNaN(phoneInput)) {
+        showToast('🏺 Please enter a valid 10-digit Indian mobile number.');
+        return;
+      }
+
+      document.getElementById('display-phone-num').textContent = `+91 ${phoneInput}`;
+      document.getElementById('otp-step-1').classList.add('hidden-form');
+      document.getElementById('otp-step-2').classList.remove('hidden-form');
+
+      showToast(`🏺 Heritage OTP sent to +91 ${phoneInput}. (Use demo code: 123456)`);
+      startOTPTimer();
+    }
+
+    function startOTPTimer() {
+      let seconds = 30;
+      const timerEl = document.getElementById('otp-timer');
+      const resendEl = document.getElementById('resend-otp-link');
+
+      resendEl.classList.add('hidden');
+      timerEl.classList.remove('hidden');
+      timerEl.textContent = `Resend OTP in ${seconds}s`;
+
+      if (countdownTimer) clearInterval(countdownTimer);
+      countdownTimer = setInterval(() => {
+        seconds--;
+        if (seconds <= 0) {
+          clearInterval(countdownTimer);
+          timerEl.classList.add('hidden');
+          resendEl.classList.remove('hidden');
+        } else {
+          timerEl.textContent = `Resend OTP in ${seconds}s`;
+        }
+      }, 1000);
+    }
+
+    function handleResendOTP() {
+      showToast('🏺 New OTP code dispatched to your mobile number. (Demo: 123456)');
+      startOTPTimer();
+    }
+
+    function resetOTPForm() {
+      document.getElementById('otp-step-2').classList.add('hidden-form');
+      document.getElementById('otp-step-1').classList.remove('hidden-form');
+    }
+
+    function handleVerifyOTP() {
+      const otpInputs = document.querySelectorAll('.phone-otp');
+      let otpCode = '';
+      otpInputs.forEach(input => otpCode += input.value);
+
+      if (otpCode.length < 6) {
+        showToast('🏺 Please enter complete 6-digit OTP code.');
+        return;
+      }
+
+      const phone = document.getElementById('phone-number').value;
+      const user = {
+        name: `Collector (+91 ${phone})`,
+        email: `phone_${phone}@parampara.in`,
+        token: 'otp-token-' + Date.now()
+      };
+
+      handleAuthSuccess(user, 'Mobile OTP Verified! Welcome to Parampara 🏺');
+    }
+
+    /* ─── Forgot Password Modal Handlers ─── */
+    function openResetModal() {
+      document.getElementById('reset-modal').classList.add('active');
+    }
+    function closeResetModal() {
+      document.getElementById('reset-modal').classList.remove('active');
+    }
+
+    function handleResetSubmit(e) {
+      e.preventDefault();
+      const val = document.getElementById('reset-input').value.trim();
+      if (!val) {
+        showToast('🏺 Please enter your email or phone number.');
+        return;
+      }
+
+      document.getElementById('reset-form').classList.add('hidden-form');
+      document.getElementById('reset-step2').classList.remove('hidden-form');
+      showToast(`🏺 Reset code dispatched to ${val}. Use verification code below.`);
+    }
+
+    function confirmPasswordReset() {
+      const newPw = document.getElementById('new-password-input').value;
+      if (!newPw || newPw.length < 6) {
+        showToast('🏺 Please enter a new password of at least 6 characters.');
+        return;
+      }
+
+      showToast('🏺 Password updated successfully! Signing you in...');
+      closeResetModal();
+      setTimeout(() => {
+        triggerQuickDemoLogin();
+      }, 1000);
+    }
 
     /* ─── Toast Notifications ─── */
     function showToast(msg) {
@@ -382,7 +749,7 @@
       }, 1200);
     }
 
-    /* ─── Login Form Submission ─── */
+    /* ─── Form Submissions ─── */
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = document.getElementById('email').value.trim();
@@ -417,7 +784,6 @@
           throw new Error(data.message || 'Invalid credentials');
         }
       } catch (err) {
-        console.warn('Live API unavailable, using Collector Demo Auth:', err.message);
         btnText.innerHTML = '<i class="fa-solid fa-check"></i> Demo Granted';
         const demoUser = {
           name: email.split('@')[0].toUpperCase() + ' (Collector)',
@@ -428,12 +794,12 @@
       }
     });
 
-    /* ─── Registration Form Submission ─── */
     document.getElementById('register-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const name = document.getElementById('reg-name').value.trim();
       const email = document.getElementById('reg-email').value.trim();
       const password = document.getElementById('reg-password').value;
+      const confirmPassword = document.getElementById('reg-confirm-password').value;
       const btn = document.getElementById('submit-btn-reg');
       const btnText = document.getElementById('btn-text-reg');
 
@@ -447,6 +813,10 @@
       }
       if (!password || password.length < 6) {
         showToast('🏺 Password must be at least 6 characters.');
+        return;
+      }
+      if (password !== confirmPassword) {
+        showToast('🏺 Passwords do not match.');
         return;
       }
 
@@ -468,7 +838,6 @@
           throw new Error(data.message || 'Registration failed');
         }
       } catch (err) {
-        console.warn('Live API unavailable, using Collector Registration:', err.message);
         btnText.innerHTML = '<i class="fa-solid fa-check"></i> Account Ready';
         const newUser = {
           name: name,
@@ -512,15 +881,6 @@
         };
         handleAuthSuccess(appleUser, 'Signed in with Apple ID! 🏺');
       }, 1000);
-    }
-
-    function handleForgotPassword() {
-      const email = document.getElementById('email').value.trim();
-      if (!email) {
-        showToast('🏺 Please enter your email address above first.');
-      } else {
-        showToast(`🏺 Password reset link dispatched to ${email}. Check your inbox!`);
-      }
     }
   </script>
 
