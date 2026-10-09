@@ -437,6 +437,13 @@
   <!-- ─── SCRIPTS ────────────────────────── -->
   <script src="js/auth.js"></script>
   <script>
+    /* ─── Helper to Check for Valid Real Google Client ID ─── */
+    function isValidGoogleClientId(id) {
+      if (!id || typeof id !== 'string') return false;
+      if (id.includes('123456789012') || id.includes('YOUR_GOOGLE') || id.includes('PLACEHOLDER') || id.includes('dummy')) return false;
+      return id.includes('.apps.googleusercontent.com');
+    }
+
     /* ─── Preloader & Main Initialization ─── */
     document.addEventListener('DOMContentLoaded', () => {
       const preloader = document.getElementById('preloader');
@@ -468,9 +475,8 @@
     /* ─── Google Identity Services SDK Initialization ─── */
     function initGoogleIdentitySDK() {
       const clientId = window.GOOGLE_CLIENT_ID || "";
-      const isRealClientId = clientId && clientId.includes('.apps.googleusercontent.com') && !clientId.includes('YOUR_GOOGLE');
-
-      if (window.google && window.google.accounts && window.google.accounts.id && isRealClientId) {
+      
+      if (window.google && window.google.accounts && window.google.accounts.id && isValidGoogleClientId(clientId)) {
         try {
           google.accounts.id.initialize({
             client_id: clientId,
@@ -494,7 +500,6 @@
           console.warn("Google GIS initialization:", e);
         }
       } else {
-        // Clear iframe container if no valid Client ID is configured yet to avoid Google 401 popup error
         const googleContainer = document.getElementById('google-btn-container');
         if (googleContainer) googleContainer.innerHTML = '';
       }
@@ -552,9 +557,8 @@
     /* ─── Trigger Google Authentication Safely ─── */
     function triggerGoogleSignIn() {
       const clientId = window.GOOGLE_CLIENT_ID || "";
-      const isRealClientId = clientId && clientId.includes('.apps.googleusercontent.com') && !clientId.includes('YOUR_GOOGLE');
 
-      if (window.google && window.google.accounts && window.google.accounts.id && isRealClientId) {
+      if (window.google && window.google.accounts && window.google.accounts.id && isValidGoogleClientId(clientId)) {
         try {
           google.accounts.id.prompt((notification) => {
             if (notification.isNotDisplayed() || notification.isSkippedMoment()) {

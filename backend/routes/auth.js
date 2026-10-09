@@ -230,10 +230,12 @@ const generateToken = (id) => {
 const helperIsGoogleConfigured = (clientId) => {
   return (
     clientId &&
-    clientId !== 'YOUR_GOOGLE_CLIENT_ID_GOES_HERE' &&
-    clientId !== 'GOOGLE_CLIENT_ID_PLACEHOLDER' &&
-    clientId !== 'dummy-client-id' &&
-    clientId !== 'YOUR_GOOGLE_CLIENT_ID'
+    clientId.includes('.apps.googleusercontent.com') &&
+    !clientId.includes('123456789012') &&
+    !clientId.includes('YOUR_GOOGLE_CLIENT_ID_GOES_HERE') &&
+    !clientId.includes('GOOGLE_CLIENT_ID_PLACEHOLDER') &&
+    !clientId.includes('dummy-client-id') &&
+    !clientId.includes('YOUR_GOOGLE_CLIENT_ID')
   );
 };
 
