@@ -4,99 +4,164 @@
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <link href="/favicon.png" rel="icon" type="image/png"/>
-  <title>Checkout | Parampara Heritage — Secure Order</title>
+  <title>Checkout | Parampara Heritage — 100% Certified Order</title>
   <meta content="Complete your heritage craft purchase securely. Authentic GI-tagged masterpieces with 70% direct artisan payout. Free insured shipping on all orders." name="description"/>
   <meta content="website" property="og:type"/>
   <meta content="Parampara Heritage" property="og:site_name"/>
   <meta content="Checkout | Parampara Heritage" property="og:title"/>
   <meta content="Complete your order of authentic Indian heritage crafts. Secure checkout with free insured shipping." property="og:description"/>
   <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" property="og:image"/>
-  <meta content="summary_large_image" name="twitter:card"/>
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
-  <!-- Icons -->
+  
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
-  <!-- Material Symbols -->
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="js/auth.js"></script>
   <link href="css/checkout.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary-color: #B8860B;
+      --primary-hover: #8B6508;
+      --heritage-green: #2F5233;
+      --dark-bg: #1A1A1A;
+      --sand-bg: #FAF9F5;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--sand-bg);
+      color: #1A1A1A;
+    }
+    .font-sora { font-family: 'Sora', sans-serif; }
+    .font-serif-heading { font-family: 'Cormorant Garamond', Georgia, serif; }
+  </style>
  </head>
- <body>
-  <!-- Announcement Bar -->
-  <div class="announcement-bar" id="announcement-bar">
-   <span><i class="fa-solid fa-shield-halved"></i> Secured by 256-bit SSL Encryption</span>
-   <span class="sep">·</span>
-   <span><i class="fa-solid fa-truck"></i> Free Insured Shipping on All Heritage Orders</span>
-   <span class="sep">·</span>
-   <span><i class="fa-solid fa-rotate-left"></i> 15-Day Easy Returns</span>
+ <body class="flex flex-col min-h-screen">
+
+  <!-- ── Top Security Announcement Bar ── -->
+  <div class="bg-[#1A1A1A] text-white text-xs py-2.5 px-4 text-center border-b border-[#B8860B]/30 flex items-center justify-center gap-4 flex-wrap">
+   <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-shield-halved text-[#B8860B]"></i> 256-Bit SSL Encrypted & Bank-Grade Security</span>
+   <span class="hidden sm:inline text-white/30">•</span>
+   <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-truck text-[#B8860B]"></i> Free Insured Shipping Across All 28 States</span>
+   <span class="hidden md:inline text-white/30">•</span>
+   <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-stamp text-[#B8860B]"></i> 70% Direct Artisan Payout Guarantee</span>
   </div>
 
-  <!-- Header -->
-  <header class="checkout-header">
-   <a class="logo-link" href="index.html">
-    <img alt="Parampara Heritage" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=300"/>
-   </a>
-   <div class="header-steps">
-    <span class="step active"><i class="fa-solid fa-cart-shopping"></i> Cart</span>
-    <span class="step-divider"></span>
-    <span class="step active" id="step-shipping"><i class="fa-solid fa-location-dot"></i> Shipping</span>
-    <span class="step-divider"></span>
-    <span class="step" id="step-payment"><i class="fa-solid fa-credit-card"></i> Payment</span>
-    <span class="step-divider"></span>
-    <span class="step" id="step-confirm"><i class="fa-solid fa-circle-check"></i> Confirm</span>
+  <!-- ── Header & Stepper Navigation ── -->
+  <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <!-- Brand Logo -->
+    <a class="flex items-center" href="index.html">
+     <img alt="Parampara Logo" class="h-11 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" loading="lazy"/>
+    </a>
+
+    <!-- Stepper Indicator -->
+    <div class="hidden md:flex items-center gap-3 text-xs font-semibold">
+     <div class="flex items-center gap-2 text-gray-400">
+      <span class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-[11px] font-bold">1</span>
+      <span>Bag</span>
+     </div>
+     <span class="w-8 h-[1px] bg-gray-200"></span>
+     <div class="flex items-center gap-2 text-[#B8860B]" id="step-nav-shipping">
+      <span class="w-6 h-6 rounded-full bg-[#B8860B] text-white flex items-center justify-center text-[11px] font-bold shadow-sm">2</span>
+      <span class="font-bold">Shipping</span>
+     </div>
+     <span class="w-8 h-[1px] bg-gray-200"></span>
+     <div class="flex items-center gap-2 text-gray-400" id="step-nav-payment">
+      <span class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-[11px] font-bold">3</span>
+      <span>Payment</span>
+     </div>
+     <span class="w-8 h-[1px] bg-gray-200"></span>
+     <div class="flex items-center gap-2 text-gray-400" id="step-nav-confirm">
+      <span class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-[11px] font-bold">4</span>
+      <span>Confirmation</span>
+     </div>
+    </div>
+
+    <!-- Back to Store Link -->
+    <a class="inline-flex items-center gap-2 text-xs font-bold text-gray-700 hover:text-[#B8860B] uppercase tracking-wider transition-colors" href="search.html">
+     <i class="fa-solid fa-arrow-left text-[11px]"></i>
+     <span>Continue Shopping</span>
+    </a>
    </div>
-   <a class="back-link" href="search.html"><i class="fa-solid fa-arrow-left"></i> Continue Shopping</a>
   </header>
 
-  <!-- Toast -->
+  <!-- Notification Toast Container -->
   <div id="toast"></div>
 
-  <!-- Main Layout -->
-  <main class="checkout-main">
+  <!-- ── Main Checkout Content ── -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 flex-grow">
 
-   <!-- LEFT: Checkout Form -->
-   <section class="checkout-form-section">
+   <!-- ========================================================================= -->
+   <!-- LEFT COLUMN: Step-by-Step Checkout Forms (Col-span-7) -->
+   <!-- ========================================================================= -->
+   <section class="lg:col-span-7 space-y-6">
 
-    <!-- ── STEP 1: Shipping ── -->
-    <div class="form-step" id="form-shipping">
-     <div class="step-header">
-      <span class="step-num">1</span>
-      <h2>Shipping Information</h2>
+    <!-- ── STEP 1: Shipping Information ── -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-sm" id="form-shipping">
+     
+     <div class="flex items-center justify-between pb-6 mb-6 border-b border-gray-100">
+      <div class="flex items-center gap-3">
+       <div class="w-10 h-10 rounded-2xl bg-[#B8860B] text-white font-bold flex items-center justify-center text-lg shadow-md">
+        1
+       </div>
+       <div>
+        <h2 class="text-xl sm:text-2xl font-extrabold font-sora text-gray-900">Shipping Address & Contact</h2>
+        <p class="text-xs text-gray-500 mt-0.5">Where should your certified masterpiece be delivered?</p>
+       </div>
+      </div>
+      <span class="text-xs font-bold uppercase tracking-wider text-[#B8860B] bg-[#FAF9F5] px-3 py-1.5 rounded-full border border-[#B8860B]/30 hidden sm:inline-block">
+       Step 1 of 2
+      </span>
      </div>
 
-     <div class="form-grid">
-      <div class="field-group">
-       <label for="first-name">First Name</label>
-       <input id="first-name" placeholder="Arjun" type="text" autocomplete="given-name"/>
+     <!-- Shipping Form Grid -->
+     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+      <!-- First Name -->
+      <div>
+       <label for="first-name" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">First Name <span class="text-red-500">*</span></label>
+       <input id="first-name" type="text" placeholder="Arjun" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
       </div>
-      <div class="field-group">
-       <label for="last-name">Last Name</label>
-       <input id="last-name" placeholder="Sharma" type="text" autocomplete="family-name"/>
+      <!-- Last Name -->
+      <div>
+       <label for="last-name" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Last Name <span class="text-red-500">*</span></label>
+       <input id="last-name" type="text" placeholder="Sharma" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
       </div>
-      <div class="field-group full">
-       <label for="email-checkout">Email Address</label>
-       <input id="email-checkout" placeholder="you@example.com" type="email" autocomplete="email"/>
-       <span class="field-hint"><i class="fa-solid fa-envelope"></i> Order confirmation will be sent here</span>
+      <!-- Email Address -->
+      <div class="sm:col-span-2">
+       <label for="email-checkout" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Email Address <span class="text-red-500">*</span></label>
+       <div class="relative">
+        <input id="email-checkout" type="email" placeholder="arjun.sharma@example.com" class="w-full bg-white border border-gray-300 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
+        <i class="fa-solid fa-envelope absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+       </div>
+       <p class="text-[11px] text-gray-500 mt-1 font-medium"><i class="fa-solid fa-circle-info text-[#B8860B] mr-1"></i> Order tracking & digital GI authenticity certificate will be sent here.</p>
       </div>
-      <div class="field-group full">
-       <label for="phone">Phone Number</label>
-       <input id="phone" placeholder="+91 98765 43210" type="tel" autocomplete="tel"/>
+      <!-- Phone Number -->
+      <div class="sm:col-span-2">
+       <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Mobile Phone Number <span class="text-red-500">*</span></label>
+       <div class="relative">
+        <input id="phone" type="tel" placeholder="+91 98765 43210" class="w-full bg-white border border-gray-300 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
+        <i class="fa-solid fa-phone absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+       </div>
       </div>
-      <div class="field-group full">
-       <label for="address1">Street Address</label>
-       <input id="address1" placeholder="House No, Street Name, Colony" type="text" autocomplete="address-line1"/>
+      <!-- Street Address -->
+      <div class="sm:col-span-2">
+       <label for="address1" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Flat, House No., Building, Apartment <span class="text-red-500">*</span></label>
+       <input id="address1" type="text" placeholder="Plot 42, Civil Lines, Near Heritage Circle" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
       </div>
-      <div class="field-group full">
-       <label for="address2">Apartment, Suite, etc. <span class="optional">(Optional)</span></label>
-       <input id="address2" placeholder="Flat / Building / Tower" type="text" autocomplete="address-line2"/>
+      <!-- Street Line 2 -->
+      <div class="sm:col-span-2">
+       <label for="address2" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Landmark / Locality <span class="text-gray-400 font-normal">(Optional)</span></label>
+       <input id="address2" type="text" placeholder="Sector 14 / Opp. National Museum" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
       </div>
-      <div class="field-group">
-       <label for="city">City</label>
-       <input id="city" placeholder="New Delhi" type="text" autocomplete="address-level2"/>
+      <!-- City -->
+      <div>
+       <label for="city" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">City / District <span class="text-red-500">*</span></label>
+       <input id="city" type="text" placeholder="New Delhi" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
       </div>
-      <div class="field-group">
-       <label for="state-select">State</label>
-       <select id="state-select" autocomplete="address-level1">
+      <!-- State Dropdown -->
+      <div>
+       <label for="state-select" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">State <span class="text-red-500">*</span></label>
+       <select id="state-select" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all cursor-pointer">
         <option value="">Select State</option>
         <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
         <option>Bihar</option><option>Chhattisgarh</option><option>Goa</option>
@@ -110,126 +175,154 @@
         <option>West Bengal</option><option>Delhi</option><option>Jammu &amp; Kashmir</option>
        </select>
       </div>
-      <div class="field-group">
-       <label for="pincode">PIN Code</label>
-       <input id="pincode" maxlength="6" placeholder="110001" type="text" autocomplete="postal-code"/>
+      <!-- PIN Code -->
+      <div>
+       <label for="pincode" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Postal PIN Code <span class="text-red-500">*</span></label>
+       <input id="pincode" type="text" maxlength="6" placeholder="110001" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
       </div>
-      <div class="field-group full">
-       <label>Delivery Speed</label>
-       <div class="delivery-options">
-        <label class="delivery-opt selected" id="std-delivery" for="del-std">
-         <input checked id="del-std" name="delivery" type="radio" value="standard"/>
-         <div class="del-info">
-          <span class="del-name"><i class="fa-solid fa-box"></i> Standard — 5–7 Days</span>
-          <span class="del-price free">FREE</span>
+      
+      <!-- Delivery Speed Card Selection -->
+      <div class="sm:col-span-2 pt-2">
+       <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Delivery Option</label>
+       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <!-- Standard -->
+        <label class="delivery-opt selected flex flex-col justify-between p-4 rounded-2xl border-2 border-[#B8860B] bg-[#FAF6ED] cursor-pointer transition-all">
+         <div class="flex items-center justify-between mb-1">
+          <span class="text-sm font-bold text-gray-900 flex items-center gap-2"><i class="fa-solid fa-box text-[#B8860B]"></i> Standard Delivery</span>
+          <span class="text-xs font-extrabold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">FREE</span>
          </div>
-         <span class="del-sub">Tracked, insured handoff via BlueDart</span>
+         <p class="text-xs text-gray-600 mb-2">5–7 Business Days via BlueDart Insured Handoff</p>
+         <input type="radio" name="delivery" value="standard" checked class="hidden"/>
         </label>
-        <label class="delivery-opt" id="exp-delivery" for="del-exp">
-         <input id="del-exp" name="delivery" type="radio" value="express"/>
-         <div class="del-info">
-          <span class="del-name"><i class="fa-solid fa-bolt"></i> Express — 2–3 Days</span>
-          <span class="del-price">₹299</span>
+        <!-- Express -->
+        <label class="delivery-opt flex flex-col justify-between p-4 rounded-2xl border-2 border-gray-200 bg-white hover:border-[#B8860B]/50 cursor-pointer transition-all">
+         <div class="flex items-center justify-between mb-1">
+          <span class="text-sm font-bold text-gray-900 flex items-center gap-2"><i class="fa-solid fa-bolt text-[#B8860B]"></i> Express Air Delivery</span>
+          <span class="text-xs font-bold text-gray-800">₹ 299</span>
          </div>
-         <span class="del-sub">Priority white-glove packaging</span>
+         <p class="text-xs text-gray-600 mb-2">2–3 Days Priority White-Glove Packaging</p>
+         <input type="radio" name="delivery" value="express" class="hidden"/>
         </label>
        </div>
       </div>
      </div>
 
-     <button class="btn-primary" id="btn-to-payment" onclick="goToPayment()">
-      <span>Continue to Payment</span>
-      <i class="fa-solid fa-arrow-right"></i>
+     <!-- Continue to Payment Button -->
+     <button onclick="goToPayment()" class="w-full mt-8 bg-gradient-to-r from-[#B8860B] to-[#8B6508] hover:from-[#8B6508] hover:to-[#684a04] text-white text-sm font-bold uppercase tracking-wider py-4 rounded-full transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+      <span>Proceed to Payment</span>
+      <i class="fa-solid fa-arrow-right text-xs"></i>
      </button>
     </div>
 
-    <!-- ── STEP 2: Payment ── -->
-    <div class="form-step hidden" id="form-payment">
-     <button class="back-step-btn" onclick="goToShipping()">
-      <i class="fa-solid fa-arrow-left"></i> Back to Shipping
+    <!-- ── STEP 2: Payment Details ── -->
+    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-sm hidden" id="form-payment">
+     
+     <button onclick="goToShipping()" class="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#B8860B] uppercase tracking-wider mb-4 transition-colors">
+      <i class="fa-solid fa-arrow-left text-[10px]"></i> Back to Shipping Address
      </button>
-     <div class="step-header">
-      <span class="step-num">2</span>
-      <h2>Payment Details</h2>
+
+     <div class="flex items-center justify-between pb-6 mb-6 border-b border-gray-100">
+      <div class="flex items-center gap-3">
+       <div class="w-10 h-10 rounded-2xl bg-[#B8860B] text-white font-bold flex items-center justify-center text-lg shadow-md">
+        2
+       </div>
+       <div>
+        <h2 class="text-xl sm:text-2xl font-extrabold font-sora text-gray-900">Payment Gateway</h2>
+        <p class="text-xs text-gray-500 mt-0.5">Select your preferred 256-bit encrypted payment method.</p>
+       </div>
+      </div>
+      <span class="text-xs font-bold uppercase tracking-wider text-[#B8860B] bg-[#FAF9F5] px-3 py-1.5 rounded-full border border-[#B8860B]/30 hidden sm:inline-block">
+       Step 2 of 2
+      </span>
      </div>
 
-     <div class="payment-methods">
-      <button class="pay-method active" id="pm-card" onclick="selectPayMethod('card', this)">
+     <!-- Payment Method Switcher Tabs -->
+     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+      <button id="pm-card" onclick="selectPayMethod('card', this)" class="pay-method active px-3 py-3 rounded-2xl border-2 border-[#B8860B] bg-white font-bold text-xs text-[#B8860B] flex items-center justify-center gap-1.5 shadow-sm transition-all">
        <i class="fa-regular fa-credit-card"></i> Card
       </button>
-      <button class="pay-method" id="pm-upi" onclick="selectPayMethod('upi', this)">
-       <img alt="UPI" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/UPI-Logo-vector.svg/100px-UPI-Logo-vector.svg.png" style="height:18px; vertical-align:middle; margin-right:4px;" loading="lazy"/> UPI
+      <button id="pm-upi" onclick="selectPayMethod('upi', this)" class="pay-method px-3 py-3 rounded-2xl border-2 border-gray-200 bg-white font-bold text-xs text-gray-700 hover:border-[#B8860B] flex items-center justify-center gap-1.5 transition-all">
+       <i class="fa-solid fa-mobile-screen-button text-[#B8860B]"></i> UPI / QR
       </button>
-      <button class="pay-method" id="pm-netbanking" onclick="selectPayMethod('netbanking', this)">
+      <button id="pm-netbanking" onclick="selectPayMethod('netbanking', this)" class="pay-method px-3 py-3 rounded-2xl border-2 border-gray-200 bg-white font-bold text-xs text-gray-700 hover:border-[#B8860B] flex items-center justify-center gap-1.5 transition-all">
        <i class="fa-solid fa-building-columns"></i> Net Banking
       </button>
-      <button class="pay-method" id="pm-cod" onclick="selectPayMethod('cod', this)">
-       <i class="fa-solid fa-money-bill-wave"></i> Cash on Delivery
+      <button id="pm-cod" onclick="selectPayMethod('cod', this)" class="pay-method px-3 py-3 rounded-2xl border-2 border-gray-200 bg-white font-bold text-xs text-gray-700 hover:border-[#B8860B] flex items-center justify-center gap-1.5 transition-all">
+       <i class="fa-solid fa-hand-holding-dollar"></i> Cash on Delivery
       </button>
      </div>
 
-     <!-- Card Panel -->
-     <div class="pay-panel" id="panel-card">
-      <div class="form-grid">
-       <div class="field-group full">
-        <label for="card-number">Card Number</label>
-        <div class="input-with-icon">
-         <i class="fa-regular fa-credit-card input-icon"></i>
-         <input id="card-number" maxlength="19" placeholder="1234  5678  9012  3456" type="text"/>
-         <div class="card-brand-icons">
-          <img alt="Visa" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/60px-Visa_Inc._logo.svg.png" loading="lazy"/>
-          <img alt="Mastercard" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Mastercard_2019_logo.svg/60px-Mastercard_2019_logo.svg.png" loading="lazy"/>
-          <img alt="RuPay" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/RuPay-logo.png/100px-RuPay-logo.png" loading="lazy"/>
+     <!-- Panel 1: Card Input -->
+     <div id="panel-card" class="pay-panel bg-[#FAF9F5] p-5 rounded-2xl border border-gray-200 mb-6">
+      <div class="space-y-4">
+       <div>
+        <label for="card-number" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Card Number</label>
+        <div class="relative">
+         <input id="card-number" type="text" maxlength="19" placeholder="4532  8900  1234  5678" class="w-full bg-white border border-gray-300 text-sm rounded-xl pl-10 pr-24 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm"/>
+         <i class="fa-regular fa-credit-card absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+         <div class="absolute right-3 top-3 flex items-center gap-1 opacity-70">
+          <i class="fa-brands fa-cc-visa text-blue-700 text-lg"></i>
+          <i class="fa-brands fa-cc-mastercard text-orange-600 text-lg"></i>
          </div>
         </div>
        </div>
-       <div class="field-group full">
-        <label for="card-name">Name on Card</label>
-        <input id="card-name" placeholder="As printed on your card" type="text"/>
+       <div>
+        <label for="card-name" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Name on Card</label>
+        <input id="card-name" type="text" placeholder="ARJUN SHARMA" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm uppercase"/>
        </div>
-       <div class="field-group">
-        <label for="card-expiry">Expiry Date</label>
-        <input id="card-expiry" maxlength="5" placeholder="MM / YY" type="text"/>
-       </div>
-       <div class="field-group">
-        <label for="card-cvv">CVV <i class="fa-solid fa-circle-question" title="3-digit code on the back of your card"></i></label>
-        <input id="card-cvv" maxlength="4" placeholder="•••" type="password"/>
-       </div>
-      </div>
-      <div class="security-note">
-       <i class="fa-solid fa-lock"></i>
-       Your card details are encrypted end-to-end. We never store CVV numbers.
-      </div>
-     </div>
-
-     <!-- UPI Panel -->
-     <div class="pay-panel hidden" id="panel-upi">
-      <div class="field-group full">
-       <label for="upi-id">UPI ID</label>
-       <div class="input-with-icon">
-        <i class="fa-solid fa-at input-icon"></i>
-        <input id="upi-id" placeholder="yourname@upi" type="text"/>
-       </div>
-       <span class="field-hint">e.g. 9876543210@ybl, name@paytm, name@okaxis</span>
-      </div>
-      <div class="upi-apps">
-       <span>Or pay with:</span>
-       <div class="upi-app-grid">
-        <button class="upi-app-btn" onclick="selectUpiApp('PhonePe')"><img alt="PhonePe" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/PhonePe_Logo.svg/60px-PhonePe_Logo.svg.png" loading="lazy"/>PhonePe</button>
-        <button class="upi-app-btn" onclick="selectUpiApp('GPay')"><img alt="GPay" src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Google_Pay_Logo.svg/60px-Google_Pay_Logo.svg.png" loading="lazy"/>GPay</button>
-        <button class="upi-app-btn" onclick="selectUpiApp('Paytm')"><img alt="Paytm" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Paytm_logo.png/100px-Paytm_logo.png" loading="lazy"/>Paytm</button>
-        <button class="upi-app-btn" onclick="selectUpiApp('BHIM')"><img alt="BHIM" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/BHIM_Logo.svg/60px-BHIM_Logo.svg.png" loading="lazy"/>BHIM</button>
+       <div class="grid grid-cols-2 gap-4">
+        <div>
+         <label for="card-expiry" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Expiry Date</label>
+         <input id="card-expiry" type="text" maxlength="5" placeholder="MM / YY" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm text-center font-mono"/>
+        </div>
+        <div>
+         <label for="card-cvv" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">CVV Security Code</label>
+         <input id="card-cvv" type="password" maxlength="4" placeholder="•••" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm text-center font-mono"/>
+        </div>
        </div>
       </div>
      </div>
 
-     <!-- Net Banking Panel -->
-     <div class="pay-panel hidden" id="panel-netbanking">
-      <div class="field-group full">
-       <label for="bank-select">Select Your Bank</label>
-       <select id="bank-select">
-        <option value="">Choose Bank</option>
-        <option>State Bank of India</option>
+     <!-- Panel 2: UPI Input -->
+     <div id="panel-upi" class="pay-panel bg-[#FAF9F5] p-5 rounded-2xl border border-gray-200 mb-6 hidden">
+      <div class="space-y-4">
+       <div>
+        <label for="upi-id" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Enter Virtual Payment Address (VPA / UPI ID)</label>
+        <div class="relative">
+         <input id="upi-id" type="text" placeholder="mobile-number@upi or name@okaxis" class="w-full bg-white border border-gray-300 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm"/>
+         <i class="fa-solid fa-at absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+        </div>
+        <p class="text-[11px] text-gray-500 mt-1">Accepted: PhonePe, GPay, Paytm, BHIM, Amazon Pay</p>
+       </div>
+
+       <!-- Quick UPI App Chips -->
+       <div class="pt-2">
+        <span class="block text-xs font-bold text-gray-600 mb-2">Or launch your app directly:</span>
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+         <button onclick="selectUpiApp('PhonePe')" class="bg-white border border-gray-200 hover:border-[#B8860B] p-2.5 rounded-xl text-xs font-bold text-gray-700 flex items-center justify-center gap-1.5 shadow-sm transition-all">
+          <i class="fa-solid fa-mobile-screen text-purple-700"></i> PhonePe
+         </button>
+         <button onclick="selectUpiApp('GPay')" class="bg-white border border-gray-200 hover:border-[#B8860B] p-2.5 rounded-xl text-xs font-bold text-gray-700 flex items-center justify-center gap-1.5 shadow-sm transition-all">
+          <i class="fa-brands fa-google text-blue-600"></i> GPay
+         </button>
+         <button onclick="selectUpiApp('Paytm')" class="bg-white border border-gray-200 hover:border-[#B8860B] p-2.5 rounded-xl text-xs font-bold text-gray-700 flex items-center justify-center gap-1.5 shadow-sm transition-all">
+          <i class="fa-solid fa-wallet text-cyan-600"></i> Paytm
+         </button>
+         <button onclick="selectUpiApp('BHIM')" class="bg-white border border-gray-200 hover:border-[#B8860B] p-2.5 rounded-xl text-xs font-bold text-gray-700 flex items-center justify-center gap-1.5 shadow-sm transition-all">
+          <i class="fa-solid fa-building-columns text-orange-600"></i> BHIM
+         </button>
+        </div>
+       </div>
+      </div>
+     </div>
+
+     <!-- Panel 3: Net Banking -->
+     <div id="panel-netbanking" class="pay-panel bg-[#FAF9F5] p-5 rounded-2xl border border-gray-200 mb-6 hidden">
+      <div>
+       <label for="bank-select" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Select Bank for Net Banking</label>
+       <select id="bank-select" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm cursor-pointer">
+        <option value="">Choose your bank</option>
+        <option>State Bank of India (SBI)</option>
         <option>HDFC Bank</option>
         <option>ICICI Bank</option>
         <option>Axis Bank</option>
@@ -238,430 +331,409 @@
         <option>Punjab National Bank</option>
         <option>Canara Bank</option>
         <option>Yes Bank</option>
-        <option>IDBI Bank</option>
-        <option>IndusInd Bank</option>
         <option>Federal Bank</option>
        </select>
       </div>
-      <div class="security-note">
-       <i class="fa-solid fa-lock"></i>
-       You will be redirected to your bank's secure portal to complete payment.
-      </div>
      </div>
 
-     <!-- COD Panel -->
-     <div class="pay-panel hidden" id="panel-cod">
-      <div class="cod-info">
-       <div class="cod-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+     <!-- Panel 4: Cash on Delivery -->
+     <div id="panel-cod" class="pay-panel bg-[#FAF9F5] p-5 rounded-2xl border border-gray-200 mb-6 hidden">
+      <div class="flex items-start gap-3 text-xs text-gray-700">
+       <i class="fa-solid fa-circle-check text-green-600 text-lg mt-0.5"></i>
        <div>
-        <h4>Cash on Delivery</h4>
-        <p>Pay ₹<span id="cod-amount">24,500</span> in cash when your heritage masterpiece is delivered. An additional COD fee of ₹99 will apply.</p>
-        <ul>
-         <li><i class="fa-solid fa-check"></i> No advance payment required</li>
-         <li><i class="fa-solid fa-check"></i> Pay only on delivery</li>
-         <li><i class="fa-solid fa-check"></i> Available across India</li>
-        </ul>
+        <strong class="font-bold block text-sm text-gray-900 mb-1">Cash on Delivery Available</strong>
+        Pay cash to courier agent upon delivery. A nominal ₹ 99 handling fee applies for COD processing.
        </div>
       </div>
      </div>
 
-     <button class="btn-primary" id="btn-place-order" onclick="placeOrder()">
-      <i class="fa-solid fa-shield-halved"></i>
-      <span id="order-btn-text">Place Secure Order — ₹24,500</span>
+     <!-- Place Order Button -->
+     <button id="btn-place-order" onclick="placeOrder()" class="w-full bg-gradient-to-r from-[#B8860B] to-[#8B6508] hover:from-[#8B6508] hover:to-[#684a04] text-white text-sm font-bold uppercase tracking-wider py-4 rounded-full transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+      <i class="fa-solid fa-lock text-xs"></i>
+      <span id="order-btn-text">Place Secure Order — ₹ 24,500</span>
      </button>
-     <p class="order-disclaimer">
-      By placing your order, you agree to our <a href="about.html">Terms of Service</a> and <a href="about.html">Privacy Policy</a>. Your payment is protected by bank-grade 256-bit SSL encryption.
-     </p>
     </div>
 
-    <!-- ── STEP 3: Confirmation ── -->
-    <div class="form-step hidden" id="form-confirm">
-     <div class="confirm-success">
-      <div class="confirm-icon">
-       <i class="fa-solid fa-circle-check"></i>
+    <!-- ── STEP 3: Order Confirmation Screen ── -->
+    <div class="bg-white rounded-3xl p-6 sm:p-10 border border-gray-200 shadow-sm hidden text-center" id="form-confirm">
+     <div class="w-16 h-16 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-md">
+      <i class="fa-solid fa-circle-check"></i>
+     </div>
+     <span class="text-xs font-bold uppercase tracking-widest text-[#B8860B] block mb-1">Government GI Registry Certified</span>
+     <h2 class="text-3xl font-extrabold font-sora text-gray-900 mb-2">Order Confirmed!</h2>
+     <p class="text-sm text-gray-600 max-w-md mx-auto mb-6">
+      Your heritage masterpiece has been officially reserved. A digital copy of your GI Authenticity Certificate has been dispatched to your email.
+     </p>
+
+     <div class="bg-[#FAF9F5] p-5 rounded-2xl border border-gray-200 text-left max-w-md mx-auto mb-6 space-y-3 text-xs">
+      <div class="flex justify-between border-b border-gray-200 pb-2">
+       <span class="text-gray-500 font-medium">Order Reference</span>
+       <strong class="font-mono text-gray-900" id="confirm-order-id">PAR-2026-9842</strong>
       </div>
-      <h2>Order Confirmed!</h2>
-      <p class="confirm-tagline">Your heritage masterpiece is now reserved. A confirmation has been sent to your email.</p>
-      <div class="confirm-order-card">
-       <div class="confirm-row">
-        <span>Order ID</span>
-        <strong id="confirm-order-id">PAR-2026-XXXX</strong>
-       </div>
-       <div class="confirm-row">
-        <span>Item</span>
-        <strong id="confirm-item-name">Jaipur Blue Pottery</strong>
-       </div>
-       <div class="confirm-row">
-        <span>Total Paid</span>
-        <strong id="confirm-total">₹24,500</strong>
-       </div>
-       <div class="confirm-row">
-        <span>Estimated Delivery</span>
-        <strong id="confirm-delivery">Oct 12–14, 2026</strong>
-       </div>
-       <div class="confirm-row">
-        <span>Artisan Payout</span>
-        <strong class="artisan-payout"><i class="fa-solid fa-hand-holding-heart"></i> ₹17,150 (70%) directly to artisan</strong>
-       </div>
+      <div class="flex justify-between border-b border-gray-200 pb-2">
+       <span class="text-gray-500 font-medium">Reserved Item</span>
+       <strong class="font-bold text-gray-900" id="confirm-item-name">Jaipur Blue Pottery</strong>
       </div>
-      <div class="confirm-actions">
-       <a class="btn-primary" href="collection.html">
-        <i class="fa-regular fa-bookmark"></i> View My Collection
-       </a>
-       <a class="btn-outline" href="search.html">
-        <i class="fa-solid fa-store"></i> Continue Exploring
-       </a>
+      <div class="flex justify-between border-b border-gray-200 pb-2">
+       <span class="text-gray-500 font-medium">Total Paid</span>
+       <strong class="font-bold text-gray-900" id="confirm-total">₹ 24,500</strong>
       </div>
-      <div class="heritage-note">
-       <i class="fa-solid fa-leaf"></i>
-       <span>Every purchase funds a living craft tradition. Your piece will arrive with a physical Certificate of Authenticity and QR-linked artisan story.</span>
+      <div class="flex justify-between border-b border-gray-200 pb-2">
+       <span class="text-gray-500 font-medium">Estimated Delivery</span>
+       <strong class="font-bold text-green-700" id="confirm-delivery">Oct 12 – 14, 2026</strong>
       </div>
+      <div class="pt-1 text-center bg-amber-50 p-2.5 rounded-xl border border-amber-200 text-amber-900 font-semibold text-[11px]">
+       <i class="fa-solid fa-hand-holding-heart text-[#B8860B] mr-1"></i> ₹ 17,150 (70%) transferred directly to master artisan's account.
+      </div>
+     </div>
+
+     <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+      <a href="collection.html" class="w-full sm:w-auto px-6 py-3 rounded-full bg-[#B8860B] hover:bg-[#8B6508] text-white text-xs font-bold uppercase tracking-wider transition-all shadow">
+       View Saved Collection
+      </a>
+      <a href="search.html" class="w-full sm:w-auto px-6 py-3 rounded-full border border-gray-300 hover:bg-gray-100 text-gray-700 text-xs font-bold uppercase tracking-wider transition-all">
+       Explore More Crafts
+      </a>
      </div>
     </div>
 
    </section>
 
-   <!-- RIGHT: Order Summary -->
-   <aside class="order-summary">
-    <div class="summary-card">
-     <h3 class="summary-title">Your Order</h3>
+   <!-- ========================================================================= -->
+   <!-- RIGHT COLUMN: Order Summary & Artisan Transparency Sidebar (Col-span-5) -->
+   <!-- ========================================================================= -->
+   <aside class="lg:col-span-5 space-y-6">
 
-     <!-- Product -->
-     <div class="summary-product" id="summary-product">
-      <div class="product-img-wrap">
-       <img alt="Jaipur Blue Pottery" id="summary-product-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRvNfriugx0NdrdLeauMrU-T9Tr87a7nC-J4nvAoCW_TkiqjfVtVIlJP91Ik6MOOER3m_6SHZgiPfHnJtX0iMVO6ZKw1P35uXn8NGIoC6tveTbjBTXulXuQDrOLgugDb06sR0mF6t4wF-P3UOpyzP6wGvXetfE-qoHRIyRhZHpab56fAgLIzl0juu9z7X0LepiTAGCIQw_FSnOvAQtp-CcfOnBcg19DxmOeCqZICVR4LsNoXDtgTix5ZzRMECyixHzagr7bWx_bBs" loading="lazy"/>
-       <span class="qty-badge">1</span>
-      </div>
-      <div class="product-info">
-       <p class="product-name" id="summary-product-name">Jaipur Blue Pottery</p>
-       <p class="product-origin"><i class="fa-solid fa-location-dot"></i> Rajasthan, India</p>
-       <p class="product-cert"><span class="gi-badge">GI Certified</span> · Masterpiece Series 01</p>
-      </div>
-      <div class="product-price" id="summary-product-price">₹24,500</div>
-     </div>
+    <!-- Order Summary Card -->
+    <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200 shadow-sm sticky top-24">
+     <h3 class="text-lg font-bold font-sora text-gray-900 pb-4 mb-4 border-b border-gray-100 flex items-center justify-between">
+      <span>Order Summary</span>
+      <span class="text-xs font-normal text-gray-500">1 Item</span>
+     </h3>
 
-     <!-- Artisan Transparency -->
-     <div class="artisan-transparency">
-      <h4><i class="fa-solid fa-chart-pie"></i> Where Your Money Goes</h4>
-      <div class="transparency-bar">
-       <div class="bar-segment artisan" style="width:70%" title="Artisan: 70%"></div>
-       <div class="bar-segment platform" style="width:20%" title="Parampara: 20%"></div>
-       <div class="bar-segment logistics" style="width:10%" title="Logistics: 10%"></div>
+     <!-- Product Preview Card -->
+     <div class="flex items-center gap-4 pb-5 mb-5 border-b border-gray-100">
+      <div class="relative w-16 h-16 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shrink-0">
+       <img id="summary-product-img" src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" alt="Product" class="w-full h-full object-cover"/>
+       <span class="absolute top-1 right-1 bg-[#B8860B] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">1</span>
       </div>
-      <div class="bar-legend">
-       <span><span class="dot artisan-dot"></span> Artisan 70%</span>
-       <span><span class="dot platform-dot"></span> Platform 20%</span>
-       <span><span class="dot logistics-dot"></span> Logistics 10%</span>
+      <div class="flex-grow min-w-0">
+       <h4 class="text-sm font-bold text-gray-900 truncate" id="summary-product-name">Jaipur Blue Pottery Floral Vase</h4>
+       <p class="text-xs text-gray-500 flex items-center gap-1 mt-0.5" id="summary-product-origin">
+        <i class="fa-solid fa-location-dot text-[#B8860B] text-[10px]"></i> Jaipur, Rajasthan
+       </p>
+       <span class="inline-block mt-1 text-[10px] font-bold text-[#8B6508] bg-[#FAF9F5] px-2 py-0.5 rounded-md border border-[#B8860B]/20" id="summary-product-gi">
+        GI Certified · GI/RS/080/2016
+       </span>
       </div>
-     </div>
-
-     <!-- Promo Code -->
-     <div class="promo-section">
-      <div class="promo-input-wrap">
-       <input id="promo-input" placeholder="Heritage code (e.g. ARTISAN10)" type="text"/>
-       <button id="promo-btn" onclick="applyPromo()">Apply</button>
-      </div>
-      <div class="promo-msg hidden" id="promo-msg"></div>
-     </div>
-
-     <!-- Price Breakdown -->
-     <div class="price-breakdown">
-      <div class="price-row">
-       <span>Subtotal</span>
-       <span id="price-subtotal">₹24,500</span>
-      </div>
-      <div class="price-row discount hidden" id="row-discount">
-       <span id="discount-label">Promo Discount</span>
-       <span class="green" id="price-discount">−₹0</span>
-      </div>
-      <div class="price-row">
-       <span>Shipping</span>
-       <span class="green" id="price-shipping">FREE</span>
-      </div>
-      <div class="price-row">
-       <span>GST (12%)</span>
-       <span id="price-gst">₹2,940</span>
-      </div>
-      <div class="price-row total">
-       <span>Total</span>
-       <span id="price-total">₹27,440</span>
+      <div class="text-right">
+       <span class="text-sm font-extrabold font-sora text-gray-900 block" id="summary-product-price">₹ 24,500</span>
       </div>
      </div>
 
-     <!-- Trust Badges -->
-     <div class="trust-badges">
-      <div class="trust-item">
-       <i class="fa-solid fa-shield-halved"></i>
-       <span>SSL Secured</span>
+     <!-- Economic Transparency Calculator Card -->
+     <div class="bg-[#FAF9F5] p-4 rounded-2xl border border-gray-200 mb-5">
+      <div class="flex items-center justify-between text-xs font-bold text-gray-800 mb-2">
+       <span class="flex items-center gap-1.5 text-[#B8860B]"><i class="fa-solid fa-chart-pie"></i> 70% Direct Artisan Payout</span>
+       <span class="text-green-700" id="artisan-amount">₹ 17,150</span>
       </div>
-      <div class="trust-item">
-       <i class="fa-solid fa-award"></i>
-       <span>GI Certified</span>
+      <div class="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden flex mb-2">
+       <div class="bg-green-600 h-full" style="width: 70%" title="Artisan 70%"></div>
+       <div class="bg-[#B8860B] h-full" style="width: 20%" title="Platform 20%"></div>
+       <div class="bg-gray-500 h-full" style="width: 10%" title="Logistics 10%"></div>
       </div>
-      <div class="trust-item">
-       <i class="fa-solid fa-rotate-left"></i>
-       <span>15-Day Returns</span>
-      </div>
-      <div class="trust-item">
-       <i class="fa-solid fa-truck"></i>
-       <span>Free Shipping</span>
+      <div class="flex justify-between text-[10px] text-gray-500 font-medium">
+       <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-600"></span> Artisan (70%)</span>
+       <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#B8860B]"></span> Platform (20%)</span>
+       <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gray-500"></span> Shipping (10%)</span>
       </div>
      </div>
+
+     <!-- Promo Code Input -->
+     <div class="mb-5">
+      <div class="flex gap-2">
+       <input id="promo-input" type="text" placeholder="Promo Code (e.g. ARTISAN10)" class="flex-grow bg-white border border-gray-300 text-xs rounded-xl px-3.5 py-2.5 uppercase focus:outline-none focus:border-[#B8860B] shadow-sm"/>
+       <button id="promo-btn" onclick="applyPromo()" class="bg-[#1A1A1A] hover:bg-[#B8860B] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl transition-colors shadow">
+        Apply
+       </button>
+      </div>
+      <p id="promo-msg" class="text-xs mt-1.5 font-semibold hidden"></p>
+     </div>
+
+     <!-- Cost Breakdown -->
+     <div class="space-y-2.5 text-xs text-gray-600 pb-4 border-b border-gray-100">
+      <div class="flex justify-between">
+       <span>Craft Subtotal</span>
+       <span class="font-bold text-gray-900" id="price-subtotal">₹ 24,500</span>
+      </div>
+      <div class="flex justify-between text-green-700 hidden" id="row-discount">
+       <span id="discount-label">Promo Discount (10%)</span>
+       <span class="font-bold" id="price-discount">- ₹ 2,450</span>
+      </div>
+      <div class="flex justify-between">
+       <span>Insured Shipping</span>
+       <span class="font-bold text-green-700" id="price-shipping">FREE</span>
+      </div>
+      <div class="flex justify-between">
+       <span>GST (12% Handicraft Tax)</span>
+       <span class="font-bold text-gray-900" id="price-gst">₹ 2,940</span>
+      </div>
+     </div>
+
+     <!-- Grand Total -->
+     <div class="flex items-baseline justify-between pt-4 mb-6">
+      <div>
+       <span class="text-xs uppercase text-gray-500 font-bold tracking-wider block">Total Payable</span>
+       <span class="text-[10px] text-gray-400">Includes all government taxes & shipping</span>
+      </div>
+      <span class="text-2xl font-extrabold font-sora text-gray-900" id="price-total">₹ 27,440</span>
+     </div>
+
+     <!-- Master Artisan Story Dossier -->
+     <div class="bg-[#FAF9F5] p-4 rounded-2xl border border-[#B8860B]/30 flex items-center gap-3">
+      <img id="artisan-img" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80" alt="Artisan" class="w-12 h-12 rounded-full object-cover border-2 border-[#B8860B] shrink-0"/>
+      <div class="text-xs">
+       <span class="text-[10px] font-bold text-[#B8860B] uppercase tracking-wider block">Master Artisan Lineage</span>
+       <h5 class="font-bold text-gray-900" id="artisan-name">Gopal Saini (National Awardee)</h5>
+       <p class="text-[11px] text-gray-500 line-clamp-1 italic font-serif-heading">"Our hands preserve what our ancestors whispered."</p>
+      </div>
+     </div>
+
     </div>
 
-    <!-- Artisan Story Card -->
-    <div class="artisan-story-card">
-     <div class="artisan-avatar">
-      <img alt="Shri Gopal Saini" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2QdkvZ7CJJjjvIEkc_4wgwHYsLHfRY8R72o-SUTAvzDWjoXUixrBCwnKTI7WR35_JNeTUt_31CklJ2y5NBMpoHJVDjG-ESBTcWaHfWRvO-JnNmlZnNjxtP4jBuUYkstfLEbiIIaDaceAjquJjy49I92GOcQR3MgCBVyYNxykSGLS1UGTyU3mhaL_nKoaDaDM99jRnQ5vK6UWY98yLQPhzHM0bHgmiWVvthUCPHRAvi7GqIGwQIzEAdBdd7nabk1eiQCbYTGTFLdA" loading="lazy"/>
-     </div>
-     <div class="artisan-story-text">
-      <p class="artisan-story-name" id="artisan-name">Shri Gopal Saini</p>
-      <p class="artisan-story-craft" id="artisan-craft">Master Potter · Jaipur, Rajasthan</p>
-      <p class="artisan-story-quote">"My hands only repeat what my ancestors whispered."</p>
-      <p class="artisan-payout-info">Your purchase sends <strong id="artisan-amount">₹17,150</strong> directly to this artisan.</p>
-     </div>
-    </div>
    </aside>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="checkout-footer">
-   <p>© 2026 Parampara Heritage · <a href="about.html">Terms</a> · <a href="about.html">Privacy</a> · <a href="about.html">Refund Policy</a></p>
-   <div class="footer-badges">
-    <i class="fa-brands fa-cc-visa fa-2x"></i>
-    <i class="fa-brands fa-cc-mastercard fa-2x"></i>
-    <i class="fa-solid fa-lock"></i>
+  <!-- ── Footer ── -->
+  <footer class="bg-[#1A1A1A] text-white text-xs py-8 px-4 border-t border-white/10 mt-auto">
+   <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+    <p class="text-gray-400">© 2026 Parampara Heritage Platform. Preserving India's Craft Traditions across 28 States.</p>
+    <div class="flex items-center gap-4 text-gray-400 text-sm">
+     <i class="fa-brands fa-cc-visa hover:text-white transition-colors"></i>
+     <i class="fa-brands fa-cc-mastercard hover:text-white transition-colors"></i>
+     <i class="fa-solid fa-shield-halved text-[#B8860B]"></i>
+     <span>256-Bit SSL Protected</span>
+    </div>
    </div>
   </footer>
 
+  <!-- ── JavaScript Application Logic ── -->
   <script>
-  /* ─── Checkout Logic ─────────────────────────────────── */
+    let currentPayMethod = 'card';
+    let expressDelivery = false;
+    let promoApplied = false;
 
-  // ── State
-  let currentPayMethod = 'card';
-  let expressDelivery = false;
-  let promoApplied = false;
+    let BASE_PRICE = 24500;
+    const GST_RATE = 0.12;
+    const EXPRESS_FEE = 299;
+    const COD_FEE = 99;
 
-  let BASE_PRICE = 24500;
-  const GST_RATE   = 0.12;
-  const EXPRESS_FEE = 299;
-  const COD_FEE     = 99;
-
-  // ── Toast
-  function showToast(msg, type = 'info') {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className = 'toast-show ' + type;
-    setTimeout(() => t.className = '', 3500);
-  }
-
-  // ── Format INR
-  function formatINR(n) {
-    return '₹' + n.toLocaleString('en-IN');
-  }
-
-  // ── Recalculate totals
-  function recalculate() {
-    let subtotal = BASE_PRICE;
-    let discount = 0;
-    if (promoApplied) { discount = Math.round(subtotal * 0.10); }
-    const afterDiscount = subtotal - discount;
-    const shipping = expressDelivery ? EXPRESS_FEE : 0;
-    const cod = (currentPayMethod === 'cod') ? COD_FEE : 0;
-    const gst = Math.round(afterDiscount * GST_RATE);
-    const total = afterDiscount + shipping + cod + gst;
-    const artisanPayout = Math.round(subtotal * 0.70);
-
-    document.getElementById('price-subtotal').textContent = formatINR(subtotal);
-    document.getElementById('price-shipping').textContent = (shipping + cod) === 0 ? 'FREE' : formatINR(shipping + cod);
-    document.getElementById('price-shipping').className = (shipping + cod) === 0 ? 'green' : '';
-    document.getElementById('price-gst').textContent = formatINR(gst);
-    document.getElementById('price-total').textContent = formatINR(total);
-    document.getElementById('artisan-amount').textContent = formatINR(artisanPayout);
-    document.getElementById('cod-amount').textContent = total.toLocaleString('en-IN');
-    document.getElementById('order-btn-text').textContent = `Place Secure Order — ${formatINR(total)}`;
-
-    if (discount > 0) {
-      document.getElementById('row-discount').classList.remove('hidden');
-      document.getElementById('price-discount').textContent = '−' + formatINR(discount);
-    } else {
-      document.getElementById('row-discount').classList.add('hidden');
+    function showToast(msg, type = 'info') {
+      const t = document.getElementById('toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.className = 'fixed bottom-6 right-6 z-[150] bg-[#1A1A1A] text-white px-5 py-4 rounded-2xl shadow-2xl border border-[#B8860B] text-xs font-bold animate-[fadeInUp_0.4s_ease-out]';
+      setTimeout(() => { t.className = 'hidden'; }, 3500);
     }
-  }
 
-  // ── Delivery toggle
-  document.querySelectorAll('input[name="delivery"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-      expressDelivery = this.value === 'express';
-      document.querySelectorAll('.delivery-opt').forEach(o => o.classList.remove('selected'));
-      this.closest('.delivery-opt').classList.add('selected');
+    function formatINR(n) {
+      return '₹ ' + Number(n).toLocaleString('en-IN');
+    }
+
+    function recalculate() {
+      let subtotal = BASE_PRICE;
+      let discount = promoApplied ? Math.round(subtotal * 0.10) : 0;
+      const afterDiscount = subtotal - discount;
+      const shipping = expressDelivery ? EXPRESS_FEE : 0;
+      const cod = (currentPayMethod === 'cod') ? COD_FEE : 0;
+      const gst = Math.round(afterDiscount * GST_RATE);
+      const total = afterDiscount + shipping + cod + gst;
+      const artisanPayout = Math.round(subtotal * 0.70);
+
+      document.getElementById('price-subtotal').textContent = formatINR(subtotal);
+      document.getElementById('price-shipping').textContent = (shipping + cod) === 0 ? 'FREE' : formatINR(shipping + cod);
+      document.getElementById('price-gst').textContent = formatINR(gst);
+      document.getElementById('price-total').textContent = formatINR(total);
+      document.getElementById('artisan-amount').textContent = formatINR(artisanPayout);
+
+      const btnText = document.getElementById('order-btn-text');
+      if (btnText) btnText.textContent = `Place Secure Order — ${formatINR(total)}`;
+
+      if (discount > 0) {
+        document.getElementById('row-discount').classList.remove('hidden');
+        document.getElementById('price-discount').textContent = '- ' + formatINR(discount);
+      } else {
+        document.getElementById('row-discount').classList.add('hidden');
+      }
+    }
+
+    document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+      radio.addEventListener('change', function() {
+        expressDelivery = this.value === 'express';
+        document.querySelectorAll('.delivery-opt').forEach(o => {
+          o.classList.remove('border-[#B8860B]', 'bg-[#FAF6ED]');
+          o.classList.add('border-gray-200', 'bg-white');
+        });
+        const parent = this.closest('label');
+        parent.classList.remove('border-gray-200', 'bg-white');
+        parent.classList.add('border-[#B8860B]', 'bg-[#FAF6ED]');
+        recalculate();
+      });
+    });
+
+    function selectPayMethod(method, btn) {
+      currentPayMethod = method;
+      document.querySelectorAll('.pay-method').forEach(b => {
+        b.classList.remove('border-[#B8860B]', 'text-[#B8860B]');
+        b.classList.add('border-gray-200', 'text-gray-700');
+      });
+      btn.classList.remove('border-gray-200', 'text-gray-700');
+      btn.classList.add('border-[#B8860B]', 'text-[#B8860B]');
+
+      const panels = ['card', 'upi', 'netbanking', 'cod'];
+      panels.forEach(p => {
+        const el = document.getElementById('panel-' + p);
+        if (el) el.classList.add('hidden');
+      });
+      document.getElementById('panel-' + method)?.classList.remove('hidden');
       recalculate();
-    });
-  });
-
-  // ── Payment method
-  function selectPayMethod(method, btn) {
-    currentPayMethod = method;
-    document.querySelectorAll('.pay-method').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.pay-panel').forEach(p => p.classList.add('hidden'));
-    document.getElementById('panel-' + method).classList.remove('hidden');
-    recalculate();
-  }
-
-  // ── UPI App selection
-  function selectUpiApp(app) {
-    showToast(`Opening ${app}... (demo mode 🏺)`, 'info');
-  }
-
-  // ── Promo code
-  const VALID_PROMOS = { 'ARTISAN10': 10, 'HERITAGE15': 15, 'PARAMPARA': 10 };
-  function applyPromo() {
-    const code = document.getElementById('promo-input').value.trim().toUpperCase();
-    const msg  = document.getElementById('promo-msg');
-    msg.classList.remove('hidden');
-    if (VALID_PROMOS[code]) {
-      promoApplied = true;
-      msg.textContent = `✓ Code "${code}" applied — ${VALID_PROMOS[code]}% off!`;
-      msg.className = 'promo-msg success';
-      document.getElementById('discount-label').textContent = `${VALID_PROMOS[code]}% Heritage Discount`;
-      showToast(`Promo applied! ${VALID_PROMOS[code]}% off 🎉`, 'success');
-    } else {
-      promoApplied = false;
-      msg.textContent = '✕ Invalid promo code. Try ARTISAN10.';
-      msg.className = 'promo-msg error';
     }
-    recalculate();
-  }
 
-  // ── Step navigation: Shipping → Payment
-  function goToPayment() {
-    const fields = ['first-name','last-name','email-checkout','phone','address1','city','state-select','pincode'];
-    for (const id of fields) {
-      const el = document.getElementById(id);
-      if (!el.value.trim()) {
-        el.classList.add('field-error');
-        el.focus();
-        showToast('Please fill in all required fields 🏺', 'error');
-        return;
+    function selectUpiApp(app) {
+      showToast(`Opening ${app}... (Demo Mode)`, 'info');
+    }
+
+    const VALID_PROMOS = { 'ARTISAN10': 10, 'HERITAGE15': 15, 'PARAMPARA': 10 };
+    function applyPromo() {
+      const code = (document.getElementById('promo-input').value || '').trim().toUpperCase();
+      const msg = document.getElementById('promo-msg');
+      msg.classList.remove('hidden');
+      if (VALID_PROMOS[code]) {
+        promoApplied = true;
+        msg.textContent = `✓ Code "${code}" applied — ${VALID_PROMOS[code]}% off!`;
+        msg.className = 'text-xs mt-1.5 font-semibold text-green-700';
+        document.getElementById('discount-label').textContent = `${VALID_PROMOS[code]}% Heritage Discount`;
+        showToast(`Promo applied! ${VALID_PROMOS[code]}% off 🎉`, 'success');
+      } else {
+        promoApplied = false;
+        msg.textContent = '✕ Invalid promo code. Try ARTISAN10.';
+        msg.className = 'text-xs mt-1.5 font-semibold text-red-600';
       }
-      el.classList.remove('field-error');
+      recalculate();
     }
-    document.getElementById('form-shipping').classList.add('hidden');
-    document.getElementById('form-payment').classList.remove('hidden');
-    document.getElementById('step-payment').classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
 
-  function goToShipping() {
-    document.getElementById('form-payment').classList.add('hidden');
-    document.getElementById('form-shipping').classList.remove('hidden');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  // ── Place Order (Demo)
-  function placeOrder() {
-    const btn = document.getElementById('btn-place-order');
-    const btnText = document.getElementById('order-btn-text');
-    btn.disabled = true;
-    btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
-
-    // Simulate payment processing
-    setTimeout(() => {
-      const orderId = 'PAR-2026-' + Math.floor(Math.random() * 9000 + 1000);
-      const deliveryDate = new Date();
-      deliveryDate.setDate(deliveryDate.getDate() + (expressDelivery ? 3 : 7));
-      const opts = { month: 'short', day: 'numeric', year: 'numeric' };
-      const delivEnd = new Date(deliveryDate);
-      delivEnd.setDate(delivEnd.getDate() + 2);
-
-      document.getElementById('confirm-order-id').textContent = orderId;
-      document.getElementById('confirm-item-name').textContent = document.getElementById('summary-product-name').textContent;
-      document.getElementById('confirm-total').textContent = document.getElementById('price-total').textContent;
-      document.getElementById('confirm-delivery').textContent =
-        deliveryDate.toLocaleDateString('en-IN', opts) + ' – ' + delivEnd.toLocaleDateString('en-IN', opts);
-
-      // Show confirmation step
-      document.getElementById('form-payment').classList.add('hidden');
-      document.getElementById('form-confirm').classList.remove('hidden');
-      document.getElementById('step-confirm').classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      showToast('🎉 Order placed! Your heritage masterpiece is reserved.', 'success');
-    }, 2200);
-  }
-
-  // ── Card input formatting
-  const cardInput = document.getElementById('card-number');
-  if (cardInput) {
-    cardInput.addEventListener('input', function() {
-      let v = this.value.replace(/\D/g, '').substring(0, 16);
-      this.value = v.replace(/(.{4})/g, '$1  ').trim();
-    });
-  }
-  const expiryInput = document.getElementById('card-expiry');
-  if (expiryInput) {
-    expiryInput.addEventListener('input', function() {
-      let v = this.value.replace(/\D/g, '');
-      if (v.length >= 2) v = v.substring(0,2) + ' / ' + v.substring(2,4);
-      this.value = v;
-    });
-  }
-
-  // ── Load cart from URL params or localStorage
-  (function loadCart() {
-    const params = new URLSearchParams(window.location.search);
-    let itemData = null;
-
-    if (params.get('name') || params.get('product')) {
-      itemData = {
-        name: params.get('name') || params.get('product'),
-        price: parseInt(params.get('price')) || 24500,
-        origin: params.get('origin') || params.get('state') || 'India',
-        imageUrl: params.get('image') || params.get('img'),
-        giNumber: params.get('gi') || params.get('giNumber')
-      };
-    } else {
-      try {
-        const stored = localStorage.getItem('parampara_cart');
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            itemData = parsed[parsed.length - 1];
-          } else if (parsed && parsed.name) {
-            itemData = parsed;
-          }
+    function goToPayment() {
+      const fields = ['first-name','last-name','email-checkout','phone','address1','city','state-select','pincode'];
+      for (const id of fields) {
+        const el = document.getElementById(id);
+        if (el && !el.value.trim()) {
+          el.focus();
+          showToast('Please fill in all required shipping fields', 'error');
+          return;
         }
-      } catch (e) {}
+      }
+      document.getElementById('form-shipping').classList.add('hidden');
+      document.getElementById('form-payment').classList.remove('hidden');
+      
+      const sNavShip = document.getElementById('step-nav-shipping');
+      const sNavPay = document.getElementById('step-nav-payment');
+      if (sNavShip) sNavShip.className = 'flex items-center gap-2 text-gray-400';
+      if (sNavPay) sNavPay.className = 'flex items-center gap-2 text-[#B8860B] font-bold';
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    if (itemData) {
-      if (itemData.name) {
-        document.getElementById('summary-product-name').textContent = itemData.name;
-        const confirmName = document.getElementById('confirm-item-name');
-        if (confirmName) confirmName.textContent = itemData.name;
-      }
-      if (itemData.price) {
-        BASE_PRICE = Number(itemData.price);
-        document.getElementById('summary-product-price').textContent = formatINR(BASE_PRICE);
-      }
-      if (itemData.origin) {
-        const originEl = document.querySelector('.product-origin');
-        if (originEl) originEl.innerHTML = `<i class="fa-solid fa-location-dot"></i> ${itemData.origin}`;
-      }
-      if (itemData.imageUrl) {
-        const imgEl = document.getElementById('summary-product-img');
-        if (imgEl) imgEl.src = itemData.imageUrl;
-      }
-      if (itemData.giNumber) {
-        const certEl = document.querySelector('.product-cert');
-        if (certEl) certEl.innerHTML = `<span class="gi-badge">GI Certified</span> · ${itemData.giNumber}`;
-      }
-    }
-  })();
+    function goToShipping() {
+      document.getElementById('form-payment').classList.add('hidden');
+      document.getElementById('form-shipping').classList.remove('hidden');
 
-  // ── Init
-  recalculate();
+      const sNavShip = document.getElementById('step-nav-shipping');
+      const sNavPay = document.getElementById('step-nav-payment');
+      if (sNavShip) sNavShip.className = 'flex items-center gap-2 text-[#B8860B] font-bold';
+      if (sNavPay) sNavPay.className = 'flex items-center gap-2 text-gray-400';
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function placeOrder() {
+      const btnText = document.getElementById('order-btn-text');
+      if (btnText) btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Reserving Masterpiece...';
+
+      setTimeout(() => {
+        const orderId = 'PAR-2026-' + Math.floor(Math.random() * 9000 + 1000);
+        const deliveryDate = new Date();
+        deliveryDate.setDate(deliveryDate.getDate() + (expressDelivery ? 3 : 7));
+        const opts = { month: 'short', day: 'numeric', year: 'numeric' };
+        const delivEnd = new Date(deliveryDate);
+        delivEnd.setDate(delivEnd.getDate() + 2);
+
+        document.getElementById('confirm-order-id').textContent = orderId;
+        document.getElementById('confirm-item-name').textContent = document.getElementById('summary-product-name').textContent;
+        document.getElementById('confirm-total').textContent = document.getElementById('price-total').textContent;
+        document.getElementById('confirm-delivery').textContent =
+          deliveryDate.toLocaleDateString('en-IN', opts) + ' – ' + delivEnd.toLocaleDateString('en-IN', opts);
+
+        document.getElementById('form-payment').classList.add('hidden');
+        document.getElementById('form-confirm').classList.remove('hidden');
+
+        const sNavPay = document.getElementById('step-nav-payment');
+        const sNavConf = document.getElementById('step-nav-confirm');
+        if (sNavPay) sNavPay.className = 'flex items-center gap-2 text-gray-400';
+        if (sNavConf) sNavConf.className = 'flex items-center gap-2 text-green-700 font-bold';
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        showToast('🎉 Order placed! Your heritage masterpiece is reserved.', 'success');
+      }, 1500);
+    }
+
+    // Load Cart Info from URL parameters or localStorage
+    (function loadCart() {
+      const params = new URLSearchParams(window.location.search);
+      let itemData = null;
+
+      if (params.get('name') || params.get('product')) {
+        itemData = {
+          name: params.get('name') || params.get('product'),
+          price: parseInt(params.get('price')) || 24500,
+          origin: params.get('origin') || params.get('state') || 'India',
+          imageUrl: params.get('image') || params.get('img'),
+          giNumber: params.get('gi') || params.get('giNumber')
+        };
+      } else {
+        try {
+          const stored = localStorage.getItem('parampara_cart');
+          if (stored) {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              itemData = parsed[parsed.length - 1];
+            } else if (parsed && parsed.name) {
+              itemData = parsed;
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (itemData) {
+        if (itemData.name) {
+          document.getElementById('summary-product-name').textContent = itemData.name;
+        }
+        if (itemData.price) {
+          BASE_PRICE = Number(itemData.price);
+        }
+        if (itemData.origin) {
+          document.getElementById('summary-product-origin').innerHTML = `<i class="fa-solid fa-location-dot text-[#B8860B] text-[10px]"></i> ${itemData.origin}`;
+        }
+        if (itemData.imageUrl) {
+          document.getElementById('summary-product-img').src = itemData.imageUrl;
+        }
+        if (itemData.giNumber) {
+          document.getElementById('summary-product-gi').textContent = `GI Certified · ${itemData.giNumber}`;
+        }
+      }
+    })();
+
+    recalculate();
   </script>
  </body>
 </html>
