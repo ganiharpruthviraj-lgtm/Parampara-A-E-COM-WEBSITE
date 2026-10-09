@@ -23,7 +23,7 @@ const defaultDevOrigins = [
 ];
 
 // --- Security Headers (helmet) ---
-// Configured to permit required CDN assets, Google Sign-In SDK, fonts, images, and inline event listeners
+// Configured to permit required CDN assets, Google GIS SDK, Apple ID SDK, fonts, images, and inline event listeners
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -35,6 +35,7 @@ app.use(
           "'unsafe-eval'",
           "https://cdn.tailwindcss.com",
           "https://accounts.google.com",
+          "https://appleid.cdn-apple.com",
           "https://cdnjs.cloudflare.com",
           "https://unpkg.com"
         ],
@@ -68,11 +69,13 @@ app.use(
           "http://localhost:5000",
           "http://127.0.0.1:5000",
           "https://accounts.google.com",
+          "https://appleid.cdn-apple.com",
           "https://parampara-a-e-com-website-1.onrender.com"
         ],
         frameSrc: [
           "'self'",
-          "https://accounts.google.com"
+          "https://accounts.google.com",
+          "https://appleid.cdn-apple.com"
         ]
       }
     }
@@ -127,7 +130,7 @@ app.use(express.json());
     warnings.push('⚠️  JWT_SECRET is weak or not set. Generate one: node -e "console.log(require(\'crypto\').randomBytes(64).toString(\'hex\'))"');
   }
   if (['YOUR_GOOGLE_CLIENT_ID_GOES_HERE', 'GOOGLE_CLIENT_ID_PLACEHOLDER', 'dummy-client-id', 'YOUR_GOOGLE_CLIENT_ID', ''].includes(googleClientId)) {
-    warnings.push('ℹ️  GOOGLE_CLIENT_ID is not configured — Google Sign-In will use fallback demo session.');
+    warnings.push('ℹ️  GOOGLE_CLIENT_ID is not configured — Google Sign-In will use Google GIS client SDK & demo fallbacks.');
   }
   if (process.env.NODE_ENV === 'production') {
     if (!process.env.ALLOWED_ORIGINS) {
