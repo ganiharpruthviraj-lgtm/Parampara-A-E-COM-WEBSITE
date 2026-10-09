@@ -827,19 +827,12 @@
       }, 5000);
     }
 
-    /* ─── GSAP Reveal Animations ─── */
+    /* ─── Safe Reveal Animations ─── */
     function initAnimations() {
-      document.querySelectorAll('.reveal-item').forEach(el => el.style.opacity = '1');
-      if (window.gsap) {
-        try {
-          gsap.fromTo(".reveal-item", 
-            { opacity: 0, y: 10 },
-            { opacity: 1, y: 0, duration: 0.5, stagger: 0.04, ease: "power2.out" }
-          );
-        } catch (e) {
-          document.querySelectorAll('.reveal-item').forEach(el => el.style.opacity = '1');
-        }
-      }
+      document.querySelectorAll('.reveal-item').forEach(el => {
+        el.style.opacity = '1';
+        el.style.visibility = 'visible';
+      });
     }
 
     /* ─── Tab Switcher ─── */
