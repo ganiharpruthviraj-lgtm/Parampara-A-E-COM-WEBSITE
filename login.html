@@ -24,6 +24,9 @@
   <script async defer src="https://accounts.google.com/gsi/client"></script>
   <!-- Apple Sign-In SDK -->
   <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/v1/appleid/auth.js"></script>
+  <!-- Firebase Phone Auth SDK (Free 10,000 SMS / Month) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <!-- Page Styles -->
   <link href="css/login.css" rel="stylesheet"/>
 </head>
@@ -343,6 +346,7 @@
 
         <!-- ─── 2. MOBILE OTP FORM ─── -->
         <form id="otp-form" class="hidden-form" novalidate>
+          <div id="recaptcha-container"></div>
           <!-- Step 1: Phone Input -->
           <div id="otp-step-1">
             <div class="field-group">
