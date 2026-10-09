@@ -514,21 +514,23 @@
     }
 
     /* ─── Preloader & Main Initialization ─── */
-    document.addEventListener('DOMContentLoaded', () => {
+    function dismissPreloader() {
       const preloader = document.getElementById('preloader');
+      if (preloader && preloader.style.display !== 'none') {
+        preloader.classList.add('hidden');
+        preloader.style.display = 'none';
+        initAnimations();
+        startCarouselAutoRotate();
+        initGoogleIdentitySDK();
+        initAppleIdentitySDK();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
       const fill = document.getElementById('preloader-fill');
-      
       if (fill) fill.style.width = '100%';
       
-      setTimeout(() => {
-        if (preloader) {
-          preloader.classList.add('hidden');
-          initAnimations();
-          startCarouselAutoRotate();
-          initGoogleIdentitySDK();
-          initAppleIdentitySDK();
-        }
-      }, 300);
+      setTimeout(dismissPreloader, 150);
 
       const urlParams = new URLSearchParams(window.location.search);
       const mode = urlParams.get('mode');
@@ -540,6 +542,9 @@
       setupOTPAutoAdvance('.phone-otp');
       setupOTPAutoAdvance('.reset-otp');
     });
+
+    // Safety fallback
+    window.addEventListener('load', dismissPreloader);
 
     /* ─── Google Identity Services SDK Initialization ─── */
     function initGoogleIdentitySDK() {
@@ -824,13 +829,16 @@
 
     /* ─── GSAP Reveal Animations ─── */
     function initAnimations() {
+      document.querySelectorAll('.reveal-item').forEach(el => el.style.opacity = '1');
       if (window.gsap) {
-        gsap.fromTo(".reveal-item", 
-          { opacity: 0, y: 15 },
-          { opacity: 1, y: 0, duration: 0.8, stagger: 0.06, ease: "power2.out" }
-        );
-      } else {
-        document.querySelectorAll('.reveal-item').forEach(el => el.style.opacity = '1');
+        try {
+          gsap.fromTo(".reveal-item", 
+            { opacity: 0, y: 10 },
+            { opacity: 1, y: 0, duration: 0.5, stagger: 0.04, ease: "power2.out" }
+          );
+        } catch (e) {
+          document.querySelectorAll('.reveal-item').forEach(el => el.style.opacity = '1');
+        }
       }
     }
 

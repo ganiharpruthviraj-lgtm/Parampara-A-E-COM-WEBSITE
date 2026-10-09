@@ -29,13 +29,17 @@ body {
 
 /* ─── PRELOADER ─────────────────────── */
 #preloader {
-  position: fixed; inset: 0; z-index: 200;
-  background: #1A1A1A;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column; gap: 1.5rem;
-  transition: opacity 0.5s ease, visibility 0.5s ease;
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
-#preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+#preloader.hidden {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  display: none !important;
+}
 .preloader-logo {
   font-family: var(--font-serif);
   font-size: 2.2rem;
@@ -56,6 +60,10 @@ body {
   transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+.reveal-item {
+  opacity: 1;
+}
 
 /* ─── LAYOUT ────────────────────────── */
 .login-wrapper {
