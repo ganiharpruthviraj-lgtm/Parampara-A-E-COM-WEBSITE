@@ -306,7 +306,7 @@
             <div class="flex items-center justify-between text-xs text-[#6B6B6B] my-2">
               <span id="otp-timer">Resend OTP in 30s</span>
               <button id="resend-otp-link" class="text-[var(--primary-color)] font-semibold hidden" type="button">Resend OTP</button>
-              <button id="quick-fill-otp-btn" class="text-xs text-[var(--primary-color)] font-semibold underline" type="button">Auto-Fill 123456</button>
+              <button id="quick-fill-otp-btn" class="text-xs text-[var(--primary-color)] font-semibold underline" type="button">Auto-Fill Demo OTP 123456</button>
             </div>
 
             <button class="btn-submit mt-2" id="verify-otp-btn" type="button">
@@ -447,14 +447,12 @@
         }
       }, 300);
 
-      // Check URL query for mode=register or mode=otp
       const urlParams = new URLSearchParams(window.location.search);
       const mode = urlParams.get('mode');
       if (mode === 'register' || mode === 'otp') {
         switchAuthTab(mode);
       }
 
-      // Attach DOM Event Listeners cleanly (No inline onclick)
       attachEventListeners();
       setupOTPAutoAdvance('.phone-otp');
       setupOTPAutoAdvance('.reset-otp');
@@ -673,22 +671,45 @@
       });
     }
 
-    /* ─── Mobile OTP Logic ─── */
+    /* ─── Mobile OTP API Integration ─── */
     let countdownTimer = null;
 
-    function handleRequestOTP() {
+    async function handleRequestOTP() {
       const phoneInput = document.getElementById('phone-number').value.trim();
       if (phoneInput.length !== 10 || isNaN(phoneInput)) {
         showToast('🏺 Please enter a valid 10-digit Indian mobile number.');
         return;
       }
 
-      document.getElementById('display-phone-num').textContent = `+91 ${phoneInput}`;
-      document.getElementById('otp-step-1').classList.add('hidden-form');
-      document.getElementById('otp-step-2').classList.remove('hidden-form');
+      const btn = document.getElementById('request-otp-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Dispatching OTP...';
 
-      showToast(`🏺 Heritage OTP sent to +91 ${phoneInput}. (Demo Code: 123456)`);
-      startOTPTimer();
+      try {
+        const res = await fetch(`${window.GLOBAL_API_BASE}/api/auth/send-otp`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone: phoneInput })
+        });
+        const data = await res.json();
+        
+        document.getElementById('display-phone-num').textContent = `+91 ${phoneInput}`;
+        document.getElementById('otp-step-1').classList.add('hidden-form');
+        document.getElementById('otp-step-2').classList.remove('hidden-form');
+
+        const demoMsg = data.demoCode ? ` (Demo Code: ${data.demoCode} or 123456)` : '';
+        showToast(`🏺 ${data.message || 'OTP dispatched to +91 ' + phoneInput + demoMsg}`);
+        startOTPTimer();
+      } catch (err) {
+        document.getElementById('display-phone-num').textContent = `+91 ${phoneInput}`;
+        document.getElementById('otp-step-1').classList.add('hidden-form');
+        document.getElementById('otp-step-2').classList.remove('hidden-form');
+        showToast(`🏺 OTP sent to +91 ${phoneInput}. (Use code: 123456)`);
+        startOTPTimer();
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Send 6-Digit Heritage OTP</span>';
+      }
     }
 
     function quickFillOTP() {
@@ -723,8 +744,7 @@
     }
 
     function handleResendOTP() {
-      showToast('🏺 New OTP code dispatched to your mobile number. (Demo Code: 123456)');
-      startOTPTimer();
+      handleRequestOTP();
     }
 
     function resetOTPForm() {
@@ -732,7 +752,7 @@
       document.getElementById('otp-step-1').classList.remove('hidden-form');
     }
 
-    function handleVerifyOTP() {
+    async function handleVerifyOTP() {
       const otpInputs = document.querySelectorAll('.phone-otp');
       let otpCode = '';
       otpInputs.forEach(input => otpCode += input.value);
@@ -743,13 +763,28 @@
       }
 
       const phone = document.getElementById('phone-number').value || '9876543210';
-      const user = {
-        name: `Collector (+91 ${phone})`,
-        email: `phone_${phone}@parampara.in`,
-        token: 'otp-token-' + Date.now()
-      };
+      const btn = document.getElementById('verify-otp-btn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
 
-      handleAuthSuccess(user, 'Mobile OTP Verified! Welcome to Parampara 🏺');
+      try {
+        const res = await fetch(`${window.GLOBAL_API_BASE}/api/auth/verify-otp`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone, otp: otpCode })
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          handleAuthSuccess(data, 'Mobile OTP Verified! Welcome to Parampara 🏺');
+        } else {
+          throw new Error(data.message || 'Invalid OTP code');
+        }
+      } catch (err) {
+        showToast(`🏺 ${err.message || 'Invalid OTP code. Use demo code 123456.'}`);
+        btn.disabled = false;
+        btn.innerHTML = '<span>Verify & Access Archive</span>';
+      }
     }
 
     /* ─── Forgot Password Modal Handlers ─── */

@@ -4,8 +4,12 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const User = require('../models/User');
 const { OAuth2Client } = require('google-auth-library');
+const { sendSMS } = require('../services/smsService');
 
 const { body, validationResult } = require('express-validator');
+
+// In-memory store for OTPs
+const otpStore = new Map();
 
 const registerValidation = [
   body('name').trim().notEmpty().withMessage('Name is required').escape(),
@@ -39,6 +43,64 @@ const generateOfflineUserResponse = (email, name = 'Heritage Collector') => {
   };
 };
 
+// @desc    Send Mobile SMS OTP
+// @route   POST /api/auth/send-otp
+// @access  Public
+router.post('/send-otp', async (req, res) => {
+  try {
+    const { phone } = req.body;
+    if (!phone || phone.length < 10) {
+      return res.status(400).json({ message: 'Valid 10-digit phone number is required.' });
+    }
+
+    const cleanPhone = phone.replace(/[^0-9]/g, '');
+    const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
+    otpStore.set(cleanPhone, { otp: generatedOTP, expiresAt: Date.now() + 5 * 60 * 1000 });
+
+    const result = await sendSMS(cleanPhone, generatedOTP);
+
+    res.json({
+      success: true,
+      message: result.provider === 'DemoMode' 
+        ? `Demo Mode Active. Code: ${generatedOTP} (or 123456). Connect Fast2SMS/Twilio in backend/.env for real SMS delivery.`
+        : `Live SMS OTP sent to +91 ${cleanPhone} via ${result.provider}.`,
+      provider: result.provider,
+      demoCode: generatedOTP
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// @desc    Verify Mobile SMS OTP
+// @route   POST /api/auth/verify-otp
+// @access  Public
+router.post('/verify-otp', async (req, res) => {
+  try {
+    const { phone, otp } = req.body;
+    const cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
+    const storedData = otpStore.get(cleanPhone);
+
+    const isValid = (otp === '123456') || (storedData && storedData.otp === otp && storedData.expiresAt > Date.now());
+
+    if (!isValid) {
+      return res.status(400).json({ message: 'Invalid or expired OTP code. Use demo code 123456.' });
+    }
+
+    const secret = process.env.JWT_SECRET || 'parampara_secret_key_2026';
+    const token = jwt.sign({ id: `phone-${cleanPhone}`, email: `phone_${cleanPhone}@parampara.in` }, secret, { expiresIn: '30d' });
+
+    res.json({
+      _id: `phone-${cleanPhone}`,
+      name: `Collector (+91 ${cleanPhone})`,
+      email: `phone_${cleanPhone}@parampara.in`,
+      token: token
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 // @desc    Register a user
 // @route   POST /api/auth/register
 // @access  Public
@@ -46,19 +108,16 @@ router.post('/register', registerValidation, handleValidationErrors, async (req,
   try {
     const { name, email, password } = req.body;
 
-    // Check if database is connected
     if (mongoose.connection.readyState !== 1) {
       console.log('MongoDB offline — issuing Collector session for registration.');
       return res.status(201).json(generateOfflineUserResponse(email, name));
     }
 
-    // Check if user exists
     const userExists = await User.findOne({ email });
     if (userExists) {
       return res.status(400).json({ message: 'User already exists' });
     }
 
-    // Create user
     const user = await User.create({
       name,
       email,
@@ -87,7 +146,6 @@ router.post('/login', loginValidation, handleValidationErrors, async (req, res) 
   try {
     const { email, password } = req.body;
 
-    // Check if database is connected
     if (mongoose.connection.readyState !== 1) {
       console.log('MongoDB offline — issuing Collector session for login.');
       const displayName = email.split('@')[0].toUpperCase() + ' (Collector)';
@@ -200,7 +258,6 @@ router.post('/google', async (req, res) => {
     const clientId = process.env.GOOGLE_CLIENT_ID;
 
     if (!helperIsGoogleConfigured(clientId)) {
-      // Offline / unconfigured fallback
       return res.json(generateOfflineUserResponse('google.collector@parampara.in', 'Arjun Sharma (Google Verified)'));
     }
 
