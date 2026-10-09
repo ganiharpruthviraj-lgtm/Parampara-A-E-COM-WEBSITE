@@ -663,6 +663,90 @@
         }));
       }
 
+      // Static Fallback logic when running on static server without backend API
+      if (stateProducts.length === 0) {
+        // Try loading local karnataka-products.json
+        if (stateName.toLowerCase() === 'karnataka') {
+          try {
+            const localKaRes = await fetch('data/karnataka-products.json');
+            if (localKaRes.ok) {
+              const kaItems = await localKaRes.json();
+              stateProducts = kaItems.map(item => ({
+                _id: item.id,
+                id: item.id,
+                name: item.title,
+                title: item.title,
+                state: item.state || 'Karnataka',
+                craft: item.giTag,
+                category: item.category,
+                price: item.price,
+                imageUrl: item.image,
+                badge: 'GI Registered',
+                description: item.description,
+                artisan: item.artisan,
+                artisanCount: 2500,
+                district: item.originHub ? item.originHub.split(',')[0] : 'Karnataka',
+                giNumber: item.giTag ? `GI/${item.giTag.replace(/[^A-Z]/gi, '').toUpperCase()}` : 'GI/KA/REG',
+                registrationYear: 2012,
+                exportEligible: true,
+                giTagged: true
+              }));
+            }
+          } catch(e) {
+            console.warn('Failed to load data/karnataka-products.json:', e);
+          }
+        }
+
+        // Try loading backend/data/gi-database.json for other states
+        if (stateProducts.length === 0) {
+          try {
+            const giDbRes = await fetch('backend/data/gi-database.json');
+            if (giDbRes.ok) {
+              const allGi = await giDbRes.json();
+              const matched = allGi.filter(g => g.state && g.state.toLowerCase().includes(stateName.toLowerCase()));
+              if (matched.length > 0) {
+                stateProducts = matched.map(gi => ({
+                  _id: gi.id,
+                  id: gi.id,
+                  name: gi.name,
+                  state: gi.state,
+                  craft: gi.craft,
+                  category: gi.subCategory || gi.category,
+                  price: gi.price || 18500,
+                  imageUrl: gi.imageUrl,
+                  badge: 'GI Registered',
+                  description: gi.description,
+                  artisan: gi.applicant,
+                  artisanCount: gi.artisanCount,
+                  district: gi.district,
+                  giNumber: gi.giNumber,
+                  registrationYear: gi.registrationYear,
+                  exportEligible: gi.exportEligible,
+                  giTagged: true
+                }));
+              }
+            }
+          } catch(e) {
+            console.warn('Failed to load gi-database fallback:', e);
+          }
+        }
+
+        // Inline hardcoded fallback for Karnataka if fetch is blocked
+        if (stateProducts.length === 0 && stateName.toLowerCase() === 'karnataka') {
+          stateProducts = [
+            { id:'ka-bidriware-01', name:'Bidriware Silver Inlay Surahi Vase', state:'Karnataka', category:'Metal Art & Decor', craft:'Bidriware', originHub:'Bidar, Karnataka', artisan:'Shah Rasheed Ahmed Quadri (Padma Shri)', price:4200, rating:4.9, imageUrl:'https://s7ap1.scene7.com/is/image/incredibleindia/bidriware-bidar-karnataka-craft-hero?qlt=82&ts=1726641338177', description:'Blackened zinc-copper alloy hand-chiselled and inlaid with pure 99.9% silver wire tendrils, oxidized using 15th-century Bidar fort soil.', giNumber:'GI/RS/070/2015', district:'Bidar', registrationYear:2015, artisanCount:5000, giTagged:true, exportEligible:true },
+            { id:'ka-channapatna-02', name:'Channapatna Wooden Stacking Dolls & Figures', state:'Karnataka', category:'Wooden Craft & Toys', craft:'Channapatna Toys & Dolls', originHub:'Channapatna (Ramanagara), Karnataka', artisan:'C. Bharat / Channapatna Crafts Guild', price:950, rating:4.8, imageUrl:'https://s7ap1.scene7.com/is/image/incredibleindia/channapatna-toys-and-dolls-Karnataka-1-craft-hero?qlt=82&ts=1726641410733', description:'Lathe-turned ivory softwood (Aale mara) hand-burnished with non-toxic, child-safe natural vegetable lacquer and turmeric/indigo extracts.', giNumber:'GI/RS/055/2013', district:'Ramanagara', registrationYear:2013, artisanCount:4200, giTagged:true, exportEligible:true },
+            { id:'ka-kinhal-03', name:'Hand-Sculpted Kinhal Painted Chowki Deities', state:'Karnataka', category:'Wooden Sculpture', craft:'Kinhal Toys', originHub:'Kinhal (Koppal), Karnataka', artisan:'Kinhal Chitragar Artisan Guild', price:2800, rating:4.7, imageUrl:'https://cdn.shopify.com/s/files/1/0686/9437/6495/files/kinhal-toys-karnataka-s-royal-wooden-craft-legacy-make-an-image-about-this-topic.png?v=1769091656', description:'Lightweight seasoned wood hand-shaped with tamarind seed paste (kitta) and jute fibers, hand-painted with vivid natural tempera pigments.', giNumber:'GI/KA/KINHAL/03', district:'Koppal', registrationYear:2012, artisanCount:1800, giTagged:true, exportEligible:true },
+            { id:'ka-rosewood-04', name:'Mysore Rosewood Inlaid Heritage Wall Panel', state:'Karnataka', category:'Wood Inlay & Furniture', craft:'Mysore Rosewood Inlay', originHub:'Mysuru, Karnataka', artisan:'Shaukat Ali / Cauvery Handicrafts Guild', price:12500, rating:5.0, imageUrl:'https://www.ibef.org/experienceindia/images/mysore-rosewood-inlay/mysore-rosewood-1.png', description:'Fine Indian rosewood embedded with natural multicolored timbers and bone inlays depicting royal Dussehra processions and temple architecture.', giNumber:'GI/KA/ROSEWOOD/04', district:'Mysuru', registrationYear:2011, artisanCount:3200, giTagged:true, exportEligible:true },
+            { id:'ka-mysore-paint-05', name:'Mysore Traditional 24K Gold Leaf Framed Artwork', state:'Karnataka', category:'Traditional Paintings', craft:'Mysore Traditional Paintings', originHub:'Mysuru, Karnataka', artisan:'B. Ramanuja / Master M. Ramachandra', price:8500, rating:4.9, imageUrl:'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80', description:'Classical court-style painting featuring low-relief gesso work sculpted with zinc oxide and overlaid with pure 24-karat gold leaf foil.', giNumber:'GI/KA/PAINTINGS/05', district:'Mysuru', registrationYear:2010, artisanCount:2100, giTagged:true, exportEligible:true },
+            { id:'ka-ganjifa-06', name:'Dashavatara Round Ganjifa Playing Cards Set', state:'Karnataka', category:'Folk Art & Collectibles', craft:'Ganjifa Cards of Mysore', originHub:'Mysuru, Karnataka', artisan:'Raghupathi Bhatta (National Awardee)', price:5400, rating:4.8, imageUrl:'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=800&q=80', description:'Hand-cut circular cards made of stiffened cloth discs, intricately hand-painted depicting the ten incarnations of Lord Vishnu.', giNumber:'GI/KA/GANJIFA/06', district:'Mysuru', registrationYear:2008, artisanCount:850, giTagged:true, exportEligible:true },
+            { id:'ka-navalgund-07', name:'Navalgund Handwoven Peacock Jamkhana Rug (4x6 ft)', state:'Karnataka', category:'Rugs & Floor Tapestries', craft:'Navalgund Durries', originHub:'Navalgund (Dharwad), Karnataka', artisan:'Sheikh Weavers Guild', price:6200, rating:4.6, imageUrl:'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=800&q=80', description:'Vertical-frame handloom flat-weave cotton durrie dyed in bold jewel tones, featuring traditional peacock (Mayura) and chess-board borders.', giNumber:'GI/KA/NAVALGUND/07', district:'Dharwad', registrationYear:2011, artisanCount:1400, giTagged:true, exportEligible:true },
+            { id:'ka-lambani-08', name:'Sandur Lambani Mirror-Work Wall Hanging', state:'Karnataka', category:'Textile Art & Home Decor', craft:'Sandur Lambani Embroidery', originHub:'Sandur (Ballari), Karnataka', artisan:'Sandur Kushala Kala Kendra', price:3200, rating:4.8, imageUrl:'https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=800&q=80', description:'Nomadic Banjara tribal patchwork incorporating 14 distinctive geometric needle stitches, embedded circular mirrors, and genuine cowrie shells.', giNumber:'GI/KA/LAMBANI/08', district:'Ballari', registrationYear:2010, artisanCount:3800, giTagged:true, exportEligible:true },
+            { id:'ka-kasuti-09', name:'Dharwad Handloom Pure Silk Kasuti Stole', state:'Karnataka', category:'Handloom & Wearable Art', craft:'Kasuti Embroidery', originHub:'Hubballi-Dharwad, Karnataka', artisan:'Kasuti Rural Women Collective', price:2600, rating:4.7, imageUrl:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80', description:'Counted-thread needlework using the seamless Gavanti and Murgi stitches, forming temple chariot and lotus motifs identical on both faces.', giNumber:'GI/KA/KASUTI/09', district:'Dharwad', registrationYear:2009, artisanCount:4500, giTagged:true, exportEligible:true }
+          ];
+        }
+      }
+
       // Update stats
       const giCount = stateGiData.length > 0 ? stateGiData.length : stateProducts.filter(p => p.giTagged).length;
       document.getElementById('state-gi-count').textContent = giCount;

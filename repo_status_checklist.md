@@ -43,8 +43,8 @@
 - [x] **Password Hashing:** Passwords hashed with `bcryptjs` and `password: { select: false }` set in Mongoose schema.
 - [x] **Secrets Management:** Environment variables structured via `.env.example` templates; `.env` is gitignored.
 - [ ] **[Pending User Config] Production Secrets:** Ensure production environment deploys with a 64+ char random hex string for `JWT_SECRET`.
-- [x] **Google OAuth Integration:** Implemented `GET /api/auth/config` endpoint for dynamic frontend Google Client ID loading, graceful fallback when unconfigured, and backend OAuth validation.
-- [ ] **[Pending User Config] Google OAuth Live Client ID:** Replace default placeholder in `backend/.env` with your Google Cloud Console OAuth Client ID when going live.
+- [x] **Google OAuth Integration
+in `backend/.env` with your Google Cloud Console OAuth Client ID when going live.
 
 ---
 

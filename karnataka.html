@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="/favicon.png" rel="icon" type="image/png"/>
+  <title>Karnataka GI-Tagged Collection | Parampara — Authentic Craft Heritage</title>
+  <meta content="Explore 9 officially GI-certified art and handicraft masterpieces from Karnataka — Bidriware, Channapatna Toys, Mysore Paintings, Kasuti Embroidery and more." name="description"/>
+  <meta content="website" property="og:type"/>
+  <meta content="Parampara Heritage" property="og:site_name"/>
+  <meta content="Karnataka GI Collection | Parampara" property="og:title"/>
+  <meta content="9 GI-tagged Karnataka art &amp; handicrafts — Bidriware, Channapatna, Lambani, Kasuti &amp; more. Authentic artisan heritage, certified." property="og:description"/>
+  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" property="og:image"/>
+  <meta content="https://parampara.in/karnataka.html" property="og:url"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Karnataka GI Collection | Parampara" name="twitter:title"/>
+  <meta content="Officially GI-certified art &amp; handicrafts from Karnataka, India." name="twitter:description"/>
+  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" name="twitter:image"/>
+  <script crossorigin="anonymous" src="https://kit.fontawesome.com/8e98006f77.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;family=Sora:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="css/search.css" rel="stylesheet"/>
+  <link href="css/karnataka.css" rel="stylesheet"/>
+  <script src="js/auth.js"></script>
+ </head>
+ <body>
+  <!-- Cinematic Preloader -->
+  <div class="fixed inset-0 z-[100] flex items-center justify-center bg-[#1A1A1A] transition-opacity duration-1000" id="preloader">
+   <div class="relative flex flex-col items-center">
+    <div class="text-[var(--primary-color)] text-3xl font-serif mb-4 animate-[pulse_2s_ease-in-out_infinite]">
+     Parampara
+    </div>
+    <div class="w-48 h-[1px] bg-white/20 relative overflow-hidden">
+     <div class="absolute top-0 left-0 h-full w-0 bg-[var(--primary-color)] transition-all duration-[2000ms] ease-out" id="preloader-progress"></div>
+    </div>
+   </div>
+  </div>
+
+  <!-- HEADER placeholder (components.js injects) -->
+  <header class="code-section" id="global-header"></header>
+
+  <!-- ─── KARNATAKA HERO ───────────────────────────────── -->
+  <section class="ka-hero reveal">
+   <div class="ka-hero-bg">
+    <div class="ka-hero-pattern"></div>
+   </div>
+   <div class="ka-hero-content">
+    <div class="ka-state-emblem">
+     <span class="ka-flag-icon">🏛️</span>
+    </div>
+    <p class="ka-hero-eyebrow">
+     <span class="eyebrow-line"></span>
+     Geographical Indication Certified
+     <span class="eyebrow-line"></span>
+    </p>
+    <h1 class="ka-hero-title">
+     Karnataka<br/>
+     <em>GI Collection</em>
+    </h1>
+    <p class="ka-hero-desc">
+     Nine officially registered GI arts &amp; crafts from Karnataka — each piece
+     a living testament to a centuries-old artisan lineage, authenticated and
+     government-certified.
+    </p>
+    <div class="ka-hero-stats">
+     <div class="ka-stat">
+      <span class="ka-stat-num">9</span>
+      <span class="ka-stat-label">GI Certified Crafts</span>
+     </div>
+     <div class="ka-stat-divider"></div>
+     <div class="ka-stat">
+      <span class="ka-stat-num">6</span>
+      <span class="ka-stat-label">Origin Districts</span>
+     </div>
+     <div class="ka-stat-divider"></div>
+     <div class="ka-stat">
+      <span class="ka-stat-num">500+</span>
+      <span class="ka-stat-label">Years of Heritage</span>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <!-- ─── FILTER & SORT BAR ────────────────────────────── -->
+  <div class="ka-controls-bar">
+   <div class="ka-controls-inner">
+    <!-- Category Pill Filters -->
+    <div class="ka-pills" id="ka-category-pills">
+     <button class="ka-pill active" data-category="all">All Crafts</button>
+     <button class="ka-pill" data-category="Metal Art &amp; Decor">Metal Art</button>
+     <button class="ka-pill" data-category="Wooden Craft &amp; Toys">Wooden Craft</button>
+     <button class="ka-pill" data-category="Wooden Sculpture">Wooden Sculpture</button>
+     <button class="ka-pill" data-category="Wood Inlay &amp; Furniture">Wood Inlay</button>
+     <button class="ka-pill" data-category="Traditional Paintings">Traditional Paintings</button>
+     <button class="ka-pill" data-category="Folk Art &amp; Collectibles">Folk Art</button>
+     <button class="ka-pill" data-category="Rugs &amp; Floor Tapestries">Rugs &amp; Tapestries</button>
+     <button class="ka-pill" data-category="Textile Art &amp; Home Decor">Textile Art</button>
+     <button class="ka-pill" data-category="Handloom &amp; Wearable Art">Handloom</button>
+    </div>
+
+    <!-- Sort Controls -->
+    <div class="ka-sort-group">
+     <label class="ka-sort-label" for="ka-sort">Sort:</label>
+     <select class="ka-sort-select" id="ka-sort">
+      <option value="default">Featured</option>
+      <option value="price-asc">Price: Low → High</option>
+      <option value="price-desc">Price: High → Low</option>
+      <option value="rating-desc">Highest Rated</option>
+     </select>
+    </div>
+   </div>
+
+   <!-- Results Count -->
+   <div class="ka-results-strip">
+    <p class="ka-results-count" id="ka-results-count">Showing <strong>9</strong> GI-certified masterpieces from Karnataka</p>
+   </div>
+  </div>
+
+  <!-- ─── PRODUCT GRID ─────────────────────────────────── -->
+  <main class="ka-main">
+   <div class="product-grid ka-product-grid" id="ka-product-grid">
+    <!-- JS Rendered -->
+   </div>
+  </main>
+
+  <!-- ─── PROVENANCE BAND ──────────────────────────────── -->
+  <section class="ka-provenance-band reveal">
+   <div class="ka-provenance-inner">
+    <p class="ka-provenance-eyebrow">What is a GI Tag?</p>
+    <h2 class="ka-provenance-title">Authenticated by India's <em>GI Registry</em></h2>
+    <p class="ka-provenance-desc">
+     A Geographical Indication (GI) tag is an official certification granted under the
+     <em>Geographical Indications of Goods (Registration and Protection) Act, 1999</em>.
+     It legally recognises that the quality, reputation, or characteristics of a product
+     are attributable to its geographic origin. Every item in this collection carries that certification.
+    </p>
+    <div class="ka-provenance-badges">
+     <div class="ka-prov-badge">
+      <i class="fa-solid fa-certificate"></i>
+      <span>GI Registry of India</span>
+     </div>
+     <div class="ka-prov-badge">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>Origin Verified</span>
+     </div>
+     <div class="ka-prov-badge">
+      <i class="fa-solid fa-handshake"></i>
+      <span>Artisan Direct</span>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <!-- ─── FOOTER placeholder ──────────────────────────── -->
+  <footer class="bg-[#1A1A1A] text-white py-12 text-center border-t border-white/10" id="global-footer"></footer>
+
+  <!-- ─── PRODUCT DETAIL MODAL ─────────────────────────── -->
+  <div class="ka-modal-overlay" id="ka-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+   <div class="ka-modal-box">
+    <button class="ka-modal-close" id="ka-modal-close" aria-label="Close">
+     <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="ka-modal-body">
+     <!-- Image Panel -->
+     <div class="ka-modal-img-panel">
+      <div class="ka-modal-img-wrap">
+       <img alt="" class="ka-modal-img" id="modal-img" src=""/>
+       <div class="ka-modal-gi-ribbon" id="modal-gi-ribbon">
+        <i class="fa-solid fa-certificate"></i>
+        <span id="modal-gi-name"></span>
+       </div>
+      </div>
+      <!-- Artisan Credit below image -->
+      <div class="ka-modal-artisan-card">
+       <i class="fa-solid fa-palette ka-artisan-icon"></i>
+       <div>
+        <p class="ka-artisan-label">Master Artisan / Guild</p>
+        <p class="ka-artisan-name" id="modal-artisan"></p>
+       </div>
+      </div>
+     </div>
+     <!-- Info Panel -->
+     <div class="ka-modal-info-panel">
+      <div class="ka-modal-meta">
+       <span class="ka-modal-state" id="modal-state"></span>
+       <span class="ka-modal-category" id="modal-category"></span>
+      </div>
+      <h2 class="ka-modal-title" id="modal-title"></h2>
+
+      <!-- GI Badge -->
+      <div class="ka-gi-badge-row">
+       <span class="ka-gi-badge">
+        <i class="fa-solid fa-leaf"></i>
+        GI Tagged
+       </span>
+       <span class="ka-gi-badge-name" id="modal-gi-badge-name"></span>
+      </div>
+
+      <!-- Origin -->
+      <div class="ka-modal-origin">
+       <i class="fa-solid fa-location-dot ka-origin-icon"></i>
+       <div>
+        <p class="ka-origin-label">Provenance / Origin Hub</p>
+        <p class="ka-origin-value" id="modal-origin"></p>
+       </div>
+      </div>
+
+      <!-- Rating -->
+      <div class="ka-modal-rating" id="modal-rating-wrap">
+       <!-- JS filled -->
+      </div>
+
+      <!-- Description -->
+      <div class="ka-modal-desc-block">
+       <p class="ka-modal-desc-label">Craftsmanship Description</p>
+       <p class="ka-modal-desc" id="modal-desc"></p>
+      </div>
+
+      <!-- Price & Actions -->
+      <div class="ka-modal-price-row">
+       <span class="ka-modal-price" id="modal-price"></span>
+       <span class="ka-modal-currency">INR</span>
+      </div>
+
+      <div class="ka-modal-actions">
+       <button class="ka-btn-cart" id="modal-add-to-cart">
+        <i class="fa-solid fa-bag-shopping"></i>
+        Add to Cart
+       </button>
+       <button class="ka-btn-wishlist" id="modal-wishlist" aria-label="Save to collection">
+        <i class="fa-regular fa-heart"></i>
+        Save
+       </button>
+      </div>
+
+      <p class="ka-modal-authenticity">
+       <i class="fa-solid fa-shield-halved"></i>
+       Authentic GI-certified piece. Direct from artisan collective.
+      </p>
+     </div>
+    </div>
+   </div>
+  </div>
+
+  <!-- ─── TOAST ────────────────────────────────────────── -->
+  <div class="ka-toast" id="ka-toast" role="status" aria-live="polite">
+   <i class="fa-solid fa-bag-shopping"></i>
+   <span id="ka-toast-msg">Added to cart!</span>
+  </div>
+
+  <!-- ─── SCRIPTS ─────────────────────────────────────── -->
+  <script src="js/components.js"></script>
+  <script src="js/nav.js"></script>
+  <script>
+  /* =====================================================================
+   * Karnataka GI Collection — Client Controller
+   * ===================================================================== */
+
+  // ── 1. Product Data (loaded from JSON via fetch with inline fallback) ──
+  const KA_PRODUCTS_URL = 'data/karnataka-products.json';
+  const GI_PLACEHOLDER  = 'https://placehold.co/800x1067/F5F1E8/B8860B?text=GI+Karnataka';
+
+  let allProducts  = [];
+  let activeCategory = 'all';
+  let activeSort   = 'default';
+  let openProduct  = null;
+
+  // ── 2. Cart helpers ────────────────────────────────────────────────────
+  function getCart() {
+    try { return JSON.parse(localStorage.getItem('parampara_cart') || '[]'); }
+    catch { return []; }
+  }
+  function saveCart(cart) {
+    localStorage.setItem('parampara_cart', JSON.stringify(cart));
+    window.dispatchEvent(new Event('cart-updated'));
+  }
+  function addToCart(product) {
+    const cart = getCart();
+    const existing = cart.find(i => i._id === product.id);
+    if (existing) {
+      existing.qty = (existing.qty || 1) + 1;
+    } else {
+      cart.push({
+        _id: product.id,
+        name: product.title,
+        state: product.state,
+        craft: product.giTag,
+        price: product.price,
+        imageUrl: product.image,
+        badge: 'GI Tagged',
+        qty: 1
+      });
+    }
+    saveCart(cart);
+    showToast(`"${product.title.slice(0, 34)}..." added to cart`);
+  }
+
+  // ── 3. Toast ───────────────────────────────────────────────────────────
+  let toastTimer;
+  function showToast(msg) {
+    const toast = document.getElementById('ka-toast');
+    const msgEl = document.getElementById('ka-toast-msg');
+    msgEl.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+
+  // ── 4. Star Rating helper ──────────────────────────────────────────────
+  function renderStars(rating) {
+    const full  = Math.floor(rating);
+    const half  = rating % 1 >= 0.5;
+    let html = '';
+    for (let i = 0; i < full; i++) html += '<i class="fa-solid fa-star"></i>';
+    if (half) html += '<i class="fa-solid fa-star-half-stroke"></i>';
+    for (let i = full + (half ? 1 : 0); i < 5; i++) html += '<i class="fa-regular fa-star"></i>';
+    return `<div class="ka-stars">${html}</div><span class="ka-rating-num">${rating.toFixed(1)}</span>`;
+  }
+
+  // ── 5. Render Cards ────────────────────────────────────────────────────
+  function renderCards(products) {
+    const grid = document.getElementById('ka-product-grid');
+    const countEl = document.getElementById('ka-results-count');
+
+    if (products.length === 0) {
+      grid.innerHTML = `<div class="ka-empty-state">
+        <i class="fa-regular fa-face-sad-tear"></i>
+        <p>No crafts found in this category.</p>
+      </div>`;
+      countEl.innerHTML = 'Showing <strong>0</strong> results';
+      return;
+    }
+
+    countEl.innerHTML = `Showing <strong>${products.length}</strong> GI-certified masterpiece${products.length !== 1 ? 's' : ''} from Karnataka`;
+
+    grid.innerHTML = products.map((p, i) => `
+      <div class="product-card ka-card reveal" style="transition-delay:${i * 60}ms" data-id="${p.id}">
+        <div class="product-card-img" style="aspect-ratio:3/4">
+          <!-- GI Badge -->
+          <div class="ka-gi-pill" title="${p.giTag}">
+            <i class="fa-solid fa-leaf"></i> GI Tagged
+          </div>
+          <!-- Wishlist -->
+          <button class="ka-heart-btn" data-id="${p.id}" onclick="event.stopPropagation(); handleWishlist('${p.id}', this)" aria-label="Save to collection">
+            <i class="fa-regular fa-heart"></i>
+          </button>
+          <!-- Product Image -->
+          <img
+            src="${p.image}"
+            alt="${p.title}"
+            loading="lazy"
+            onerror="this.onerror=null; this.src='${GI_PLACEHOLDER}'"
+          />
+        </div>
+        <div class="product-card-body">
+          <p class="product-state">${p.state} &nbsp;·&nbsp; ${p.originHub.split(',')[0]}</p>
+          <p class="product-name">${p.title}</p>
+          <p class="ka-card-artisan">Crafted by: <em>${p.artisan}</em></p>
+          <div class="ka-card-gi-row">
+            <span class="ka-gi-mini">
+              <i class="fa-solid fa-leaf"></i> ${p.giTag}
+            </span>
+            <span class="ka-card-rating">
+              <i class="fa-solid fa-star"></i> ${p.rating}
+            </span>
+          </div>
+          <div class="product-footer">
+            <span class="product-craft">${p.category}</span>
+            <span class="product-price">₹${p.price.toLocaleString('en-IN')}</span>
+          </div>
+          <!-- Card Actions -->
+          <div class="ka-card-actions">
+            <button class="ka-card-btn-cart" onclick="event.stopPropagation(); addToCart(allProducts.find(x=>x.id==='${p.id}'))" aria-label="Add to cart">
+              <i class="fa-solid fa-bag-shopping"></i> Add to Cart
+            </button>
+            <button class="ka-card-btn-view" onclick="event.stopPropagation(); openModal('${p.id}')" aria-label="Quick view">
+              <i class="fa-solid fa-eye"></i> Quick View
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    // Trigger reveal animations
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.ka-card.reveal').forEach(el => {
+        setTimeout(() => el.classList.add('active'), 50);
+      });
+    });
+
+    // Card click → modal
+    document.querySelectorAll('.ka-card').forEach(card => {
+      card.addEventListener('click', (e) => {
+        if (!e.target.closest('button')) openModal(card.dataset.id);
+      });
+    });
+  }
+
+  // ── 6. Filter + Sort ───────────────────────────────────────────────────
+  function applyFiltersAndSort() {
+    let filtered = [...allProducts];
+
+    if (activeCategory !== 'all') {
+      filtered = filtered.filter(p => p.category === activeCategory);
+    }
+
+    switch (activeSort) {
+      case 'price-asc':  filtered.sort((a,b) => a.price - b.price); break;
+      case 'price-desc': filtered.sort((a,b) => b.price - a.price); break;
+      case 'rating-desc':filtered.sort((a,b) => b.rating - a.rating); break;
+    }
+
+    renderCards(filtered);
+  }
+
+  // ── 7. Modal ───────────────────────────────────────────────────────────
+  function openModal(id) {
+    const p = allProducts.find(x => x.id === id);
+    if (!p) return;
+    openProduct = p;
+
+    document.getElementById('modal-img').src = p.image;
+    document.getElementById('modal-img').onerror = function() {
+      this.onerror = null; this.src = GI_PLACEHOLDER;
+    };
+    document.getElementById('modal-gi-name').textContent = p.giTag;
+    document.getElementById('modal-artisan').textContent = p.artisan;
+    document.getElementById('modal-state').textContent = p.state;
+    document.getElementById('modal-category').textContent = p.category;
+    document.getElementById('modal-title').textContent = p.title;
+    document.getElementById('modal-gi-badge-name').textContent = p.giTag;
+    document.getElementById('modal-origin').textContent = p.originHub;
+    document.getElementById('modal-rating-wrap').innerHTML = renderStars(p.rating);
+    document.getElementById('modal-desc').textContent = p.description;
+    document.getElementById('modal-price').textContent = `₹${p.price.toLocaleString('en-IN')}`;
+
+    // Reset wishlist icon
+    const wlBtn = document.getElementById('modal-wishlist');
+    const saved = isWishlisted(p.id);
+    wlBtn.innerHTML = `<i class="fa-${saved ? 'solid' : 'regular'} fa-heart"></i> ${saved ? 'Saved' : 'Save'}`;
+    if (saved) wlBtn.classList.add('saved');
+    else wlBtn.classList.remove('saved');
+
+    const overlay = document.getElementById('ka-modal');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('ka-modal').classList.remove('open');
+    document.body.style.overflow = '';
+    openProduct = null;
+  }
+
+  // ── 8. Wishlist (saved to localStorage) ────────────────────────────────
+  function getWishlist() {
+    try { return JSON.parse(localStorage.getItem('parampara_wishlist') || '[]'); }
+    catch { return []; }
+  }
+  function isWishlisted(id) { return getWishlist().includes(id); }
+  function toggleWishlistItem(id) {
+    let list = getWishlist();
+    if (list.includes(id)) {
+      list = list.filter(x => x !== id);
+    } else {
+      list.push(id);
+    }
+    localStorage.setItem('parampara_wishlist', JSON.stringify(list));
+    return list.includes(id);
+  }
+  function handleWishlist(id, btn) {
+    const added = toggleWishlistItem(id);
+    const icon = btn.querySelector('i');
+    icon.className = added ? 'fa-solid fa-heart' : 'fa-regular fa-heart';
+    if (added) btn.classList.add('wishlisted');
+    else btn.classList.remove('wishlisted');
+    showToast(added ? 'Added to your Collection!' : 'Removed from Collection');
+  }
+
+  // ── 9. Init ────────────────────────────────────────────────────────────
+  async function init() {
+    try {
+      const res  = await fetch(KA_PRODUCTS_URL);
+      allProducts = await res.json();
+    } catch {
+      // Inline fallback — mirrors data/karnataka-products.json
+      allProducts = [
+        { id:'ka-bidriware-01', title:'Bidriware Silver Inlay Surahi Vase', state:'Karnataka', category:'Metal Art & Decor', giTag:'Bidriware', originHub:'Bidar, Karnataka', artisan:'Shah Rasheed Ahmed Quadri (Padma Shri)', price:4200, rating:4.9, image:'https://s7ap1.scene7.com/is/image/incredibleindia/bidriware-bidar-karnataka-craft-hero?qlt=82&ts=1726641338177', description:'Blackened zinc-copper alloy hand-chiselled and inlaid with pure 99.9% silver wire tendrils, oxidized using 15th-century Bidar fort soil.', inStock:true },
+        { id:'ka-channapatna-02', title:'Channapatna Wooden Stacking Dolls & Figures', state:'Karnataka', category:'Wooden Craft & Toys', giTag:'Channapatna Toys & Dolls', originHub:'Channapatna (Ramanagara), Karnataka', artisan:'C. Bharat / Channapatna Crafts Guild', price:950, rating:4.8, image:'https://s7ap1.scene7.com/is/image/incredibleindia/channapatna-toys-and-dolls-Karnataka-1-craft-hero?qlt=82&ts=1726641410733', description:'Lathe-turned ivory softwood (Aale mara) hand-burnished with non-toxic, child-safe natural vegetable lacquer and turmeric/indigo extracts.', inStock:true },
+        { id:'ka-kinhal-03', title:'Hand-Sculpted Kinhal Painted Chowki Deities', state:'Karnataka', category:'Wooden Sculpture', giTag:'Kinhal Toys', originHub:'Kinhal (Koppal), Karnataka', artisan:'Kinhal Chitragar Artisan Guild', price:2800, rating:4.7, image:'https://cdn.shopify.com/s/files/1/0686/9437/6495/files/kinhal-toys-karnataka-s-royal-wooden-craft-legacy-make-an-image-about-this-topic.png?v=1769091656', description:'Lightweight seasoned wood hand-shaped with tamarind seed paste (kitta) and jute fibers, hand-painted with vivid natural tempera pigments.', inStock:true },
+        { id:'ka-rosewood-04', title:'Mysore Rosewood Inlaid Heritage Wall Panel', state:'Karnataka', category:'Wood Inlay & Furniture', giTag:'Mysore Rosewood Inlay', originHub:'Mysuru, Karnataka', artisan:'Shaukat Ali / Cauvery Handicrafts Guild', price:12500, rating:5.0, image:'https://www.ibef.org/experienceindia/images/mysore-rosewood-inlay/mysore-rosewood-1.png', description:'Fine Indian rosewood embedded with natural multicolored timbers and bone inlays depicting royal Dussehra processions and temple architecture.', inStock:true },
+        { id:'ka-mysore-paint-05', title:'Mysore Traditional 24K Gold Leaf Framed Artwork', state:'Karnataka', category:'Traditional Paintings', giTag:'Mysore Traditional Paintings', originHub:'Mysuru, Karnataka', artisan:'B. Ramanuja / Master M. Ramachandra', price:8500, rating:4.9, image:'https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80', description:'Classical court-style painting featuring low-relief gesso work sculpted with zinc oxide and overlaid with pure 24-karat gold leaf foil.', inStock:true },
+        { id:'ka-ganjifa-06', title:'Dashavatara Round Ganjifa Playing Cards Set', state:'Karnataka', category:'Folk Art & Collectibles', giTag:'Ganjifa Cards of Mysore', originHub:'Mysuru, Karnataka', artisan:'Raghupathi Bhatta (National Awardee)', price:5400, rating:4.8, image:'https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=800&q=80', description:'Hand-cut circular cards made of stiffened cloth discs, intricately hand-painted depicting the ten incarnations of Lord Vishnu.', inStock:true },
+        { id:'ka-navalgund-07', title:'Navalgund Handwoven Peacock Jamkhana Rug (4x6 ft)', state:'Karnataka', category:'Rugs & Floor Tapestries', giTag:'Navalgund Durries', originHub:'Navalgund (Dharwad), Karnataka', artisan:'Sheikh Weavers Guild', price:6200, rating:4.6, image:'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=800&q=80', description:'Vertical-frame handloom flat-weave cotton durrie dyed in bold jewel tones, featuring traditional peacock (Mayura) and chess-board borders.', inStock:true },
+        { id:'ka-lambani-08', title:'Sandur Lambani Mirror-Work Wall Hanging', state:'Karnataka', category:'Textile Art & Home Decor', giTag:'Sandur Lambani Embroidery', originHub:'Sandur (Ballari), Karnataka', artisan:'Sandur Kushala Kala Kendra', price:3200, rating:4.8, image:'https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=800&q=80', description:'Nomadic Banjara tribal patchwork incorporating 14 distinctive geometric needle stitches, embedded circular mirrors, and genuine cowrie shells.', inStock:true },
+        { id:'ka-kasuti-09', title:'Dharwad Handloom Pure Silk Kasuti Stole', state:'Karnataka', category:'Handloom & Wearable Art', giTag:'Kasuti Embroidery', originHub:'Hubballi-Dharwad, Karnataka', artisan:'Kasuti Rural Women Collective', price:2600, rating:4.7, image:'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80', description:'Counted-thread needlework using the seamless Gavanti and Murgi stitches, forming temple chariot and lotus motifs identical on both faces.', inStock:true }
+      ];
+    }
+
+    applyFiltersAndSort();
+
+    // Reveal hero
+    requestAnimationFrame(() => {
+      document.querySelector('.ka-hero')?.classList.add('active');
+    });
+  }
+
+  // ── 10. Event Listeners ────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', () => {
+    init();
+
+    // Category pills
+    document.getElementById('ka-category-pills').addEventListener('click', (e) => {
+      const pill = e.target.closest('.ka-pill');
+      if (!pill) return;
+      document.querySelectorAll('.ka-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeCategory = pill.dataset.category;
+      applyFiltersAndSort();
+    });
+
+    // Sort
+    document.getElementById('ka-sort').addEventListener('change', (e) => {
+      activeSort = e.target.value;
+      applyFiltersAndSort();
+    });
+
+    // Modal close
+    document.getElementById('ka-modal-close').addEventListener('click', closeModal);
+    document.getElementById('ka-modal').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('ka-modal')) closeModal();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // Modal cart
+    document.getElementById('modal-add-to-cart').addEventListener('click', () => {
+      if (openProduct) { addToCart(openProduct); closeModal(); }
+    });
+
+    // Modal wishlist
+    document.getElementById('modal-wishlist').addEventListener('click', function() {
+      if (!openProduct) return;
+      const added = toggleWishlistItem(openProduct.id);
+      this.innerHTML = `<i class="fa-${added ? 'solid' : 'regular'} fa-heart"></i> ${added ? 'Saved' : 'Save'}`;
+      if (added) this.classList.add('saved');
+      else this.classList.remove('saved');
+      showToast(added ? 'Added to your Collection!' : 'Removed from Collection');
+    });
+
+    // Preloader
+    const preloader = document.getElementById('preloader');
+    const progress  = document.getElementById('preloader-progress');
+    if (progress) setTimeout(() => { progress.style.width = '100%'; }, 100);
+    if (preloader) {
+      setTimeout(() => {
+        preloader.style.opacity = '0';
+        setTimeout(() => { preloader.style.display = 'none'; }, 1000);
+      }, 1000);
+    }
+
+    // Reveal observer
+    const observer = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('active'); observer.unobserve(e.target); } }),
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  });
+  </script>
+ </body>
+</html>

@@ -6,31 +6,60 @@ const fs = require('fs');
 const Product = require('../models/Product');
 
 // Master GI database as guaranteed catalog source
-const GI_DATA = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '../data/gi-database.json'), 'utf-8')
-);
+let GI_DATA = [];
+try {
+  GI_DATA = JSON.parse(
+    fs.readFileSync(path.join(__dirname, '../data/gi-database.json'), 'utf-8')
+  );
+} catch (e) {
+  console.warn('Could not load gi-database.json:', e.message);
+}
 
-// Format GI item into full product schema
-function giToProduct(gi) {
+// Load Karnataka dataset
+let KARNATAKA_DATA = [];
+try {
+  const karnatakaPath = path.join(__dirname, '../../data/karnataka-products.json');
+  if (fs.existsSync(karnatakaPath)) {
+    KARNATAKA_DATA = JSON.parse(fs.readFileSync(karnatakaPath, 'utf-8'));
+  }
+} catch (e) {
+  console.warn('Could not load karnataka-products.json:', e.message);
+}
+
+// Format GI item or Karnataka product into full product schema
+function giToProduct(item) {
+  const name = item.title || item.name;
+  const imageUrl = item.image || item.imageUrl;
+  const giTag = item.giTag || (item.giTagged ? 'GI Registered' : 'Heritage Craft');
+  const artisan = item.artisan || item.applicant || 'Master Artisan Guild';
+  const district = item.originHub || item.district || item.state;
+
   return {
-    _id: gi.id,
-    name: gi.name,
-    state: gi.state,
-    region: gi.region,
-    craft: gi.craft,
-    category: gi.subCategory || gi.category,
-    price: gi.price || 18500,
-    imageUrl: gi.imageUrl,
-    badge: gi.giTagged ? 'GI Registered' : 'Heritage Craft',
-    description: gi.description,
-    artisan: gi.applicant,
-    artisanCount: gi.artisanCount,
-    district: gi.district,
-    giNumber: gi.giNumber,
-    registrationYear: gi.registrationYear,
-    exportEligible: gi.exportEligible,
-    giTagged: gi.giTagged !== false,
-    inStock: true
+    _id: item.id || item._id,
+    id: item.id || item._id,
+    title: name,
+    name: name,
+    state: item.state || 'Karnataka',
+    region: item.region || 'South India',
+    craft: item.craft || giTag,
+    category: item.category || 'Handicrafts',
+    price: item.price || 4200,
+    currency: item.currency || 'INR',
+    imageUrl: imageUrl,
+    image: imageUrl,
+    giTag: giTag,
+    badge: giTag,
+    description: item.description,
+    artisan: artisan,
+    originHub: item.originHub || district,
+    artisanCount: item.artisanCount || 2500,
+    district: district,
+    rating: item.rating || 4.8,
+    inStock: item.inStock !== false,
+    giNumber: item.giNumber || giTag,
+    registrationYear: item.registrationYear || 2015,
+    exportEligible: item.exportEligible !== false,
+    giTagged: true
   };
 }
 

@@ -1,0 +1,961 @@
+/**
+ * ==============================================================================
+ * Parampara — Karnataka GI Collection Stylesheet
+ * File: css/karnataka.css
+ * ==============================================================================
+ * Extends base search.css variables & card styles.
+ * Adds: GI hero, pill filter bar, GI badges, artisan credit, product detail
+ * modal, toast notification, and Karnataka-specific colour accents.
+ *
+ * Karnataka Brand Accent:
+ *   --ka-red:    #CC2D2D   (Karnataka state flag red)
+ *   --ka-yellow: #F5A623   (vibrant sandalwood ochre)
+ *   --ka-green:  #2E7D32   (GI certification green)
+ * ==============================================================================
+ */
+
+/* ─── KARNATAKA THEME TOKENS ──────────────────────────────── */
+:root {
+  --ka-red:       #C0392B;
+  --ka-yellow:    #D4AF37;
+  --ka-green:     #27AE60;
+  --ka-green-dk:  #1E8449;
+  --ka-cream:     #FBF9F4;
+  --ka-gold:      #B8860B;
+  --ka-dark:      #1A1A1A;
+  --ka-mid:       #6B6B6B;
+  --ka-border:    #E8E3D6;
+  --ka-shadow:    0 4px 24px rgba(0,0,0,0.07);
+}
+
+/* ─── HERO ────────────────────────────────────────────────── */
+.ka-hero {
+  position: relative;
+  min-height: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+}
+
+.ka-hero-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #1A0A0A 0%, #2D1B00 40%, #0D2318 100%);
+  z-index: 0;
+}
+
+.ka-hero-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(184,134,11,0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(192,57,43,0.12) 0%, transparent 50%),
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23B8860B' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.8;
+}
+
+.ka-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+.ka-state-emblem {
+  font-size: 2.5rem;
+  margin-bottom: 1.25rem;
+  animation: floatIcon 4s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+
+.ka-hero-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ka-green);
+  margin-bottom: 1.25rem;
+}
+
+.eyebrow-line {
+  display: block;
+  width: 40px;
+  height: 1px;
+  background: var(--ka-green);
+  opacity: 0.6;
+}
+
+.ka-hero-title {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  color: #fff;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.ka-hero-title em {
+  font-style: italic;
+  color: var(--ka-yellow);
+  display: block;
+}
+
+.ka-hero-desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.8;
+  max-width: 520px;
+  margin: 0 auto 2.5rem;
+}
+
+.ka-hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.ka-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.ka-stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.2rem;
+  font-weight: 500;
+  color: var(--ka-yellow);
+  line-height: 1;
+}
+
+.ka-stat-label {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+}
+
+.ka-stat-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255,255,255,0.15);
+}
+
+/* ─── FILTER CONTROL BAR ──────────────────────────────────── */
+.ka-controls-bar {
+  background: #fff;
+  border-bottom: 1px solid var(--ka-border);
+  position: sticky;
+  top: 70px;            /* below nav */
+  z-index: 40;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.ka-controls-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.85rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* Category pills */
+.ka-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  flex: 1;
+}
+
+.ka-pill {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ka-mid);
+  background: var(--ka-cream);
+  border: 1px solid var(--ka-border);
+  padding: 0.35rem 0.85rem;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.ka-pill:hover {
+  border-color: var(--ka-gold);
+  color: var(--ka-gold);
+  background: #FBF8F2;
+}
+
+.ka-pill.active {
+  background: var(--ka-dark);
+  color: #fff;
+  border-color: var(--ka-dark);
+}
+
+/* Sort select */
+.ka-sort-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.ka-sort-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ka-mid);
+}
+
+.ka-sort-select {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--ka-border);
+  background: white;
+  color: var(--ka-dark);
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  padding-right: 1.4rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%236B6B6B'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  transition: border-color 0.2s;
+}
+
+.ka-sort-select:focus {
+  border-color: var(--ka-gold);
+}
+
+/* Results count strip */
+.ka-results-strip {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 2rem 0.75rem;
+  border-top: 1px solid var(--ka-border);
+}
+
+.ka-results-count {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-style: italic;
+  color: var(--ka-mid);
+}
+
+/* ─── MAIN GRID ───────────────────────────────────────────── */
+.ka-main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem 5rem;
+}
+
+.ka-product-grid {
+  /* Inherits search.css .product-grid (columns masonry).
+     Override: we want up to 4 cols on large screens. */
+  columns: 1;
+  column-gap: 2rem;
+}
+
+@media (min-width: 600px) {
+  .ka-product-grid { columns: 2; }
+}
+@media (min-width: 900px) {
+  .ka-product-grid { columns: 3; }
+}
+@media (min-width: 1200px) {
+  .ka-product-grid { columns: 4; }
+}
+
+/* ─── CARD EXTENSIONS ─────────────────────────────────────── */
+.ka-card {
+  break-inside: avoid;
+  margin-bottom: 2.5rem;
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ka-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.1);
+}
+
+/* GI green pill on card image */
+.ka-gi-pill {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 3;
+  background: var(--ka-green);
+  color: #fff;
+  font-size: 0.52rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.28rem 0.65rem;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Heart / wishlist button */
+.ka-heart-btn {
+  position: absolute;
+  top: 0.7rem;
+  right: 0.7rem;
+  z-index: 3;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.9);
+  backdrop-filter: blur(4px);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 0.85rem;
+  transition: color 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.ka-heart-btn:hover,
+.ka-heart-btn.wishlisted {
+  color: #e74c3c;
+  transform: scale(1.12);
+}
+
+/* Artisan credit */
+.ka-card-artisan {
+  font-size: 0.7rem;
+  color: var(--ka-mid);
+  margin: 0.25rem 0 0.5rem;
+  line-height: 1.4;
+}
+
+.ka-card-artisan em {
+  font-style: italic;
+  color: var(--ka-dark);
+}
+
+/* GI name + rating row */
+.ka-card-gi-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.ka-gi-mini {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--ka-green-dk);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.ka-card-rating {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--ka-gold);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Card action buttons (appear on hover) */
+.ka-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.ka-card:hover .ka-card-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.ka-card-btn-cart,
+.ka-card-btn-view {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.45rem 0.85rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.18s ease;
+  border-radius: 2px;
+  flex: 1;
+  justify-content: center;
+}
+
+.ka-card-btn-cart {
+  background: var(--ka-dark);
+  color: #fff;
+}
+
+.ka-card-btn-cart:hover {
+  background: var(--ka-gold);
+}
+
+.ka-card-btn-view {
+  background: transparent;
+  color: var(--ka-mid);
+  border: 1px solid var(--ka-border);
+}
+
+.ka-card-btn-view:hover {
+  border-color: var(--ka-dark);
+  color: var(--ka-dark);
+}
+
+/* Empty state */
+.ka-empty-state {
+  column-span: all;
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 5rem 2rem;
+  color: var(--ka-mid);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+}
+
+.ka-empty-state i {
+  display: block;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  opacity: 0.4;
+}
+
+/* ─── PROVENANCE BAND ─────────────────────────────────────── */
+.ka-provenance-band {
+  background: linear-gradient(135deg, #0D2318 0%, #1A0A0A 100%);
+  padding: 5rem 2rem;
+  text-align: center;
+}
+
+.ka-provenance-inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.ka-provenance-eyebrow {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ka-green);
+  margin-bottom: 1rem;
+}
+
+.ka-provenance-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 300;
+  color: #fff;
+  margin-bottom: 1.25rem;
+  line-height: 1.2;
+}
+
+.ka-provenance-title em {
+  font-style: italic;
+  color: var(--ka-yellow);
+}
+
+.ka-provenance-desc {
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.85;
+  margin-bottom: 2.5rem;
+}
+
+.ka-provenance-badges {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.ka-prov-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.ka-prov-badge i {
+  font-size: 1.4rem;
+  color: var(--ka-green);
+}
+
+/* ─── PRODUCT DETAIL MODAL ────────────────────────────────── */
+.ka-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0,0,0,0.72);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.ka-modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.ka-modal-box {
+  background: #fff;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  border-radius: 4px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+  transform: translateY(30px) scale(0.97);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+
+.ka-modal-overlay.open .ka-modal-box {
+  transform: translateY(0) scale(1);
+}
+
+.ka-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.06);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: var(--ka-mid);
+  transition: background 0.2s, color 0.2s;
+}
+
+.ka-modal-close:hover {
+  background: var(--ka-dark);
+  color: #fff;
+}
+
+.ka-modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 500px;
+}
+
+@media (max-width: 700px) {
+  .ka-modal-body {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Image panel */
+.ka-modal-img-panel {
+  background: var(--ka-cream);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ka-modal-img-wrap {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  border-radius: 2px;
+  flex: 1;
+}
+
+.ka-modal-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.ka-modal-img-wrap:hover .ka-modal-img {
+  transform: scale(1.04);
+}
+
+/* GI Ribbon on modal image */
+.ka-modal-gi-ribbon {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(39,174,96,0.92), transparent);
+  padding: 1.5rem 1rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.ka-modal-gi-ribbon i {
+  font-size: 1rem;
+  color: #aef0c4;
+}
+
+/* Artisan card */
+.ka-modal-artisan-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: #fff;
+  border: 1px solid var(--ka-border);
+  padding: 0.85rem 1rem;
+  border-radius: 3px;
+}
+
+.ka-artisan-icon {
+  color: var(--ka-gold);
+  font-size: 1.1rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.ka-artisan-label {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ka-mid);
+  margin-bottom: 0.25rem;
+}
+
+.ka-artisan-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--ka-dark);
+  font-style: italic;
+  line-height: 1.3;
+}
+
+/* Info panel */
+.ka-modal-info-panel {
+  padding: 2rem 2rem 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  overflow-y: auto;
+}
+
+.ka-modal-meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.ka-modal-state {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ka-gold);
+}
+
+.ka-modal-category {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ka-mid);
+  border-left: 1px solid var(--ka-border);
+  padding-left: 0.5rem;
+}
+
+.ka-modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--ka-dark);
+  line-height: 1.25;
+  margin: 0;
+}
+
+/* GI badge row */
+.ka-gi-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ka-gi-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--ka-green);
+  color: #fff;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  border-radius: 2px;
+}
+
+.ka-gi-badge-name {
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--ka-green-dk);
+  font-family: 'Cormorant Garamond', serif;
+}
+
+/* Origin */
+.ka-modal-origin {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  background: var(--ka-cream);
+  padding: 0.85rem 1rem;
+  border-radius: 3px;
+  border: 1px solid var(--ka-border);
+}
+
+.ka-origin-icon {
+  color: var(--ka-red);
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.ka-origin-label {
+  font-size: 0.58rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ka-mid);
+  margin-bottom: 0.2rem;
+}
+
+.ka-origin-value {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--ka-dark);
+  font-style: italic;
+}
+
+/* Rating */
+.ka-modal-rating {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ka-stars {
+  display: flex;
+  gap: 0.15rem;
+  color: var(--ka-gold);
+  font-size: 0.85rem;
+}
+
+.ka-rating-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--ka-dark);
+  font-weight: 500;
+}
+
+/* Description */
+.ka-modal-desc-block {
+  border-top: 1px solid var(--ka-border);
+  padding-top: 1rem;
+}
+
+.ka-modal-desc-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--ka-mid);
+  margin-bottom: 0.5rem;
+}
+
+.ka-modal-desc {
+  font-size: 0.88rem;
+  color: var(--ka-mid);
+  line-height: 1.8;
+}
+
+/* Price */
+.ka-modal-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+}
+
+.ka-modal-price {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--ka-dark);
+}
+
+.ka-modal-currency {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ka-mid);
+}
+
+/* Modal action buttons */
+.ka-modal-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.ka-btn-cart,
+.ka-btn-wishlist {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.85rem 1.5rem;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+.ka-btn-cart {
+  background: var(--ka-dark);
+  color: #fff;
+  flex: 1;
+  justify-content: center;
+}
+
+.ka-btn-cart:hover {
+  background: var(--ka-gold);
+}
+
+.ka-btn-wishlist {
+  background: transparent;
+  color: var(--ka-mid);
+  border: 1px solid var(--ka-border);
+  min-width: 100px;
+  justify-content: center;
+}
+
+.ka-btn-wishlist:hover,
+.ka-btn-wishlist.saved {
+  border-color: #e74c3c;
+  color: #e74c3c;
+}
+
+/* Authenticity note */
+.ka-modal-authenticity {
+  font-size: 0.65rem;
+  color: var(--ka-mid);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  opacity: 0.7;
+}
+
+.ka-modal-authenticity i {
+  color: var(--ka-green);
+}
+
+/* ─── TOAST ───────────────────────────────────────────────── */
+.ka-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 300;
+  background: var(--ka-dark);
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 0.85rem 1.4rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  max-width: 340px;
+}
+
+.ka-toast i {
+  color: var(--ka-yellow);
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.ka-toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── SCROLL BAR (modal) ──────────────────────────────────── */
+.ka-modal-box::-webkit-scrollbar { width: 4px; }
+.ka-modal-box::-webkit-scrollbar-track { background: var(--ka-cream); }
+.ka-modal-box::-webkit-scrollbar-thumb { background: var(--ka-border); border-radius: 2px; }
