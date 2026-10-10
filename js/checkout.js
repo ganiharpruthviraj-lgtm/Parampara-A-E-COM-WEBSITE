@@ -1,6 +1,7 @@
 /**
- * Parampara Heritage E-Commerce - Checkout Engine
- * Connects frontend forms with /api/orders backend routes and PDF download
+ * Parampara Heritage E-Commerce - Advanced Interactive Checkout Engine
+ * Supports Item Quantity Adjustment [ - / + ], Item Removal [🗑️], Quick Add Items,
+ * Real-time 70% Artisan Payout recalculations, and PDF Invoice Generation
  */
 
 const API_BASE = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
@@ -12,10 +13,52 @@ let expressDelivery = false;
 let promoApplied = false;
 let activeOrderData = null;
 
-let BASE_PRICE = 24500;
 const GST_RATE = 0.12;
 const EXPRESS_FEE = 299;
 const COD_FEE = 99;
+
+// Default Curated Craft Inventory for Quick Add
+const QUICK_ADD_CRAFTS = [
+  {
+    id: 'ass-muga-01',
+    name: 'Assam Pure Natural Golden Muga Silk Saree',
+    price: 24500,
+    origin: 'Kamrup, Assam',
+    imageUrl: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=300&q=80',
+    giNumber: 'GI/RS/038/2007',
+    artisanName: 'Kamrup Silk Weavers Cooperative'
+  },
+  {
+    id: 'rj-blue-pottery-01',
+    name: 'Jaipur Blue Pottery Azure Floral Royal Vase',
+    price: 3400,
+    origin: 'Jaipur, Rajasthan',
+    imageUrl: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80',
+    giNumber: 'GI/RS/080/2016',
+    artisanName: 'Gopal Saini (National Awardee)'
+  },
+  {
+    id: 'hp-kullu-shawl-01',
+    name: 'Authentic Kullu Handwoven Woolen Shawl',
+    price: 4800,
+    origin: 'Kullu Valley, Himachal Pradesh',
+    imageUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=300&q=80',
+    giNumber: 'GI/RS/130/2004',
+    artisanName: 'Bhuttico Handloom Weavers Cooperative'
+  },
+  {
+    id: 'ka-bidriware-01',
+    name: 'Bidriware Pure Silver Inlay Heritage Surahi Vase',
+    price: 4200,
+    origin: 'Bidar, Karnataka',
+    imageUrl: 'https://s7ap1.scene7.com/is/image/incredibleindia/bidriware-bidar-karnataka-craft-hero?qlt=82&ts=1726641338177',
+    giNumber: 'GI/RS/070/2015',
+    artisanName: 'Shah Rasheed Ahmed Quadri (Padma Shri)'
+  }
+];
+
+// Active Checkout Cart Items Array
+let cartItems = [];
 
 function showToast(msg, type = 'info') {
   const t = document.getElementById('toast');
@@ -30,29 +73,184 @@ function formatINR(n) {
   return '₹ ' + Number(n).toLocaleString('en-IN');
 }
 
+/**
+ * Render Cart Items List with Quantity [-/+] Controls & Remove [🗑️] Buttons
+ */
+function renderCartItems() {
+  const container = document.getElementById('cart-items-container');
+  const countEl = document.getElementById('summary-items-count');
+  if (!container) return;
+
+  const totalItemQuantity = cartItems.reduce((sum, item) => sum + (item.qty || 1), 0);
+  if (countEl) {
+    countEl.textContent = `${totalItemQuantity} ${totalItemQuantity === 1 ? 'Item' : 'Items'}`;
+  }
+
+  if (cartItems.length === 0) {
+    container.innerHTML = `
+      <div class="text-center py-8 px-4 bg-[#FAF9F5] rounded-2xl border border-dashed border-gray-300">
+        <div class="w-12 h-12 rounded-full bg-amber-100 text-[#B8860B] flex items-center justify-center text-xl mx-auto mb-3">
+          <i class="fa-solid fa-basket-shopping"></i>
+        </div>
+        <h4 class="font-bold text-sm text-gray-900 mb-1 font-sora">Your Heritage Bag is Empty</h4>
+        <p class="text-xs text-gray-500 mb-4">Add certified handicraft items to complete your checkout.</p>
+        <button onclick="toggleQuickAddModal()" class="px-4 py-2 bg-[#B8860B] hover:bg-[#8B6508] text-white font-bold text-xs rounded-full uppercase tracking-wider transition-all shadow">
+          + Add Heritage Crafts
+        </button>
+      </div>
+    `;
+    recalculate();
+    return;
+  }
+
+  container.innerHTML = cartItems.map((item, index) => {
+    const itemSubtotal = (item.price || 0) * (item.qty || 1);
+    return `
+      <div class="flex items-start gap-3.5 pb-4 mb-4 border-b border-gray-100 last:border-0 last:pb-0 last:mb-0 group">
+        <!-- Image & Qty Pill -->
+        <div class="relative w-16 h-16 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shrink-0">
+          <img src="${item.imageUrl || 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61'}" alt="${item.name}" class="w-full h-full object-cover"/>
+          <span class="absolute top-1 right-1 bg-[#B8860B] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow">
+            ${item.qty || 1}
+          </span>
+        </div>
+
+        <!-- Info & Controls -->
+        <div class="flex-grow min-w-0">
+          <div class="flex items-start justify-between gap-2">
+            <h4 class="text-xs font-bold text-gray-900 leading-tight line-clamp-2" title="${item.name}">${item.name}</h4>
+            <!-- Remove Button -->
+            <button onclick="removeItem(${index})" title="Remove Item from Order" class="text-gray-400 hover:text-red-600 p-1 rounded-lg hover:bg-red-50 transition-colors shrink-0">
+              <i class="fa-regular fa-trash-can text-xs"></i>
+            </button>
+          </div>
+
+          <p class="text-[11px] text-gray-500 flex items-center gap-1 mt-0.5">
+            <i class="fa-solid fa-location-dot text-[#B8860B] text-[9px]"></i> ${item.origin || 'India'}
+          </p>
+
+          <div class="flex items-center justify-between mt-2">
+            <!-- Quantity Control Pill [- 1 +] -->
+            <div class="flex items-center border border-gray-200 rounded-lg bg-gray-50 overflow-hidden shadow-xs">
+              <button onclick="updateQuantity(${index}, -1)" class="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-200 hover:text-gray-900 font-bold text-xs transition-colors" title="Decrease Quantity">
+                -
+              </button>
+              <span class="w-7 text-center font-mono font-bold text-xs text-gray-900 bg-white border-x border-gray-200 py-0.5">
+                ${item.qty || 1}
+              </span>
+              <button onclick="updateQuantity(${index}, 1)" class="w-6 h-6 flex items-center justify-center text-gray-600 hover:bg-gray-200 hover:text-gray-900 font-bold text-xs transition-colors" title="Increase Quantity">
+                +
+              </button>
+            </div>
+
+            <!-- Price Breakdown -->
+            <div class="text-right">
+              <span class="text-xs font-extrabold font-sora text-gray-900 block">${formatINR(itemSubtotal)}</span>
+              ${item.qty > 1 ? `<span class="text-[10px] text-gray-400 block">(${formatINR(item.price)} each)</span>` : ''}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  recalculate();
+}
+
+/**
+ * Update Item Quantity by Delta (+1 / -1)
+ */
+function updateQuantity(index, delta) {
+  if (index < 0 || index >= cartItems.length) return;
+  const item = cartItems[index];
+  const newQty = (item.qty || 1) + delta;
+
+  if (newQty <= 0) {
+    removeItem(index);
+    return;
+  }
+
+  item.qty = newQty;
+  saveCartToLocalStorage();
+  renderCartItems();
+  showToast(`Updated "${item.name.slice(0, 20)}..." quantity to ${newQty}`, 'info');
+}
+
+/**
+ * Remove Item from Order
+ */
+function removeItem(index) {
+  if (index < 0 || index >= cartItems.length) return;
+  const removed = cartItems.splice(index, 1)[0];
+  saveCartToLocalStorage();
+  renderCartItems();
+  showToast(`Removed "${removed.name.slice(0, 24)}..." from order summary`, 'error');
+}
+
+/**
+ * Quick Add Craft Item to Order
+ */
+function addQuickCraftItem(itemObj) {
+  const existing = cartItems.find(i => i.id === itemObj.id || i.name === itemObj.name);
+  if (existing) {
+    existing.qty = (existing.qty || 1) + 1;
+  } else {
+    cartItems.push({
+      id: itemObj.id || `craft-${Date.now()}`,
+      name: itemObj.name,
+      price: Number(itemObj.price),
+      qty: 1,
+      origin: itemObj.origin || 'India',
+      imageUrl: itemObj.imageUrl || 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61',
+      giNumber: itemObj.giNumber || 'GI/RS/VERIFIED',
+      artisanName: itemObj.artisanName || 'Verified Master Guild'
+    });
+  }
+
+  saveCartToLocalStorage();
+  renderCartItems();
+  showToast(`Added "${itemObj.name.slice(0, 22)}..." to your order! 🎉`, 'success');
+}
+
+function saveCartToLocalStorage() {
+  try {
+    localStorage.setItem('parampara_cart', JSON.stringify(cartItems));
+  } catch (e) {}
+}
+
+/**
+ * Recalculate Subtotal, 70% Artisan Payout, Taxes & Total Payable
+ */
 function recalculate() {
-  let subtotal = BASE_PRICE;
-  let discount = promoApplied ? Math.round(subtotal * 0.10) : 0;
-  const afterDiscount = subtotal - discount;
+  const craftSubtotal = cartItems.reduce((acc, item) => acc + (item.price * (item.qty || 1)), 0);
+  const artisanPayout = Math.round(craftSubtotal * 0.70);
+
+  let discount = promoApplied ? Math.round(craftSubtotal * 0.10) : 0;
+  const afterDiscount = craftSubtotal - discount;
   const shipping = expressDelivery ? EXPRESS_FEE : 0;
   const cod = (currentPayMethod === 'cod') ? COD_FEE : 0;
   const gst = Math.round(afterDiscount * GST_RATE);
-  const total = afterDiscount + shipping + cod + gst;
-  const artisanPayout = Math.round(subtotal * 0.70);
+  const totalPayable = afterDiscount + shipping + cod + gst;
 
   const subEl = document.getElementById('price-subtotal');
-  if (subEl) subEl.textContent = formatINR(subtotal);
+  if (subEl) subEl.textContent = formatINR(craftSubtotal);
   const shipEl = document.getElementById('price-shipping');
   if (shipEl) shipEl.textContent = (shipping + cod) === 0 ? 'FREE' : formatINR(shipping + cod);
   const gstEl = document.getElementById('price-gst');
   if (gstEl) gstEl.textContent = formatINR(gst);
   const totEl = document.getElementById('price-total');
-  if (totEl) totEl.textContent = formatINR(total);
+  if (totEl) totEl.textContent = formatINR(totalPayable);
   const artEl = document.getElementById('artisan-amount');
   if (artEl) artEl.textContent = formatINR(artisanPayout);
 
   const btnText = document.getElementById('order-btn-text');
-  if (btnText) btnText.textContent = `Place Secure Order — ${formatINR(total)}`;
+  if (btnText) {
+    if (cartItems.length === 0) {
+      btnText.textContent = 'Bag is Empty — Add Items to Proceed';
+    } else {
+      btnText.textContent = `Place Secure Order — ${formatINR(totalPayable)}`;
+    }
+  }
 
   const discRow = document.getElementById('row-discount');
   if (discRow) {
@@ -61,6 +259,15 @@ function recalculate() {
       document.getElementById('price-discount').textContent = '- ' + formatINR(discount);
     } else {
       discRow.classList.add('hidden');
+    }
+  }
+
+  // Update primary artisan story dossier card to reflect first item's artisan
+  if (cartItems.length > 0) {
+    const mainItem = cartItems[0];
+    const artNameEl = document.getElementById('artisan-name');
+    if (artNameEl && mainItem.artisanName) {
+      artNameEl.textContent = mainItem.artisanName;
     }
   }
 }
@@ -118,6 +325,11 @@ function applyPromo() {
 }
 
 async function goToPayment() {
+  if (cartItems.length === 0) {
+    showToast('Your bag is empty! Add craft items to proceed.', 'error');
+    return;
+  }
+
   const fields = ['first-name','last-name','email-checkout','phone','address1','city','state-select','pincode'];
   for (const id of fields) {
     const el = document.getElementById(id);
@@ -138,22 +350,24 @@ async function goToPayment() {
     const city = document.getElementById('city').value.trim();
     const state = document.getElementById('state-select').value.trim();
     const postalCode = document.getElementById('pincode').value.trim();
-    const productName = document.getElementById('summary-product-name').textContent;
-    const giNumber = (document.getElementById('summary-product-gi')?.textContent || '').replace('GI Certified · ', '');
+
+    const craftSubtotal = cartItems.reduce((acc, i) => acc + (i.price * i.qty), 0);
+    const discount = promoApplied ? Math.round(craftSubtotal * 0.10) : 0;
+    const shipping = expressDelivery ? EXPRESS_FEE : 0;
+    const gst = Math.round((craftSubtotal - discount) * GST_RATE);
+    const totalPrice = craftSubtotal - discount + shipping + gst;
 
     const orderPayload = {
-      orderItems: [
-        {
-          name: productName,
-          qty: 1,
-          price: BASE_PRICE,
-          image: document.getElementById('summary-product-img')?.src || 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61',
-          giNumber: giNumber || 'GI/RS/080/2016',
-          artisanName: document.getElementById('artisan-name')?.textContent || 'Verified Heritage Guild',
-          artisanPayoutAmount: Math.round(BASE_PRICE * 0.70),
-          product: 'gi-item-selected'
-        }
-      ],
+      orderItems: cartItems.map(item => ({
+        name: item.name,
+        qty: item.qty || 1,
+        price: item.price,
+        image: item.imageUrl,
+        giNumber: item.giNumber || 'GI/RS/VERIFIED',
+        artisanName: item.artisanName || 'Verified Heritage Guild',
+        artisanPayoutAmount: Math.round((item.price * (item.qty || 1)) * 0.70),
+        product: item.id || 'gi-product'
+      })),
       shippingAddress: {
         fullName: `${firstName} ${lastName}`,
         address,
@@ -164,11 +378,11 @@ async function goToPayment() {
         phone
       },
       paymentMethod: currentPayMethod.toUpperCase(),
-      itemsPrice: BASE_PRICE,
-      taxPrice: Math.round(BASE_PRICE * GST_RATE),
-      shippingPrice: expressDelivery ? EXPRESS_FEE : 0,
-      discountPrice: promoApplied ? Math.round(BASE_PRICE * 0.10) : 0,
-      totalPrice: (BASE_PRICE + Math.round(BASE_PRICE * GST_RATE) + (expressDelivery ? EXPRESS_FEE : 0) - (promoApplied ? Math.round(BASE_PRICE * 0.10) : 0))
+      itemsPrice: craftSubtotal,
+      taxPrice: gst,
+      shippingPrice: shipping,
+      discountPrice: discount,
+      totalPrice
     };
 
     const res = await fetch(`${API_BASE}/orders`, {
@@ -212,28 +426,30 @@ function goToShipping() {
 }
 
 async function placeOrder() {
+  if (cartItems.length === 0) {
+    showToast('Your bag is empty! Add craft items to proceed.', 'error');
+    return;
+  }
+
   const btnText = document.getElementById('order-btn-text');
-  if (btnText) btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Initializing Payment Gateway...';
+  if (btnText) btnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Initializing Gateway...';
 
   const orderId = activeOrderData?._id || ('PAR-2026-' + Math.floor(Math.random() * 9000 + 1000));
-  const subtotal = BASE_PRICE;
-  const discount = promoApplied ? Math.round(subtotal * 0.10) : 0;
+  const craftSubtotal = cartItems.reduce((acc, i) => acc + (i.price * i.qty), 0);
+  const discount = promoApplied ? Math.round(craftSubtotal * 0.10) : 0;
   const shipping = expressDelivery ? EXPRESS_FEE : 0;
-  const gst = Math.round((subtotal - discount) * GST_RATE);
-  const total = subtotal - discount + shipping + gst;
+  const gst = Math.round((craftSubtotal - discount) * GST_RATE);
+  const total = craftSubtotal - discount + shipping + gst;
 
   try {
-    // 1. Request Razorpay Order initialization from API
     const rzpRes = await fetch(`${API_BASE}/orders/create-razorpay-order`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ amount: total, currency: 'INR', receipt: orderId })
     });
     const rzpData = await rzpRes.json();
-
     const razorpayOrderId = rzpData.orderId || `order_rzp_demo_${Date.now()}`;
 
-    // 2. Perform Payment Verification API call
     const verifyRes = await fetch(`${API_BASE}/orders/verify-payment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -247,7 +463,6 @@ async function placeOrder() {
     });
     await verifyRes.json();
 
-    // 3. Update UI to Confirmation Screen
     const deliveryDate = new Date();
     deliveryDate.setDate(deliveryDate.getDate() + (expressDelivery ? 3 : 7));
     const opts = { month: 'short', day: 'numeric', year: 'numeric' };
@@ -255,12 +470,11 @@ async function placeOrder() {
     delivEnd.setDate(delivEnd.getDate() + 2);
 
     document.getElementById('confirm-order-id').textContent = orderId;
-    document.getElementById('confirm-item-name').textContent = document.getElementById('summary-product-name').textContent;
+    document.getElementById('confirm-item-name').textContent = cartItems.map(i => `${i.name} (${i.qty})`).join(', ');
     document.getElementById('confirm-total').textContent = formatINR(total);
     document.getElementById('confirm-delivery').textContent =
       deliveryDate.toLocaleDateString('en-IN', opts) + ' – ' + delivEnd.toLocaleDateString('en-IN', opts);
 
-    // Setup PDF Download Link Button
     const pdfBtnContainer = document.getElementById('pdf-download-container');
     if (pdfBtnContainer) {
       pdfBtnContainer.innerHTML = `
@@ -270,6 +484,9 @@ async function placeOrder() {
         </a>
       `;
     }
+
+    // Clear cart after placement
+    localStorage.removeItem('parampara_cart');
 
     document.getElementById('form-payment').classList.add('hidden');
     document.getElementById('form-confirm').classList.remove('hidden');
@@ -287,8 +504,69 @@ async function placeOrder() {
   }
 }
 
-// Bind radio listeners
+function toggleQuickAddModal() {
+  const modal = document.getElementById('quick-add-modal');
+  if (modal) {
+    modal.classList.toggle('hidden');
+  }
+}
+
+// Initializer
 document.addEventListener('DOMContentLoaded', () => {
+  // 1. Check URL parameters first
+  const params = new URLSearchParams(window.location.search);
+  let urlItem = null;
+  if (params.get('name') || params.get('product')) {
+    urlItem = {
+      id: 'url-item-' + Date.now(),
+      name: params.get('name') || params.get('product'),
+      price: parseInt(params.get('price')) || 24500,
+      qty: 1,
+      origin: params.get('origin') || params.get('state') || 'Kamrup, Assam',
+      imageUrl: params.get('image') || params.get('img') || 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=300&q=80',
+      giNumber: params.get('gi') || params.get('giNumber') || 'GI/RS/038/2007',
+      artisanName: 'Kamrup Silk Weavers Guild'
+    };
+  }
+
+  // 2. Load stored cart or fallback default
+  try {
+    const stored = localStorage.getItem('parampara_cart');
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        cartItems = parsed.map(i => ({ ...i, qty: i.qty || 1 }));
+      } else if (parsed && parsed.name) {
+        cartItems = [{ ...parsed, qty: parsed.qty || 1 }];
+      }
+    }
+  } catch (e) {}
+
+  // If URL item is passed, prepend or use it
+  if (urlItem) {
+    const exists = cartItems.find(i => i.name === urlItem.name);
+    if (!exists) {
+      cartItems.unshift(urlItem);
+    }
+  }
+
+  // Default fallback item if cart is empty on first visit
+  if (cartItems.length === 0) {
+    cartItems = [
+      {
+        id: 'ass-muga-01',
+        name: 'Assam Pure Natural Golden Muga Silk Saree',
+        price: 24500,
+        qty: 1,
+        origin: 'Kamrup, Assam',
+        imageUrl: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=300&q=80',
+        giNumber: 'GI/RS/038/2007',
+        artisanName: 'Kamrup Silk Weavers Cooperative'
+      }
+    ];
+  }
+
+  // Delivery option radios
   document.querySelectorAll('input[name="delivery"]').forEach(radio => {
     radio.addEventListener('change', function() {
       expressDelivery = this.value === 'express';
@@ -305,53 +583,5 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Load Cart Info
-  const params = new URLSearchParams(window.location.search);
-  let itemData = null;
-
-  if (params.get('name') || params.get('product')) {
-    itemData = {
-      name: params.get('name') || params.get('product'),
-      price: parseInt(params.get('price')) || 24500,
-      origin: params.get('origin') || params.get('state') || 'India',
-      imageUrl: params.get('image') || params.get('img'),
-      giNumber: params.get('gi') || params.get('giNumber')
-    };
-  } else {
-    try {
-      const stored = localStorage.getItem('parampara_cart');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          itemData = parsed[parsed.length - 1];
-        } else if (parsed && parsed.name) {
-          itemData = parsed;
-        }
-      }
-    } catch (e) {}
-  }
-
-  if (itemData) {
-    if (itemData.name) {
-      const nameEl = document.getElementById('summary-product-name');
-      if (nameEl) nameEl.textContent = itemData.name;
-    }
-    if (itemData.price) {
-      BASE_PRICE = Number(itemData.price);
-    }
-    if (itemData.origin) {
-      const origEl = document.getElementById('summary-product-origin');
-      if (origEl) origEl.innerHTML = `<i class="fa-solid fa-location-dot text-[#B8860B] text-[10px]"></i> ${itemData.origin}`;
-    }
-    if (itemData.imageUrl) {
-      const imgEl = document.getElementById('summary-product-img');
-      if (imgEl) imgEl.src = itemData.imageUrl;
-    }
-    if (itemData.giNumber) {
-      const giEl = document.getElementById('summary-product-gi');
-      if (giEl) giEl.textContent = `GI Certified · ${itemData.giNumber}`;
-    }
-  }
-
-  recalculate();
+  renderCartItems();
 });

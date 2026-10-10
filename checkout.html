@@ -415,27 +415,20 @@
     <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200 shadow-sm sticky top-24">
      <h3 class="text-lg font-bold font-sora text-gray-900 pb-4 mb-4 border-b border-gray-100 flex items-center justify-between">
       <span>Order Summary</span>
-      <span class="text-xs font-normal text-gray-500">1 Item</span>
+      <span id="summary-items-count" class="text-xs font-semibold text-[#B8860B] bg-[#FAF6ED] px-2.5 py-1 rounded-full border border-[#B8860B]/20">1 Item</span>
      </h3>
 
-     <!-- Product Preview Card -->
-     <div class="flex items-center gap-4 pb-5 mb-5 border-b border-gray-100">
-      <div class="relative w-16 h-16 rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shrink-0">
-       <img id="summary-product-img" src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80" alt="Product" class="w-full h-full object-cover"/>
-       <span class="absolute top-1 right-1 bg-[#B8860B] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">1</span>
-      </div>
-      <div class="flex-grow min-w-0">
-       <h4 class="text-sm font-bold text-gray-900 truncate" id="summary-product-name">Jaipur Blue Pottery Floral Vase</h4>
-       <p class="text-xs text-gray-500 flex items-center gap-1 mt-0.5" id="summary-product-origin">
-        <i class="fa-solid fa-location-dot text-[#B8860B] text-[10px]"></i> Jaipur, Rajasthan
-       </p>
-       <span class="inline-block mt-1 text-[10px] font-bold text-[#8B6508] bg-[#FAF9F5] px-2 py-0.5 rounded-md border border-[#B8860B]/20" id="summary-product-gi">
-        GI Certified · GI/RS/080/2016
-       </span>
-      </div>
-      <div class="text-right">
-       <span class="text-sm font-extrabold font-sora text-gray-900 block" id="summary-product-price">₹ 24,500</span>
-      </div>
+     <!-- Dynamic Product Items List (Includes quantity adjustment [-/+] & remove [🗑️] buttons) -->
+     <div id="cart-items-container" class="space-y-4 pb-4 mb-4 border-b border-gray-100 max-h-[380px] overflow-y-auto pr-1">
+      <!-- Rendered dynamically by js/checkout.js -->
+     </div>
+
+     <!-- Quick Add Heritage Craft Button -->
+     <div class="mb-5">
+      <button onclick="toggleQuickAddModal()" class="w-full py-2.5 px-3 rounded-xl border border-dashed border-[#B8860B]/60 bg-[#FAF9F5] hover:bg-[#FAF6ED] text-[#B8860B] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-xs">
+       <i class="fa-solid fa-plus-circle text-sm"></i>
+       <span>Add Another Heritage Craft to Order</span>
+      </button>
      </div>
 
      <!-- Economic Transparency Calculator Card -->
@@ -740,8 +733,94 @@
       }
     })();
 
-    recalculate();
-  </script>
+  <!-- ── Quick Add Heritage Craft Modal ── -->
+  <div id="quick-add-modal" class="fixed inset-0 z-[200] bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 hidden animate-[fadeIn_0.2s_ease-out]">
+   <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-gray-200 relative">
+    <button onclick="toggleQuickAddModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-sm transition-colors">
+     ✕
+    </button>
+    
+    <div class="flex items-center gap-3 mb-4">
+     <div class="w-10 h-10 rounded-2xl bg-[#B8860B] text-white flex items-center justify-center text-lg font-bold shadow-md">
+      <i class="fa-solid fa-gem"></i>
+     </div>
+     <div>
+      <h3 class="text-xl font-bold font-sora text-gray-900">Add Certified Heritage Craft</h3>
+      <p class="text-xs text-gray-500">Select authentic GI-tagged masterpieces to add to your order.</p>
+     </div>
+    </div>
+
+    <!-- Curated Crafts List -->
+    <div class="space-y-3 my-4 max-h-[340px] overflow-y-auto pr-1">
+     <!-- Craft 1 -->
+     <div class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-[#B8860B] bg-[#FAF9F5] transition-all">
+      <div class="flex items-center gap-3">
+       <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=150&q=80" alt="Muga Silk" class="w-12 h-12 rounded-xl object-cover shrink-0 border border-gray-200"/>
+       <div>
+        <h4 class="text-xs font-bold text-gray-900">Assam Muga Silk Saree</h4>
+        <span class="text-[10px] text-gray-500 block">GI/RS/038/2007 · Kamrup, Assam</span>
+        <strong class="text-xs font-extrabold text-[#B8860B] font-sora">₹ 24,500</strong>
+       </div>
+      </div>
+      <button onclick="addQuickCraftItem(QUICK_ADD_CRAFTS[0]); toggleQuickAddModal();" class="px-3.5 py-1.5 rounded-xl bg-[#B8860B] hover:bg-[#8B6508] text-white font-bold text-xs shadow transition-all flex items-center gap-1">
+       <i class="fa-solid fa-plus text-[10px]"></i> Add
+      </button>
+     </div>
+
+     <!-- Craft 2 -->
+     <div class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-[#B8860B] bg-[#FAF9F5] transition-all">
+      <div class="flex items-center gap-3">
+       <img src="https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=150&q=80" alt="Blue Pottery" class="w-12 h-12 rounded-xl object-cover shrink-0 border border-gray-200"/>
+       <div>
+        <h4 class="text-xs font-bold text-gray-900">Jaipur Blue Pottery Royal Vase</h4>
+        <span class="text-[10px] text-gray-500 block">GI/RS/080/2016 · Jaipur, Rajasthan</span>
+        <strong class="text-xs font-extrabold text-[#B8860B] font-sora">₹ 3,400</strong>
+       </div>
+      </div>
+      <button onclick="addQuickCraftItem(QUICK_ADD_CRAFTS[1]); toggleQuickAddModal();" class="px-3.5 py-1.5 rounded-xl bg-[#B8860B] hover:bg-[#8B6508] text-white font-bold text-xs shadow transition-all flex items-center gap-1">
+       <i class="fa-solid fa-plus text-[10px]"></i> Add
+      </button>
+     </div>
+
+     <!-- Craft 3 -->
+     <div class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-[#B8860B] bg-[#FAF9F5] transition-all">
+      <div class="flex items-center gap-3">
+       <img src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=150&q=80" alt="Kullu Shawl" class="w-12 h-12 rounded-xl object-cover shrink-0 border border-gray-200"/>
+       <div>
+        <h4 class="text-xs font-bold text-gray-900">Kullu Woolen Geometric Shawl</h4>
+        <span class="text-[10px] text-gray-500 block">GI/RS/130/2004 · Kullu, Himachal</span>
+        <strong class="text-xs font-extrabold text-[#B8860B] font-sora">₹ 4,800</strong>
+       </div>
+      </div>
+      <button onclick="addQuickCraftItem(QUICK_ADD_CRAFTS[2]); toggleQuickAddModal();" class="px-3.5 py-1.5 rounded-xl bg-[#B8860B] hover:bg-[#8B6508] text-white font-bold text-xs shadow transition-all flex items-center gap-1">
+       <i class="fa-solid fa-plus text-[10px]"></i> Add
+      </button>
+     </div>
+
+     <!-- Craft 4 -->
+     <div class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-[#B8860B] bg-[#FAF9F5] transition-all">
+      <div class="flex items-center gap-3">
+       <img src="https://s7ap1.scene7.com/is/image/incredibleindia/bidriware-bidar-karnataka-craft-hero?qlt=82&ts=1726641338177" alt="Bidriware" class="w-12 h-12 rounded-xl object-cover shrink-0 border border-gray-200"/>
+       <div>
+        <h4 class="text-xs font-bold text-gray-900">Bidriware Silver Inlay Surahi</h4>
+        <span class="text-[10px] text-gray-500 block">GI/RS/070/2015 · Bidar, Karnataka</span>
+        <strong class="text-xs font-extrabold text-[#B8860B] font-sora">₹ 4,200</strong>
+       </div>
+      </div>
+      <button onclick="addQuickCraftItem(QUICK_ADD_CRAFTS[3]); toggleQuickAddModal();" class="px-3.5 py-1.5 rounded-xl bg-[#B8860B] hover:bg-[#8B6508] text-white font-bold text-xs shadow transition-all flex items-center gap-1">
+       <i class="fa-solid fa-plus text-[10px]"></i> Add
+      </button>
+     </div>
+    </div>
+
+    <div class="pt-2 text-center">
+     <button onclick="toggleQuickAddModal()" class="text-xs font-bold text-gray-500 hover:text-gray-900 uppercase tracking-wider">
+      Close Window
+     </button>
+    </div>
+   </div>
+  </div>
+
   <script src="js/checkout.js"></script>
  </body>
 </html>
