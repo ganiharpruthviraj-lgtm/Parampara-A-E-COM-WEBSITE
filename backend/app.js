@@ -156,6 +156,7 @@ app.use('/api/auth', apiLimiter, require('./routes/auth'));
 app.use('/api/products', apiLimiter, require('./routes/products'));
 app.use('/api/saathi', apiLimiter, require('./routes/saathi'));
 app.use('/api/gi', apiLimiter, require('./routes/gi'));
+app.use('/api/orders', apiLimiter, require('./routes/orders'));
 
 // Serve Static Frontend Files
 app.use(express.static(path.join(__dirname, '..')));

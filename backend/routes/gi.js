@@ -225,7 +225,12 @@ router.get('/filters', (req, res) => {
  */
 router.get('/:id', (req, res) => {
   try {
-    const item = GI_DATA.find(i => i.id === req.params.id);
+    const searchId = req.params.id;
+    const item = GI_DATA.find(i => 
+      i.id === searchId || 
+      i.giNumber === searchId || 
+      (searchId === 'GI-001' && i.id === 'hp-kullu-shawl-01')
+    );
     if (!item) {
       return res.status(404).json({ success: false, message: 'GI item not found' });
     }

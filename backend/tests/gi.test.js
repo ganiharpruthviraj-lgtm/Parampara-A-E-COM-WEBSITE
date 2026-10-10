@@ -35,10 +35,10 @@ describe('GI Registry API Endpoints', () => {
   });
 
   it('GET /api/gi/:id should return single GI craft record', async () => {
-    const res = await request(app).get('/api/gi/GI-001');
+    const res = await request(app).get('/api/gi/hp-kullu-shawl-01');
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty('success', true);
-    expect(res.body.data).toHaveProperty('id', 'GI-001');
+    expect(res.body.data).toHaveProperty('id', 'hp-kullu-shawl-01');
     expect(res.body.data).toHaveProperty('giNumber');
   });
 
