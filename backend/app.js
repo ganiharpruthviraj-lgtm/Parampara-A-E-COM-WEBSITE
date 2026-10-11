@@ -20,7 +20,9 @@ const defaultDevOrigins = [
   'http://127.0.0.1:5000',
   'http://127.0.0.1:5500',
   'http://localhost:5500',
-  'http://localhost:8080'
+  'http://localhost:8080',
+  'https://parampara-a-e-com-website.vercel.app',
+  'https://parampara-a-e-com-website-1.onrender.com'
 ];
 
 // --- Security Headers (helmet) ---
@@ -71,7 +73,9 @@ app.use(
           "http://127.0.0.1:5000",
           "https://accounts.google.com",
           "https://appleid.cdn-apple.com",
-          "https://parampara-a-e-com-website-1.onrender.com"
+          "https://parampara-a-e-com-website-1.onrender.com",
+          "https://parampara-a-e-com-website.vercel.app",
+          "https://*.vercel.app"
         ],
         frameSrc: [
           "'self'",
@@ -92,7 +96,21 @@ app.use(cors({
     if (originsList.includes(origin) || process.env.NODE_ENV !== 'production') {
       return callback(null, true);
     }
-    return callback(new Error('CORS Policy: Origin not allowed by Access-Control-Allow-Origin header'));
+
+    try {
+      const url = new URL(origin);
+      if (url.hostname.endsWith('.vercel.app') || url.hostname === 'vercel.app') {
+        return callback(null, true);
+      }
+      if (url.hostname.endsWith('.onrender.com') || url.hostname === 'onrender.com') {
+        return callback(null, true);
+      }
+      if (url.hostname.endsWith('github.io')) {
+        return callback(null, true);
+      }
+    } catch (e) {}
+
+    return callback(null, false);
   },
   credentials: true
 }));
