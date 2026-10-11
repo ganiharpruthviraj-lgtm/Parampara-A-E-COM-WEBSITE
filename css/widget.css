@@ -813,13 +813,45 @@
 
 /* ── Mobile Responsive ── */
 @media (max-width: 640px) {
+  .pm-launcher {
+    bottom: 18px;
+    right: 18px;
+    height: 48px;
+    padding: 0 16px 0 12px;
+    font-size: 12.5px;
+  }
+
+  /* When chat window is open on mobile, hide the bottom floating button so it never covers the send button */
+  .pm-launcher.pm-active {
+    display: none !important;
+  }
+
   .pm-window {
-    top: 74px;
+    top: 14px;
+    bottom: 14px;
     right: 10px;
     left: 10px;
     width: auto;
     max-width: none;
-    height: calc(100vh - 86px);
-    border-radius: 16px;
+    height: auto;
+    max-height: calc(100dvh - 28px);
+    border-radius: 18px;
+    z-index: 999999;
+  }
+
+  .pm-form {
+    padding: 8px 12px 12px;
+    gap: 8px;
+  }
+
+  .pm-form input {
+    padding: 10px 14px;
+    font-size: 0.85rem;
+  }
+
+  #pm-send,
+  .pm-mic-btn {
+    width: 38px;
+    height: 38px;
   }
 }
