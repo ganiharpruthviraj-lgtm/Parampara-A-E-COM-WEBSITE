@@ -33,48 +33,53 @@
 
 ```
 Parampara-A-E-COM-WEBSITE/
-├── index.html                    # Main Landing Page (Interactive SVG Map + Hero Mosaic)
+├── index.html                    # Main Heritage Portal (Hero, Curated States, Categories)
 ├── about.html                    # Brand Story, Mission & Cultural Heritage Narrative
 ├── artisans.html                 # Master Artisan Profiles & National Awardee Directory
+├── checkout.html                 # Certified Heritage Checkout, Payout Calc & PDF Certificate
 ├── collection.html               # Authenticated User Saved Masterpiece Collections
-├── state_categories.html         # Regional Craft Category Portal (Tailwind CSS)
-├── states.html                   # State Gallery & Regional Dossiers (Tailwind CSS)
-├── masterpiece.html              # Product Detail & Artisan Narrative (Tailwind CSS)
+├── state_categories.html         # Regional Craft Category Portal
+├── states.html                   # State Gallery & 28 Regional Craft Dossiers
+├── masterpiece.html              # Dynamic Certified Masterpiece Detail & Provenance Studio
 ├── product-jaipur-pottery.html   # Craft Feature Spotlight — Jaipur Blue Pottery
-├── search.html                   # Advanced Search & Price Filter Interface (Tailwind CSS)
-├── login.html                    # User Authentication Interface (Tailwind CSS)
-├── register.html                 # New Collector Registration (Tailwind CSS)
-├── saathi.html                   # Saathi AI Heritage Chat Interface (Tailwind CSS)
-├── hero-mosaic.html              # Hero Mosaic Gallery Layout Preview
-├── dynamic-homepage.html         # Alternative Dynamic Homepage Variant
-├── stitch-preview.html           # UI Design Preview Canvas
-├── backend/                      # Node.js & Express REST API Server
-│   ├── server.js                 # Express Server Entry Point & Static File Serving
-│   ├── check_db.js               # MongoDB Connection Diagnostic Utility
-│   ├── seed.js                   # Database Seeding Script (Sample Heritage Products)
-│   ├── config/                   # MongoDB Atlas Connection Config
-│   ├── middleware/               # JWT Authentication Middleware
-│   ├── models/
-│   │   ├── Product.js            # Mongoose Product Schema (GI-tagged craft catalog)
-│   │   └── User.js               # Mongoose User Schema (JWT auth + collections)
-│   └── routes/
-│       ├── auth.js               # Auth Routes: register, login, profile, collection, Google OAuth
-│       ├── products.js           # Product Routes: full-text search, filters, single product
-│       └── saathi.js             # Saathi AI Routes: chat, knowledge base, economics
-├── css/
-│   ├── buttons.css               # Shared Button Component Styles
-│   └── saathi.css                # Saathi Chat Interface Custom Styles
-├── js/
-│   ├── auth.js                   # Client-side Auth State & Local Storage Management
-│   ├── map-interactive.js        # SVG India Map Interactivity & State Navigation
-│   ├── nav.js                    # Navigation Drawer & Ripple Effect Animations
-│   └── saathi.js                 # Saathi Frontend Chat Client Logic
-├── assets/                       # Brand Vectors, SVGs & Visual Media Assets
-├── india.svg                     # Full SVG India Map (28 States)
-├── docs/                         # Project Documentation & Media
-│   ├── guides/                   # Backend Build Guide & Architecture Roadmaps
-│   ├── pitch-decks/              # Investor Presentation Decks & Python Generators
-│   └── screenshots/              # UI Verification Screenshots & Preview Media
+├── search.html                   # Catalog Search, Regional Filters & Live Price Sliders
+├── login.html                    # Dual-Tab Collector Sign In & Registration Portal
+├── register.html                 # Seamless Fast Redirect to Collector Registration
+├── saathi.html                   # Dedicated Saathi AI Cultural Docent Testing Lab
+├── backend/                      # Production Express & MongoDB Atlas Backend Engine
+│   ├── server.js                 # HTTP Server Cluster Bootstrap (Port 5000)
+│   ├── app.js                    # Modular Express App (CORS, Helmet, Rate Limiter, Routes)
+│   ├── seed.js                   # Master Database Seeding Script (71+ Certified GI Crafts)
+│   ├── config/                   # MongoDB Atlas Connection Configuration
+│   ├── middleware/               # Enterprise JWT Authentication Middleware
+│   ├── models/                   # Mongoose Schemas (User, Product, Order)
+│   ├── routes/                   # Modular REST API Route Handlers
+│   │   ├── auth.js               # Auth: Register, Login, SMS OTP, Google OAuth, Collections
+│   │   ├── chat.js               # Parampara Mitra AI Chatbot with State & Price Match Engine
+│   │   ├── gi.js                 # GI Registry Query & Verification API
+│   │   ├── health.js             # High-Availability Server & DB Health Diagnostic
+│   │   ├── orders.js             # Orders, 70% Artisan Payouts & PDF Certificate Generator
+│   │   ├── products.js           # Catalog Search, State Filters & Single Product Details
+│   │   └── saathi.js             # Saathi AI RAG Engine & Cultural Provenance Verifier
+│   └── services/                 # PDF Invoice Generator & SMS Gateway Integration
+├── tests/                        # Comprehensive Automated Automated Test Suites
+│   ├── test_syntax.js            # Node JS AST Syntax Verification
+│   ├── test_assets_exist.js      # HTML Script & Stylesheet Integrity Validator
+│   ├── test_html_scripts.js      # Inline HTML Script Syntax Checker
+│   └── test_comprehensive_api.js # End-to-End API Test Suite (Products, Auth, Orders, GI, Chat)
+├── css/                          # Curated Modular Stylesheets
+├── js/                           # Enterprise Client-Side JavaScript Modules
+│   ├── auth.js                   # Global Auth State & Token Management
+│   ├── checkout.js               # Interactive Shopping Bag & Checkout Engine
+│   ├── components.js             # Shared Navigation & Footer Injection Engine
+│   ├── nav.js                    # Responsive Navigation & Ripple Feedback
+│   └── widget.js                 # Floating Parampara Mitra AI Chat Widget
+├── docs/                         # Documentation, Guides, Pitch Decks & Prototypes
+│   ├── guides/                   # Backend Guides & Deployment Architecture
+│   ├── pitch-decks/              # Interactive Pitch Decks & Investor Presentations
+│   └── prototypes/               # Archived Design Explorations & Prototypes
+├── scripts/                      # Data Seeding & Maintenance Utilities
+├── vercel.json                   # Production Edge Proxy Configuration (Render Rewrites)
 ├── .github/workflows/
 │   └── deploy.yml                # GitHub Actions: Automated Deploy to GitHub Pages
 ├── LICENSE                       # MIT Open Source License

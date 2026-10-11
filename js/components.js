@@ -106,7 +106,7 @@
       <a class="hover:text-[var(--primary-color)] transition-colors" href="saathi.html">Saathi AI</a>
     </div>
     <p class="text-gray-600 text-xs mt-6">
-      <a href="http://localhost:5000/api/health" target="_blank" class="hover:text-[var(--primary-color)] transition-colors" id="footer-status">🟢 Server Status</a>
+      <a href="/api/health" target="_blank" class="hover:text-[var(--primary-color)] transition-colors" id="footer-status">🟢 Server Status</a>
     </p>
   </div>
 </footer>`;
