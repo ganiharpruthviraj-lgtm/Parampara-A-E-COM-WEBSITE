@@ -11,14 +11,14 @@ const orderSchema = new mongoose.Schema(
       {
         name: { type: String, required: true },
         qty: { type: Number, required: true, default: 1 },
-        image: { type: String, required: true },
+        image: { type: String, default: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61' },
         price: { type: Number, required: true },
         giNumber: { type: String, default: 'GI-AUTHENTIC' },
         artisanName: { type: String, default: 'Verified Heritage Guild' },
         artisanPayoutAmount: { type: Number, required: true }, // 70% direct artisan share
         product: {
           type: String,
-          required: true
+          default: 'craft-masterpiece'
         }
       }
     ],

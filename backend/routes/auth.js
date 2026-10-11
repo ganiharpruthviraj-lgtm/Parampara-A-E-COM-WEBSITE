@@ -185,12 +185,15 @@ router.post('/collection/:id', protect, async (req, res) => {
   try {
     const productId = req.params.id;
 
-    if (mongoose.connection.readyState !== 1 || !req.user || !req.user._id) {
+    if (mongoose.connection.readyState !== 1 || !req.user || !req.user._id || !mongoose.Types.ObjectId.isValid(req.user._id)) {
       return res.json({ collections: [productId], isCollected: true });
     }
 
     const user = await User.findById(req.user._id);
-    const isCollected = user.collections.some(id => id.toString() === productId.toString());
+    if (!user) {
+      return res.json({ collections: [productId], isCollected: true });
+    }
+    const isCollected = user.collections && user.collections.some(id => id.toString() === productId.toString());
 
     if (isCollected) {
       user.collections = user.collections.filter(id => id.toString() !== productId.toString());
@@ -210,11 +213,11 @@ router.post('/collection/:id', protect, async (req, res) => {
 // @access  Private
 router.get('/collection', protect, async (req, res) => {
   try {
-    if (mongoose.connection.readyState !== 1 || !req.user || !req.user._id) {
+    if (mongoose.connection.readyState !== 1 || !req.user || !req.user._id || !mongoose.Types.ObjectId.isValid(req.user._id)) {
       return res.json([]);
     }
     const user = await User.findById(req.user._id).populate('collections');
-    res.json(user.collections);
+    res.json(user ? user.collections : []);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

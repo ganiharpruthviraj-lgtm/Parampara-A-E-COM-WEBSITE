@@ -31,6 +31,7 @@
    tailwind.config = { theme: { extend: { fontFamily: { serif: ['"Playfair Display"', 'serif'], sans: ['"Inter"', 'sans-serif'], }, colors: { brand: { bg: '#FAF9F6', gold: '#9A7B4F', goldHover: '#8A6A3F', red: '#A32A29', dark: '#1C1C1C', gray: '#666666', lightGray: '#E5E5E5' } } } } }
   </script>
   <link href="css/masterpiece.css" rel="stylesheet"/>
+  <link href="css/widget.css" rel="stylesheet"/>
  </head>
  <body>
   <!-- Cinematic Preloader -->
@@ -73,6 +74,10 @@
         </i>
         Search
        </a>
+       <button type="button" class="pm-nav-trigger" id="nav-pm-trigger" title="Chat with Parampara Mitra AI Shopping Concierge">
+        <span class="pm-live-dot"></span>
+        <span>🪔 Mitra AI</span>
+       </button>
       </div>
       <!-- Mobile Menu Toggle -->
       <button class="lg:hidden p-2 rounded-md text-[var(--dark-text-color)] hover:bg-[var(--medium-background-color)] transition-colors" data-landingsite-mobile-menu-toggle="" id="mobile-menu-toggle">
@@ -102,6 +107,10 @@
         </i>
         Search
        </a>
+       <button type="button" class="pm-nav-trigger w-full justify-center" id="nav-pm-trigger-mobile">
+        <span class="pm-live-dot"></span>
+        <span>🪔 Chat with Mitra AI</span>
+       </button>
       </div>
      </div>
     </div>
@@ -517,5 +526,6 @@ document.addEventListener('DOMContentLoaded', () => {
   </script>
   <script src="js/components.js"></script>
   <script src="js/nav.js"></script>
+  <script src="js/widget.js" defer></script>
  </body>
 </html>

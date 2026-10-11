@@ -443,3 +443,4 @@ router.get('/economics', (req, res) => {
 });
 
 module.exports = router;
+module.exports.generateGroundedResponse = generateGroundedResponse;

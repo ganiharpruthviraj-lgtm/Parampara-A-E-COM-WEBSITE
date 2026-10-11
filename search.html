@@ -25,6 +25,8 @@
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet"/>
   <link href="css/search.css" rel="stylesheet"/>
+  <link href="css/widget.css" rel="stylesheet"/>
+  <script src="js/auth.js"></script>
  </head>
  <body>
   <!-- Cinematic Preloader -->
@@ -67,6 +69,10 @@
         </i>
         Search
        </a>
+       <button type="button" class="pm-nav-trigger" id="nav-pm-trigger" title="Chat with Parampara Mitra AI Shopping Concierge">
+        <span class="pm-live-dot"></span>
+        <span>🪔 Mitra AI</span>
+       </button>
       </div>
       <!-- Mobile Menu Toggle -->
       <button class="lg:hidden p-2 rounded-md text-[var(--dark-text-color)] hover:bg-[var(--medium-background-color)] transition-colors" data-landingsite-mobile-menu-toggle="" id="mobile-menu-toggle">
@@ -96,6 +102,10 @@
         </i>
         Search
        </a>
+       <button type="button" class="pm-nav-trigger w-full justify-center" id="nav-pm-trigger-mobile">
+        <span class="pm-live-dot"></span>
+        <span>🪔 Chat with Mitra AI</span>
+       </button>
       </div>
      </div>
     </div>
@@ -679,7 +689,8 @@
     const timeoutId = setTimeout(() => controller.abort(), 2000); // 2 seconds timeout
 
     try {
-      const url = new URL(`${window.GLOBAL_API_BASE}/api/products`);
+      const apiBase = window.GLOBAL_API_BASE || (window.location.origin && window.location.origin.startsWith('http') ? window.location.origin : 'http://localhost:5000');
+      const url = new URL(`${apiBase}/api/products`);
       Object.keys(currentParams).forEach(key => { 
         if (currentParams[key]) url.searchParams.append(key, currentParams[key]); 
       });
@@ -771,6 +782,11 @@
   const urlParams = new URLSearchParams(window.location.search);
   const initialCategory = normalizeCategory(urlParams.get('category') || '');
   const initialState = urlParams.get('state') || '';
+  const initialQuery = urlParams.get('q') || '';
+
+  if (initialQuery) {
+    searchInput.value = initialQuery;
+  }
 
   // Synchronize initial checkboxes
   if (initialCategory) {
@@ -787,6 +803,7 @@
   }
 
   loadProducts({ 
+    q: initialQuery,
     state: initialState, 
     category: initialCategory 
   });
@@ -887,5 +904,6 @@ document.addEventListener('DOMContentLoaded', () => {
   </script>
   <script src="js/components.js"></script>
   <script src="js/nav.js"></script>
+  <script src="js/widget.js" defer></script>
  </body>
 </html>

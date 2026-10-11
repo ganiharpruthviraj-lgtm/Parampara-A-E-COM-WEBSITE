@@ -48,6 +48,12 @@
             <i class="fa-solid fa-bag-shopping text-lg"></i>
             <span id="nav-cart-badge" class="hidden absolute -top-0.5 -right-0.5 bg-[#B8860B] text-white text-[10px] font-bold min-w-[18px] h-[18px] rounded-full flex items-center justify-center px-1 shadow">0</span>
           </a>
+          <!-- Parampara Mitra Chat Widget Button -->
+          <button id="nav-pm-trigger" class="pm-nav-trigger flex items-center gap-2 px-4 py-2 rounded-full border border-[var(--primary-color)] text-[var(--primary-color)] hover:bg-[var(--primary-color)] hover:text-white font-semibold text-sm transition-all duration-200 shadow-sm hover:shadow-md cursor-pointer group" title="Chat with Parampara Mitra">
+            <span class="text-base group-hover:scale-110 transition-transform">🪔</span>
+            <span>Mitra AI</span>
+            <span class="pm-live-dot" title="Online"></span>
+          </button>
         </div>
         <!-- Mobile Menu Toggle -->
         <button class="lg:hidden p-2 rounded-md text-[var(--dark-text-color)] hover:bg-[var(--medium-background-color)] transition-colors" data-landingsite-mobile-menu-toggle="" id="mobile-menu-toggle">
@@ -67,6 +73,13 @@
             </span>
             <span id="nav-cart-badge-mobile" class="bg-[#B8860B] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
           </a>
+          <button id="nav-pm-trigger-mobile" class="flex items-center justify-between text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors w-full text-left cursor-pointer">
+            <span class="flex items-center gap-2">
+              <span class="text-base">🪔</span>
+              Chat with Mitra AI
+            </span>
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          </button>
           <a href="search.html" class="bg-[var(--primary-color)] text-[var(--primary-button-text-color)] px-6 py-3 rounded-[var(--button-rounded-radius)] font-semibold text-center hover:bg-[var(--primary-button-hover-bg-color)] transition-all flex items-center justify-center gap-2">
             <i class="fa-solid fa-magnifying-glass text-sm"></i>
             Search
@@ -159,6 +172,20 @@
     updateCartBadge();
     window.addEventListener('cart-updated', updateCartBadge);
     window.addEventListener('storage', updateCartBadge);
+
+    // Auto-inject Parampara Mitra Widget assets if not present
+    if (!document.querySelector('link[href*="widget.css"]')) {
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'css/widget.css';
+      document.head.appendChild(link);
+    }
+    if (!document.querySelector('script[src*="widget.js"]')) {
+      const script = document.createElement('script');
+      script.src = 'js/widget.js';
+      script.defer = true;
+      document.body.appendChild(script);
+    }
   }
 
   if (document.readyState === 'loading') {

@@ -219,6 +219,53 @@ router.get('/filters', (req, res) => {
 });
 
 /**
+ * @route   GET /api/gi/verify/:id
+ * @desc    Verify authenticity of a GI certificate or registry tag
+ * @access  Public
+ */
+router.get('/verify/:id', (req, res) => {
+  try {
+    const rawId = req.params.id;
+    const cleanId = rawId.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    const item = GI_DATA.find(i => 
+      i.id === rawId || 
+      i.giNumber === rawId || 
+      i.giTag === rawId ||
+      (i.giNumber && i.giNumber.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() === cleanId) ||
+      (i.giTag && i.giTag.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() === cleanId) ||
+      (i.id && i.id.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() === cleanId)
+    );
+
+    if (!item) {
+      return res.status(404).json({
+        success: false,
+        verified: false,
+        message: `GI Registry record not found for certificate/tag: ${rawId}`
+      });
+    }
+
+    res.json({
+      success: true,
+      verified: true,
+      certificateNumber: item.giTag || item.giNumber,
+      item: {
+        id: item.id,
+        name: item.name || item.title,
+        craft: item.craft,
+        state: item.state,
+        originHub: item.originHub,
+        registrationYear: item.registrationYear,
+        artisanGuild: item.artisan,
+        exportEligible: item.exportEligible,
+        giRegistryTag: item.giTag || item.giNumber
+      }
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+/**
  * @route   GET /api/gi/:id
  * @desc    Get a single GI item by ID
  * @access  Public
@@ -226,9 +273,13 @@ router.get('/filters', (req, res) => {
 router.get('/:id', (req, res) => {
   try {
     const searchId = req.params.id;
+    const cleanId = searchId.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
     const item = GI_DATA.find(i => 
       i.id === searchId || 
       i.giNumber === searchId || 
+      i.giTag === searchId ||
+      (i.giNumber && i.giNumber.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() === cleanId) ||
+      (i.giTag && i.giTag.replace(/[^a-zA-Z0-9]/g, '').toLowerCase() === cleanId) ||
       (searchId === 'GI-001' && i.id === 'hp-kullu-shawl-01')
     );
     if (!item) {

@@ -24,17 +24,14 @@ const protect = async (req, res, next) => {
         }
       }
 
-      if (mongoose.connection.readyState !== 1) {
-        req.user = {
-          _id: decoded.id || 'demo-collector-id',
-          name: 'Heritage Collector',
-          email: decoded.email || 'collector@parampara.in',
-          collections: []
-        };
-        return next();
+      if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(decoded.id)) {
+        try {
+          req.user = await User.findById(decoded.id).select('-password');
+        } catch (dbErr) {
+          req.user = null;
+        }
       }
 
-      req.user = await User.findById(decoded.id).select('-password');
       if (!req.user) {
         req.user = {
           _id: decoded.id || 'demo-collector-id',
