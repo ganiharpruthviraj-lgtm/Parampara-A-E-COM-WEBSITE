@@ -1,12 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-const htmlFiles = fs.readdirSync('.').filter(f => f.endsWith('.html'));
+const rootDir = path.resolve(__dirname, '..');
+const htmlFiles = fs.readdirSync(rootDir).filter(f => f.endsWith('.html'));
 
 let issues = [];
 
 for (const file of htmlFiles) {
-  const content = fs.readFileSync(file, 'utf-8');
+  const filePath = path.join(rootDir, file);
+  const content = fs.readFileSync(filePath, 'utf-8');
 
   // Check script src
   const scriptSrcRegex = /<script\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/gi;
@@ -14,7 +16,7 @@ for (const file of htmlFiles) {
   while ((match = scriptSrcRegex.exec(content)) !== null) {
     const src = match[1];
     if (!src.startsWith('http://') && !src.startsWith('https://') && !src.startsWith('//')) {
-      const cleanPath = src.split('?')[0].replace(/^\//, '');
+      const cleanPath = path.join(rootDir, src.split('?')[0].replace(/^\//, ''));
       if (!fs.existsSync(cleanPath)) {
         issues.push(`[MISSING SCRIPT] In ${file}: src="${src}" not found on disk (${cleanPath})`);
       }
@@ -26,7 +28,7 @@ for (const file of htmlFiles) {
   while ((match = linkHrefRegex.exec(content)) !== null) {
     const href = match[1];
     if (!href.startsWith('http://') && !href.startsWith('https://') && !href.startsWith('//') && !href.startsWith('data:')) {
-      const cleanPath = href.split('?')[0].replace(/^\//, '');
+      const cleanPath = path.join(rootDir, href.split('?')[0].replace(/^\//, ''));
       if (!fs.existsSync(cleanPath)) {
         issues.push(`[MISSING ASSET] In ${file}: href="${href}" not found on disk (${cleanPath})`);
       }

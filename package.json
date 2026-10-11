@@ -6,7 +6,12 @@
   "scripts": {
     "start": "node backend/server.js",
     "dev": "npm --prefix backend run dev",
-    "test": "npm --prefix backend test"
+    "test": "npm --prefix backend test",
+    "test:api": "node tests/test_comprehensive_api.js",
+    "test:syntax": "node tests/test_syntax.js",
+    "test:assets": "node tests/test_assets_exist.js",
+    "test:html": "node tests/test_html_scripts.js",
+    "test:all": "node tests/test_syntax.js && node tests/test_assets_exist.js && node tests/test_html_scripts.js && node tests/test_comprehensive_api.js"
   },
   "devDependencies": {
     "sharp": "^0.35.5"

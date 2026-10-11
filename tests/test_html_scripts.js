@@ -2,10 +2,11 @@ const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
 
-const htmlFiles = fs.readdirSync('.').filter(f => f.endsWith('.html'));
+const rootDir = path.resolve(__dirname, '..');
+const htmlFiles = fs.readdirSync(rootDir).filter(f => f.endsWith('.html'));
 
 for (const file of htmlFiles) {
-  const content = fs.readFileSync(file, 'utf-8');
+  const content = fs.readFileSync(path.join(rootDir, file), 'utf-8');
   // Extract inline script contents
   const scriptRegex = /<script\b(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/gi;
   let match;
