@@ -106,7 +106,6 @@
             </div>\
           </div>\
           <div class="pm-header-actions">\
-            <button type="button" class="pm-head-btn" id="pm-tts-btn" title="Toggle Voice Readout" aria-label="Toggle Voice Readout">🔇</button>\
             <button type="button" class="pm-head-btn" id="pm-reset-btn" title="Reset Conversation" aria-label="Reset Conversation">🔄</button>\
             <button type="button" class="pm-xbtn" id="pm-xbtn" title="Close" aria-label="Close">&#x2715;</button>\
           </div>\
@@ -248,18 +247,6 @@
     row.className = 'pm-row pm-' + role;
     var bub = document.createElement('div');
     bub.innerHTML = md(text);
-    if (role === 'assistant' && text && text.trim().length > 0) {
-      var speakBtn = document.createElement('button');
-      speakBtn.type = 'button';
-      speakBtn.className = 'pm-msg-speak-btn';
-      speakBtn.title = 'Listen to voice readout';
-      speakBtn.innerHTML = '🔊 Read out';
-      speakBtn.onclick = function (e) {
-        e.stopPropagation();
-        speakText(text);
-      };
-      bub.appendChild(speakBtn);
-    }
     row.appendChild(bub);
     box.appendChild(row);
 
@@ -690,9 +677,6 @@
       }
 
       addBubble('assistant', reply);
-      if (ttsEnabled) {
-        speakText(reply);
-      }
       chatHistory.push({ role: 'assistant', content: reply });
       updateSuggestions(suggestions);
       saveSessionState(suggestions);
@@ -741,73 +725,6 @@
           send(inp.value);
         }
       });
-    }
-
-    // ── Text-to-Speech (TTS) Voice Readout ───────────────────────────────────
-    var ttsEnabled = localStorage.getItem('parampara_tts_enabled') === 'true';
-
-    function speakText(text) {
-      if (!('speechSynthesis' in window)) return;
-      try {
-        window.speechSynthesis.cancel();
-        var clean = (text || '')
-          .replace(/\[action:[^\]]+\]/g, '')
-          .replace(/[*#_`~\[\]]/g, '')
-          .replace(/https?:\/\/\S+/g, '')
-          .replace(/₹/g, 'Rupees ')
-          .replace(/\n+/g, ' ');
-
-        var parts = clean.split(/[.!?]\s+/).filter(Boolean);
-        var toSpeak = parts.slice(0, 3).join('. ');
-        if (toSpeak.length > 260) toSpeak = toSpeak.slice(0, 260) + '...';
-        if (!toSpeak.trim()) return;
-
-        var utt = new SpeechSynthesisUtterance(toSpeak);
-        utt.rate = 1.0;
-        utt.pitch = 1.0;
-        utt.lang = 'en-IN';
-
-        var voices = window.speechSynthesis.getVoices();
-        if (voices && voices.length) {
-          var preferred = voices.find(function (v) { return v.lang && (v.lang === 'en-IN' || v.lang.indexOf('hi') !== -1); }) ||
-                          voices.find(function (v) { return v.lang && v.lang.startsWith('en'); });
-          if (preferred) utt.voice = preferred;
-        }
-
-        window.speechSynthesis.speak(utt);
-      } catch (err) {
-        console.warn('Speech synthesis notice:', err);
-      }
-    }
-
-    // TTS Toggle Button in Chat Header
-    var ttsBtn = document.getElementById('pm-tts-btn');
-    if (ttsBtn) {
-      function syncTtsBtn() {
-        if (ttsEnabled) {
-          ttsBtn.classList.add('pm-tts-active');
-          ttsBtn.textContent = '🔊';
-          ttsBtn.title = 'Voice readout is ON (Click to mute)';
-        } else {
-          ttsBtn.classList.remove('pm-tts-active');
-          ttsBtn.textContent = '🔇';
-          ttsBtn.title = 'Voice readout is OFF (Click to enable)';
-        }
-      }
-      syncTtsBtn();
-
-      ttsBtn.onclick = function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-        ttsEnabled = !ttsEnabled;
-        try { localStorage.setItem('parampara_tts_enabled', ttsEnabled ? 'true' : 'false'); } catch (e) {}
-        syncTtsBtn();
-        if (ttsEnabled) {
-          speakText('Voice readout activated for Parampara Mitra.');
-        } else {
-          if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-        }
-      };
     }
 
     // Speech-to-Text Microphone Integration (PC & Mobile Robust Engine)
