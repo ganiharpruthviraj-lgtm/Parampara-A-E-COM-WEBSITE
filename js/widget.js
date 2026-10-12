@@ -106,6 +106,7 @@
             </div>\
           </div>\
           <div class="pm-header-actions">\
+            <button type="button" class="pm-head-btn" id="pm-tts-btn" title="Toggle Voice Readout" aria-label="Toggle Voice Readout">🔇</button>\
             <button type="button" class="pm-head-btn" id="pm-reset-btn" title="Reset Conversation" aria-label="Reset Conversation">🔄</button>\
             <button type="button" class="pm-xbtn" id="pm-xbtn" title="Close" aria-label="Close">&#x2715;</button>\
           </div>\
@@ -246,8 +247,19 @@
     var row = document.createElement('div');
     row.className = 'pm-row pm-' + role;
     var bub = document.createElement('div');
-    bub.className = 'pm-bub pm-bub-' + role;
     bub.innerHTML = md(text);
+    if (role === 'assistant' && text && text.trim().length > 0) {
+      var speakBtn = document.createElement('button');
+      speakBtn.type = 'button';
+      speakBtn.className = 'pm-msg-speak-btn';
+      speakBtn.title = 'Listen to voice readout';
+      speakBtn.innerHTML = '🔊 Read out';
+      speakBtn.onclick = function (e) {
+        e.stopPropagation();
+        speakText(text);
+      };
+      bub.appendChild(speakBtn);
+    }
     row.appendChild(bub);
     box.appendChild(row);
 
@@ -678,6 +690,9 @@
       }
 
       addBubble('assistant', reply);
+      if (ttsEnabled) {
+        speakText(reply);
+      }
       chatHistory.push({ role: 'assistant', content: reply });
       updateSuggestions(suggestions);
       saveSessionState(suggestions);
@@ -728,60 +743,190 @@
       });
     }
 
-    // Speech-to-Text Microphone Integration
+    // ── Text-to-Speech (TTS) Voice Readout ───────────────────────────────────
+    var ttsEnabled = localStorage.getItem('parampara_tts_enabled') === 'true';
+
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) return;
+      try {
+        window.speechSynthesis.cancel();
+        var clean = (text || '')
+          .replace(/\[action:[^\]]+\]/g, '')
+          .replace(/[*#_`~\[\]]/g, '')
+          .replace(/https?:\/\/\S+/g, '')
+          .replace(/₹/g, 'Rupees ')
+          .replace(/\n+/g, ' ');
+
+        var parts = clean.split(/[.!?]\s+/).filter(Boolean);
+        var toSpeak = parts.slice(0, 3).join('. ');
+        if (toSpeak.length > 260) toSpeak = toSpeak.slice(0, 260) + '...';
+        if (!toSpeak.trim()) return;
+
+        var utt = new SpeechSynthesisUtterance(toSpeak);
+        utt.rate = 1.0;
+        utt.pitch = 1.0;
+        utt.lang = 'en-IN';
+
+        var voices = window.speechSynthesis.getVoices();
+        if (voices && voices.length) {
+          var preferred = voices.find(function (v) { return v.lang && (v.lang === 'en-IN' || v.lang.indexOf('hi') !== -1); }) ||
+                          voices.find(function (v) { return v.lang && v.lang.startsWith('en'); });
+          if (preferred) utt.voice = preferred;
+        }
+
+        window.speechSynthesis.speak(utt);
+      } catch (err) {
+        console.warn('Speech synthesis notice:', err);
+      }
+    }
+
+    // TTS Toggle Button in Chat Header
+    var ttsBtn = document.getElementById('pm-tts-btn');
+    if (ttsBtn) {
+      function syncTtsBtn() {
+        if (ttsEnabled) {
+          ttsBtn.classList.add('pm-tts-active');
+          ttsBtn.textContent = '🔊';
+          ttsBtn.title = 'Voice readout is ON (Click to mute)';
+        } else {
+          ttsBtn.classList.remove('pm-tts-active');
+          ttsBtn.textContent = '🔇';
+          ttsBtn.title = 'Voice readout is OFF (Click to enable)';
+        }
+      }
+      syncTtsBtn();
+
+      ttsBtn.onclick = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        ttsEnabled = !ttsEnabled;
+        try { localStorage.setItem('parampara_tts_enabled', ttsEnabled ? 'true' : 'false'); } catch (e) {}
+        syncTtsBtn();
+        if (ttsEnabled) {
+          speakText('Voice readout activated for Parampara Mitra.');
+        } else {
+          if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+        }
+      };
+    }
+
+    // Speech-to-Text Microphone Integration (PC & Mobile Robust Engine)
     var micBtn = document.getElementById('pm-mic-btn');
     if (micBtn) {
       var SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRec) {
-        micBtn.title = "Voice recognition not supported in this browser";
-        micBtn.style.opacity = '0.6';
-      } else {
-        var recognition = null;
-        var isListening = false;
+      var activeRecognition = null;
+      var isListening = false;
 
-        micBtn.onclick = function (e) {
-          e.preventDefault();
-          if (isListening && recognition) {
-            recognition.stop();
-            return;
-          }
+      micBtn.onclick = async function (e) {
+        e.preventDefault();
+        e.stopPropagation();
 
+        if (isListening && activeRecognition) {
+          try { activeRecognition.stop(); } catch (err) {}
+          isListening = false;
+          micBtn.classList.remove('pm-mic-listening');
+          if (inp) inp.placeholder = CONFIG.placeholder;
+          return;
+        }
+
+        if (!SpeechRec) {
+          addBubble('assistant', 'ℹ️ **Voice Recognition Notice:** Your browser does not have speech recognition enabled by default. Please use Google Chrome, Microsoft Edge, or a mobile browser for voice input, or type your query in the box below.', true);
+          return;
+        }
+
+        // 1. Microphone Hardware & Permission Pre-flight Check for PC
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
           try {
-            recognition = new SpeechRec();
-            recognition.lang = 'en-IN';
-            recognition.continuous = false;
-            recognition.interimResults = false;
+            var stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            // Release hardware stream so SpeechRecognition can bind cleanly
+            stream.getTracks().forEach(function (t) { t.stop(); });
+          } catch (micErr) {
+            console.warn('Microphone permission/hardware notice:', micErr);
+            if (micErr.name === 'NotAllowedError' || micErr.name === 'PermissionDeniedError') {
+              addBubble('assistant', '🔒 **Microphone Access Blocked:** Please click the microphone/lock icon in your browser address bar and choose **"Allow"** to use voice input on PC.', true);
+              return;
+            } else if (micErr.name === 'NotFoundError' || micErr.name === 'DevicesNotFoundError') {
+              addBubble('assistant', '🎙️ **No Microphone Detected:** No active microphone hardware was found on this PC. Please connect a microphone or headset, or type your question below.', true);
+              return;
+            }
+          }
+        }
 
-            recognition.onstart = function () {
-              isListening = true;
-              micBtn.classList.add('pm-mic-listening');
-              if (inp) inp.placeholder = "Listening... Speak your query";
-            };
+        // 2. Launch Web Speech Recognition
+        try {
+          var recognition = new SpeechRec();
+          activeRecognition = recognition;
+          recognition.lang = 'en-IN';
+          recognition.continuous = false;
+          recognition.interimResults = true;
 
-            recognition.onresult = function (event) {
-              if (event.results && event.results[0] && event.results[0][0]) {
-                var transcript = event.results[0][0].transcript;
-                if (inp) inp.value = transcript;
-                send(transcript);
+          recognition.onstart = function () {
+            isListening = true;
+            micBtn.classList.add('pm-mic-listening');
+            if (inp) inp.placeholder = "Listening... Speak your craft or budget query now";
+          };
+
+          recognition.onresult = function (event) {
+            var interim = '';
+            var finalTranscript = '';
+            for (var i = event.resultIndex; i < event.results.length; ++i) {
+              if (event.results[i].isFinal) {
+                finalTranscript += event.results[i][0].transcript;
+              } else {
+                interim += event.results[i][0].transcript;
               }
-            };
-
-            recognition.onerror = function (event) {
-              console.warn("Speech recognition notice:", event.error);
-            };
-
-            recognition.onend = function () {
+            }
+            if (interim && inp) {
+              inp.value = interim;
+            }
+            if (finalTranscript && inp) {
+              inp.value = finalTranscript;
               isListening = false;
               micBtn.classList.remove('pm-mic-listening');
               if (inp) inp.placeholder = CONFIG.placeholder;
-            };
+              send(finalTranscript);
+            }
+          };
 
-            recognition.start();
-          } catch (err) {
-            console.warn("Speech recognition initialization:", err.message);
-          }
-        };
-      }
+          recognition.onerror = function (event) {
+            console.warn('Speech recognition notice:', event.error);
+            isListening = false;
+            micBtn.classList.remove('pm-mic-listening');
+            if (inp) inp.placeholder = CONFIG.placeholder;
+
+            if (event.error === 'not-allowed') {
+              addBubble('assistant', '🔒 **Microphone Access Blocked:** Please click the lock or camera icon in your address bar to permit microphone access for this site.', true);
+            } else if (event.error === 'network' || event.error === 'service-not-allowed') {
+              var isBrave = (navigator.brave && typeof navigator.brave.isBrave === 'function');
+              if (isBrave) {
+                addBubble('assistant', '🦁 **Brave Browser Desktop Voice Setup:** On desktop PCs, Brave blocks Google Speech services by default.\n\nTo enable voice input in Brave:\n1. Open `brave://settings/privacy` in a new tab.\n2. Turn ON **"Use Google services for speech recognition"**.\n3. Reload this page.\n\nAlternatively, you can type your query in the box below!', true);
+              } else {
+                addBubble('assistant', '⚠️ **Desktop Speech Service Notice:** The browser speech recognition endpoint could not connect. You can type your query directly below.', true);
+              }
+            } else if (event.error === 'audio-capture') {
+              addBubble('assistant', '🎙️ **No Audio Capture:** No working microphone input was detected. Please check your PC audio hardware settings.', true);
+            } else if (event.error === 'no-speech') {
+              if (inp) inp.placeholder = "No speech detected. Click 🎙️ to try again.";
+              setTimeout(function () {
+                if (inp) inp.placeholder = CONFIG.placeholder;
+              }, 2500);
+            }
+          };
+
+          recognition.onend = function () {
+            isListening = false;
+            micBtn.classList.remove('pm-mic-listening');
+            if (inp && !inp.value) inp.placeholder = CONFIG.placeholder;
+          };
+
+          recognition.start();
+        } catch (startErr) {
+          console.warn('Speech recognition start failed:', startErr);
+          isListening = false;
+          micBtn.classList.remove('pm-mic-listening');
+          addBubble('assistant', '⚠️ Could not initialize voice input on this PC: ' + (startErr.message || 'Unknown error') + '. Please type your query.', true);
+        }
+      };
     }
 
     // Delegated click handler

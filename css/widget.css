@@ -278,7 +278,42 @@
 .pm-head-btn:hover {
   background: #f3eae0;
   color: #3b2a1a;
+}
+
+#pm-reset-btn:hover {
   transform: rotate(45deg);
+}
+
+#pm-tts-btn {
+  font-size: 0.95rem;
+}
+
+#pm-tts-btn.pm-tts-active {
+  background: #fdf3e7;
+  color: #B8860B;
+  box-shadow: 0 0 0 1px #dfc79e;
+}
+
+.pm-msg-speak-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  font-size: 0.82rem;
+  color: #a8947f;
+  cursor: pointer;
+  padding: 3px 6px;
+  margin-top: 6px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  opacity: 0.85;
+}
+
+.pm-msg-speak-btn:hover {
+  opacity: 1;
+  color: #B8860B;
+  background: rgba(184, 134, 11, 0.08);
 }
 
 .pm-xbtn,

@@ -1236,34 +1236,86 @@
             window.speechSynthesis.speak(utterance);
         }
 
-        function startVoiceInput() {
+        async function startVoiceInput() {
             if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-                alert('Voice speech recognition is not supported in this browser. Please type your query.');
+                alert('Voice speech recognition is not supported in this browser. Please type your query in the input box.');
                 return;
             }
-            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'en-IN';
-            
+
             const micBtn = document.getElementById('mic-btn');
-            micBtn.classList.add('bg-red-500', 'text-white', 'animate-pulse');
+            const inputEl = document.getElementById('user-input');
 
-            recognition.onresult = (event) => {
-                const transcript = event.results[0][0].transcript;
-                document.getElementById('user-input').value = transcript;
+            // Microphone permission pre-flight check on PC
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    stream.getTracks().forEach(t => t.stop());
+                } catch (err) {
+                    if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                        alert('🔒 Microphone access is blocked. Please click the lock or camera icon in your browser URL bar to allow microphone access.');
+                        return;
+                    } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+                        alert('🎙️ No microphone hardware detected on this PC. Please plug in a microphone or headset.');
+                        return;
+                    }
+                }
+            }
+
+            try {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'en-IN';
+                recognition.interimResults = true;
+                
+                micBtn.classList.add('bg-red-500', 'text-white', 'animate-pulse');
+                if (inputEl) inputEl.placeholder = "Listening... Speak your query now";
+
+                recognition.onresult = (event) => {
+                    let interim = '';
+                    let finalTranscript = '';
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            finalTranscript += event.results[i][0].transcript;
+                        } else {
+                            interim += event.results[i][0].transcript;
+                        }
+                    }
+                    if (interim && inputEl) {
+                        inputEl.value = interim;
+                    }
+                    if (finalTranscript && inputEl) {
+                        inputEl.value = finalTranscript;
+                        micBtn.classList.remove('bg-red-500', 'text-white', 'animate-pulse');
+                        handleUserSubmit();
+                    }
+                };
+
+                recognition.onerror = (event) => {
+                    micBtn.classList.remove('bg-red-500', 'text-white', 'animate-pulse');
+                    if (inputEl) inputEl.placeholder = "Ask Saathi about the 800-year history, GI certification, or 70% direct payment...";
+                    console.warn('Saathi speech error:', event.error);
+                    if (event.error === 'network' || event.error === 'service-not-allowed') {
+                        const isBrave = (navigator.brave && typeof navigator.brave.isBrave === 'function');
+                        if (isBrave) {
+                            alert('🦁 Brave Browser PC Notice: Brave blocks Google Speech services by default on desktop.\n\nTo enable voice input on Brave PC:\n1. Go to brave://settings/privacy\n2. Turn ON "Use Google services for speech recognition"\n3. Reload this page.');
+                        } else {
+                            alert('⚠️ Desktop speech service connection error. Please type your query directly.');
+                        }
+                    } else if (event.error === 'not-allowed') {
+                        alert('🔒 Microphone permission was denied. Please allow microphone permissions in your browser URL bar.');
+                    }
+                };
+
+                recognition.onend = () => {
+                    micBtn.classList.remove('bg-red-500', 'text-white', 'animate-pulse');
+                    if (inputEl) inputEl.placeholder = "Ask Saathi about the 800-year history, GI certification, or 70% direct payment...";
+                };
+
+                recognition.start();
+            } catch (err) {
                 micBtn.classList.remove('bg-red-500', 'text-white', 'animate-pulse');
-                handleUserSubmit();
-            };
-
-            recognition.onerror = () => {
-                micBtn.classList.remove('bg-red-500', 'text-white', 'animate-pulse');
-            };
-
-            recognition.onend = () => {
-                micBtn.classList.remove('bg-red-500', 'text-white', 'animate-pulse');
-            };
-
-            recognition.start();
+                alert('Could not start voice recognition: ' + (err.message || 'Unknown error'));
+            }
         }
 
         function changeLanguage() {
