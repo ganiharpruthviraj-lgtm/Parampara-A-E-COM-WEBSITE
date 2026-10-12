@@ -1,8 +1,8 @@
 /* Responsive, Touch-Optimized Interactive Button System for Parampara */
 
 /* 1. Global Touch & Interaction Optimization */
-button, 
-a[role="button"], 
+button:not(.pm-launcher):not([id^="pm-"]):not(.pm-window *), 
+a[role="button"]:not(.pm-launcher), 
 input[type="button"], 
 input[type="submit"], 
 .btn, 
@@ -12,13 +12,24 @@ input[type="submit"],
 .hover-shimmer,
 .state-card,
 .product-card,
-[class*="btn-"],
+[class*="btn-"]:not(.pm-launcher):not([class*="pm-"]),
 a[class*="rounded-"] {
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
+}
+
+/* Safeguard: Parampara Mitra Floating AI Launcher MUST ALWAYS remain fixed in place */
+.pm-launcher,
+#pm-fab {
+    position: fixed !important;
+    bottom: 24px !important;
+    right: 24px !important;
+    left: auto !important;
+    top: auto !important;
+    margin: 0 !important;
 }
 
 /* 2. Micro-Interaction: Tactile Press / Active Feedback */
@@ -75,13 +86,18 @@ a:focus-visible {
     #region-tabs::-webkit-scrollbar, .category-filter-tabs::-webkit-scrollbar {
         display: none; /* Chrome, Safari */
     }
-    .region-btn {
-        flex-shrink: 0;
+    /* Mobile floating chat launcher safeguard */
+    .pm-launcher,
+    #pm-fab {
+        bottom: 18px !important;
+        right: 18px !important;
+        left: auto !important;
+        top: auto !important;
     }
 }
 
 /* 5. Ripple Effect Container & Animation */
-.btn-ripple {
+.btn-ripple:not(.pm-launcher):not([id^="pm-"]) {
     position: relative;
     overflow: hidden;
 }

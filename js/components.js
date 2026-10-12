@@ -121,8 +121,8 @@
       document.body.insertAdjacentHTML('afterbegin', navHTML);
     }
 
-    // Inject footer: replace existing #global-footer OR append to body
-    const existingFooter = document.getElementById('global-footer');
+    // Inject footer: replace existing #global-footer OR existing <footer> OR append to body
+    const existingFooter = document.getElementById('global-footer') || document.querySelector('footer');
     if (existingFooter) {
       existingFooter.outerHTML = footerHTML;
     } else if (!document.querySelector('footer#global-footer')) {

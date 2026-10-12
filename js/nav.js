@@ -59,10 +59,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Interactive Ripple & Tap Feedback for All Buttons
     function initButtonInteractions() {
-        const interactiveSelectors = 'button, a[role="button"], .btn, .btn-submit, .region-btn, a[class*="px-"][class*="py-"], .explore-btn, [class*="btn-"]';
+        const interactiveSelectors = 'button:not(.pm-launcher):not([id^="pm-"]), a[role="button"]:not(.pm-launcher), .btn, .btn-submit, .region-btn, a[class*="px-"][class*="py-"], .explore-btn, [class*="btn-"]:not(.pm-launcher)';
         const elements = document.querySelectorAll(interactiveSelectors);
 
         elements.forEach(btn => {
+            if (btn.closest('#pm-root') || btn.classList.contains('pm-launcher') || btn.id === 'pm-fab') return;
             if (btn.dataset.rippleAttached) return;
             btn.dataset.rippleAttached = 'true';
             btn.classList.add('btn-ripple');

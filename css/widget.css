@@ -45,11 +45,21 @@
   100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
+/* ── Container Isolation ── */
+#pm-root {
+  position: static !important;
+  display: block !important;
+}
+
 /* ── Floating Launcher Button (Bottom-Right) ── */
-.pm-launcher {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
+.pm-launcher,
+#pm-fab {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  left: auto !important;
+  top: auto !important;
+  margin: 0 !important;
   height: 52px;
   padding: 0 18px 0 14px;
   border-radius: 26px;
@@ -60,7 +70,7 @@
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  z-index: 99999;
+  z-index: 99999 !important;
   box-shadow: 0 8px 24px rgba(139, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.15);
   transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   user-select: none;
@@ -68,6 +78,15 @@
   font-weight: 700;
   font-size: 13.5px;
   letter-spacing: 0.2px;
+}
+
+.pm-launcher.btn-ripple {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  left: auto !important;
+  top: auto !important;
+  overflow: visible !important;
 }
 
 .pm-launcher:hover {
@@ -813,9 +832,13 @@
 
 /* ── Mobile Responsive ── */
 @media (max-width: 640px) {
-  .pm-launcher {
-    bottom: 18px;
-    right: 18px;
+  .pm-launcher,
+  #pm-fab {
+    position: fixed !important;
+    bottom: 18px !important;
+    right: 18px !important;
+    left: auto !important;
+    top: auto !important;
     height: 48px;
     padding: 0 16px 0 12px;
     font-size: 12.5px;
