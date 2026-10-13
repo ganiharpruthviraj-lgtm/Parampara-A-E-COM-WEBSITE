@@ -79,14 +79,16 @@
             </i>
             Search
            </a>
-           <a class="border border-[var(--primary-color)] text-[var(--primary-color)] hover:bg-[var(--primary-color)] hover:text-white px-5 py-2.5 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 text-sm cursor-pointer" href="login.html" id="nav-signin-btn">
-            <i class="fa-regular fa-circle-user text-base"></i>
-            <span>Sign In</span>
-           </a>
-           <button type="button" class="pm-nav-trigger" id="nav-pm-trigger" title="Chat with Parampara Mitra AI Shopping Concierge">
-            <span class="pm-live-dot"></span>
-            <span>🪔 Mitra AI</span>
-           </button>
+            <!-- Shopping Bag Link -->
+            <a href="checkout.html" class="relative text-[var(--dark-text-color)] hover:text-[var(--primary-color)] p-2.5 rounded-full hover:bg-black/5 transition-colors flex items-center justify-center" title="Shopping Bag" id="nav-cart-link">
+              <i class="fa-solid fa-bag-shopping text-lg"></i>
+              <span id="nav-cart-badge" class="hidden absolute -top-0.5 -right-0.5 bg-[#B8860B] text-white text-[10px] font-bold min-w-[18px] h-[18px] rounded-full flex items-center justify-center px-1 shadow">0</span>
+            </a>
+            <!-- Login / Sign Up Collector Portal Button -->
+            <a class="nav-signin-btn border border-[var(--primary-color)] text-[var(--primary-color)] hover:bg-[var(--primary-color)] hover:text-white px-4 py-2 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 text-sm cursor-pointer shadow-sm hover:shadow-md group" href="login.html" id="nav-signin-btn" title="Sign In or Sign Up — Collector Portal">
+             <i class="fa-regular fa-circle-user text-base group-hover:scale-110 transition-transform"></i>
+             <span>Sign In / Sign Up</span>
+            </a>
           </div>
           <!-- Mobile Menu Toggle -->
           <button class="lg:hidden p-2 rounded-md text-[var(--dark-text-color)] hover:bg-[var(--medium-background-color)] transition-colors" data-landingsite-mobile-menu-toggle="" id="mobile-menu-toggle">
@@ -113,17 +115,13 @@
            </a>
            <a class="border border-[var(--primary-color)] text-[var(--primary-color)] hover:bg-[var(--primary-color)] hover:text-white px-6 py-3 rounded-full font-semibold text-center transition-all flex items-center justify-center gap-2 text-sm" href="login.html" id="mobile-nav-signin-btn">
             <i class="fa-regular fa-circle-user text-base"></i>
-            <span>Sign In / Collector Portal</span>
+            <span>Sign In / Sign Up</span>
            </a>
            <a class="bg-[var(--primary-color)] text-[var(--primary-button-text-color)] px-6 py-3 rounded-[var(--button-rounded-radius)] font-semibold text-center hover:bg-[var(--primary-button-hover-bg-color)] transition-all flex items-center justify-center gap-2" href="search.html">
             <i class="fa-solid fa-magnifying-glass text-sm">
             </i>
             Search
            </a>
-           <button type="button" class="pm-nav-trigger w-full justify-center" id="nav-pm-trigger-mobile">
-            <span class="pm-live-dot"></span>
-            <span>🪔 Chat with Mitra AI</span>
-           </button>
           </div>
          </div>
         </div>
@@ -1611,26 +1609,14 @@ const container = document.getElementById('india-map-container');
     document.addEventListener('DOMContentLoaded', () => {
       setTimeout(initHomepageGoogleAuth, 800);
 
-      // Intercept Sign In clicks when user is not logged in
-      const navBtn = document.getElementById('nav-signin-btn');
-      if (navBtn) {
-        navBtn.addEventListener('click', (e) => {
-          if (!localStorage.getItem('token')) {
-            e.preventDefault();
-            openQuickAuthModal();
-          }
-        });
-      }
-
-      const mobileNavBtn = document.getElementById('mobile-nav-signin-btn');
-      if (mobileNavBtn) {
-        mobileNavBtn.addEventListener('click', (e) => {
-          if (!localStorage.getItem('token')) {
-            e.preventDefault();
-            openQuickAuthModal();
-          }
-        });
-      }
+      // Intercept Sign In clicks when user is not logged in (delegated for dynamically injected nav)
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('#nav-signin-btn, #mobile-nav-signin-btn, .nav-signin-btn');
+        if (btn && !localStorage.getItem('token')) {
+          e.preventDefault();
+          openQuickAuthModal();
+        }
+      });
 
       document.getElementById('quick-auth-close-btn')?.addEventListener('click', closeQuickAuthModal);
       document.getElementById('quick-auth-modal')?.addEventListener('click', (e) => {
