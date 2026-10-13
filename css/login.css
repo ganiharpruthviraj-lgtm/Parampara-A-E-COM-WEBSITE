@@ -276,17 +276,17 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2.5rem 1.5rem;
+  padding: 1.5rem 1.25rem;
   min-height: 100vh;
   overflow-y: auto;
   position: relative;
 }
-@media (min-width: 1024px) { .right-panel { width: 520px; } }
-@media (min-width: 1280px) { .right-panel { width: 580px; } }
+@media (min-width: 1024px) { .right-panel { width: 500px; padding: 1.5rem 2rem; } }
+@media (min-width: 1280px) { .right-panel { width: 540px; } }
 
 .form-container {
   width: 100%;
-  max-width: 430px;
+  max-width: 420px;
   margin: auto;
   position: relative; z-index: 1;
 }
@@ -296,7 +296,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.75rem;
+  margin-bottom: 0.85rem;
 }
 
 .back-link {
@@ -319,21 +319,21 @@ body {
   display: block;
 }
 @media (min-width: 1024px) { .mobile-logo { display: none; } }
-.mobile-logo img { height: 1.8rem; }
+.mobile-logo img { height: 1.6rem; }
 
 /* Auth Mode Tabs (3 Tabs: Sign In, Mobile OTP, Create Account) */
 .auth-tabs {
   display: flex;
   background: var(--cream-dark);
-  padding: 4px;
+  padding: 3px;
   border-radius: 6px;
   border: 1px solid var(--border);
-  margin-bottom: 1.75rem;
+  margin-bottom: 0.85rem;
   gap: 2px;
 }
 .auth-tab {
   flex: 1;
-  padding: 0.55rem 0.35rem;
+  padding: 0.5rem 0.35rem;
   text-align: center;
   font-family: var(--font-display);
   font-size: 0.62rem;
@@ -357,13 +357,13 @@ body {
 /* Form header */
 .form-eyebrow {
   font-family: var(--font-display);
-  font-size: 0.6rem;
+  font-size: 0.58rem;
   font-weight: 700;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--primary-color);
-  margin-bottom: 0.45rem;
-  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 0.25rem;
+  display: flex; align-items: center; gap: 0.6rem;
 }
 .form-eyebrow::after {
   content: ''; display: block;
@@ -372,24 +372,24 @@ body {
 }
 .form-title {
   font-family: var(--font-serif);
-  font-size: clamp(2.2rem, 3.8vw, 2.8rem);
+  font-size: clamp(1.8rem, 3.2vw, 2.3rem);
   font-weight: 300;
   color: var(--dark);
-  line-height: 1.15;
+  line-height: 1.1;
   letter-spacing: -0.01em;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.25rem;
 }
 .form-title em { font-style: italic; color: var(--primary-color); font-weight: 400; }
 .form-subtitle {
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   color: var(--mid);
   font-weight: 300;
-  margin-bottom: 1.75rem;
-  line-height: 1.5;
+  margin-bottom: 0.9rem;
+  line-height: 1.4;
 }
 
 /* ─── FORM INPUT FIELDS ─────────────────── */
-.field-group { margin-bottom: 1.15rem; }
+.field-group { margin-bottom: 0.85rem; }
 .field-label {
   display: flex; justify-content: space-between; align-items: center;
   font-family: var(--font-display);
@@ -987,4 +987,152 @@ body {
 .google-account-email {
   font-size: 0.75rem;
   color: #9aa0a6;
+}
+
+/* ─── INLINE FORM VALIDATION STYLES (FLAW 2) ─── */
+.field-input.input-error {
+  border-color: #E53E3E !important;
+  background-color: #FFF5F5 !important;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.15) !important;
+}
+.input-error-msg {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #E53E3E;
+  margin-top: 0.35rem;
+  letter-spacing: 0.02em;
+  animation: fadeInError 0.25s ease-out;
+}
+@keyframes fadeInError {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fieldShake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+.shake {
+  animation: fieldShake 0.4s ease-in-out;
+}
+
+/* ─── LEGAL MODALS (FLAW 5) ─── */
+.legal-modal-card {
+  width: 100%;
+  max-width: 540px;
+  max-height: 85vh;
+  background: var(--cream);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 2.25rem 2rem;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  overflow-y: auto;
+}
+.legal-section-title {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  margin-top: 1.25rem;
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.legal-section-p {
+  font-size: 0.8rem;
+  color: var(--mid);
+  line-height: 1.6;
+  margin-bottom: 0.85rem;
+}
+
+/* ─── FLAW 1: COMPACT LAPTOP VIEWPORT OPTIMIZATIONS (1366x768 & 1440x900) ─── */
+@media (max-height: 850px) {
+  .right-panel {
+    padding: 1rem 1.25rem !important;
+    justify-content: flex-start !important;
+  }
+  .top-nav-row {
+    margin-bottom: 0.5rem !important;
+  }
+  .auth-tabs {
+    margin-bottom: 0.5rem !important;
+    padding: 2px !important;
+  }
+  .auth-tab {
+    padding: 0.35rem 0.25rem !important;
+    font-size: 0.58rem !important;
+  }
+  .form-eyebrow {
+    margin-bottom: 0.15rem !important;
+    font-size: 0.52rem !important;
+  }
+  .form-title {
+    font-size: 1.65rem !important;
+    margin-bottom: 0.15rem !important;
+    line-height: 1.15 !important;
+  }
+  .form-subtitle {
+    font-size: 0.72rem !important;
+    margin-bottom: 0.55rem !important;
+    line-height: 1.3 !important;
+  }
+  .google-signin-pill-btn {
+    padding: 8px 16px !important;
+    font-size: 0.85rem !important;
+  }
+  .google-signin-pill-btn svg {
+    width: 17px !important;
+    height: 17px !important;
+  }
+  .btn-social {
+    padding: 0.4rem 0.6rem !important;
+    font-size: 0.58rem !important;
+  }
+  .or-divider {
+    margin: 0.4rem 0 !important;
+  }
+  .field-group {
+    margin-bottom: 0.5rem !important;
+  }
+  .field-label {
+    margin-bottom: 0.2rem !important;
+    font-size: 0.58rem !important;
+  }
+  .field-input {
+    padding: 0.6rem 2.4rem 0.6rem 2.4rem !important;
+    font-size: 0.95rem !important;
+  }
+  .input-icon {
+    font-size: 0.75rem !important;
+    left: 0.85rem !important;
+  }
+  .remember-row {
+    margin-bottom: 0.5rem !important;
+  }
+  .btn-submit {
+    padding: 0.7rem 1rem !important;
+    font-size: 0.65rem !important;
+    margin-top: 0.25rem !important;
+  }
+  .trust-seals-row {
+    padding-top: 0.5rem !important;
+    margin-top: 0.5rem !important;
+  }
+  .trust-seal-item {
+    font-size: 0.52rem !important;
+  }
+  .bottom-brand {
+    padding-top: 0.4rem !important;
+    margin-top: 0.4rem !important;
+  }
+  .bottom-brand p {
+    font-size: 0.6rem !important;
+    line-height: 1.3 !important;
+  }
 }

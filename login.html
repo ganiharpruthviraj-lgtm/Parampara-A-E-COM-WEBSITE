@@ -91,6 +91,63 @@
       </div>
     </div>
   </div>
+
+  <!-- ─── TERMS OF SERVICE MODAL (FLAW 5) ──────────── -->
+  <div class="modal-overlay" id="terms-modal">
+    <div class="legal-modal-card">
+      <button class="modal-close" id="terms-close-btn" type="button">&times;</button>
+      <p class="form-eyebrow">Collector Protocol</p>
+      <h2 class="form-title">Terms of <em>Service.</em></h2>
+      <p class="form-subtitle">Governing authentic craft acquisitions from India's 28 heritage states.</p>
+      
+      <div class="legal-content mt-3">
+        <h3 class="legal-section-title"><i class="fa-solid fa-award"></i> 1. GI Certified Authenticity Guarantee</h3>
+        <p class="legal-section-p">Every item listed in the Parampara Collector Portal carries verifiable Geographical Indication (GI) accreditation or master artisan lineage. Counterfeit or mass-produced substitutes are strictly prohibited.</p>
+
+        <h3 class="legal-section-title"><i class="fa-solid fa-hand-holding-dollar"></i> 2. Direct 70% Artisan Proceeds</h3>
+        <p class="legal-section-p">Parampara operates under a transparent fair-trade charter: a minimum of 70% of gross collector sales proceeds flow directly to the registered custodial artisan families.</p>
+
+        <h3 class="legal-section-title"><i class="fa-solid fa-shield-halved"></i> 3. Collector Archive Access</h3>
+        <p class="legal-section-p">Collector accounts permit exclusive access to master craftsman archives, provenance deeds, and private showcase reservations across all 28 states.</p>
+
+        <h3 class="legal-section-title"><i class="fa-solid fa-box-archive"></i> 4. Museum-Grade Preservation & Delivery</h3>
+        <p class="legal-section-p">Acquired artifacts are packed in climate-controlled museum containers with bonded transit insurance from artisan workshops directly to your destination.</p>
+      </div>
+
+      <button class="btn-submit mt-4" id="terms-agree-btn" type="button">
+        <span>Acknowledge &amp; Continue</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── PRIVACY POLICY MODAL (FLAW 5) ──────────── -->
+  <div class="modal-overlay" id="privacy-modal">
+    <div class="legal-modal-card">
+      <button class="modal-close" id="privacy-close-btn" type="button">&times;</button>
+      <p class="form-eyebrow">Data Confidentiality</p>
+      <h2 class="form-title">Privacy <em>Policy.</em></h2>
+      <p class="form-subtitle">Your personal data and collection records are guarded under bank-grade encryption.</p>
+      
+      <div class="legal-content mt-3">
+        <h3 class="legal-section-title"><i class="fa-solid fa-lock"></i> 1. 256-Bit Encrypted Vault</h3>
+        <p class="legal-section-p">All communications, authentication tokens, and purchase histories are encrypted in transit and at rest using AES-256 and TLS 1.3 standards.</p>
+
+        <h3 class="legal-section-title"><i class="fa-brands fa-google"></i> 2. Google OAuth Security</h3>
+        <p class="legal-section-p">When signing in with Google, Parampara receives only your verified name and email address. We never inspect your private Google drive or sensitive account telemetry.</p>
+
+        <h3 class="legal-section-title"><i class="fa-solid fa-ban"></i> 3. Zero Commercial Selling</h3>
+        <p class="legal-section-p">We never sell, rent, or syndicate collector information to third-party ad exchanges or tracking conglomerates.</p>
+
+        <h3 class="legal-section-title"><i class="fa-solid fa-user-shield"></i> 4. Complete Data Sovereignty</h3>
+        <p class="legal-section-p">You may export your complete acquisition deed history or delete your collector profile permanently at any time by contacting our heritage desk.</p>
+      </div>
+
+      <button class="btn-submit mt-4" id="privacy-agree-btn" type="button">
+        <span>Understood &amp; Close</span>
+      </button>
+    </div>
+  </div>
+
   <!-- ─── OFFICIAL GOOGLE ACCOUNT CHOOSER POPUP (SCREENSHOT 1) ──── -->
   <div class="modal-overlay" id="google-account-modal">
     <div class="google-popup-window" role="dialog" aria-modal="true" aria-labelledby="google-popup-title">
@@ -337,6 +394,38 @@
           Sign in to explore India's finest heritage crafts, curated from 28 states.
         </p>
 
+        <!-- ─── 1-CLICK SOCIAL LOGIN (PROMINENT AT TOP, NO SCROLLING NEEDED) ─── -->
+        <div class="reveal-item mb-2.5">
+          <!-- Official Google GIS Button Container -->
+          <div id="google-btn-container" class="flex justify-center mb-2 hidden"></div>
+
+          <button class="google-signin-pill-btn" id="google-signin-btn" type="button">
+            <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+            </svg>
+            <span class="font-medium text-sm text-[#3c4043]">Sign in with Google</span>
+          </button>
+        </div>
+
+        <!-- Compact Secondary Row: Apple ID Demo + 1-Click Demo -->
+        <div class="grid grid-cols-2 gap-2 mb-2.5 reveal-item">
+          <button class="btn-social !py-1.5 text-[0.62rem]" id="apple-signin-btn" type="button" title="Simulated Apple ID Sign-In (Demo)">
+            <i class="fa-brands fa-apple"></i>
+            Apple ID <span class="text-[0.55rem] px-1 py-0.2 rounded bg-[#F3EFE6] text-[#8C8275] font-bold">DEMO</span>
+          </button>
+          <button class="btn-social !py-1.5 text-[0.62rem] text-[#B8860B] border-[#B8860B]/40 hover:border-[#B8860B]" id="quick-demo-btn" type="button" title="1-Click Instant Collector Preview">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            1-Click Demo
+          </button>
+        </div>
+
+        <div class="or-divider reveal-item !my-2">
+          <span id="or-divider-text">Or continue with credentials</span>
+        </div>
+
         <!-- ─── 1. SIGN IN FORM ─── -->
         <form id="login-form" novalidate>
           <div class="field-group reveal-item">
@@ -345,6 +434,7 @@
               <i class="input-icon fa-regular fa-envelope"></i>
               <input autocomplete="email" class="field-input" id="email" placeholder="you@example.com" required type="email"/>
             </div>
+            <span class="input-error-msg hidden" id="email-error"></span>
           </div>
 
           <div class="field-group reveal-item">
@@ -359,6 +449,7 @@
                 <i class="fa-regular fa-eye" id="pw-icon-login"></i>
               </button>
             </div>
+            <span class="input-error-msg hidden" id="password-error"></span>
           </div>
 
           <div class="remember-row reveal-item">
@@ -368,7 +459,7 @@
             </div>
           </div>
 
-          <button class="btn-submit reveal-item" id="submit-btn-login" type="submit">
+          <button class="btn-submit reveal-item !mt-2" id="submit-btn-login" type="submit">
             <span id="btn-text-login">Sign In to Parampara</span>
           </button>
         </form>
@@ -385,6 +476,7 @@
                 <span class="phone-prefix-badge">+91</span>
                 <input autocomplete="tel" class="field-input phone-input" id="phone-number" maxlength="10" placeholder="98765 43210" required type="tel"/>
               </div>
+              <span class="input-error-msg hidden" id="phone-error"></span>
             </div>
 
             <button class="btn-submit mt-2" id="request-otp-btn" type="button">
@@ -407,6 +499,7 @@
               <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
               <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
             </div>
+            <span class="input-error-msg hidden text-center" id="otp-code-error"></span>
 
             <div class="flex items-center justify-between text-xs text-[#6B6B6B] my-2">
               <span id="otp-timer">Resend OTP in 30s</span>
@@ -428,6 +521,7 @@
               <i class="input-icon fa-regular fa-user"></i>
               <input autocomplete="name" class="field-input" id="reg-name" placeholder="Arjun Sharma" required type="text"/>
             </div>
+            <span class="input-error-msg hidden" id="reg-name-error"></span>
           </div>
 
           <div class="field-group">
@@ -436,6 +530,7 @@
               <i class="input-icon fa-regular fa-envelope"></i>
               <input autocomplete="email" class="field-input" id="reg-email" placeholder="arjun@heritage.in" required type="email"/>
             </div>
+            <span class="input-error-msg hidden" id="reg-email-error"></span>
           </div>
 
           <!-- Password with Strength Meter -->
@@ -448,8 +543,9 @@
                 <i class="fa-regular fa-eye" id="pw-icon-reg"></i>
               </button>
             </div>
+            <span class="input-error-msg hidden" id="reg-password-error"></span>
             <!-- Password Strength Bar -->
-            <div class="strength-container">
+            <div class="strength-container mt-1.5">
               <div class="strength-bar-bg"><div class="strength-bar-fill" id="strength-fill"></div></div>
               <span class="strength-label" id="strength-text">Password Strength</span>
             </div>
@@ -466,6 +562,7 @@
               </button>
             </div>
             <span class="match-status" id="match-status-badge"></span>
+            <span class="input-error-msg hidden" id="reg-confirm-error"></span>
           </div>
 
           <button class="btn-submit mt-2" id="submit-btn-reg" type="submit">
@@ -473,47 +570,8 @@
           </button>
         </form>
 
-        <!-- ─── QUICK DEMO LOGIN BOX ─── -->
-        <div class="demo-login-box reveal-item" id="demo-box">
-          <div class="demo-login-info">
-            <p>🏺 Demo Collector Access</p>
-            <p>Test with 1-click preview account</p>
-          </div>
-          <button class="btn-quick-demo" id="quick-demo-btn" type="button">
-            1-Click Sign In
-          </button>
-        </div>
-
-        <!-- ─── SOCIAL LOGIN SECTION ─── -->
-        <div class="or-divider reveal-item">
-          <span>Or continue with</span>
-        </div>
-
-        <!-- Official Google GIS Button Container -->
-        <div id="google-btn-container" class="flex justify-center mb-2.5 hidden"></div>
-
-        <!-- Google Sign-In Pill Button (Screenshot 2) -->
-        <div class="mb-2.5 reveal-item">
-          <button class="google-signin-pill-btn" id="google-signin-btn" type="button">
-            <svg class="google-icon" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
-              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
-            </svg>
-            <span class="font-medium text-sm text-[#3c4043]">Sign in with Google</span>
-          </button>
-        </div>
-
-        <div class="social-buttons reveal-item">
-          <button class="btn-social" id="apple-signin-btn" type="button">
-            <i class="fa-brands fa-apple"></i>
-            Apple ID
-          </button>
-        </div>
-
         <!-- ─── SECURITY & TRUST SEALS ─── -->
-        <div class="trust-seals-row reveal-item">
+        <div class="trust-seals-row reveal-item !pt-3 !mt-3">
           <div class="trust-seal-item">
             <i class="fa-solid fa-shield-halved"></i> 256-Bit Encrypted
           </div>
@@ -526,12 +584,12 @@
         </div>
 
         <!-- Footer Legal & Copyright -->
-        <div class="bottom-brand reveal-item">
+        <div class="bottom-brand reveal-item !pt-2.5 !mt-2.5">
           <div class="bottom-brand-dot"></div>
           <p>
             By continuing, you agree to Parampara's 
-            <a href="about.html">Terms of Service</a> & 
-            <a href="about.html">Privacy Policy</a>.<br/>
+            <a href="#" id="open-terms-link" class="underline hover:text-[var(--primary-color)]">Terms of Service</a> &amp; 
+            <a href="#" id="open-privacy-link" class="underline hover:text-[var(--primary-color)]">Privacy Policy</a>.<br/>
             © 2026 Parampara Heritage. All Rights Reserved.
           </p>
         </div>
@@ -805,15 +863,46 @@
     }
 
     function simulateAppleCollectorLogin() {
-      showToast('Initiating Apple ID Authentication... 🏺');
+      showToast('Simulated Apple ID: Authenticating in Demo Collector Mode... 🏺');
       setTimeout(() => {
         const appleUser = {
-          name: 'Heritage Collector (Apple ID)',
+          name: 'Heritage Collector (Demo Apple ID)',
           email: 'collector@privaterelay.appleid.com',
-          token: 'apple-auth-token-' + Date.now()
+          token: 'apple-auth-demo-' + Date.now()
         };
-        handleAuthSuccess(appleUser, 'Signed in with Apple ID! 🏺');
+        handleAuthSuccess(appleUser, 'Demo Apple ID Verified! Welcome to Parampara 🏺');
       }, 800);
+    }
+
+    /* ─── FLAW 2: Inline Form Validation Helpers ─── */
+    function showFieldError(inputId, errorId, msg) {
+      const el = document.getElementById(inputId);
+      const err = document.getElementById(errorId);
+      if (el) {
+        el.classList.add('input-error');
+        el.classList.remove('shake');
+        void el.offsetWidth; // Force CSS reflow to re-trigger shake
+        el.classList.add('shake');
+        setTimeout(() => el.classList.remove('shake'), 450);
+      }
+      if (err) {
+        err.textContent = msg;
+        err.classList.remove('hidden');
+      }
+    }
+
+    function clearFieldError(inputId, errorId) {
+      const el = document.getElementById(inputId);
+      const err = document.getElementById(errorId);
+      if (el) el.classList.remove('input-error', 'shake');
+      if (err) {
+        err.textContent = '';
+        err.classList.add('hidden');
+      }
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     }
 
     /* ─── Attach Explicit DOM Event Listeners ─── */
@@ -821,6 +910,15 @@
       document.getElementById('tab-login')?.addEventListener('click', () => switchAuthTab('login'));
       document.getElementById('tab-otp')?.addEventListener('click', () => switchAuthTab('otp'));
       document.getElementById('tab-register')?.addEventListener('click', () => switchAuthTab('register'));
+
+      // Real-time error clearing on input
+      document.getElementById('email')?.addEventListener('input', () => clearFieldError('email', 'email-error'));
+      document.getElementById('password')?.addEventListener('input', () => clearFieldError('password', 'password-error'));
+      document.getElementById('phone-number')?.addEventListener('input', () => clearFieldError('phone-number', 'phone-error'));
+      document.getElementById('reg-name')?.addEventListener('input', () => clearFieldError('reg-name', 'reg-name-error'));
+      document.getElementById('reg-email')?.addEventListener('input', () => clearFieldError('reg-email', 'reg-email-error'));
+      document.getElementById('reg-password')?.addEventListener('input', () => clearFieldError('reg-password', 'reg-password-error'));
+      document.getElementById('reg-confirm-password')?.addEventListener('input', () => clearFieldError('reg-confirm-password', 'reg-confirm-error'));
 
       document.getElementById('request-otp-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleRequestOTP(); });
       document.getElementById('verify-otp-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleVerifyOTP(); });
@@ -850,6 +948,43 @@
       document.getElementById('modal-close-btn')?.addEventListener('click', (e) => { e.preventDefault(); closeResetModal(); });
       document.getElementById('reset-form')?.addEventListener('submit', handleResetSubmit);
       document.getElementById('confirm-reset-btn')?.addEventListener('click', (e) => { e.preventDefault(); confirmPasswordReset(); });
+
+      // Legal Modals Listeners (Flaw 5)
+      document.getElementById('open-terms-link')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('terms-modal')?.classList.add('active');
+      });
+      document.getElementById('terms-close-btn')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('terms-modal')?.classList.remove('active');
+      });
+      document.getElementById('terms-agree-btn')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('terms-modal')?.classList.remove('active');
+      });
+      document.getElementById('terms-modal')?.addEventListener('click', (e) => {
+        if (e.target === document.getElementById('terms-modal')) {
+          document.getElementById('terms-modal')?.classList.remove('active');
+        }
+      });
+
+      document.getElementById('open-privacy-link')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('privacy-modal')?.classList.add('active');
+      });
+      document.getElementById('privacy-close-btn')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('privacy-modal')?.classList.remove('active');
+      });
+      document.getElementById('privacy-agree-btn')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        document.getElementById('privacy-modal')?.classList.remove('active');
+      });
+      document.getElementById('privacy-modal')?.addEventListener('click', (e) => {
+        if (e.target === document.getElementById('privacy-modal')) {
+          document.getElementById('privacy-modal')?.classList.remove('active');
+        }
+      });
 
       document.getElementById('google-modal-close-btn')?.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1075,10 +1210,17 @@
 
     async function handleRequestOTP() {
       const phoneInput = document.getElementById('phone-number').value.trim();
+      if (!phoneInput) {
+        showFieldError('phone-number', 'phone-error', 'Please enter your mobile phone number.');
+        showToast('🏺 Please enter your mobile phone number.');
+        return;
+      }
       if (phoneInput.length !== 10 || isNaN(phoneInput)) {
+        showFieldError('phone-number', 'phone-error', 'Please enter a valid 10-digit Indian mobile number.');
         showToast('🏺 Please enter a valid 10-digit Indian mobile number.');
         return;
       }
+      clearFieldError('phone-number', 'phone-error');
 
       const btn = document.getElementById('request-otp-btn');
       btn.disabled = true;
@@ -1252,17 +1394,34 @@
     /* ─── Form Submissions ─── */
     document.getElementById('login-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
+      const email = document.getElementById('email')?.value.trim() || '';
+      const password = document.getElementById('password')?.value || '';
       const btn = document.getElementById('submit-btn-login');
       const btnText = document.getElementById('btn-text-login');
+      let hasError = false;
 
-      if (!email || !email.includes('@')) {
-        showToast('🏺 Please enter a valid email address.');
-        return;
+      if (!email) {
+        showFieldError('email', 'email-error', 'Please enter your email address.');
+        hasError = true;
+      } else if (!isValidEmail(email)) {
+        showFieldError('email', 'email-error', 'Please enter a valid email address (e.g. you@example.com).');
+        hasError = true;
+      } else {
+        clearFieldError('email', 'email-error');
       }
-      if (!password || password.length < 6) {
-        showToast('🏺 Password must be at least 6 characters.');
+
+      if (!password) {
+        showFieldError('password', 'password-error', 'Please enter your password.');
+        hasError = true;
+      } else if (password.length < 6) {
+        showFieldError('password', 'password-error', 'Password must be at least 6 characters.');
+        hasError = true;
+      } else {
+        clearFieldError('password', 'password-error');
+      }
+
+      if (hasError) {
+        showToast('⚠️ Please correct the highlighted errors above.');
         return;
       }
 
@@ -1296,27 +1455,53 @@
 
     document.getElementById('register-form')?.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const name = document.getElementById('reg-name').value.trim();
-      const email = document.getElementById('reg-email').value.trim();
-      const password = document.getElementById('reg-password').value;
-      const confirmPassword = document.getElementById('reg-confirm-password').value;
+      const name = document.getElementById('reg-name')?.value.trim() || '';
+      const email = document.getElementById('reg-email')?.value.trim() || '';
+      const password = document.getElementById('reg-password')?.value || '';
+      const confirmPassword = document.getElementById('reg-confirm-password')?.value || '';
       const btn = document.getElementById('submit-btn-reg');
       const btnText = document.getElementById('btn-text-reg');
+      let hasError = false;
 
       if (!name) {
-        showToast('🏺 Please enter your full name.');
-        return;
+        showFieldError('reg-name', 'reg-name-error', 'Please enter your full name.');
+        hasError = true;
+      } else {
+        clearFieldError('reg-name', 'reg-name-error');
       }
-      if (!email || !email.includes('@')) {
-        showToast('🏺 Please enter a valid email address.');
-        return;
+
+      if (!email) {
+        showFieldError('reg-email', 'reg-email-error', 'Please enter your email address.');
+        hasError = true;
+      } else if (!isValidEmail(email)) {
+        showFieldError('reg-email', 'reg-email-error', 'Please enter a valid email address.');
+        hasError = true;
+      } else {
+        clearFieldError('reg-email', 'reg-email-error');
       }
-      if (!password || password.length < 6) {
-        showToast('🏺 Password must be at least 6 characters.');
-        return;
+
+      if (!password) {
+        showFieldError('reg-password', 'reg-password-error', 'Please enter a password.');
+        hasError = true;
+      } else if (password.length < 6) {
+        showFieldError('reg-password', 'reg-password-error', 'Password must be at least 6 characters.');
+        hasError = true;
+      } else {
+        clearFieldError('reg-password', 'reg-password-error');
       }
-      if (password !== confirmPassword) {
-        showToast('🏺 Passwords do not match.');
+
+      if (!confirmPassword) {
+        showFieldError('reg-confirm-password', 'reg-confirm-error', 'Please confirm your password.');
+        hasError = true;
+      } else if (password !== confirmPassword) {
+        showFieldError('reg-confirm-password', 'reg-confirm-error', 'Passwords do not match.');
+        hasError = true;
+      } else {
+        clearFieldError('reg-confirm-password', 'reg-confirm-error');
+      }
+
+      if (hasError) {
+        showToast('⚠️ Please correct the highlighted errors above.');
         return;
       }
 
