@@ -253,102 +253,82 @@
 
     <!-- LEFT PANEL — Multi-Artisan Hero Carousel -->
     <div class="left-panel">
-      <!-- Rotating Slides -->
-      <div class="carousel-slides">
-        
-        <!-- Slide 1: Gopal Saini (Pottery) -->
-        <div class="carousel-slide active" id="slide-0">
-          <div class="left-bg">
-            <img alt="Master Pottery Artisan — Gopal Saini" loading="eager" src="assets/master_potter_artisan.webp"/>
-          </div>
-          <div class="left-overlay"></div>
-          <div class="left-content">
-            <a class="left-logo reveal-item" href="index.html">
-              <img alt="Parampara Heritage" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
-            </a>
-            <div class="left-hero">
-              <p class="left-eyebrow">Est. 2026 · India's Heritage Store</p>
-              <h1 class="left-headline">Where every<br/>craft tells a<br/><em>timeless story.</em></h1>
-              <div class="left-quote">
-                <p>"We do not make objects.<br/>We carry memory forward into the modern age."</p>
-                <cite>— Gopal Saini, Master Potter · Jaipur Blue Pottery</cite>
-              </div>
-              <div class="carousel-nav">
-                <div class="carousel-dot active" data-slide="0"></div>
-                <div class="carousel-dot" data-slide="1"></div>
-                <div class="carousel-dot" data-slide="2"></div>
-              </div>
-              <div class="stat-row">
-                <div class="stat-item"><p>28</p><p>States</p></div>
-                <div class="stat-item"><p>70%</p><p>To Artisans</p></div>
-                <div class="stat-item"><p>71+</p><p>GI Tagged Crafts</p></div>
-              </div>
+      <!-- Background Image Slides (Smooth Crossfade) -->
+      <div class="carousel-bg-container">
+        <div class="carousel-bg-slide active" id="bg-slide-0">
+          <img alt="Master Pottery Artisan — Gopal Saini" loading="eager" src="assets/master_potter_artisan.webp"/>
+        </div>
+        <div class="carousel-bg-slide" id="bg-slide-1">
+          <img alt="Kanchipuram Silk Weaver" loading="lazy" src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=1200&auto=format&fit=crop"/>
+        </div>
+        <div class="carousel-bg-slide" id="bg-slide-2">
+          <img alt="Pashmina Master Craftsman" loading="lazy" src="https://images.unsplash.com/photo-1606744888344-49423b812d02?q=80&w=1200&auto=format&fit=crop"/>
+        </div>
+      </div>
+      <div class="left-overlay"></div>
+
+      <!-- Floating GI Tagged Badge -->
+      <div class="craft-badge">
+        <div class="craft-badge-icon">
+          <i class="fa-solid fa-award"></i>
+        </div>
+        <div class="craft-badge-text">
+          <p>Heritage Certified</p>
+          <p>GI TAGGED · MASTER ARTISAN</p>
+        </div>
+      </div>
+
+      <!-- Left Panel Static Frame & Rotating Text (Zero Overlap) -->
+      <div class="left-content">
+        <a class="left-logo" href="index.html">
+          <img alt="Parampara Heritage" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+        </a>
+
+        <div class="left-hero">
+          <!-- Text Slide 1: Gopal Saini (Pottery) -->
+          <div class="carousel-text-slide active" id="text-slide-0">
+            <p class="left-eyebrow">Est. 2026 · India's Heritage Store</p>
+            <h1 class="left-headline">Where every<br/>craft tells a<br/><em>timeless story.</em></h1>
+            <div class="left-quote">
+              <p>"We do not make objects.<br/>We carry memory forward into the modern age."</p>
+              <cite>— Gopal Saini, Master Potter · Jaipur Blue Pottery</cite>
             </div>
           </div>
-        </div>
 
-        <!-- Slide 2: Smt. Devki Devi (Kanchipuram Silk) -->
-        <div class="carousel-slide" id="slide-1">
-          <div class="left-bg">
-            <img alt="Kanchipuram Silk Weaver" loading="lazy" src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=1200&auto=format&fit=crop"/>
-          </div>
-          <div class="left-overlay"></div>
-          <div class="left-content">
-            <a class="left-logo" href="index.html">
-              <img alt="Parampara Heritage" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
-            </a>
-            <div class="left-hero">
-              <p class="left-eyebrow">Silk Handloom Legacy · Tamil Nadu</p>
-              <h1 class="left-headline">Woven with<br/>pure gold zari &<br/><em>ancestral pride.</em></h1>
-              <div class="left-quote">
-                <p>"Each thread takes weeks of devotion.<br/>When you wear silk, you wrap yourself in history."</p>
-                <cite>— Smt. Devki Devi, Master Silk Weaver · Kanchipuram</cite>
-              </div>
-              <div class="carousel-nav">
-                <div class="carousel-dot" data-slide="0"></div>
-                <div class="carousel-dot active" data-slide="1"></div>
-                <div class="carousel-dot" data-slide="2"></div>
-              </div>
-              <div class="stat-row">
-                <div class="stat-item"><p>28</p><p>States</p></div>
-                <div class="stat-item"><p>70%</p><p>To Artisans</p></div>
-                <div class="stat-item"><p>71+</p><p>GI Tagged Crafts</p></div>
-              </div>
+          <!-- Text Slide 2: Smt. Devki Devi (Kanchipuram Silk) -->
+          <div class="carousel-text-slide" id="text-slide-1">
+            <p class="left-eyebrow">Silk Handloom Legacy · Tamil Nadu</p>
+            <h1 class="left-headline">Woven with<br/>pure gold zari &<br/><em>ancestral pride.</em></h1>
+            <div class="left-quote">
+              <p>"Each thread takes weeks of devotion.<br/>When you wear silk, you wrap yourself in history."</p>
+              <cite>— Smt. Devki Devi, Master Silk Weaver · Kanchipuram</cite>
             </div>
           </div>
-        </div>
 
-        <!-- Slide 3: Ghulam Nabi (Kashmir Pashmina) -->
-        <div class="carousel-slide" id="slide-2">
-          <div class="left-bg">
-            <img alt="Pashmina Master Craftsman" loading="lazy" src="https://images.unsplash.com/photo-1606744888344-49423b812d02?q=80&w=1200&auto=format&fit=crop"/>
-          </div>
-          <div class="left-overlay"></div>
-          <div class="left-content">
-            <a class="left-logo" href="index.html">
-              <img alt="Parampara Heritage" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
-            </a>
-            <div class="left-hero">
-              <p class="left-eyebrow">Himalayan Craftsmanship · Kashmir</p>
-              <h1 class="left-headline">Soft as air,<br/>spun in the<br/><em>valley of snow.</em></h1>
-              <div class="left-quote">
-                <p>"True Pashmina is hand-spun with patience.<br/>It outlasts generations with royal grace."</p>
-                <cite>— Ghulam Nabi, Pashmina Master Artisan · Srinagar</cite>
-              </div>
-              <div class="carousel-nav">
-                <div class="carousel-dot" data-slide="0"></div>
-                <div class="carousel-dot" data-slide="1"></div>
-                <div class="carousel-dot active" data-slide="2"></div>
-              </div>
-              <div class="stat-row">
-                <div class="stat-item"><p>28</p><p>States</p></div>
-                <div class="stat-item"><p>70%</p><p>To Artisans</p></div>
-                <div class="stat-item"><p>71+</p><p>GI Tagged Crafts</p></div>
-              </div>
+          <!-- Text Slide 3: Ghulam Nabi (Kashmir Pashmina) -->
+          <div class="carousel-text-slide" id="text-slide-2">
+            <p class="left-eyebrow">Himalayan Craftsmanship · Kashmir</p>
+            <h1 class="left-headline">Soft as air,<br/>spun in the<br/><em>valley of snow.</em></h1>
+            <div class="left-quote">
+              <p>"True Pashmina is hand-spun with patience.<br/>It outlasts generations with royal grace."</p>
+              <cite>— Ghulam Nabi, Pashmina Master Artisan · Srinagar</cite>
             </div>
           </div>
-        </div>
 
+          <!-- Single Set of Carousel Nav Dots -->
+          <div class="carousel-nav">
+            <button type="button" class="carousel-dot active" data-slide="0" aria-label="Slide 1"></button>
+            <button type="button" class="carousel-dot" data-slide="1" aria-label="Slide 2"></button>
+            <button type="button" class="carousel-dot" data-slide="2" aria-label="Slide 3"></button>
+          </div>
+
+          <!-- Single Set of Heritage Stats -->
+          <div class="stat-row">
+            <div class="stat-item"><p>28</p><p>States</p></div>
+            <div class="stat-item"><p>70%</p><p>To Artisans</p></div>
+            <div class="stat-item"><p>71+</p><p>GI Tagged Crafts</p></div>
+          </div>
+        </div>
       </div>
 
       <!-- Floating Heritage Badge -->
@@ -1055,7 +1035,10 @@
     let carouselTimer = null;
 
     function goToSlide(index) {
-      document.querySelectorAll('.carousel-slide').forEach((slide, idx) => {
+      document.querySelectorAll('.carousel-bg-slide').forEach((slide, idx) => {
+        slide.classList.toggle('active', idx === index);
+      });
+      document.querySelectorAll('.carousel-text-slide').forEach((slide, idx) => {
         slide.classList.toggle('active', idx === index);
       });
       document.querySelectorAll('.carousel-dot').forEach((dot, idx) => {

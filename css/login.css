@@ -84,33 +84,31 @@ body {
 }
 @media (min-width: 1024px) { .left-panel { display: block; } }
 
-.carousel-slides {
+/* Background image crossfade slides */
+.carousel-bg-container {
   position: absolute; inset: 0;
 }
-.carousel-slide {
+.carousel-bg-slide {
   position: absolute; inset: 0;
   opacity: 0;
-  transition: opacity 1.2s ease-in-out;
+  visibility: hidden;
+  transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
   pointer-events: none;
 }
-.carousel-slide.active {
+.carousel-bg-slide.active {
   opacity: 1;
+  visibility: visible;
   pointer-events: auto;
 }
-
-.left-bg {
-  position: absolute; inset: 0;
-  background: var(--dark);
-}
-.left-bg img {
+.carousel-bg-slide img {
   width: 100%; height: 100%;
   object-fit: cover;
   opacity: 0.45;
   filter: saturate(0.85) contrast(1.05);
   transform: scale(1.05);
-  transition: transform 12s ease-out;
+  transition: transform 10s ease-out;
 }
-.carousel-slide.active .left-bg img {
+.carousel-bg-slide.active img {
   transform: scale(1.0);
 }
 
@@ -118,10 +116,11 @@ body {
   position: absolute; inset: 0;
   background: linear-gradient(
     135deg,
-    rgba(26,26,26,0.88) 0%,
-    rgba(26,26,26,0.5) 50%,
+    rgba(26,26,26,0.92) 0%,
+    rgba(26,26,26,0.6) 50%,
     rgba(184,134,11,0.2) 100%
   );
+  z-index: 2;
 }
 
 .left-content {
@@ -134,6 +133,22 @@ body {
 .left-logo img { height: 2.8rem; filter: brightness(0) invert(1); opacity: 0.95; }
 
 .left-hero { margin-top: auto; }
+
+/* Rotating text slides — strictly one active at a time to eliminate text overlapping */
+.carousel-text-slide {
+  display: none !important;
+  opacity: 0;
+}
+.carousel-text-slide.active {
+  display: block !important;
+  opacity: 1;
+  animation: textSlideFadeIn 0.45s ease-out forwards;
+}
+@keyframes textSlideFadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 .left-eyebrow {
   font-family: var(--font-display);
   font-size: 0.65rem;
@@ -152,27 +167,27 @@ body {
 }
 .left-headline {
   font-family: var(--font-serif);
-  font-size: clamp(2.8rem, 4.2vw, 3.8rem);
+  font-size: clamp(2.6rem, 3.8vw, 3.6rem);
   font-weight: 300;
   color: #fff;
   line-height: 1.1;
   letter-spacing: -0.01em;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 .left-headline em { font-style: italic; color: var(--primary-light); font-weight: 400; }
 
 .left-quote {
   border-left: 2px solid var(--primary-color);
   padding-left: 1.25rem;
-  margin-bottom: 2rem;
-  min-height: 85px;
+  margin-bottom: 1.75rem;
+  min-height: 75px;
 }
 .left-quote p {
   font-family: var(--font-serif);
   font-size: 1.05rem;
   font-style: italic;
-  color: rgba(255,255,255,0.78);
-  line-height: 1.6;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.55;
 }
 .left-quote cite {
   font-family: var(--font-display);
@@ -197,8 +212,10 @@ body {
   width: 8px; height: 8px;
   border-radius: 4px;
   background: rgba(255,255,255,0.3);
+  border: none;
+  padding: 0;
   cursor: pointer;
-  transition: all 0.4s ease;
+  transition: all 0.35s ease;
 }
 .carousel-dot.active {
   width: 24px;
@@ -1130,9 +1147,41 @@ body {
   .bottom-brand {
     padding-top: 0.4rem !important;
     margin-top: 0.4rem !important;
+    margin-bottom: 0.5rem !important;
   }
   .bottom-brand p {
     font-size: 0.6rem !important;
     line-height: 1.3 !important;
+  }
+
+  /* Left Panel Laptop Height Sizing */
+  .left-content {
+    padding: 2.25rem 2.5rem !important;
+  }
+  .left-headline {
+    font-size: 2.5rem !important;
+    margin-bottom: 0.85rem !important;
+  }
+  .left-eyebrow {
+    margin-bottom: 0.75rem !important;
+  }
+  .left-quote {
+    min-height: auto !important;
+    margin-bottom: 1.25rem !important;
+    padding-left: 1rem !important;
+  }
+  .left-quote p {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+  }
+  .stat-row {
+    padding-top: 1rem !important;
+    gap: 1.8rem !important;
+  }
+  .stat-item p:first-child {
+    font-size: 1.5rem !important;
+  }
+  .carousel-nav {
+    margin-bottom: 1rem !important;
   }
 }
