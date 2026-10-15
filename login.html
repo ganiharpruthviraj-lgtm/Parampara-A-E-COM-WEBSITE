@@ -22,11 +22,6 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Identity Services SDK -->
   <script async defer src="https://accounts.google.com/gsi/client"></script>
-  <!-- Apple Sign-In SDK -->
-  <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/v1/appleid/auth.js"></script>
-  <!-- Firebase Phone Auth SDK (Free 10,000 SMS / Month) -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <!-- Page Styles -->
   <link href="css/login.css" rel="stylesheet"/>
 </head>
@@ -256,13 +251,13 @@
       <!-- Background Image Slides (Smooth Crossfade) -->
       <div class="carousel-bg-container">
         <div class="carousel-bg-slide active" id="bg-slide-0">
-          <img alt="Master Pottery Artisan — Gopal Saini" loading="eager" src="assets/master_potter_artisan.webp"/>
+          <img alt="Master Pottery Artisan — Gopal Saini" loading="eager" src="assets/jaipur_pottery_artisan.jpg"/>
         </div>
         <div class="carousel-bg-slide" id="bg-slide-1">
-          <img alt="Kanchipuram Silk Weaver" loading="lazy" src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?q=80&w=1200&auto=format&fit=crop"/>
+          <img alt="Kanchipuram Silk Weaver — Smt. Devki Devi" loading="lazy" src="assets/kanchipuram_silk_artisan.jpg"/>
         </div>
         <div class="carousel-bg-slide" id="bg-slide-2">
-          <img alt="Pashmina Master Craftsman" loading="lazy" src="https://images.unsplash.com/photo-1606744888344-49423b812d02?q=80&w=1200&auto=format&fit=crop"/>
+          <img alt="Pashmina Master Craftsman — Ghulam Nabi" loading="lazy" src="assets/kashmir_pashmina_artisan.jpg"/>
         </div>
       </div>
       <div class="left-overlay"></div>
@@ -281,7 +276,11 @@
       <!-- Left Panel Static Frame & Rotating Text (Zero Overlap) -->
       <div class="left-content">
         <a class="left-logo" href="index.html">
-          <img alt="Parampara Heritage" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+          <img alt="Parampara Heritage" class="logo-crest" src="assets/parampara_logo_crest.png"/>
+          <div class="logo-text-block">
+            <span class="brand-name">Parampara</span>
+            <span class="brand-tagline">Heritage Crafts</span>
+          </div>
         </a>
 
         <div class="left-hero">
@@ -331,16 +330,6 @@
         </div>
       </div>
 
-      <!-- Floating Heritage Badge -->
-      <div class="craft-badge">
-        <div class="craft-badge-icon">
-          <i class="fa-solid fa-award"></i>
-        </div>
-        <div class="craft-badge-text">
-          <p>Heritage Certified</p>
-          <p>GI Tagged · Master Artisan</p>
-        </div>
-      </div>
     </div>
 
     <!-- RIGHT PANEL — Collector Portal Form -->
@@ -354,14 +343,14 @@
             Back to Parampara
           </a>
           <a class="mobile-logo" href="index.html">
-            <img alt="Parampara" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768"/>
+            <img alt="Parampara" src="assets/parampara_logo_crest.png"/>
+            <span class="mobile-logo-text">Parampara</span>
           </a>
         </div>
 
-        <!-- Auth Mode Selector Tabs (3 Tabs: Sign In, Mobile OTP, Create Account) -->
+        <!-- Auth Mode Selector Tabs (2 Tabs: Sign In, Create Account) -->
         <div class="auth-tabs reveal-item">
           <button class="auth-tab active" id="tab-login" type="button">Sign In</button>
-          <button class="auth-tab" id="tab-otp" type="button">Mobile OTP</button>
           <button class="auth-tab" id="tab-register" type="button">Create Account</button>
         </div>
 
@@ -387,18 +376,6 @@
               <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
             </svg>
             <span class="font-medium text-sm text-[#3c4043]">Sign in with Google</span>
-          </button>
-        </div>
-
-        <!-- Compact Secondary Row: Apple ID Demo + 1-Click Demo -->
-        <div class="grid grid-cols-2 gap-2 mb-2.5 reveal-item">
-          <button class="btn-social !py-1.5 text-[0.62rem]" id="apple-signin-btn" type="button" title="Simulated Apple ID Sign-In (Demo)">
-            <i class="fa-brands fa-apple"></i>
-            Apple ID <span class="text-[0.55rem] px-1 py-0.2 rounded bg-[#F3EFE6] text-[#8C8275] font-bold">DEMO</span>
-          </button>
-          <button class="btn-social !py-1.5 text-[0.62rem] text-[#B8860B] border-[#B8860B]/40 hover:border-[#B8860B]" id="quick-demo-btn" type="button" title="1-Click Instant Collector Preview">
-            <i class="fa-solid fa-wand-magic-sparkles"></i>
-            1-Click Demo
           </button>
         </div>
 
@@ -442,58 +419,16 @@
           <button class="btn-submit reveal-item !mt-2" id="submit-btn-login" type="submit">
             <span id="btn-text-login">Sign In to Parampara</span>
           </button>
-        </form>
 
-        <!-- ─── 2. MOBILE OTP FORM ─── -->
-        <form id="otp-form" class="hidden-form" novalidate>
-          <div id="recaptcha-container"></div>
-          <!-- Step 1: Phone Input -->
-          <div id="otp-step-1">
-            <div class="field-group">
-              <div class="field-label"><span>Mobile Phone Number</span></div>
-              <div class="input-wrapper">
-                <i class="input-icon fa-regular fa-mobile-screen"></i>
-                <span class="phone-prefix-badge">+91</span>
-                <input autocomplete="tel" class="field-input phone-input" id="phone-number" maxlength="10" placeholder="98765 43210" required type="tel"/>
-              </div>
-              <span class="input-error-msg hidden" id="phone-error"></span>
-            </div>
-
-            <button class="btn-submit mt-2" id="request-otp-btn" type="button">
-              <span>Send 6-Digit Heritage OTP</span>
-            </button>
-          </div>
-
-          <!-- Step 2: 6-Digit OTP Box (Initially Hidden) -->
-          <div id="otp-step-2" class="hidden-form">
-            <div class="flex items-center justify-between mb-2">
-              <p class="text-xs text-[#6B6B6B]">Enter 6-digit OTP sent to <strong id="display-phone-num">+91 9876543210</strong>:</p>
-              <button class="text-xs text-[var(--primary-color)] underline" id="change-phone-btn" type="button">Change</button>
-            </div>
-
-            <div class="otp-container">
-              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
-              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
-              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
-              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
-              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
-              <input class="otp-input phone-otp" maxlength="1" type="text" pattern="[0-9]"/>
-            </div>
-            <span class="input-error-msg hidden text-center" id="otp-code-error"></span>
-
-            <div class="flex items-center justify-between text-xs text-[#6B6B6B] my-2">
-              <span id="otp-timer">Resend OTP in 30s</span>
-              <button id="resend-otp-link" class="text-[var(--primary-color)] font-semibold hidden" type="button">Resend OTP</button>
-              <button id="quick-fill-otp-btn" class="text-xs text-[var(--primary-color)] font-semibold underline" type="button">Auto-Fill Demo OTP 123456</button>
-            </div>
-
-            <button class="btn-submit mt-2" id="verify-otp-btn" type="button">
-              <span>Verify & Access Archive</span>
+          <div class="reveal-item flex items-center justify-between mt-3 pt-2.5 border-t border-[rgba(0,0,0,0.06)] text-xs text-gray-500">
+            <span>Evaluating or demoing?</span>
+            <button type="button" id="quick-demo-btn" class="text-[var(--primary)] hover:text-[var(--primary-dark)] font-semibold cursor-pointer underline flex items-center gap-1.5 transition-colors">
+              <i class="fa-solid fa-bolt text-[10px]"></i> 1-Click Demo Fill
             </button>
           </div>
         </form>
 
-        <!-- ─── 3. CREATE ACCOUNT FORM ─── -->
+        <!-- ─── 2. CREATE ACCOUNT FORM ─── -->
         <form id="register-form" class="hidden-form" novalidate>
           <div class="field-group">
             <div class="field-label"><span>Full Name</span></div>
@@ -597,7 +532,6 @@
         initAnimations();
         startCarouselAutoRotate();
         initGoogleIdentitySDK();
-        initAppleIdentitySDK();
       }
     }
 
@@ -609,13 +543,24 @@
 
       const urlParams = new URLSearchParams(window.location.search);
       const mode = urlParams.get('mode');
-      if (mode === 'register' || mode === 'otp') {
-        switchAuthTab(mode);
+      if (mode === 'register') {
+        switchAuthTab('register');
       }
 
       attachEventListeners();
-      setupOTPAutoAdvance('.phone-otp');
       setupOTPAutoAdvance('.reset-otp');
+
+      // Smart Back Link based on origin (e.g. checkout or collection)
+      const redirectTarget = localStorage.getItem('redirectAfterLogin');
+      if (redirectTarget) {
+        const backLink = document.querySelector('.back-link');
+        if (backLink) {
+          const targetLabel = redirectTarget.includes('checkout') ? 'Checkout' :
+                              redirectTarget.includes('collection') ? 'Collection' : 'Store';
+          backLink.href = redirectTarget;
+          backLink.innerHTML = `<i class="fa-solid fa-arrow-left"></i> Return to ${targetLabel}`;
+        }
+      }
     });
 
     // Safety fallback
@@ -811,50 +756,7 @@
       }
     }
 
-    /* ─── Apple ID SDK Initialization ─── */
-    function initAppleIdentitySDK() {
-      if (window.AppleID) {
-        try {
-          AppleID.auth.init({
-            clientId: 'in.parampara.web',
-            scope: 'name email',
-            redirectURI: window.location.origin + '/login.html',
-            usePopup: true
-          });
-        } catch (e) {}
-      }
-    }
-
-    function triggerAppleSignIn() {
-      if (window.AppleID) {
-        AppleID.auth.signIn().then(res => {
-          const user = {
-            name: res.user ? `${res.user.name.firstName} ${res.user.name.lastName}` : 'Apple Collector',
-            email: res.user ? res.user.email : 'collector@privaterelay.appleid.com',
-            token: res.authorization.id_token
-          };
-          handleAuthSuccess(user, `Apple ID Verified! Welcome ${user.name} 🏺`);
-        }).catch(err => {
-          simulateAppleCollectorLogin();
-        });
-      } else {
-        simulateAppleCollectorLogin();
-      }
-    }
-
-    function simulateAppleCollectorLogin() {
-      showToast('Simulated Apple ID: Authenticating in Demo Collector Mode... 🏺');
-      setTimeout(() => {
-        const appleUser = {
-          name: 'Heritage Collector (Demo Apple ID)',
-          email: 'collector@privaterelay.appleid.com',
-          token: 'apple-auth-demo-' + Date.now()
-        };
-        handleAuthSuccess(appleUser, 'Demo Apple ID Verified! Welcome to Parampara 🏺');
-      }, 800);
-    }
-
-    /* ─── FLAW 2: Inline Form Validation Helpers ─── */
+    /* ─── Inline Form Validation Helpers ─── */
     function showFieldError(inputId, errorId, msg) {
       const el = document.getElementById(inputId);
       const err = document.getElementById(errorId);
@@ -888,41 +790,35 @@
     /* ─── Attach Explicit DOM Event Listeners ─── */
     function attachEventListeners() {
       document.getElementById('tab-login')?.addEventListener('click', () => switchAuthTab('login'));
-      document.getElementById('tab-otp')?.addEventListener('click', () => switchAuthTab('otp'));
       document.getElementById('tab-register')?.addEventListener('click', () => switchAuthTab('register'));
 
       // Real-time error clearing on input
       document.getElementById('email')?.addEventListener('input', () => clearFieldError('email', 'email-error'));
       document.getElementById('password')?.addEventListener('input', () => clearFieldError('password', 'password-error'));
-      document.getElementById('phone-number')?.addEventListener('input', () => clearFieldError('phone-number', 'phone-error'));
       document.getElementById('reg-name')?.addEventListener('input', () => clearFieldError('reg-name', 'reg-name-error'));
       document.getElementById('reg-email')?.addEventListener('input', () => clearFieldError('reg-email', 'reg-email-error'));
       document.getElementById('reg-password')?.addEventListener('input', () => clearFieldError('reg-password', 'reg-password-error'));
       document.getElementById('reg-confirm-password')?.addEventListener('input', () => clearFieldError('reg-confirm-password', 'reg-confirm-error'));
-
-      document.getElementById('request-otp-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleRequestOTP(); });
-      document.getElementById('verify-otp-btn')?.addEventListener('click', (e) => { e.preventDefault(); handleVerifyOTP(); });
-      document.getElementById('resend-otp-link')?.addEventListener('click', (e) => { e.preventDefault(); handleResendOTP(); });
-      document.getElementById('change-phone-btn')?.addEventListener('click', (e) => { e.preventDefault(); resetOTPForm(); });
-      document.getElementById('quick-fill-otp-btn')?.addEventListener('click', (e) => { e.preventDefault(); quickFillOTP(); });
-
-      document.getElementById('otp-form')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const step1 = document.getElementById('otp-step-1');
-        if (!step1.classList.contains('hidden-form')) {
-          handleRequestOTP();
-        } else {
-          handleVerifyOTP();
-        }
-      });
 
       document.getElementById('google-signin-btn')?.addEventListener('click', (e) => {
         e.preventDefault();
         triggerGoogleSignIn();
       });
 
-      document.getElementById('apple-signin-btn')?.addEventListener('click', (e) => { e.preventDefault(); triggerAppleSignIn(); });
-      document.getElementById('quick-demo-btn')?.addEventListener('click', (e) => { e.preventDefault(); triggerQuickDemoLogin(); });
+      document.getElementById('quick-demo-btn')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        const emailInput = document.getElementById('email');
+        const pwInput = document.getElementById('password');
+        if (emailInput) {
+          emailInput.value = 'arjun@heritage.in';
+          clearFieldError('email', 'email-error');
+        }
+        if (pwInput) {
+          pwInput.value = 'legacy2026';
+          clearFieldError('password', 'password-error');
+        }
+        showToast('🏺 Populated Demo Collector credentials! Click Sign In.');
+      });
 
       document.getElementById('forgot-pw-link')?.addEventListener('click', (e) => { e.preventDefault(); openResetModal(); });
       document.getElementById('modal-close-btn')?.addEventListener('click', (e) => { e.preventDefault(); closeResetModal(); });
@@ -1066,19 +962,17 @@
     /* ─── Tab Switcher ─── */
     function switchAuthTab(mode) {
       const tabLogin = document.getElementById('tab-login');
-      const tabOtp = document.getElementById('tab-otp');
       const tabReg = document.getElementById('tab-register');
 
       const formLogin = document.getElementById('login-form');
-      const formOtp = document.getElementById('otp-form');
       const formReg = document.getElementById('register-form');
 
       const eyebrowText = document.getElementById('form-eyebrow-text');
       const titleText = document.getElementById('form-title-text');
       const subtitleText = document.getElementById('form-subtitle-text');
 
-      [tabLogin, tabOtp, tabReg].forEach(t => t?.classList.remove('active'));
-      [formLogin, formOtp, formReg].forEach(f => f?.classList.add('hidden-form'));
+      [tabLogin, tabReg].forEach(t => t?.classList.remove('active'));
+      [formLogin, formReg].forEach(f => f?.classList.add('hidden-form'));
 
       if (mode === 'register') {
         tabReg?.classList.add('active');
@@ -1086,12 +980,6 @@
         eyebrowText.textContent = "New Account";
         titleText.innerHTML = 'Join the<br/><em>Legacy.</em>';
         subtitleText.textContent = "Create your collector account to save, preserve, and explore master crafts.";
-      } else if (mode === 'otp') {
-        tabOtp?.classList.add('active');
-        formOtp?.classList.remove('hidden-form');
-        eyebrowText.textContent = "Instant Verification";
-        titleText.innerHTML = 'Mobile<br/><em>Access.</em>';
-        subtitleText.textContent = "Sign in securely using 6-digit SMS OTP sent to your Indian mobile number.";
       } else {
         tabLogin?.classList.add('active');
         formLogin?.classList.remove('hidden-form');
@@ -1188,129 +1076,6 @@
       });
     }
 
-    /* ─── Mobile OTP API Integration ─── */
-    let countdownTimer = null;
-
-    async function handleRequestOTP() {
-      const phoneInput = document.getElementById('phone-number').value.trim();
-      if (!phoneInput) {
-        showFieldError('phone-number', 'phone-error', 'Please enter your mobile phone number.');
-        showToast('🏺 Please enter your mobile phone number.');
-        return;
-      }
-      if (phoneInput.length !== 10 || isNaN(phoneInput)) {
-        showFieldError('phone-number', 'phone-error', 'Please enter a valid 10-digit Indian mobile number.');
-        showToast('🏺 Please enter a valid 10-digit Indian mobile number.');
-        return;
-      }
-      clearFieldError('phone-number', 'phone-error');
-
-      const btn = document.getElementById('request-otp-btn');
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Dispatching OTP...';
-
-      try {
-        const res = await fetch(`${window.GLOBAL_API_BASE}/api/auth/send-otp`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ phone: phoneInput })
-        });
-        const data = await res.json();
-        
-        document.getElementById('display-phone-num').textContent = `+91 ${phoneInput}`;
-        document.getElementById('otp-step-1').classList.add('hidden-form');
-        document.getElementById('otp-step-2').classList.remove('hidden-form');
-
-        const demoMsg = data.demoCode ? ` (Demo Code: ${data.demoCode} or 123456)` : '';
-        showToast(`🏺 ${data.message || 'OTP dispatched to +91 ' + phoneInput + demoMsg}`);
-        startOTPTimer();
-      } catch (err) {
-        document.getElementById('display-phone-num').textContent = `+91 ${phoneInput}`;
-        document.getElementById('otp-step-1').classList.add('hidden-form');
-        document.getElementById('otp-step-2').classList.remove('hidden-form');
-        showToast(`🏺 OTP sent to +91 ${phoneInput}. (Use code: 123456)`);
-        startOTPTimer();
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<span>Send 6-Digit Heritage OTP</span>';
-      }
-    }
-
-    function quickFillOTP() {
-      const otpInputs = document.querySelectorAll('.phone-otp');
-      const code = ['1', '2', '3', '4', '5', '6'];
-      otpInputs.forEach((input, idx) => {
-        input.value = code[idx];
-      });
-      showToast('Filled Demo OTP Code 123456! Click Verify below.');
-    }
-
-    function startOTPTimer() {
-      let seconds = 30;
-      const timerEl = document.getElementById('otp-timer');
-      const resendEl = document.getElementById('resend-otp-link');
-
-      resendEl.classList.add('hidden');
-      timerEl.classList.remove('hidden');
-      timerEl.textContent = `Resend OTP in ${seconds}s`;
-
-      if (countdownTimer) clearInterval(countdownTimer);
-      countdownTimer = setInterval(() => {
-        seconds--;
-        if (seconds <= 0) {
-          clearInterval(countdownTimer);
-          timerEl.classList.add('hidden');
-          resendEl.classList.remove('hidden');
-        } else {
-          timerEl.textContent = `Resend OTP in ${seconds}s`;
-        }
-      }, 1000);
-    }
-
-    function handleResendOTP() {
-      handleRequestOTP();
-    }
-
-    function resetOTPForm() {
-      document.getElementById('otp-step-2').classList.add('hidden-form');
-      document.getElementById('otp-step-1').classList.remove('hidden-form');
-    }
-
-    async function handleVerifyOTP() {
-      const otpInputs = document.querySelectorAll('.phone-otp');
-      let otpCode = '';
-      otpInputs.forEach(input => otpCode += input.value);
-
-      if (otpCode.length < 6) {
-        showToast('🏺 Please enter complete 6-digit OTP code.');
-        return;
-      }
-
-      const phone = document.getElementById('phone-number').value || '9876543210';
-      const btn = document.getElementById('verify-otp-btn');
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Verifying...';
-
-      try {
-        const res = await fetch(`${window.GLOBAL_API_BASE}/api/auth/verify-otp`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ phone, otp: otpCode })
-        });
-        const data = await res.json();
-
-        if (res.ok) {
-          handleAuthSuccess(data, 'Mobile OTP Verified! Welcome to Parampara 🏺');
-        } else {
-          throw new Error(data.message || 'Invalid OTP code');
-        }
-      } catch (err) {
-        showToast(`🏺 ${err.message || 'Invalid OTP code. Use demo code 123456.'}`);
-        btn.disabled = false;
-        btn.innerHTML = '<span>Verify & Access Archive</span>';
-      }
-    }
-
     /* ─── Forgot Password Modal Handlers ─── */
     function openResetModal() {
       document.getElementById('reset-modal').classList.add('active');
@@ -1359,11 +1124,20 @@
 
     /* ─── Authentication Success Handler ─── */
     function handleAuthSuccess(userObj, message) {
-      if (window.onAuthSuccess) {
-        window.onAuthSuccess(userObj);
-      } else {
-        localStorage.setItem('token', userObj.token || 'demo-token');
-        localStorage.setItem('user', JSON.stringify({ name: userObj.name, email: userObj.email }));
+      const token = userObj.token || ('demo-token-' + Date.now());
+      localStorage.setItem('token', token);
+      localStorage.setItem('parampara_token', token);
+      localStorage.setItem('user', JSON.stringify({
+        name: userObj.name || 'Heritage Collector',
+        email: userObj.email || ''
+      }));
+
+      if (typeof window.onAuthSuccess === 'function') {
+        try {
+          window.onAuthSuccess(userObj);
+        } catch (e) {
+          console.warn('onAuthSuccess hook error:', e);
+        }
       }
       showToast(message || 'Welcome back to the legacy. 🏺');
 
@@ -1515,16 +1289,6 @@
         handleAuthSuccess(newUser, 'Collector account created! Welcome to Parampara 🏺');
       }
     });
-
-    /* ─── 1-Click Quick Demo Login ─── */
-    function triggerQuickDemoLogin() {
-      document.getElementById('email').value = 'arjun@heritage.in';
-      document.getElementById('password').value = 'legacy2026';
-      showToast('Populated Demo Collector credentials! Signing in... 🏺');
-      setTimeout(() => {
-        document.getElementById('login-form').dispatchEvent(new Event('submit'));
-      }, 500);
-    }
   </script>
 
   <!-- Global Nav Auth Updates -->

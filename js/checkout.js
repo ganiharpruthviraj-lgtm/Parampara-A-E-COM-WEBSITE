@@ -389,7 +389,7 @@ async function goToPayment() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('parampara_token') || ''}`
+        'Authorization': `Bearer ${localStorage.getItem('token') || localStorage.getItem('parampara_token') || ''}`
       },
       body: JSON.stringify(orderPayload)
     });
@@ -584,4 +584,117 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   renderCartItems();
+  syncCheckoutAuth();
 });
+
+function syncCheckoutAuth() {
+  const token = localStorage.getItem('token') || localStorage.getItem('parampara_token');
+  const userJson = localStorage.getItem('user');
+  let user = null;
+  try {
+    user = userJson ? JSON.parse(userJson) : null;
+  } catch (e) {}
+
+  const headerAuth = document.getElementById('checkout-header-auth');
+  const banner = document.getElementById('checkout-auth-banner');
+
+  if (token && user) {
+    if (headerAuth) {
+      headerAuth.innerHTML = `
+        <div class="flex items-center gap-1.5 bg-[#FAF9F5] border border-[#B8860B]/30 px-3 py-1.5 rounded-full text-xs font-semibold text-[#B8860B] shadow-xs" title="Signed in as ${user.name || 'Collector'}">
+          <i class="fa-solid fa-user-check text-xs"></i>
+          <span>${user.name ? user.name.split(' ')[0] : 'Collector'}</span>
+        </div>
+      `;
+    }
+
+    if (banner) {
+      banner.innerHTML = `
+        <div class="bg-gradient-to-r from-[#F4F9F4] to-[#FAF9F5] border border-[#2F5233]/25 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-[#2F5233]/10 text-[#2F5233] flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-user-check text-lg"></i>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-extrabold text-[#2F5233] uppercase tracking-wider">Collector Portal Active</span>
+                <span class="text-[10px] bg-[#2F5233] text-white px-2 py-0.5 rounded-full font-bold">GI Verified Member</span>
+              </div>
+              <p class="text-xs text-gray-700 mt-0.5">Signed in as <strong>${user.name || 'Collector'}</strong> (${user.email || ''})</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <span class="text-xs text-[#2F5233] font-medium hidden md:inline"><i class="fa-solid fa-check text-[11px] mr-1"></i> Express Checkout</span>
+            <button type="button" id="checkout-signout-btn" class="text-xs text-gray-500 hover:text-red-600 underline font-medium cursor-pointer transition-colors">Sign out</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('checkout-signout-btn')?.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (confirm('Sign out from Parampara Heritage Archive? 🏺')) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('parampara_token');
+          localStorage.removeItem('user');
+          syncCheckoutAuth();
+          showToast('Signed out from Collector Portal.', 'info');
+        }
+      });
+    }
+
+    // Auto-fill form inputs if empty
+    const firstNameInput = document.getElementById('first-name');
+    const lastNameInput = document.getElementById('last-name');
+    const emailInput = document.getElementById('email-checkout');
+
+    if (user.name) {
+      const parts = user.name.trim().split(/\s+/);
+      if (firstNameInput && !firstNameInput.value) {
+        firstNameInput.value = parts[0] || '';
+      }
+      if (lastNameInput && !lastNameInput.value && parts.length > 1) {
+        lastNameInput.value = parts.slice(1).join(' ');
+      }
+    }
+    if (emailInput && !emailInput.value && user.email) {
+      emailInput.value = user.email;
+    }
+  } else {
+    if (headerAuth) {
+      headerAuth.innerHTML = `
+        <a href="login.html" id="checkout-header-signin-btn" class="inline-flex items-center gap-1.5 text-xs font-bold text-[#B8860B] hover:text-[#8B6508] border border-[#B8860B]/30 hover:border-[#B8860B] px-3 py-1.5 rounded-full transition-all">
+          <i class="fa-regular fa-circle-user text-sm"></i>
+          <span>Sign In</span>
+        </a>
+      `;
+      document.getElementById('checkout-header-signin-btn')?.addEventListener('click', () => {
+        localStorage.setItem('redirectAfterLogin', 'checkout.html');
+      });
+    }
+
+    if (banner) {
+      banner.innerHTML = `
+        <div class="bg-gradient-to-r from-[#FAF9F5] to-[#F5F0E6] border border-[#B8860B]/30 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-[#B8860B]/10 text-[#B8860B] flex items-center justify-center shrink-0">
+              <i class="fa-regular fa-circle-user text-xl"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Already a Parampara Collector?</h4>
+              <p class="text-xs text-gray-600 mt-0.5">Sign in to express checkout, track orders, and sync GI certificates.</p>
+            </div>
+          </div>
+          <a href="login.html" id="checkout-banner-signin-btn" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-[#B8860B] hover:bg-[#8B6508] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-sm shrink-0 cursor-pointer">
+            <span>Sign In</span>
+            <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </a>
+        </div>
+      `;
+
+      document.getElementById('checkout-banner-signin-btn')?.addEventListener('click', () => {
+        localStorage.setItem('redirectAfterLogin', 'checkout.html');
+      });
+    }
+  }
+}
+

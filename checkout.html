@@ -78,11 +78,14 @@
      </div>
     </div>
 
-    <!-- Back to Store Link -->
-    <a class="inline-flex items-center gap-2 text-xs font-bold text-gray-700 hover:text-[#B8860B] uppercase tracking-wider transition-colors" href="search.html">
-     <i class="fa-solid fa-arrow-left text-[11px]"></i>
-     <span>Continue Shopping</span>
-    </a>
+    <!-- Back to Store Link & Collector Auth Badge -->
+    <div class="flex items-center gap-3">
+     <div id="checkout-header-auth" class="flex items-center gap-2"></div>
+     <a class="inline-flex items-center gap-2 text-xs font-bold text-gray-700 hover:text-[#B8860B] uppercase tracking-wider transition-colors" href="search.html">
+      <i class="fa-solid fa-arrow-left text-[11px]"></i>
+      <span class="hidden sm:inline">Continue Shopping</span>
+     </a>
+    </div>
    </div>
   </header>
 
@@ -114,6 +117,9 @@
        Step 1 of 2
       </span>
      </div>
+
+     <!-- ── Collector Account Express Prompt / Status Banner ── -->
+     <div id="checkout-auth-banner" class="mb-6 rounded-2xl transition-all"></div>
 
      <!-- Shipping Form Grid -->
      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
