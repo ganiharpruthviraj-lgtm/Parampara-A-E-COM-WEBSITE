@@ -1,0 +1,16 @@
+name: Keep Render Backend Awake
+
+on:
+  schedule:
+    # Runs every 10 minutes to prevent Render free tier from sleeping after 15m
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Parampara Health API
+        run: |
+          echo "Pinging Parampara Render backend at $(date)..."
+          curl -sS --max-time 30 https://parampara-a-e-com-website-1.onrender.com/api/health || true

@@ -67,6 +67,7 @@ function giToProduct(item) {
 // @route   GET /api/products
 router.get('/', async (req, res) => {
   try {
+    res.set('Cache-Control', 'public, max-age=120, stale-while-revalidate=600');
     const { q, category, state, minPrice, maxPrice } = req.query;
 
     // If MongoDB is connected and ready, query it
@@ -140,6 +141,7 @@ router.get('/', async (req, res) => {
 // @route   GET /api/products/:id
 router.get('/:id', async (req, res) => {
   try {
+    res.set('Cache-Control', 'public, max-age=300, stale-while-revalidate=600');
     if (mongoose.connection.readyState === 1) {
       try {
         const product = await Product.findById(req.params.id).maxTimeMS(2000);

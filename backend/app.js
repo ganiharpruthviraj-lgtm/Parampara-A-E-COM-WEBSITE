@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
@@ -137,6 +138,7 @@ const authLimiter = rateLimit({
   message: { message: 'Too many authentication attempts, please try again after 15 minutes.' }
 });
 
+app.use(compression());
 app.use(express.json());
 
 // --- Startup Production Readiness Warnings ---

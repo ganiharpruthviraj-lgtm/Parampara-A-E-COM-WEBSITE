@@ -7,7 +7,12 @@ const connectDB = async () => {
   if (remoteURI) {
     try {
       console.log('Connecting to remote MongoDB Atlas...');
-      const conn = await mongoose.connect(remoteURI, { serverSelectionTimeoutMS: 3000 });
+      const conn = await mongoose.connect(remoteURI, {
+        serverSelectionTimeoutMS: 5000,
+        maxPoolSize: 10,
+        minPoolSize: 2,
+        socketTimeoutMS: 45000
+      });
       console.log(`MongoDB Connected (Remote): ${conn.connection.host} ✓`);
       return;
     } catch (err) {
