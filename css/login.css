@@ -505,13 +505,16 @@ body {
 
 .input-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
   width: 100%;
 }
 .input-icon {
-  position: absolute; left: 1rem; top: 50%;
-  transform: translateY(-50%);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #B5ACA0;
   font-size: 0.85rem;
   pointer-events: none;
@@ -519,6 +522,7 @@ body {
   z-index: 2;
 }
 .field-input {
+  display: block;
   width: 100%;
   font-family: var(--font-serif);
   font-size: 1.05rem;
@@ -635,11 +639,15 @@ body {
 
 /* Password Toggle Button */
 .pw-toggle {
-  position: absolute; right: 0.5rem; top: 50%;
-  transform: translateY(-50%);
-  background: transparent; border: none;
-  color: #B5ACA0; cursor: pointer;
-  font-size: 0.9rem;
+  position: absolute;
+  right: 0.65rem;
+  top: 0;
+  bottom: 0;
+  background: transparent;
+  border: none;
+  color: #B5ACA0;
+  cursor: pointer;
+  font-size: 0.95rem;
   transition: color 0.2s, transform 0.2s;
   padding: 0;
   line-height: 1;
@@ -647,10 +655,12 @@ body {
   align-items: center;
   justify-content: center;
   width: 2.2rem;
-  height: 2.2rem;
   z-index: 4;
 }
-.pw-toggle:hover { color: var(--primary-color); transform: translateY(-50%) scale(1.1); }
+.pw-toggle:hover {
+  color: var(--primary-color);
+  transform: scale(1.1);
+}
 
 /* Remember me row */
 .remember-row {
@@ -1206,6 +1216,11 @@ body {
   .input-icon {
     font-size: 0.75rem !important;
     left: 0.85rem !important;
+  }
+  .pw-toggle {
+    right: 0.5rem !important;
+    width: 2rem !important;
+    font-size: 0.85rem !important;
   }
   .remember-row {
     margin-bottom: 0.5rem !important;

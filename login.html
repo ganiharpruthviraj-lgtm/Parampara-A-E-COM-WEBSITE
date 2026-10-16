@@ -24,6 +24,60 @@
   <script async defer src="https://accounts.google.com/gsi/client"></script>
   <!-- Page Styles -->
   <link href="css/login.css" rel="stylesheet"/>
+  <style>
+    .input-wrapper {
+      position: relative !important;
+      display: block !important;
+      width: 100% !important;
+    }
+    .input-wrapper .input-icon {
+      position: absolute !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      left: 1rem !important;
+      bottom: auto !important;
+      right: auto !important;
+      pointer-events: none !important;
+      z-index: 10 !important;
+      line-height: 1 !important;
+      color: #B5ACA0 !important;
+      font-size: 0.85rem !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      margin: 0 !important;
+    }
+    .input-wrapper .pw-toggle {
+      position: absolute !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      right: 0.85rem !important;
+      bottom: auto !important;
+      left: auto !important;
+      cursor: pointer !important;
+      z-index: 10 !important;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      line-height: 1 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 2rem !important;
+      height: 2rem !important;
+      color: #B5ACA0 !important;
+      margin: 0 !important;
+    }
+    .input-wrapper .pw-toggle:hover {
+      color: var(--primary-color) !important;
+    }
+    .input-wrapper .field-input {
+      display: block !important;
+      width: 100% !important;
+      padding-right: 2.8rem !important;
+      padding-left: 2.75rem !important;
+    }
+  </style>
 </head>
 <body>
 
@@ -387,8 +441,8 @@
         <form id="login-form" novalidate>
           <div class="field-group reveal-item">
             <div class="field-label"><span>Email Address</span></div>
-            <div class="input-wrapper">
-              <i class="input-icon fa-regular fa-envelope"></i>
+            <div class="input-wrapper relative">
+              <i class="input-icon fa-regular fa-envelope absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#B5ACA0]"></i>
               <input autocomplete="email" class="field-input" id="email" placeholder="you@example.com" required type="email"/>
             </div>
             <span class="input-error-msg hidden" id="email-error"></span>
@@ -399,11 +453,11 @@
               <span>Password</span>
               <a href="#" id="forgot-pw-link">Forgot password?</a>
             </div>
-            <div class="input-wrapper">
-              <i class="input-icon fa-solid fa-lock"></i>
+            <div class="input-wrapper relative">
+              <i class="input-icon fa-solid fa-lock absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#B5ACA0]"></i>
               <input autocomplete="current-password" class="field-input" id="password" placeholder="Enter your password" required type="password"/>
-              <button aria-label="Toggle password visibility" class="pw-toggle" id="pw-toggle-login" type="button">
-                <i class="fa-regular fa-eye" id="pw-icon-login"></i>
+              <button aria-label="Toggle password visibility" class="pw-toggle absolute inset-y-0 right-0 flex items-center pr-3.5 cursor-pointer text-[#B5ACA0] hover:text-[var(--primary-color)] transition-colors" id="pw-toggle-login" type="button">
+                <i class="fa-regular fa-eye text-sm" id="pw-icon-login"></i>
               </button>
             </div>
             <span class="input-error-msg hidden" id="password-error"></span>
@@ -425,8 +479,8 @@
         <form id="register-form" class="hidden-form" novalidate>
           <div class="field-group">
             <div class="field-label"><span>Full Name</span></div>
-            <div class="input-wrapper">
-              <i class="input-icon fa-regular fa-user"></i>
+            <div class="input-wrapper relative">
+              <i class="input-icon fa-regular fa-user absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#B5ACA0]"></i>
               <input autocomplete="name" class="field-input" id="reg-name" placeholder="Arjun Sharma" required type="text"/>
             </div>
             <span class="input-error-msg hidden" id="reg-name-error"></span>
@@ -434,8 +488,8 @@
 
           <div class="field-group">
             <div class="field-label"><span>Email Address</span></div>
-            <div class="input-wrapper">
-              <i class="input-icon fa-regular fa-envelope"></i>
+            <div class="input-wrapper relative">
+              <i class="input-icon fa-regular fa-envelope absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#B5ACA0]"></i>
               <input autocomplete="email" class="field-input" id="reg-email" placeholder="arjun@heritage.in" required type="email"/>
             </div>
             <span class="input-error-msg hidden" id="reg-email-error"></span>
@@ -444,11 +498,11 @@
           <!-- Password with Strength Meter -->
           <div class="field-group">
             <div class="field-label"><span>Password</span></div>
-            <div class="input-wrapper">
-              <i class="input-icon fa-solid fa-lock"></i>
+            <div class="input-wrapper relative">
+              <i class="input-icon fa-solid fa-lock absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#B5ACA0]"></i>
               <input autocomplete="new-password" class="field-input" id="reg-password" placeholder="Min. 6 characters" required type="password"/>
-              <button aria-label="Toggle password visibility" class="pw-toggle" id="pw-toggle-reg" type="button">
-                <i class="fa-regular fa-eye" id="pw-icon-reg"></i>
+              <button aria-label="Toggle password visibility" class="pw-toggle absolute inset-y-0 right-0 flex items-center pr-3.5 cursor-pointer text-[#B5ACA0] hover:text-[var(--primary-color)] transition-colors" id="pw-toggle-reg" type="button">
+                <i class="fa-regular fa-eye text-sm" id="pw-icon-reg"></i>
               </button>
             </div>
             <span class="input-error-msg hidden" id="reg-password-error"></span>
@@ -462,11 +516,11 @@
           <!-- Confirm Password Field -->
           <div class="field-group">
             <div class="field-label"><span>Confirm Password</span></div>
-            <div class="input-wrapper">
-              <i class="input-icon fa-solid fa-check-double"></i>
+            <div class="input-wrapper relative">
+              <i class="input-icon fa-solid fa-check-double absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-[#B5ACA0]"></i>
               <input autocomplete="new-password" class="field-input" id="reg-confirm-password" placeholder="Re-enter password" required type="password"/>
-              <button aria-label="Toggle password visibility" class="pw-toggle" id="pw-toggle-confirm" type="button">
-                <i class="fa-regular fa-eye" id="pw-icon-confirm"></i>
+              <button aria-label="Toggle password visibility" class="pw-toggle absolute inset-y-0 right-0 flex items-center pr-3.5 cursor-pointer text-[#B5ACA0] hover:text-[var(--primary-color)] transition-colors" id="pw-toggle-confirm" type="button">
+                <i class="fa-regular fa-eye text-sm" id="pw-icon-confirm"></i>
               </button>
             </div>
             <span class="match-status" id="match-status-badge"></span>
