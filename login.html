@@ -419,13 +419,6 @@
           <button class="btn-submit reveal-item !mt-2" id="submit-btn-login" type="submit">
             <span id="btn-text-login">Sign In to Parampara</span>
           </button>
-
-          <div class="reveal-item flex items-center justify-between mt-3 pt-2.5 border-t border-[rgba(0,0,0,0.06)] text-xs text-gray-500">
-            <span>Evaluating or demoing?</span>
-            <button type="button" id="quick-demo-btn" class="text-[var(--primary)] hover:text-[var(--primary-dark)] font-semibold cursor-pointer underline flex items-center gap-1.5 transition-colors">
-              <i class="fa-solid fa-bolt text-[10px]"></i> 1-Click Demo Fill
-            </button>
-          </div>
         </form>
 
         <!-- ─── 2. CREATE ACCOUNT FORM ─── -->
@@ -805,21 +798,6 @@
         triggerGoogleSignIn();
       });
 
-      document.getElementById('quick-demo-btn')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        const emailInput = document.getElementById('email');
-        const pwInput = document.getElementById('password');
-        if (emailInput) {
-          emailInput.value = 'arjun@heritage.in';
-          clearFieldError('email', 'email-error');
-        }
-        if (pwInput) {
-          pwInput.value = 'legacy2026';
-          clearFieldError('password', 'password-error');
-        }
-        showToast('🏺 Populated Demo Collector credentials! Click Sign In.');
-      });
-
       document.getElementById('forgot-pw-link')?.addEventListener('click', (e) => { e.preventDefault(); openResetModal(); });
       document.getElementById('modal-close-btn')?.addEventListener('click', (e) => { e.preventDefault(); closeResetModal(); });
       document.getElementById('reset-form')?.addEventListener('submit', handleResetSubmit);
@@ -1104,11 +1082,9 @@
         return;
       }
 
-      showToast('🏺 Password updated successfully! Signing you in...');
+      showToast('🏺 Password updated successfully! Please sign in with your new credentials.');
       closeResetModal();
-      setTimeout(() => {
-        triggerQuickDemoLogin();
-      }, 1000);
+      switchAuthTab('login');
     }
 
     /* ─── Toast Notifications ─── */
@@ -1197,16 +1173,15 @@
           btnText.innerHTML = '<i class="fa-solid fa-check"></i> Granted';
           handleAuthSuccess(data, 'Access granted. Welcome back! 🏺');
         } else {
-          throw new Error(data.message || 'Invalid credentials');
+          btn.disabled = false;
+          btnText.innerHTML = 'Sign In to Parampara';
+          showToast(`⚠️ ${data.message || 'Invalid email or password.'}`);
+          showFieldError('password', 'password-error', data.message || 'Invalid email or password.');
         }
       } catch (err) {
-        btnText.innerHTML = '<i class="fa-solid fa-check"></i> Demo Granted';
-        const demoUser = {
-          name: email.split('@')[0].toUpperCase() + ' (Collector)',
-          email: email,
-          token: 'demo-token-' + Date.now()
-        };
-        handleAuthSuccess(demoUser, 'Entering Heritage Portal in Collector Mode! 🏺');
+        btn.disabled = false;
+        btnText.innerHTML = 'Sign In to Parampara';
+        showToast('⚠️ Unable to connect to authentication server. Please check your network.');
       }
     });
 
@@ -1277,16 +1252,15 @@
           btnText.innerHTML = '<i class="fa-solid fa-check"></i> Created';
           handleAuthSuccess(data, 'Welcome to the Parampara archive! 🏺');
         } else {
-          throw new Error(data.message || 'Registration failed');
+          btn.disabled = false;
+          btnText.innerHTML = 'Create Account';
+          showToast(`⚠️ ${data.message || 'Registration failed.'}`);
+          showFieldError('reg-email', 'reg-email-error', data.message || 'Registration failed.');
         }
       } catch (err) {
-        btnText.innerHTML = '<i class="fa-solid fa-check"></i> Account Ready';
-        const newUser = {
-          name: name,
-          email: email,
-          token: 'demo-token-' + Date.now()
-        };
-        handleAuthSuccess(newUser, 'Collector account created! Welcome to Parampara 🏺');
+        btn.disabled = false;
+        btnText.innerHTML = 'Create Account';
+        showToast('⚠️ Unable to connect to server. Please try again later.');
       }
     });
   </script>

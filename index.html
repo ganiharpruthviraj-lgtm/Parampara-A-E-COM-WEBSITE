@@ -1452,11 +1452,6 @@ const container = document.getElementById('india-map-container');
         <span id="quick-google-btn-text">Sign in with Google</span>
       </button>
 
-      <!-- 1-Click Demo Login Button -->
-      <button id="quick-demo-login-btn" type="button" class="w-full flex items-center justify-center gap-2 bg-[#F3EFE6] hover:bg-[#EAE4D7] text-[#B8860B] border border-[#B8860B]/30 hover:border-[#B8860B] rounded-full py-2.5 px-5 text-xs font-semibold tracking-wider uppercase transition-all duration-200 mb-4 cursor-pointer">
-        <i class="fa-solid fa-wand-magic-sparkles text-sm"></i>
-        <span>1-Click Demo Collector Access</span>
-      </button>
 
       <div class="flex items-center gap-3 my-3">
         <span class="h-[1px] flex-1 bg-[#E5E0D5]"></span>
@@ -1632,16 +1627,6 @@ const container = document.getElementById('india-map-container');
         } else {
           window.location.href = 'login.html';
         }
-      });
-
-      document.getElementById('quick-demo-login-btn')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        const demoUser = {
-          name: 'Arjun Sharma',
-          email: 'arjun@heritage.in',
-          token: 'demo-collector-token-' + Date.now()
-        };
-        finishHomepageLogin(demoUser, '1-Click Demo Collector Access Granted! 🏺');
       });
     });
   </script>
