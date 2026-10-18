@@ -1,6 +1,49 @@
 /**
- * Parampara Heritage - Global Auth Management
+ * Parampara Heritage - Global Auth Management & Mandatory Authentication
  */
+
+// ─── MANDATORY PLATFORM AUTHENTICATION ENFORCEMENT ─────────────────────────
+(function enforcePlatformAuth() {
+    // Check current page
+    const path = window.location.pathname.toLowerCase();
+    const filename = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
+
+    // Public authentication routes (allowed without logging in)
+    if (filename === 'login.html' || filename === 'login' || filename === 'register.html' || filename === 'register') {
+        return;
+    }
+
+    // Check existing authentication token and session
+    const token = localStorage.getItem('token');
+    const userStr = localStorage.getItem('user');
+
+    let isAuthenticated = false;
+    if (token && token !== 'undefined' && token !== 'null' && userStr && userStr !== 'undefined' && userStr !== 'null') {
+        try {
+            const user = JSON.parse(userStr);
+            if (user && (user.email || user.name || user._id)) {
+                isAuthenticated = true;
+            }
+        } catch (e) {
+            isAuthenticated = false;
+        }
+    }
+
+    if (!isAuthenticated) {
+        // Store intended destination so user returns seamlessly after sign-in
+        try {
+            localStorage.setItem('redirectAfterLogin', window.location.href);
+        } catch (e) {}
+
+        // Hide unauthenticated page content to prevent flicker
+        if (document.documentElement) {
+            document.documentElement.style.display = 'none';
+        }
+
+        // Redirect immediately to login.html
+        window.location.replace('login.html?required=true');
+    }
+})();
 
 window.GLOBAL_API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname === '' || window.location.protocol === 'file:')
     ? 'http://localhost:5000'
@@ -143,7 +186,7 @@ async function toggleCollection(productId, btn) {
 function handleLogout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    window.location.href = 'index.html';
+    window.location.href = 'login.html';
 }
 
 // Initial update

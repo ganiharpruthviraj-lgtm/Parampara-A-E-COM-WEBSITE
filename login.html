@@ -673,6 +673,23 @@
         switchAuthTab('register');
       }
 
+      // If already logged in, proceed straight to platform unless user explicitly wants to switch accounts
+      const currentToken = localStorage.getItem('token');
+      const currentUser = localStorage.getItem('user');
+      if (currentToken && currentUser && urlParams.get('switch') !== 'true') {
+        const dest = localStorage.getItem('redirectAfterLogin') || 'index.html';
+        localStorage.removeItem('redirectAfterLogin');
+        window.location.replace(dest);
+        return;
+      }
+
+      // If redirected here because login is mandatory for all users
+      if (urlParams.get('required') === 'true') {
+        setTimeout(() => {
+          showToast('🏺 Collector Access Required — Please sign in with your credentials or Gmail ID to enter.');
+        }, 400);
+      }
+
       attachEventListeners();
       setupOTPAutoAdvance('.reset-otp');
 
