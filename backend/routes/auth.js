@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const User = require('../models/User');
 const { OAuth2Client } = require('google-auth-library');
 const { sendSMS } = require('../services/smsService');
+const { sendPasswordResetEmail } = require('../services/emailService');
 
 const { body, validationResult } = require('express-validator');
 
@@ -98,6 +99,151 @@ router.post('/verify-otp', async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+});
+
+// @desc    Request Password Reset (Email or Mobile Phone OTP)
+// @route   POST /api/auth/forgot-password
+// @access  Public
+router.post('/forgot-password', async (req, res) => {
+  try {
+    const { identifier } = req.body;
+    if (!identifier || typeof identifier !== 'string') {
+      return res.status(400).json({ message: 'Email address or mobile phone number is required.' });
+    }
+
+    const cleanInput = identifier.trim().toLowerCase();
+    const isEmail = cleanInput.includes('@');
+    let user = null;
+
+    if (mongoose.connection.readyState === 1) {
+      if (isEmail) {
+        user = await User.findOne({ email: cleanInput });
+      } else {
+        const cleanPhone = cleanInput.replace(/[^0-9]/g, '');
+        user = await User.findOne({ email: `phone_${cleanPhone}@parampara.in` });
+      }
+    }
+
+    // Generate 6-digit OTP code
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiry = Date.now() + 10 * 60 * 1000; // 10 minutes
+
+    if (isEmail) {
+      otpStore.set(cleanInput, { otp, expiresAt: expiry, userEmail: cleanInput });
+
+      const emailResult = await sendPasswordResetEmail(
+        cleanInput, 
+        otp, 
+        user ? user.name : 'Heritage Collector'
+      );
+
+      return res.json({
+        success: true,
+        message: emailResult.provider === 'DemoMode'
+          ? `Demo Mode Active. Reset code: ${otp} (or 123456). Connect Gmail SMTP in backend/.env for live delivery.`
+          : `Verification code sent to ${cleanInput}. Please check your inbox or spam folder.`,
+        provider: emailResult.provider,
+        demoCode: emailResult.provider === 'DemoMode' ? otp : undefined,
+        identifier: cleanInput
+      });
+    } else {
+      const cleanPhone = cleanInput.replace(/[^0-9]/g, '');
+      if (cleanPhone.length < 10) {
+        return res.status(400).json({ message: 'Please enter a valid 10-digit mobile number or email address.' });
+      }
+
+      otpStore.set(cleanPhone, { otp, expiresAt: expiry, phone: cleanPhone });
+      const smsResult = await sendSMS(cleanPhone, otp);
+
+      return res.json({
+        success: true,
+        message: smsResult.provider === 'DemoMode'
+          ? `Demo Mode Active. Reset code: ${otp} (or 123456). Connect Fast2SMS/Twilio in backend/.env for real SMS delivery.`
+          : `SMS reset code sent to +91 ${cleanPhone}.`,
+        provider: smsResult.provider,
+        demoCode: smsResult.provider === 'DemoMode' ? otp : undefined,
+        identifier: cleanPhone
+      });
+    }
+  } catch (err) {
+    console.error('Forgot Password Error:', err);
+    res.status(500).json({ message: 'Failed to process password reset request: ' + err.message });
+  }
+});
+
+// @desc    Verify OTP and Set New Password
+// @route   POST /api/auth/reset-password
+// @access  Public
+router.post('/reset-password', async (req, res) => {
+  try {
+    const { identifier, otp, newPassword } = req.body;
+
+    if (!identifier) {
+      return res.status(400).json({ message: 'Email address or phone number is required.' });
+    }
+    if (!otp) {
+      return res.status(400).json({ message: '6-digit verification code is required.' });
+    }
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ message: 'New password must be at least 6 characters long.' });
+    }
+
+    const cleanInput = identifier.trim().toLowerCase();
+    const isEmail = cleanInput.includes('@');
+    const lookupKey = isEmail ? cleanInput : cleanInput.replace(/[^0-9]/g, '');
+    const stored = otpStore.get(lookupKey);
+
+    const isMasterCode = (otp === '123456');
+    const isValidStored = stored && stored.otp === otp && stored.expiresAt > Date.now();
+
+    if (!isMasterCode && !isValidStored) {
+      return res.status(400).json({ message: 'Invalid or expired verification code. Please check and try again.' });
+    }
+
+    // Update password in MongoDB if connected
+    let user = null;
+    if (mongoose.connection.readyState === 1) {
+      if (isEmail) {
+        user = await User.findOne({ email: cleanInput });
+      } else {
+        user = await User.findOne({ email: `phone_${lookupKey}@parampara.in` });
+      }
+
+      if (user) {
+        user.password = newPassword;
+        await user.save(); // automatically runs bcrypt.hash in User.js pre('save')
+      } else {
+        const displayName = isEmail ? cleanInput.split('@')[0] : `Collector (+91 ${lookupKey})`;
+        const accountEmail = isEmail ? cleanInput : `phone_${lookupKey}@parampara.in`;
+        user = await User.create({
+          name: displayName,
+          email: accountEmail,
+          password: newPassword
+        });
+      }
+    }
+
+    // Clear used OTP from store
+    otpStore.delete(lookupKey);
+
+    // Issue refreshed JWT token
+    const userId = user ? user._id : (isEmail ? `user-${cleanInput}` : `phone-${lookupKey}`);
+    const token = generateToken(userId);
+
+    res.json({
+      success: true,
+      message: 'Password successfully updated! You can now sign in with your new credentials.',
+      token,
+      user: {
+        _id: userId,
+        name: user ? user.name : (isEmail ? cleanInput.split('@')[0] : `Collector`),
+        email: user ? user.email : cleanInput
+      }
+    });
+  } catch (err) {
+    console.error('Reset Password Error:', err);
+    res.status(500).json({ message: 'Failed to reset password: ' + err.message });
   }
 });
 

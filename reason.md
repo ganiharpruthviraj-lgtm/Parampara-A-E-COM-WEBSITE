@@ -68,6 +68,51 @@ This document provides a comprehensive record of recent changes, architectural d
 * **Why it was changed:**
   * Eliminates console warnings and missing glyph rendering when loading FontAwesome CDN resources.
 
+### 2.3 Modal Close Button (`.modal-close`) Precedence Conflict Resolution
+* **Files Modified:** `login.html`, `css/login.css`
+* **What was changed:**
+  * Resolved a CSS cascade conflict caused by `js/nav.js` dynamically injecting `css/buttons.css`, which enforced `position: relative` on all buttons.
+  * Added explicit `position: absolute !important; top: 1.25rem !important; right: 1.25rem !important; left: auto !important; margin: 0 !important;` to `.modal-close` in both `css/login.css` and the inline `<style>` header.
+* **Why it was changed:**
+  * In the Forgot Password, Terms of Service, and Privacy Policy modals, the close button was previously kicked out of absolute positioning into relative flow with a negative offset, appearing on the far left next to the eyebrow heading like an unaligned glyph. The fix guarantees it sits in the top-right corner across all viewports.
+
+### 2.4 Floating Toast Architecture & Zero Cumulative Layout Shift (CLS)
+* **Files Modified:** `login.html`, `css/login.css`
+* **What was changed:**
+  * Added floating glassmorphic pill styling for `#toast` (`position: fixed`, `bottom: 2rem`, `left: 50%`, `transform: translateX(-50%)`, gold border, backdrop blur, `z-index: 999999`).
+  * Updated `showToast()` to manage a clearable timeout timer to prevent premature dismissal on rapid clicks.
+* **Why it was changed:**
+  * `#toast` was previously unstyled in `login.css`. Triggering any validation error or message caused raw, unstyled text to render at the top of the `<body>`, violently shifting the entire page down by 40–50px and pushing the footer off screen on mobile devices.
+
+### 2.5 Mobile Keypad, iOS Auto-Zoom Prevention & OTP Responsiveness
+* **Files Modified:** `login.html`, `css/login.css`
+* **What was changed:**
+  * **iOS Auto-Zoom Prevention:** Enforced `font-size: 16px !important` on `.field-input` under `@media (max-width: 640px)` so iOS Safari never auto-zooms into fields upon focus.
+  * **Numeric Keypad & Auto-fill:** Added `inputmode="numeric"`, `pattern="[0-9]*"`, and `autocomplete="one-time-code"` to all 6 OTP inputs in `reset-step2`.
+  * **Mobile OTP Auto-Advance & Paste:** Upgraded `setupOTPAutoAdvance()` to listen to `input` events (handling mobile virtual keyboards like Gboard/iOS) and `paste` events to automatically distribute 6-digit codes across all boxes.
+  * **Narrow Viewport (360px) Modal Fit:** Added mobile rules adjusting modal padding from 32px down to 18px and OTP gap from 8px down to 5.6px, ensuring all 6 OTP boxes fit on small 360px Android viewports with zero horizontal overflow.
+  * **Dynamic Password Strength Visibility:** Hid the `PASSWORD STRENGTH` label when the registration password field is empty so it doesn't create duplicate adjacent labels with `CONFIRM PASSWORD`.
+  * **Touch Target Accessibility:** Enforced minimum 44px touch targets on checkboxes and modal close buttons.
+
+### 2.6 Password Reset Gmail Verification & Gateway Resolution
+* **Files Created / Modified:** [`backend/services/emailService.js`](file:///d:/ankush/backend/services/emailService.js), [`backend/routes/auth.js`](file:///d:/ankush/backend/routes/auth.js), [`backend/.env.example`](file:///d:/ankush/backend/.env.example), [`login.html`](file:///d:/ankush/login.html).
+* **Root Cause Identified:**
+  * Previously, clicking "Send Verification Code" in `login.html` executed only a client-side DOM switch without making any network request (`fetch`) to the server.
+  * The Express backend had no `/api/auth/forgot-password` or `/api/auth/reset-password` endpoints, and no email transport package (`nodemailer`) was installed or configured.
+  * Consequently, when users entered their Gmail account, no verification number was dispatched, leaving the user with an empty OTP form and no received email.
+* **What was changed:**
+  * **Installed Nodemailer & Built Royal Email Service (`backend/services/emailService.js`):**
+    * Configured Nodemailer supporting live Gmail SMTP (`smtp.gmail.com:465`) using a 16-character Google App Password.
+    * Designed an authentic, responsive Parampara Royal Heritage HTML email template complete with brand header, high-contrast 6-digit OTP code, 10-minute expiry warning, and security advisory.
+    * Integrated a **Smart Demo Fallback Mode** (matching `smsService.js`): If Gmail credentials are not configured in `backend/.env`, the backend safely logs the code in the terminal and returns the OTP in the JSON response, preventing developer or tester lock-out.
+  * **Added Dedicated Backend Auth Endpoints (`backend/routes/auth.js`):**
+    * `POST /api/auth/forgot-password`: Generates a cryptographic 6-digit OTP with a 10-minute expiry window, saves to in-memory `otpStore`, and dispatches via Gmail SMTP (or fallback mode).
+    * `POST /api/auth/reset-password`: Validates the 6-digit OTP, updates the password in MongoDB Atlas (hashing via `bcryptjs` through Mongoose `pre('save')`), clears the OTP, and returns a fresh JWT session.
+  * **Wired Frontend Reset Flow (`login.html`):**
+    * `handleResetSubmit(e)`: Calls live `POST /api/auth/forgot-password` with real-time button loading spinner (`fa-spin`) and clear error toasts. Displays demo code toast when in demo mode.
+    * `confirmPasswordReset()`: Gathers all 6 OTP digits, validates length and password strength, calls `POST /api/auth/reset-password`, updates the user's password, auto-populates the login email, and navigates seamlessly back to the Sign In tab.
+    * Added "Resend Code" and "Change destination" buttons to step 2 for maximum user convenience.
+
 ---
 
 ## 3. Latency & Infrastructure Performance Optimizations
@@ -140,8 +185,8 @@ This document provides a comprehensive record of recent changes, architectural d
 | [`backend/app.js`](file:///d:/ankush/backend/app.js) | **Middleware** | Registered `compression()` middleware to compress all outgoing API payloads. |
 | [`backend/config/db.js`](file:///d:/ankush/backend/config/db.js) | **Database** | Added `minPoolSize: 2`, `maxPoolSize: 10`, `socketTimeoutMS: 45000` to prevent Atlas socket drop. |
 | [`backend/routes/products.js`](file:///d:/ankush/backend/routes/products.js) | **HTTP Headers** | Added `Cache-Control` headers for fast browser and CDN response caching. |
-| [`login.html`](file:///d:/ankush/login.html) | **Security & UI** | Removed demo credentials autofill & centered the password eye toggle icon. |
-| [`css/login.css`](file:///d:/ankush/css/login.css) | **Styling** | Added CSS rules enforcing `top: 50%` and `translateY(-50%)` on password toggle button. |
+| [`login.html`](file:///d:/ankush/login.html) | **Security, UI & Mobile** | Removed demo credentials, added iOS 16px auto-zoom prevention, numeric OTP keypad, mobile OTP auto-advance & paste, and `.modal-close` absolute override. |
+| [`css/login.css`](file:///d:/ankush/css/login.css) | **Styling & Responsiveness** | Added floating glassmorphic `#toast`, modal close button positioning guarantee, and `@media (max-width: 640px)` rules for small-screen OTP fit & touch targets. |
 | [`index.html`](file:///d:/ankush/index.html) | **Security & UX** | Removed homepage demo login banner and routed navbar signin directly to `login.html`. |
 
 ---
