@@ -59,8 +59,11 @@ function updateGlobalNav() {
     signinButtons.forEach(btn => {
         if (token && user) {
             btn.href = 'profile.html';
-            btn.className = 'bg-[var(--primary-color)] text-white px-4 py-2 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 text-sm cursor-pointer shadow-md hover:bg-[var(--primary-button-hover-bg-color)]';
-            btn.innerHTML = `<i class="fa-solid fa-user-check text-base"></i> <span>${user.name ? user.name.split(' ')[0] : 'Collector'}</span>`;
+            btn.className = 'nav-signin-btn bg-[var(--primary-color)] text-white px-4 py-2 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 text-sm cursor-pointer shadow-md hover:bg-[var(--primary-button-hover-bg-color)]';
+            btn.style.backgroundColor = '#B8860B';
+            btn.style.color = '#FFFFFF';
+            btn.style.borderColor = '#B8860B';
+            btn.innerHTML = `<i class="fa-solid fa-user-check text-base text-white"></i> <span class="text-white">${user.name ? user.name.split(' ')[0] : 'Collector'}</span>`;
             btn.title = `Signed in as ${user.name || 'Collector'} — View Collector Profile`;
             btn.onclick = null;
         } else {

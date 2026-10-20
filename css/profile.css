@@ -1108,11 +1108,15 @@ body {
 /* ─── Global Nav Collector Button Safeguard ─── */
 #nav-signin-btn.bg-\[var\(--primary-color\)\],
 #nav-signin-btn[href*="profile"],
-.nav-signin-btn.bg-\[var\(--primary-color\)\] {
+.nav-signin-btn.bg-\[var\(--primary-color\)\],
+.nav-signin-btn[href*="profile"] {
+  background-color: #B8860B !important;
   color: #FFFFFF !important;
+  border-color: #B8860B !important;
 }
 
 #nav-signin-btn.bg-\[var\(--primary-color\)\] *,
-#nav-signin-btn[href*="profile"] * {
+#nav-signin-btn[href*="profile"] *,
+.nav-signin-btn[href*="profile"] * {
   color: #FFFFFF !important;
 }
