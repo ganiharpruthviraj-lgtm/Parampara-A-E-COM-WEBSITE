@@ -384,13 +384,13 @@
       <!-- Background Image Slides (Smooth Crossfade) -->
       <div class="carousel-bg-container">
         <div class="carousel-bg-slide active" id="bg-slide-0">
-          <img alt="Master Pottery Artisan — Gopal Saini" loading="eager" src="assets/jaipur_pottery_artisan.jpg"/>
+          <img alt="Master Pottery Artisan — Gopal Saini" loading="eager" fetchpriority="high" decoding="async" src="assets/jaipur_pottery_artisan.webp"/>
         </div>
         <div class="carousel-bg-slide" id="bg-slide-1">
-          <img alt="Kanchipuram Silk Weaver — Smt. Devki Devi" loading="lazy" src="assets/kanchipuram_silk_artisan.jpg"/>
+          <img alt="Kanchipuram Silk Weaver — Smt. Devki Devi" loading="lazy" decoding="async" src="assets/kanchipuram_silk_artisan.webp"/>
         </div>
         <div class="carousel-bg-slide" id="bg-slide-2">
-          <img alt="Pashmina Master Craftsman — Ghulam Nabi" loading="lazy" src="assets/kashmir_pashmina_artisan.jpg"/>
+          <img alt="Pashmina Master Craftsman — Ghulam Nabi" loading="lazy" decoding="async" src="assets/kashmir_pashmina_artisan.webp"/>
         </div>
       </div>
       <div class="left-overlay"></div>
@@ -409,7 +409,7 @@
       <!-- Left Panel Static Frame & Rotating Text (Zero Overlap) -->
       <div class="left-content">
         <a class="left-logo" href="index.html">
-          <img alt="Parampara Heritage" class="logo-crest" src="assets/parampara_logo_crest.png"/>
+          <img loading="lazy" alt="Parampara Heritage" class="logo-crest" fetchpriority="high" decoding="async" src="assets/parampara_logo_crest.webp"/>
           <div class="logo-text-block">
             <span class="brand-name">Parampara</span>
             <span class="brand-tagline">Heritage Crafts</span>
@@ -476,7 +476,7 @@
             Back to Parampara
           </a>
           <a class="mobile-logo" href="index.html">
-            <img alt="Parampara" src="assets/parampara_logo_crest.png"/>
+            <img loading="lazy" alt="Parampara" decoding="async" src="assets/parampara_logo_crest.webp"/>
             <span class="mobile-logo-text">Parampara</span>
           </a>
         </div>
@@ -1319,10 +1319,20 @@
       const modal = document.getElementById('reset-modal');
       if (modal) {
         modal.classList.add('active');
-        const loginEmail = document.getElementById('email')?.value.trim();
         const resetInput = document.getElementById('reset-input');
-        if (resetInput && loginEmail && !resetInput.value) {
-          resetInput.value = loginEmail;
+        if (resetInput && !resetInput.value) {
+          const loginEmail = document.getElementById('email')?.value.trim();
+          const savedGoogle = localStorage.getItem('parampara_last_google_email');
+          let savedUserEmail = '';
+          try {
+            const savedUserRaw = localStorage.getItem('user');
+            if (savedUserRaw) savedUserEmail = JSON.parse(savedUserRaw)?.email || '';
+          } catch (e) {}
+
+          const resolvedEmail = loginEmail || savedGoogle || savedUserEmail || '';
+          if (resolvedEmail) {
+            resetInput.value = resolvedEmail;
+          }
         }
         document.getElementById('reset-form')?.classList.remove('hidden-form');
         document.getElementById('reset-step2')?.classList.add('hidden-form');
@@ -1444,6 +1454,7 @@
           document.getElementById('reset-step2')?.classList.remove('hidden-form');
 
           // Resolve active verification code
+          const isLiveDelivery = (data.provider === 'Gmail_SMTP' || data.provider === 'Custom_SMTP');
           activeOtpCode = data.demoCode || '123456';
 
           const targetDisplay = document.getElementById('reset-target-display');
@@ -1451,37 +1462,65 @@
 
           const cardTitle = document.getElementById('reset-card-title');
           if (cardTitle) {
-            cardTitle.textContent = (data.provider === 'Gmail_SMTP') 
+            cardTitle.textContent = isLiveDelivery
               ? 'Verification Code Sent to Gmail' 
-              : 'Verification Code Ready';
+              : 'Verification Code Ready (Demo Mode)';
           }
 
+          const statusTag = document.getElementById('reset-code-status-tag');
           const codeDisplay = document.getElementById('reset-code-value');
-          if (codeDisplay) {
-            codeDisplay.textContent = `${activeOtpCode.slice(0, 3)} ${activeOtpCode.slice(3)}`;
-          }
-
+          const autofillBtn = document.getElementById('autofill-otp-btn');
+          const copyBtn = document.getElementById('copy-otp-btn');
           const codeNote = document.getElementById('reset-code-note');
-          if (codeNote) {
-            if (data.provider === 'Gmail_SMTP') {
-              codeNote.innerHTML = `<i class="fa-solid fa-envelope text-[var(--primary-color)]"></i> Dispatched to <strong>${val}</strong>. Check inbox &amp; Spam. Universal backup code: <strong class="text-[var(--primary-color)] font-mono">123456</strong>.`;
-            } else {
-              codeNote.innerHTML = `<i class="fa-solid fa-circle-info text-[var(--primary-color)]"></i> Verification code is ready above. Use <strong>Autofill</strong> or backup code <strong class="text-[var(--primary-color)] font-mono">123456</strong>.`;
+          const otpInputs = document.querySelectorAll('.reset-otp');
+
+          if (isLiveDelivery) {
+            if (statusTag) {
+              statusTag.textContent = 'SENT TO INBOX';
+              statusTag.style.background = '#E0F2FE';
+              statusTag.style.color = '#0369A1';
             }
+            if (codeDisplay) {
+              codeDisplay.textContent = 'CHECK INBOX';
+              codeDisplay.style.fontSize = '1.05rem';
+              codeDisplay.style.letterSpacing = '0.05em';
+            }
+            if (autofillBtn) autofillBtn.style.display = 'none';
+            if (copyBtn) copyBtn.style.display = 'none';
+            if (codeNote) {
+              codeNote.innerHTML = `<i class="fa-solid fa-envelope text-[var(--primary-color)]"></i> 6-digit confirmation code dispatched to <strong>${val}</strong>. Check inbox &amp; Spam. Universal backup code: <strong class="text-[var(--primary-color)] font-mono">123456</strong>.`;
+            }
+            showToast(`🏺 Verification code dispatched to ${val}. Check your Gmail inbox!`);
+            // Clear inputs and focus first digit
+            otpInputs.forEach(inp => inp.value = '');
+            setTimeout(() => otpInputs[0]?.focus(), 150);
+          } else {
+            if (statusTag) {
+              statusTag.textContent = 'DEMO CODE';
+              statusTag.style.background = '#FEF3C7';
+              statusTag.style.color = '#92400E';
+            }
+            if (codeDisplay) {
+              codeDisplay.textContent = `${activeOtpCode.slice(0, 3)} ${activeOtpCode.slice(3)}`;
+              codeDisplay.style.fontSize = '1.45rem';
+              codeDisplay.style.letterSpacing = '0.22em';
+            }
+            if (autofillBtn) autofillBtn.style.display = 'inline-flex';
+            if (copyBtn) copyBtn.style.display = 'inline-flex';
+            if (codeNote) {
+              codeNote.innerHTML = `<i class="fa-solid fa-circle-info text-[var(--primary-color)]"></i> Verification code is ready above. Click <strong>Autofill</strong> or use backup code <strong class="text-[var(--primary-color)] font-mono">123456</strong>.`;
+            }
+            showToast(`🏺 Verification code ready for ${val}. Code: ${activeOtpCode}`);
+            // Auto-fill inputs in demo mode
+            const digits = activeOtpCode.split('');
+            otpInputs.forEach((inp, idx) => {
+              if (digits[idx]) inp.value = digits[idx];
+            });
+            document.getElementById('new-password-input')?.focus();
           }
 
           startExpiryCountdown();
           startResendCooldown();
-
-          showToast(`🏺 Verification code generated for ${val}. Code: ${activeOtpCode}`);
-
-          // Auto-fill inputs for seamless experience
-          const otpInputs = document.querySelectorAll('.reset-otp');
-          const digits = activeOtpCode.split('');
-          otpInputs.forEach((inp, idx) => {
-            if (digits[idx]) inp.value = digits[idx];
-          });
-          document.getElementById('new-password-input')?.focus();
 
         } else {
           showToast(`⚠️ ${data.message || 'Failed to dispatch verification code.'}`);

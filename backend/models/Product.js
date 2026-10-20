@@ -12,6 +12,9 @@ const productSchema = new mongoose.Schema({
   description: { type: String },
   artisan: { type: String }, 
   giTagged: { type: Boolean, default: false },
+  giNumber: { type: String },
+  stockCount: { type: Number, default: 10 },
+  artisanPayoutAmount: { type: Number },
   inStock: { type: Boolean, default: true },
 }, { timestamps: true });
 

@@ -642,10 +642,15 @@ function syncCheckoutAuth() {
       });
     }
 
-    // Auto-fill form inputs if empty
+    // Auto-fill form inputs from user profile if empty
     const firstNameInput = document.getElementById('first-name');
-    const lastNameInput = document.getElementById('last-name');
-    const emailInput = document.getElementById('email-checkout');
+    const lastNameInput  = document.getElementById('last-name');
+    const emailInput     = document.getElementById('email-checkout');
+    const phoneInput     = document.getElementById('phone');
+    const addressInput   = document.getElementById('address1');
+    const cityInput      = document.getElementById('city');
+    const stateSelect    = document.getElementById('state-select');
+    const pincodeInput   = document.getElementById('pincode');
 
     if (user.name) {
       const parts = user.name.trim().split(/\s+/);
@@ -658,6 +663,28 @@ function syncCheckoutAuth() {
     }
     if (emailInput && !emailInput.value && user.email) {
       emailInput.value = user.email;
+    }
+    if (phoneInput && !phoneInput.value && user.phone) {
+      phoneInput.value = user.phone;
+    }
+    const ship = user.shippingAddress || {};
+    if (addressInput && !addressInput.value && ship.address) {
+      addressInput.value = ship.address;
+    }
+    if (cityInput && !cityInput.value && ship.city) {
+      cityInput.value = ship.city;
+    }
+    if (pincodeInput && !pincodeInput.value && (ship.pincode || ship.postalCode)) {
+      pincodeInput.value = ship.pincode || ship.postalCode;
+    }
+    if (stateSelect && (!stateSelect.value || stateSelect.value === '') && ship.state) {
+      for (let i = 0; i < stateSelect.options.length; i++) {
+        if (stateSelect.options[i].text.toLowerCase() === ship.state.toLowerCase() ||
+            stateSelect.options[i].value.toLowerCase() === ship.state.toLowerCase()) {
+          stateSelect.selectedIndex = i;
+          break;
+        }
+      }
     }
   } else {
     if (headerAuth) {

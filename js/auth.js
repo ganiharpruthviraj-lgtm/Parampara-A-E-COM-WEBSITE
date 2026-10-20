@@ -33,7 +33,7 @@
         // Store intended destination so user returns seamlessly after sign-in
         try {
             localStorage.setItem('redirectAfterLogin', window.location.href);
-        } catch (e) {}
+        } catch (e) { }
 
         // Hide unauthenticated page content to prevent flicker
         if (document.documentElement) {
@@ -58,16 +58,11 @@ function updateGlobalNav() {
     const signinButtons = document.querySelectorAll('#nav-signin-btn, .nav-signin-btn, #mobile-nav-signin-btn');
     signinButtons.forEach(btn => {
         if (token && user) {
-            btn.href = '#';
+            btn.href = 'profile.html';
             btn.className = 'bg-[var(--primary-color)] text-white px-4 py-2 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 text-sm cursor-pointer shadow-md hover:bg-[var(--primary-button-hover-bg-color)]';
             btn.innerHTML = `<i class="fa-solid fa-user-check text-base"></i> <span>${user.name ? user.name.split(' ')[0] : 'Collector'}</span>`;
-            btn.title = `Signed in as ${user.name || 'Collector'} — Click to Sign Out`;
-            btn.onclick = (e) => {
-                e.preventDefault();
-                if (confirm(`Signed in as ${user.name || 'Collector'}.\nDo you want to sign out from Parampara Heritage Archive? 🏺`)) {
-                    handleLogout();
-                }
-            };
+            btn.title = `Signed in as ${user.name || 'Collector'} — View Collector Profile`;
+            btn.onclick = null;
         } else {
             btn.href = 'login.html';
             btn.className = 'nav-signin-btn border border-[var(--primary-color)] text-[var(--primary-color)] hover:bg-[var(--primary-color)] hover:text-white px-4 py-2 rounded-full font-semibold transition-all duration-200 flex items-center gap-2 text-sm cursor-pointer shadow-sm hover:shadow-md group';
@@ -77,20 +72,26 @@ function updateGlobalNav() {
         }
     });
 
+    // Show/hide mobile "My Profile" link (injected by components.js)
+    const mobileProfileLink = document.getElementById('mobile-nav-profile-link');
+    if (mobileProfileLink) {
+        mobileProfileLink.style.display = (token && user) ? 'flex' : 'none';
+    }
+
     // Find all headers on the page
     const headers = document.querySelectorAll('header');
-    
+
     headers.forEach(header => {
         const navContainers = header.querySelectorAll('.flex.items-center.space-x-8, .flex.items-center.gap-8, .flex.items-center.space-x-6, .flex.items-center.gap-6, .flex.items-center.space-x-4');
-        
+
         navContainers.forEach(container => {
             if (container.querySelector('#auth-link, #nav-signin-btn, .nav-signin-btn')) return;
 
             const authLink = document.createElement('a');
             authLink.id = 'auth-link';
-            authLink.href = token ? '#' : 'login.html';
+            authLink.href = token ? 'profile.html' : 'login.html';
             authLink.className = 'text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200 flex items-center gap-2 mr-2 cursor-pointer';
-            
+
             if (token) {
                 const collectionLink = document.createElement('a');
                 collectionLink.href = 'collection.html';
@@ -98,21 +99,23 @@ function updateGlobalNav() {
                 collectionLink.innerHTML = `<i class="fa-regular fa-bookmark"></i> <span class="hidden lg:inline">Collection</span>`;
                 container.prepend(collectionLink);
 
+                const profileLink = document.createElement('a');
+                profileLink.href = 'profile.html';
+                profileLink.className = 'text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium transition-colors duration-200 flex items-center gap-2 mr-6';
+                profileLink.innerHTML = `<i class="fa-regular fa-circle-user"></i> <span class="hidden lg:inline">My Profile</span>`;
+                profileLink.title = 'My Collector Profile';
+                container.prepend(profileLink);
+
                 authLink.innerHTML = `<i class="fa-solid fa-user-circle text-lg"></i> <span class="hidden sm:inline">${user?.name?.split(' ')[0] || 'Member'}</span>`;
-                authLink.title = 'Logout';
-                authLink.onclick = (e) => {
-                    e.preventDefault();
-                    if (confirm('Do you want to sign out from the heritage archive? 🏺')) {
-                        handleLogout();
-                    }
-                };
+                authLink.title = 'My Profile';
+                authLink.onclick = null; // navigate naturally to profile.html
             } else {
                 const page = window.location.pathname.split('/').pop();
                 if (page === 'login.html' || page === 'register.html') return;
 
                 authLink.innerHTML = `<i class="fa-regular fa-circle-user text-lg text-[var(--primary-color)]"></i> <span class="hidden sm:inline">Sign In</span>`;
             }
-            
+
             container.prepend(authLink);
         });
     });

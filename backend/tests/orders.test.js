@@ -143,4 +143,49 @@ describe('Orders & Razorpay Payment Gateway API', () => {
     });
   });
 
+  describe('Artisan Guild Orders & Workflow (GET /artisan/stats, PUT /:id/status)', () => {
+    it('should return artisan sales metrics with 70% direct payout calculations', async () => {
+      // First create a paid order to compute metrics
+      await request(app)
+        .post('/api/orders')
+        .send(sampleOrderPayload);
+
+      const res = await request(app)
+        .get('/api/orders/artisan/stats?artisan=Gopal%20Saini');
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body.success).toBe(true);
+      expect(res.body.metrics).toHaveProperty('totalGrossSales');
+      expect(res.body.metrics).toHaveProperty('totalArtisanPayout');
+      expect(res.body.metrics.payoutRatio).toBe('70% Direct Flow');
+      expect(Array.isArray(res.body.orders)).toBe(true);
+    });
+
+    it('should update order workflow status via PUT /api/orders/:id/status', async () => {
+      const createRes = await request(app)
+        .post('/api/orders')
+        .send(sampleOrderPayload);
+
+      const orderId = createRes.body.data._id;
+
+      const res = await request(app)
+        .put(`/api/orders/${orderId}/status`)
+        .send({ status: 'Dispatched' });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body.success).toBe(true);
+      expect(res.body.order).toHaveProperty('orderStatus', 'Dispatched');
+    });
+
+    it('should reject invalid workflow status transition', async () => {
+      const res = await request(app)
+        .put('/api/orders/sample-order-id/status')
+        .send({ status: 'InvalidStatusXYZ' });
+
+      expect(res.statusCode).toBe(400);
+      expect(res.body.message).toMatch(/must be one of/i);
+    });
+  });
+
 });
+

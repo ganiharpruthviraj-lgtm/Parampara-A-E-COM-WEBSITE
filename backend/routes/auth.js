@@ -62,7 +62,7 @@ router.post('/send-otp', async (req, res) => {
 
     res.json({
       success: true,
-      message: result.provider === 'DemoMode' 
+      message: result.provider === 'DemoMode'
         ? `Demo Mode Active. Code: ${generatedOTP} (or 123456). Connect Fast2SMS/Twilio in backend/.env for real SMS delivery.`
         : `Live SMS OTP sent to +91 ${cleanPhone} via ${result.provider}.`,
       provider: result.provider,
@@ -133,8 +133,8 @@ router.post('/forgot-password', async (req, res) => {
       otpStore.set(cleanInput, { otp, expiresAt: expiry, userEmail: cleanInput });
 
       const emailResult = await sendPasswordResetEmail(
-        cleanInput, 
-        otp, 
+        cleanInput,
+        otp,
         user ? user.name : 'Heritage Collector'
       );
 
@@ -321,7 +321,112 @@ const { protect } = require('../middleware/auth');
 // @route   GET /api/auth/profile
 // @access  Private
 router.get('/profile', protect, async (req, res) => {
-  res.json(req.user || { name: 'Heritage Collector', email: 'collector@parampara.in' });
+  if (req.user) {
+    return res.json({
+      _id: req.user._id,
+      name: req.user.name,
+      email: req.user.email,
+      phone: req.user.phone || null,
+      avatarUrl: req.user.avatarUrl || null,
+      shippingAddress: req.user.shippingAddress || null,
+      authProvider: req.user.authProvider || 'local',
+      role: req.user.role || 'user',
+      createdAt: req.user.createdAt
+    });
+  }
+  res.json({ name: 'Heritage Collector', email: 'collector@parampara.in' });
+});
+
+// @desc    Update user profile (name, phone, avatarUrl, shippingAddress)
+// @route   PATCH /api/auth/profile
+// @access  Private
+router.patch('/profile', protect, [
+  body('name').optional().trim().isLength({ min: 2, max: 60 }).withMessage('Name must be 2–60 characters').escape(),
+  body('phone').optional({ nullable: true }).custom(val => {
+    if (val === null || val === '') return true;
+    if (!/^[6-9]\d{9}$/.test(val)) throw new Error('Please enter a valid 10-digit Indian mobile number');
+    return true;
+  }),
+  body('avatarUrl').optional({ nullable: true }).trim(),
+  body('shippingAddress').optional()
+], handleValidationErrors, async (req, res) => {
+  try {
+    if (mongoose.connection.readyState !== 1 || !req.user || !mongoose.Types.ObjectId.isValid(req.user._id || req.user.id || '')) {
+      // Offline / demo mode — return echoed data
+      return res.json({ success: true, data: { ...req.user, ...req.body } });
+    }
+
+    const updateFields = {};
+    if (req.body.name !== undefined) updateFields.name = req.body.name;
+    if (req.body.phone !== undefined) updateFields.phone = req.body.phone || null;
+    if (req.body.avatarUrl !== undefined) updateFields.avatarUrl = req.body.avatarUrl || null;
+    if (req.body.shippingAddress !== undefined && typeof req.body.shippingAddress === 'object') {
+      updateFields.shippingAddress = {
+        address: req.body.shippingAddress.address || '',
+        city: req.body.shippingAddress.city || '',
+        state: req.body.shippingAddress.state || '',
+        pincode: req.body.shippingAddress.pincode || req.body.shippingAddress.postalCode || ''
+      };
+    }
+
+    const userId = req.user._id || req.user.id;
+    const user = await User.findByIdAndUpdate(userId, updateFields, { returnDocument: 'after', runValidators: true });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    res.json({
+      success: true,
+      data: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone || null,
+        avatarUrl: user.avatarUrl || null,
+        shippingAddress: user.shippingAddress || null,
+        authProvider: user.authProvider || 'local',
+        role: user.role,
+        createdAt: user.createdAt
+      }
+    });
+  } catch (err) {
+    console.error('PATCH /profile error:', err);
+    res.status(500).json({ message: 'Profile update failed: ' + err.message });
+  }
+});
+
+// @desc    Change user password (requires current password verification, unless Google SSO)
+// @route   PATCH /api/auth/password
+// @access  Private
+router.patch('/password', protect, [
+  body('newPassword').isLength({ min: 6 }).withMessage('New password must be at least 6 characters')
+], handleValidationErrors, async (req, res) => {
+  try {
+    if (mongoose.connection.readyState !== 1 || !req.user || !mongoose.Types.ObjectId.isValid(req.user._id || req.user.id || '')) {
+      return res.json({ success: true, message: 'Password updated (demo mode)' });
+    }
+
+    const userId = req.user._id || req.user.id;
+    const user = await User.findById(userId).select('+password');
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // If user is regular local account (not Google SSO without local password), currentPassword is required
+    const isGoogleAccount = user.authProvider === 'google' || (user.email && user.email.toLowerCase().includes('@gmail.com') && !req.body.currentPassword);
+    if (!isGoogleAccount) {
+      if (!req.body.currentPassword) {
+        return res.status(400).json({ message: 'Current password is required' });
+      }
+      const isMatch = await user.matchPassword(req.body.currentPassword);
+      if (!isMatch) return res.status(401).json({ message: 'Current password is incorrect. Please try again.' });
+    }
+
+    user.password = req.body.newPassword;
+    user.authProvider = 'local'; // Once password is set, user can also login with email/password
+    await user.save(); // bcrypt pre-save hook re-hashes automatically
+
+    res.json({ success: true, message: 'Password updated successfully' });
+  } catch (err) {
+    console.error('PATCH /password error:', err);
+    res.status(500).json({ message: 'Password change failed: ' + err.message });
+  }
 });
 
 // @desc    Add/Remove product from collection
@@ -452,9 +557,9 @@ router.post('/google', async (req, res) => {
     if (!user) {
       const crypto = require('crypto');
       const dummyPassword = crypto.randomBytes(16).toString('hex');
-      user = await User.create({ name, email, password: dummyPassword });
+      user = await User.create({ name, email, password: dummyPassword, authProvider: 'google' });
     }
-    
+
     res.json({
       _id: user._id,
       name: user.name,
@@ -465,6 +570,31 @@ router.post('/google', async (req, res) => {
   } catch (error) {
     console.error("Google Auth Error:", error);
     res.status(500).json({ message: 'Google Authentication Failed: ' + error.message });
+  }
+});
+
+// @desc    Get user registration count & collector statistics
+// @route   GET /api/auth/stats
+// @access  Public / Admin
+router.get('/stats', async (req, res) => {
+  try {
+    let count = 0;
+    let recentUsers = [];
+
+    if (mongoose.connection.readyState === 1) {
+      count = await User.countDocuments();
+      recentUsers = await User.find({}, 'name email createdAt role')
+        .sort({ createdAt: -1 })
+        .limit(25);
+    }
+
+    res.json({
+      success: true,
+      totalRegisteredUsers: count,
+      latestUsers: recentUsers
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve stats: ' + error.message });
   }
 });
 

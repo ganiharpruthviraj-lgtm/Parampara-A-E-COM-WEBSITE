@@ -83,4 +83,53 @@ describe('Products API', () => {
       expect(res.body.message).toMatch(/not found/i);
     });
   });
+
+  describe('Artisan Guild Portal Product Management (POST, PUT, DELETE)', () => {
+    it('should allow an artisan to register a new masterpiece via POST /api/products', async () => {
+      const res = await request(app)
+        .post('/api/products')
+        .send({
+          name: 'Bastar Dokra Bell Metal Bull',
+          state: 'Chhattisgarh',
+          craft: 'Dhokra Metal Casting',
+          category: 'Metalwork',
+          price: 6800,
+          stockCount: 5,
+          artisan: 'Budhauram Baghel'
+        });
+
+      expect(res.statusCode).toBe(201);
+      expect(res.body.success).toBe(true);
+      expect(res.body.product).toHaveProperty('name', 'Bastar Dokra Bell Metal Bull');
+      expect(res.body.product.artisanPayoutAmount).toBe(Math.round(6800 * 0.70));
+    });
+
+    it('should reject product creation when required fields are missing', async () => {
+      const res = await request(app)
+        .post('/api/products')
+        .send({ name: 'Incomplete Craft' });
+
+      expect(res.statusCode).toBe(400);
+      expect(res.body.message).toMatch(/required/i);
+    });
+
+    it('should update stock levels and availability via PUT /api/products/:id', async () => {
+      const res = await request(app)
+        .put(`/api/products/${sampleProduct1._id}`)
+        .send({ stockCount: 15, inStock: true });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body.success).toBe(true);
+      expect(res.body.product).toHaveProperty('stockCount', 15);
+    });
+
+    it('should remove a craft item via DELETE /api/products/:id', async () => {
+      const res = await request(app)
+        .delete(`/api/products/${sampleProduct1._id}`);
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body.success).toBe(true);
+    });
+  });
 });
+

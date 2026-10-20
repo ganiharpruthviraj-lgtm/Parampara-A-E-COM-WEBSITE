@@ -165,7 +165,7 @@
      <!-- Image Panel -->
      <div class="ka-modal-img-panel">
       <div class="ka-modal-img-wrap">
-       <img alt="" class="ka-modal-img" id="modal-img" src=""/>
+       <img loading="lazy" decoding="async" alt="" class="ka-modal-img" id="modal-img" src=""/>
        <div class="ka-modal-gi-ribbon" id="modal-gi-ribbon">
         <i class="fa-solid fa-certificate"></i>
         <span id="modal-gi-name"></span>
@@ -346,8 +346,7 @@
             <i class="fa-regular fa-heart"></i>
           </button>
           <!-- Product Image -->
-          <img
-            src="${p.image}"
+          <img decoding="async" src="${p.image}"
             alt="${p.title}"
             loading="lazy"
             onerror="this.onerror=null; this.src='${GI_PLACEHOLDER}'"

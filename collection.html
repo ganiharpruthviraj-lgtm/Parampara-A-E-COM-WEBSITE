@@ -34,7 +34,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
      <div class="flex justify-between items-center h-20">
       <a class="flex items-center" href="index.html">
-       <img alt="Parampara Logo" class="h-12 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" loading="lazy"/>
+       <img decoding="async" alt="Parampara Logo" class="h-12 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" loading="lazy"/>
       </a>
       <div class="hidden lg:flex items-center space-x-8">
        <a class="text-gray-800 hover:text-[#B8860B] font-medium transition-colors" href="states.html">
@@ -148,7 +148,7 @@
               <button onclick="event.stopPropagation(); removeFromCollection('${p._id}', this)" class="absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-red-500 hover:text-red-700 transition-colors shadow-sm">
                 <i class="fa-solid fa-heart"></i>
               </button>
-              <img src="${p.imageUrl}" alt="${p.name}" loading="lazy">
+              <img decoding="async" src="${p.imageUrl}" alt="${p.name}" loading="lazy">
             </div>
             <div class="product-card-body">
               <p class="product-state">${p.state}</p>

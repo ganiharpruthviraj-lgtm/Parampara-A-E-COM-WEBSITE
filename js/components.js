@@ -72,6 +72,13 @@
             </span>
             <span id="nav-cart-badge-mobile" class="bg-[#B8860B] text-white text-[10px] font-bold px-2 py-0.5 rounded-full">0</span>
           </a>
+          <a href="profile.html" class="flex items-center justify-between text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors" id="mobile-nav-profile-link" style="display:none">
+            <span class="flex items-center gap-2">
+              <i class="fa-regular fa-circle-user text-base text-[var(--primary-color)]"></i>
+              <span>My Profile</span>
+            </span>
+            <i class="fa-solid fa-arrow-right text-xs text-[var(--primary-color)]"></i>
+          </a>
           <a href="login.html" id="mobile-nav-signin-btn" class="flex items-center justify-between text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors w-full text-left cursor-pointer">
             <span class="flex items-center gap-2">
               <i class="fa-regular fa-circle-user text-base text-[var(--primary-color)]"></i>

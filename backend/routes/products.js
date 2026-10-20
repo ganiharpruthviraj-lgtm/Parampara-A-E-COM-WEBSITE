@@ -154,10 +154,154 @@ router.get('/:id', async (req, res) => {
       return res.json(giToProduct(giItem));
     }
 
+    if (inMemoryDynamicProducts.has(req.params.id)) {
+      return res.json(inMemoryDynamicProducts.get(req.params.id));
+    }
+
     res.status(404).json({ message: 'Product not found' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
+// In-memory dynamic products storage for offline / quick additions
+const inMemoryDynamicProducts = new Map();
+
+// @desc    Create new craft product (Artisan Guild Portal)
+// @route   POST /api/products
+// @access  Public / Artisan
+router.post('/', async (req, res) => {
+  try {
+    const {
+      name,
+      state,
+      region = 'India',
+      craft,
+      category,
+      price,
+      imageUrl,
+      badge = 'GI Registered',
+      description,
+      artisan = 'Master Artisan Guild',
+      giTagged = true,
+      inStock = true,
+      stockCount = 10,
+      giNumber = 'GI-IN-2026'
+    } = req.body;
+
+    if (!name || !price || !category || !state) {
+      return res.status(400).json({ message: 'Craft name, state, category, and price are required.' });
+    }
+
+    const payload = {
+      name,
+      title: name,
+      state,
+      region,
+      craft: craft || name,
+      category,
+      price: Number(price),
+      imageUrl: imageUrl || 'assets/products/blue_pottery_vase.webp',
+      badge,
+      description: description || `Authentic GI Tagged ${craft || name} handcrafted by ${artisan}.`,
+      artisan,
+      giTagged: Boolean(giTagged),
+      inStock: inStock !== false,
+      stockCount: Number(stockCount) || 10,
+      giNumber,
+      artisanPayoutAmount: Math.round(Number(price) * 0.70)
+    };
+
+    let createdProduct = null;
+    if (mongoose.connection.readyState === 1) {
+      try {
+        createdProduct = await Product.create(payload);
+      } catch (dbErr) {
+        console.warn('DB create product fallback:', dbErr.message);
+      }
+    }
+
+    if (!createdProduct) {
+      const generatedId = 'craft-' + Date.now();
+      createdProduct = {
+        _id: generatedId,
+        id: generatedId,
+        ...payload,
+        createdAt: new Date().toISOString()
+      };
+    }
+
+    inMemoryDynamicProducts.set(createdProduct._id.toString(), createdProduct);
+
+    res.status(201).json({
+      success: true,
+      message: 'Masterpiece registered successfully in the GI Craft Archive.',
+      product: createdProduct
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to create product: ' + error.message });
+  }
+});
+
+// @desc    Update product details / stock (Artisan Guild Portal)
+// @route   PUT /api/products/:id
+// @access  Public / Artisan
+router.put('/:id', async (req, res) => {
+  try {
+    const productId = req.params.id;
+    let updatedProduct = null;
+
+    if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(productId)) {
+      try {
+        updatedProduct = await Product.findByIdAndUpdate(productId, req.body, { returnDocument: 'after' });
+      } catch (dbErr) {
+        console.warn('DB update product fallback:', dbErr.message);
+      }
+    }
+
+    if (!updatedProduct) {
+      const existing = inMemoryDynamicProducts.get(productId) || {};
+      updatedProduct = {
+        ...existing,
+        ...req.body,
+        _id: productId,
+        updatedAt: new Date().toISOString()
+      };
+      inMemoryDynamicProducts.set(productId, updatedProduct);
+    }
+
+    res.json({
+      success: true,
+      message: 'Craft stock and details updated successfully.',
+      product: updatedProduct
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to update product: ' + error.message });
+  }
+});
+
+// @desc    Delete product from catalog (Artisan Guild Portal)
+// @route   DELETE /api/products/:id
+// @access  Public / Artisan
+router.delete('/:id', async (req, res) => {
+  try {
+    const productId = req.params.id;
+    if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(productId)) {
+      try {
+        await Product.findByIdAndDelete(productId);
+      } catch (dbErr) {}
+    }
+
+    inMemoryDynamicProducts.delete(productId);
+
+    res.json({
+      success: true,
+      message: 'Craft item removed from catalog.'
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to delete product: ' + error.message });
+  }
+});
+
 module.exports = router;
+

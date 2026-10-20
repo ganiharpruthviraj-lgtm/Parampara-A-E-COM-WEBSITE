@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="favicon.png" rel="icon" type="image/png"/>
+  <title>Artisan Guild Portal | Parampara — 70% Direct Payout &amp; Craft Inventory</title>
+  <meta content="Dedicated master artisan guild portal for managing GI tagged craft inventory, tracking 70% direct payouts, and fulfilling authentic heritage orders." name="description"/>
+  <meta content="website" property="og:type"/>
+  <meta content="Parampara Heritage" property="og:site_name"/>
+  <meta content="Artisan Guild Portal | Parampara Heritage" property="og:title"/>
+  <meta content="Dedicated portal for master artisan guilds to manage inventory, track direct 70% payouts, and fulfill certified GI orders." property="og:description"/>
+  <meta content="assets/parampara_logo_crest.webp" property="og:image"/>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="css/artisan-dashboard.css" rel="stylesheet"/>
+</head>
+<body class="bg-[#FDFBF7] text-[#1A1715]">
+
+  <!-- ─── TOP ARTISAN NAVIGATION HEADER ─── -->
+  <header class="artisan-header">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Brand Logo & Guild Portal Eyebrow -->
+        <div class="flex items-center gap-4">
+          <a href="index.html" class="flex items-center gap-2.5">
+            <img decoding="async" alt="Parampara Heritage" class="h-10 w-auto" src="assets/parampara_logo_crest.webp"/>
+            <span class="font-serif font-bold text-xl text-[#800000] tracking-wider hidden sm:inline">PARAMPARA</span>
+          </a>
+          <div class="h-6 w-[1px] bg-[#EADBCC] hidden sm:block"></div>
+          <span class="guild-badge-pill">
+            <i class="fa-solid fa-award text-[var(--gold-dark)]"></i>
+            Shilp Guru Guild Portal
+          </span>
+        </div>
+
+        <!-- Guild Switcher & Quick Navigation -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          <!-- Guild Profile Selector -->
+          <div class="flex items-center gap-2 bg-[#FAF7F2] border border-[#EADBCC] px-2.5 py-1.5 rounded-lg">
+            <i class="fa-solid fa-users-gear text-xs text-[#800000]"></i>
+            <label for="guild-profile-select" class="sr-only">Select Artisan Guild</label>
+            <select id="guild-profile-select" class="bg-transparent text-xs font-semibold text-[#1A1715] outline-none cursor-pointer">
+              <option value="gopal_saini">Gopal Saini (Jaipur Blue Pottery, RJ)</option>
+              <option value="devki_devi">Smt. Devki Devi (Kanchipuram Silk, TN)</option>
+              <option value="ghulam_nabi">Ghulam Nabi &amp; Sons (Pashmina &amp; Wood, JK)</option>
+            </select>
+          </div>
+
+          <a href="artisans.html" class="text-xs font-semibold text-[#6B6259] hover:text-[#800000] hidden md:inline-flex items-center gap-1.5 transition-colors">
+            <i class="fa-solid fa-arrow-up-right-from-square text-[0.7rem]"></i> Public Profiles
+          </a>
+
+          <a href="index.html" class="px-3.5 py-1.5 rounded-lg border border-[#800000] text-xs font-bold text-[#800000] hover:bg-[#800000] hover:text-white transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-store text-xs"></i> Storefront
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ─── MAIN GUILD CONTAINER ─── -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- 1. GUILD HERO PROFILE BANNER -->
+    <section class="guild-hero-banner">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+        
+        <div class="flex items-center gap-5">
+          <div class="artisan-avatar-frame">
+            <img decoding="async" id="guild-avatar-img" class="artisan-avatar-img" src="assets/jaipur_pottery_artisan.webp" alt="Master Artisan"/>
+          </div>
+          <div>
+            <div class="flex flex-wrap items-center gap-2 mb-1">
+              <span class="text-xs font-bold text-[#D4AF37] uppercase tracking-wider" id="guild-award-tag">National Shilp Guru Awardee</span>
+              <span class="text-white/40">·</span>
+              <span class="text-xs text-[#EADBCC]" id="guild-location-tag">Jaipur Craft Hub, Rajasthan</span>
+            </div>
+            <h1 class="font-serif text-2xl sm:text-3xl font-bold tracking-wide" id="guild-artisan-name">Gopal Saini (Shilp Guru)</h1>
+            <p class="text-sm text-[#EADBCC] mt-0.5 flex items-center gap-2">
+              <span class="font-semibold" id="guild-craft-name">Jaipur Blue Pottery</span>
+              <span>·</span>
+              <span class="bg-white/10 px-2 py-0.5 rounded text-xs font-mono" id="guild-gi-badge">GI/42/RAJ/POTTERY</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Bank & Payout Status -->
+        <div class="bg-black/30 border border-white/15 p-4 rounded-xl flex flex-col justify-between gap-3 min-w-[260px]">
+          <div>
+            <div class="text-[0.68rem] text-[#D4AF37] font-bold uppercase tracking-wider flex items-center gap-1.5">
+              <i class="fa-solid fa-shield-halved"></i> 70% Direct Payout Escrow
+            </div>
+            <div class="text-xs text-white font-medium mt-1" id="guild-bank-display">
+              State Bank of India •••• 8492 (Verified NEFT/UPI)
+            </div>
+          </div>
+          <button type="button" id="open-add-craft-modal" class="btn-gold !py-2 !text-xs !justify-center w-full">
+            <i class="fa-solid fa-plus"></i> Register New Masterpiece
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 2. EXECUTIVE KPI CARDS -->
+    <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Card 1: Gross Sales -->
+      <div class="metric-card">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold text-[#8C827A] uppercase tracking-wider">Gross Craft Sales</span>
+          <div class="metric-card-icon icon-blue"><i class="fa-solid fa-chart-line"></i></div>
+        </div>
+        <div class="font-serif text-2xl sm:text-3xl font-bold text-[#1A1715]" id="metric-gross-sales">₹4,82,600</div>
+        <div class="text-[0.72rem] text-[#6B6259] mt-1 flex items-center gap-1">
+          <i class="fa-solid fa-arrow-trend-up text-green-600"></i> Lifetime collector purchases
+        </div>
+      </div>
+
+      <!-- Card 2: 70% Direct Artisan Payout -->
+      <div class="metric-card gold-highlight">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold text-[#967008] uppercase tracking-wider flex items-center gap-1">
+            <i class="fa-solid fa-award"></i> 70% Direct Payout
+          </span>
+          <div class="metric-card-icon icon-gold"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+        </div>
+        <div class="font-serif text-2xl sm:text-3xl font-bold text-[#800000]" id="metric-artisan-payout">₹3,37,820</div>
+        <div class="text-[0.72rem] text-[#967008] font-semibold mt-1">
+          Disbursed to Guild Treasury
+        </div>
+      </div>
+
+      <!-- Card 3: Pending Escrow Disbursement -->
+      <div class="metric-card maroon-highlight">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold text-[#800000] uppercase tracking-wider">In-Escrow Payout</span>
+          <div class="metric-card-icon icon-maroon"><i class="fa-solid fa-hourglass-half"></i></div>
+        </div>
+        <div class="font-serif text-2xl sm:text-3xl font-bold text-[#1A1715]" id="metric-pending-payout">₹28,450</div>
+        <div class="text-[0.72rem] text-[#6B6259] mt-1">
+          Auto-releases upon delivery
+        </div>
+      </div>
+
+      <!-- Card 4: Fulfilled Units -->
+      <div class="metric-card">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-bold text-[#8C827A] uppercase tracking-wider">Units Handcrafted</span>
+          <div class="metric-card-icon icon-green"><i class="fa-solid fa-cube"></i></div>
+        </div>
+        <div class="font-serif text-2xl sm:text-3xl font-bold text-[#1A1715]" id="metric-fulfilled-units">48 Units</div>
+        <div class="text-[0.72rem] text-[#6B6259] mt-1" id="metric-active-crafts">
+          6 Masterpieces in Archive
+        </div>
+      </div>
+
+    </section>
+
+    <!-- 3. FINANCIAL TRANSPARENCY: 70/20/10 REVENUE RATIO -->
+    <section class="bg-white p-6 rounded-2xl border border-[#EADBCC] shadow-sm">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
+        <div>
+          <div class="section-title-eyebrow">Fair Trade Guarantee</div>
+          <h2 class="font-serif text-xl font-bold text-[#1A1715]">Parampara Direct Artisan Payout Architecture</h2>
+        </div>
+        <div class="flex items-center gap-2 text-xs font-bold text-[#800000] bg-[#FAF7F2] border border-[#EADBCC] px-3 py-1.5 rounded-lg">
+          <i class="fa-solid fa-handshake-angle"></i> Zero Middlemen Deductions
+        </div>
+      </div>
+
+      <p class="text-xs text-[#6B6259] leading-relaxed max-w-3xl">
+        Parampara operates on a non-negotiable <strong>70% direct artisan payout model</strong>. For every ₹10,000 paid by cultural collectors, exactly ₹7,000 is transferred directly into your cooperative guild bank account.
+      </p>
+
+      <!-- Visual Ratio Bar -->
+      <div class="payout-ratio-bar-container">
+        <div class="payout-share-artisan" title="70% Direct Master Artisan Guild Share"></div>
+        <div class="payout-share-logistics" title="20% Fragile Packaging, Insurance & GI Authentication"></div>
+        <div class="payout-share-platform" title="10% Digital Platform & Secure Server Infrastructure"></div>
+      </div>
+
+      <!-- Legend -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-1">
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-[var(--gold-dark)] flex-shrink-0"></span>
+          <span><strong class="text-[#1A1715]">70% Master Artisan Share:</strong> Raw materials, workshop wages &amp; guild dividends</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-stone-400 flex-shrink-0"></span>
+          <span><strong class="text-[#1A1715]">20% Craft Quality &amp; Transit:</strong> GI inspection, museum-grade foam &amp; courier</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="w-3 h-3 rounded-full bg-stone-600 flex-shrink-0"></span>
+          <span><strong class="text-[#1A1715]">10% Digital Infrastructure:</strong> 256-bit encryption &amp; AI docent hosting</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. CRAFT INVENTORY & LIVE STOCK MANAGEMENT -->
+    <section class="space-y-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div class="section-title-eyebrow">Guild Catalog</div>
+          <h2 class="section-title-main">Craft Inventory &amp; Stock Levels</h2>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-xs text-[#8C827A] hidden sm:inline">Real-time Stock Synchronization</span>
+          <button type="button" onclick="loadGuildData()" class="px-3 py-1.5 text-xs font-semibold bg-[#FAF7F2] border border-[#EADBCC] rounded-lg hover:border-[#800000] text-[#1A1715] flex items-center gap-1.5 transition-colors">
+            <i class="fa-solid fa-arrows-rotate"></i> Refresh
+          </button>
+        </div>
+      </div>
+
+      <!-- Crafts Cards Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="crafts-inventory-grid">
+        <!-- Rendered dynamically by artisan-dashboard.js -->
+      </div>
+    </section>
+
+    <!-- 5. RECENT GUILD CUSTOMER ORDERS & WORKFLOW STAGE -->
+    <section class="space-y-4 pt-4">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div class="section-title-eyebrow">Provenance &amp; Fulfillment</div>
+          <h2 class="section-title-main">Recent Collector Orders &amp; Workshop Workflow</h2>
+        </div>
+        <div class="text-xs text-[#6B6259]">
+          Update the handcrafting stage so collectors can track their heritage piece in real time.
+        </div>
+      </div>
+
+      <!-- Table Container -->
+      <div class="custom-table-container overflow-x-auto">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>Order Ref</th>
+              <th>Collector &amp; City</th>
+              <th>Total Gross</th>
+              <th>70% Guild Share</th>
+              <th>Workflow Stage Status</th>
+              <th class="text-right">Action</th>
+            </tr>
+          </thead>
+          <tbody id="guild-orders-tbody">
+            <!-- Rendered dynamically by artisan-dashboard.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ─── MODAL: REGISTER NEW MASTERPIECE ─── -->
+  <div class="dashboard-modal-overlay" id="add-craft-modal">
+    <div class="dashboard-modal-card">
+      <button type="button" class="modal-close-btn" id="close-add-craft-modal">&times;</button>
+      
+      <div class="mb-5">
+        <span class="text-[0.68rem] font-bold text-[#800000] uppercase tracking-wider">GI Certification Protocol</span>
+        <h2 class="font-serif text-2xl font-bold text-[#1A1715] mt-1">Register New Masterpiece</h2>
+        <p class="text-xs text-[#6B6259] mt-1">
+          Catalog a certified handcrafted item under your artisan guild to make it discoverable for global heritage collectors.
+        </p>
+      </div>
+
+      <form id="add-craft-form" class="space-y-4">
+        <div>
+          <label for="new-craft-name" class="block text-xs font-semibold text-[#1A1715] mb-1">Masterpiece Title *</label>
+          <input type="text" id="new-craft-name" required class="form-input" placeholder="e.g. Cobalt Persian Glaze Blue Pottery Urn"/>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="new-craft-state" class="block text-xs font-semibold text-[#1A1715] mb-1">State of Origin *</label>
+            <select id="new-craft-state" class="form-input" required>
+              <option value="Rajasthan">Rajasthan</option>
+              <option value="Tamil Nadu">Tamil Nadu</option>
+              <option value="Jammu & Kashmir">Jammu &amp; Kashmir</option>
+              <option value="Karnataka">Karnataka</option>
+              <option value="Odisha">Odisha</option>
+              <option value="Uttar Pradesh">Uttar Pradesh</option>
+              <option value="West Bengal">West Bengal</option>
+              <option value="Chhattisgarh">Chhattisgarh</option>
+            </select>
+          </div>
+          <div>
+            <label for="new-craft-category" class="block text-xs font-semibold text-[#1A1715] mb-1">Craft Discipline *</label>
+            <select id="new-craft-category" class="form-input" required>
+              <option value="Pottery">Pottery &amp; Ceramics</option>
+              <option value="Textiles">Handloom Textiles &amp; Silk</option>
+              <option value="Woodcraft">Woodcraft &amp; Carving</option>
+              <option value="Metalwork">Metalwork &amp; Bell Metal</option>
+              <option value="Paintings">Traditional Paintings</option>
+              <option value="Jewelry">Heritage Jewelry</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="new-craft-price" class="block text-xs font-semibold text-[#1A1715] mb-1">Retail Price (INR ₹) *</label>
+            <input type="number" id="new-craft-price" min="500" step="50" required class="form-input" placeholder="e.g. 5400"/>
+          </div>
+          <div>
+            <label for="new-craft-stock" class="block text-xs font-semibold text-[#1A1715] mb-1">Initial Stock Units *</label>
+            <input type="number" id="new-craft-stock" min="1" max="100" value="8" required class="form-input"/>
+          </div>
+        </div>
+
+        <!-- Live 70% Payout Box -->
+        <div class="bg-[#FAF7F2] p-3 rounded-lg border border-[#EADBCC] flex items-center justify-between">
+          <div class="text-xs text-[#6B6259]">
+            <span class="font-bold text-[#800000]">70% Direct Guild Payout:</span>
+            <div class="text-[0.7rem] text-[#8C827A]">Credited upon collector delivery confirmation</div>
+          </div>
+          <div class="font-serif font-bold text-lg text-[var(--primary-color)]" id="calculated-payout-display">₹0</div>
+        </div>
+
+        <div>
+          <label for="new-craft-gi" class="block text-xs font-semibold text-[#1A1715] mb-1">Official GI Tag / Registration Certificate #</label>
+          <input type="text" id="new-craft-gi" class="form-input" placeholder="e.g. GI/42/RAJ/POTTERY/2026"/>
+        </div>
+
+        <div>
+          <label for="new-craft-desc" class="block text-xs font-semibold text-[#1A1715] mb-1">Material &amp; Craftsmanship Specifications</label>
+          <textarea id="new-craft-desc" rows="3" class="form-input" placeholder="Handcrafted with quartz stone powder, natural cobalt oxides, and multani mitti without clay..."></textarea>
+        </div>
+
+        <div>
+          <label for="new-craft-img" class="block text-xs font-semibold text-[#1A1715] mb-1">Product Photograph (WebP / JPG)</label>
+          <input type="text" id="new-craft-img" class="form-input" placeholder="assets/products/blue_pottery_vase.webp" value="assets/products/blue_pottery_vase.webp"/>
+        </div>
+
+        <div class="pt-3 flex items-center justify-end gap-3 border-t border-[#EADBCC]">
+          <button type="button" onclick="document.getElementById('add-craft-modal').classList.remove('active')" class="px-4 py-2 border border-[#EADBCC] rounded-lg text-xs font-semibold text-[#6B6259] hover:bg-[#FAF7F2]">
+            Cancel
+          </button>
+          <button type="submit" id="submit-craft-btn" class="btn-gold !text-xs !py-2.5">
+            <i class="fa-solid fa-check"></i> Submit &amp; Verify Masterpiece
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="bg-[#FAF7F2] border-t border-[#EADBCC] py-8 mt-16 text-center text-xs text-[#8C827A]">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="font-serif font-bold text-[#800000] text-sm mb-1">परंपरा • PARAMPARA ARTISAN GUILD PORTAL</p>
+      <p>© 2026 Parampara Heritage Collective. Supporting 71+ GI Tagged Crafts across 28 States.</p>
+      <p class="mt-1 text-[0.7rem] text-[#B5ACA0]">70% of gross collector sales flow directly to custodial master artisan families.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/auth.js"></script>
+  <script src="js/artisan-dashboard.js"></script>
+</body>
+</html>

@@ -59,7 +59,7 @@ async function runComprehensiveTests() {
     const json = JSON.parse(res.data);
     token = json.token;
     console.log('Register success, got token:', !!token);
-  } catch (e) {}
+  } catch (e) { }
 
   // Login demo user
   res = await request({
@@ -143,7 +143,7 @@ async function runComprehensiveTests() {
   try {
     const json = JSON.parse(res.data);
     console.log('Mitra reply preview:', json.reply.slice(0, 150).replace(/\n/g, ' '));
-  } catch (e) {}
+  } catch (e) { }
 
   res = await request({
     hostname: 'localhost', port: 5000, path: '/api/saathi/chat', method: 'POST'
@@ -152,7 +152,7 @@ async function runComprehensiveTests() {
   try {
     const json = JSON.parse(res.data);
     console.log('Saathi reply preview:', (json.message || json.text || json.reply || JSON.stringify(json)).slice(0, 150).replace(/\n/g, ' '));
-  } catch (e) {}
+  } catch (e) { }
 }
 
 runComprehensiveTests();

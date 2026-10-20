@@ -3,7 +3,7 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Parampara Interactive System Initialized');
-    
+
     // 1. Inject responsive button styles if not already present
     if (!document.querySelector('link[href*="buttons.css"]')) {
         const link = document.createElement('link');
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.href = 'css/buttons.css';
         document.head.appendChild(link);
     }
-    
+
     // 2. Mobile Menu Toggle Logic
     const toggleBtn = document.querySelector('[data-landingsite-mobile-menu-toggle]') || document.getElementById('mobile-menu-toggle');
     const menu = document.querySelector('[data-landingsite-mobile-menu]') || document.getElementById('mobile-menu');
@@ -20,14 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Define the SVG paths for bars and X
         const barsPath = 'M4 6h16M4 12h16M4 18h16';
         const xPath = 'M6 18L18 6M6 6l12 12';
-        
+
         const svg = toggleBtn.querySelector('svg');
         const path = svg ? svg.querySelector('path') : null;
 
         toggleBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const isHidden = menu.classList.contains('hidden');
-            
+
             if (isHidden) {
                 menu.classList.remove('hidden');
                 if (path) path.setAttribute('d', xPath);
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.dataset.rippleAttached = 'true';
             btn.classList.add('btn-ripple');
 
-            btn.addEventListener('pointerdown', function(e) {
+            btn.addEventListener('pointerdown', function (e) {
                 const rect = this.getBoundingClientRect();
                 const circle = document.createElement('span');
                 const diameter = Math.max(rect.width, rect.height);
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (target) {
             setTimeout(() => {
                 target.scrollIntoView({ behavior: 'smooth' });
-            }, 800); 
+            }, 800);
         }
     }
 });

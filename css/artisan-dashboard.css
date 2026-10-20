@@ -1,0 +1,471 @@
+/* ==============================================================================
+   Parampara Heritage — Artisan Guild Portal Stylesheet (artisan-dashboard.css)
+   Aesthetic: Imperial Crimson (#800000), Royal Gold (#D4AF37), Ivory/Parchment (#FDFBF7)
+   ============================================================================== */
+
+:root {
+  --primary-color: #800000;
+  --primary-dark: #500000;
+  --primary-gradient: linear-gradient(135deg, #4A0E17 0%, #800000 100%);
+  --gold-accent: #D4AF37;
+  --gold-dark: #B8860B;
+  --gold-gradient: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA7C11 100%);
+  --bg-parchment: #FDFBF7;
+  --bg-card: #FFFFFF;
+  --border-light: #EADBCC;
+  --border-gold: rgba(212, 175, 55, 0.35);
+  --text-dark: #1A1715;
+  --text-muted: #6B6259;
+  --text-gold: #967008;
+  --shadow-subtle: 0 4px 20px rgba(74, 14, 23, 0.05);
+  --shadow-hover: 0 10px 30px rgba(128, 0, 0, 0.12);
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+  background-color: var(--bg-parchment);
+  color: var(--text-dark);
+  font-family: var(--font-sans);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Top Brand Header ─── */
+.artisan-header {
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+}
+
+.guild-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid var(--gold-accent);
+  color: #7A5800;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* ─── Hero Banner ─── */
+.guild-hero-banner {
+  background: var(--primary-gradient);
+  color: #FFFFFF;
+  border-radius: 16px;
+  padding: 2.25rem 2.5rem;
+  box-shadow: 0 12px 35px rgba(74, 14, 23, 0.18);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.guild-hero-banner::after {
+  content: '';
+  position: absolute;
+  top: -50px;
+  right: -50px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.artisan-avatar-frame {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid var(--gold-accent);
+  padding: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  flex-shrink: 0;
+}
+
+.artisan-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ─── KPI Metric Cards ─── */
+.metric-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: 1.5rem 1.6rem;
+  box-shadow: var(--shadow-subtle);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.metric-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--gold-accent);
+}
+
+.metric-card.gold-highlight {
+  border-left: 4px solid var(--gold-accent);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FDFBF7 100%);
+}
+
+.metric-card.maroon-highlight {
+  border-left: 4px solid var(--primary-color);
+  background: linear-gradient(135deg, #FFFFFF 0%, #FDF8F8 100%);
+}
+
+.metric-card-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+
+.icon-gold {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--gold-dark);
+}
+
+.icon-maroon {
+  background: rgba(128, 0, 0, 0.08);
+  color: var(--primary-color);
+}
+
+.icon-green {
+  background: rgba(34, 197, 94, 0.12);
+  color: #166534;
+}
+
+.icon-blue {
+  background: rgba(59, 130, 246, 0.12);
+  color: #1D4ED8;
+}
+
+/* ─── 70% Payout Ratio Bar ─── */
+.payout-ratio-bar-container {
+  height: 12px;
+  background: #EADBCC;
+  border-radius: 999px;
+  overflow: hidden;
+  display: flex;
+  margin: 1rem 0;
+}
+
+.payout-share-artisan {
+  width: 70%;
+  background: linear-gradient(90deg, #D4AF37 0%, #B8860B 100%);
+}
+
+.payout-share-logistics {
+  width: 20%;
+  background: #A8A29E;
+}
+
+.payout-share-platform {
+  width: 10%;
+  background: #78716C;
+}
+
+/* ─── Section Header ─── */
+.section-title-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary-color);
+  margin-bottom: 0.25rem;
+}
+
+.section-title-main {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* ─── Craft Inventory Cards ─── */
+.craft-grid-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-subtle);
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.craft-grid-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--border-gold);
+}
+
+.craft-img-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #FAF7F2;
+}
+
+.craft-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.craft-grid-card:hover .craft-card-img {
+  transform: scale(1.05);
+}
+
+.stock-tag-pill {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  backdrop-filter: blur(6px);
+}
+
+.stock-in {
+  background: rgba(34, 197, 94, 0.9);
+  color: #FFFFFF;
+}
+
+.stock-low {
+  background: rgba(245, 158, 11, 0.9);
+  color: #FFFFFF;
+}
+
+.stock-out {
+  background: rgba(239, 68, 68, 0.9);
+  color: #FFFFFF;
+}
+
+.gi-tag-badge {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  background: rgba(0, 0, 0, 0.75);
+  color: #D4AF37;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+.stepper-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--border-light);
+  background: #FAF7F2;
+  color: var(--text-dark);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.stepper-btn:hover {
+  background: var(--gold-accent);
+  color: #FFFFFF;
+  border-color: var(--gold-accent);
+}
+
+/* ─── Orders Table ─── */
+.custom-table-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-subtle);
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.custom-table th {
+  background: #FAF7F2;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--text-muted);
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.custom-table td {
+  padding: 1rem 1.25rem;
+  font-size: 0.85rem;
+  border-bottom: 1px solid #F5EFE6;
+  vertical-align: middle;
+}
+
+.custom-table tr:hover {
+  background: #FDFBF7;
+}
+
+/* ─── Workflow Step Indicator ─── */
+.workflow-select {
+  background: #FAF7F2;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35rem 0.65rem;
+  color: var(--primary-color);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.workflow-select:focus {
+  border-color: var(--gold-accent);
+}
+
+/* ─── Modals ─── */
+.dashboard-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.dashboard-modal-overlay.active {
+  display: flex;
+}
+
+.dashboard-modal-card {
+  background: #FFFFFF;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 620px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 1px solid var(--border-light);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.25);
+  padding: 2rem;
+  position: relative;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.modal-close-btn:hover {
+  color: var(--primary-color);
+}
+
+/* ─── Form Inputs ─── */
+.form-input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background: #FAF7F2;
+  color: var(--text-dark);
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.08);
+  background: #FFFFFF;
+}
+
+/* ─── Buttons ─── */
+.btn-gold {
+  background: var(--gold-gradient);
+  color: #1A1715;
+  font-weight: 700;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  transition: all 0.2s ease;
+}
+
+.btn-gold:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.45);
+}
+
+.btn-maroon {
+  background: var(--primary-gradient);
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 0.7rem 1.4rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(128, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-maroon:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(128, 0, 0, 0.35);
+}
+
+/* ─── Responsive Media Queries ─── */
+@media (max-width: 768px) {
+  .guild-hero-banner {
+    padding: 1.5rem 1.25rem;
+  }
+  .custom-table th, .custom-table td {
+    padding: 0.75rem 0.65rem;
+  }
+}
