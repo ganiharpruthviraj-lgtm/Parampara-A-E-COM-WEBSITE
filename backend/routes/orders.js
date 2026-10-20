@@ -64,7 +64,9 @@ router.post('/', orderValidation, handleValidation, async (req, res) => {
           const secret = process.env.JWT_SECRET || 'parampara_secret_key_2026';
           try {
             const decoded = jwt.verify(token, secret);
-            if (decoded && decoded.id) userId = decoded.id;
+            if (decoded && decoded.id) {
+              userId = mongoose.Types.ObjectId.isValid(decoded.id) ? new mongoose.Types.ObjectId(decoded.id) : decoded.id;
+            }
           } catch (jwtErr) {
             if (token.startsWith('demo-token') || token.includes('demo')) {
               userId = 'demo-collector-id';
@@ -278,7 +280,11 @@ router.get('/my-orders', protect, async (req, res) => {
   try {
     if (mongoose.connection.readyState === 1 && req.user && req.user._id !== 'demo-collector-id') {
       try {
-        const orders = await Order.find({ user: req.user._id }).sort({ createdAt: -1 });
+        const uid = req.user._id;
+        const query = mongoose.Types.ObjectId.isValid(uid)
+          ? { $or: [{ user: new mongoose.Types.ObjectId(uid) }, { user: uid.toString() }] }
+          : { user: uid };
+        const orders = await Order.find(query).sort({ createdAt: -1 });
         if (orders && orders.length > 0) {
           return res.json({ success: true, count: orders.length, data: orders });
         }
