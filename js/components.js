@@ -110,6 +110,7 @@
       <a class="hover:text-[var(--primary-color)] transition-colors" href="artisans.html">Our Artisans</a>
       <a class="hover:text-[var(--primary-color)] transition-colors" href="search.html">Shop</a>
       <a class="hover:text-[var(--primary-color)] transition-colors" href="saathi.html">Saathi AI</a>
+      <a class="hover:text-[var(--primary-color)] transition-colors" href="profile.html">Collector Profile</a>
     </div>
     <p class="text-gray-600 text-xs mt-6">
       <a href="/api/health" target="_blank" class="hover:text-[var(--primary-color)] transition-colors" id="footer-status">🟢 Server Status</a>
