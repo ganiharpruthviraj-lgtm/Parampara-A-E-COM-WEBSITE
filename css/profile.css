@@ -1,13 +1,14 @@
 /* ==============================================================================
    Parampara Heritage — Collector Profile Page Stylesheet (profile.css)
-   Aesthetic: Imperial Crimson (#800000), Royal Gold (#D4AF37), Ivory/Parchment (#FDFBF7)
-   Mirrors artisan-dashboard.css design tokens & component patterns for consistency.
+   Aesthetic: Royal Obsidian (#181512), Heritage Gold (#D4AF37 / #B8860B), Ivory Parchment (#FDFBF7)
    ============================================================================== */
 
 :root {
-  --primary-color: #800000;
-  --primary-dark: #500000;
-  --primary-gradient: linear-gradient(135deg, #4A0E17 0%, #800000 100%);
+  --primary-color: #B8860B;
+  --primary-dark: #8B6508;
+  --primary-gradient: linear-gradient(135deg, #1C1916 0%, #262019 45%, #181512 100%);
+  --hero-gradient: radial-gradient(circle at 85% 25%, rgba(212, 175, 55, 0.16) 0%, transparent 55%),
+                   linear-gradient(135deg, #1C1916 0%, #262019 45%, #181512 100%);
   --gold-accent: #D4AF37;
   --gold-dark: #B8860B;
   --gold-gradient: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #AA7C11 100%);
@@ -17,9 +18,9 @@
   --border-gold: rgba(212, 175, 55, 0.35);
   --text-dark: #1A1715;
   --text-muted: #6B6259;
-  --text-gold: #967008;
-  --shadow-subtle: 0 4px 20px rgba(74, 14, 23, 0.05);
-  --shadow-hover: 0 10px 30px rgba(128, 0, 0, 0.12);
+  --text-gold: #B8860B;
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 10px 30px rgba(184, 134, 11, 0.12);
   --font-serif: 'Cinzel', Georgia, serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -35,47 +36,47 @@ body {
 
 /* ─── Profile Hero Banner ─── */
 .profile-hero-banner {
-  background: var(--primary-gradient);
+  background: var(--hero-gradient);
   color: #FFFFFF;
-  border-radius: 16px;
-  padding: 2.25rem 2.5rem;
-  box-shadow: 0 12px 35px rgba(74, 14, 23, 0.18);
+  border-radius: 20px;
+  padding: 2.5rem 2.75rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.25);
 }
 
 .profile-hero-banner::before {
   content: '';
   position: absolute;
-  top: -80px;
-  right: -80px;
-  width: 320px;
-  height: 320px;
-  background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, transparent 65%);
+  top: -60px;
+  right: -60px;
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.18) 0%, transparent 65%);
   pointer-events: none;
 }
 
 .profile-hero-banner::after {
   content: '';
   position: absolute;
-  bottom: -60px;
-  left: -60px;
-  width: 220px;
-  height: 220px;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
+  bottom: -40px;
+  left: -40px;
+  width: 240px;
+  height: 240px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 
 /* ─── Profile Avatar ─── */
 .profile-avatar-ring {
-  width: 88px;
-  height: 88px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
-  border: 3px solid var(--gold-accent);
+  border: 2.5px solid #D4AF37;
   padding: 3px;
-  background: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.28);
+  background: rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.22), 0 4px 18px rgba(0, 0, 0, 0.4);
   flex-shrink: 0;
   position: relative;
 }
@@ -91,16 +92,17 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(255, 255, 255, 0.08) 100%);
+  background: radial-gradient(circle at 35% 35%, #2C241B 0%, #171411 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-serif);
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: var(--gold-accent);
-  letter-spacing: 0.05em;
+  font-size: 1.85rem;
+  font-weight: 600;
+  color: #EEDB9F;
+  letter-spacing: 0.04em;
   user-select: none;
+  border: 1px solid rgba(212, 175, 55, 0.25);
 }
 
 /* ─── Collector Role Badge ─── */
@@ -108,57 +110,58 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: rgba(212, 175, 55, 0.15);
-  border: 1px solid rgba(212, 175, 55, 0.5);
-  color: var(--gold-accent);
-  padding: 0.3rem 0.75rem;
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: #D4AF37;
+  padding: 0.25rem 0.75rem;
   border-radius: 9999px;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 /* ─── Profile Quick Stats (in hero) ─── */
 .profile-hero-stat {
-  background: rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(212, 175, 55, 0.2);
   border-radius: 10px;
-  padding: 0.85rem 1.2rem;
+  padding: 0.75rem 1.15rem;
   text-align: center;
-  min-width: 100px;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
 }
 
 .profile-hero-stat:hover {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(212, 175, 55, 0.07);
+  border-color: rgba(212, 175, 55, 0.4);
 }
 
 .profile-hero-stat-value {
   font-family: var(--font-serif);
-  font-size: 1.4rem;
+  font-size: 1.35rem;
   font-weight: 700;
-  color: var(--gold-accent);
-  line-height: 1;
+  color: #FFFFFF;
+  line-height: 1.2;
 }
 
 .profile-hero-stat-label {
-  font-size: 0.65rem;
-  font-weight: 600;
+  font-size: 0.62rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: rgba(255, 255, 255, 0.65);
-  margin-top: 0.3rem;
+  letter-spacing: 0.1em;
+  color: rgba(212, 175, 55, 0.85);
+  margin-top: 0.25rem;
 }
 
 /* ─── Tab Navigation ─── */
 .profile-tab-nav {
-  display: flex;
-  gap: 0;
-  background: var(--bg-card);
-  border: 1px solid var(--border-light);
-  border-radius: 12px;
-  padding: 0.35rem;
+  display: inline-flex;
+  gap: 0.4rem;
+  background: #F5EFE6;
+  border: 1px solid #E5DCCF;
+  border-radius: 9999px;
+  padding: 0.35rem 0.45rem;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -171,15 +174,15 @@ body {
 .profile-tab-btn {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1.2rem;
+  gap: 0.55rem;
+  padding: 0.6rem 1.4rem;
   border: none;
   background: transparent;
-  border-radius: 8px;
+  border-radius: 9999px;
   font-family: var(--font-sans);
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: #6B6259;
   cursor: pointer;
   white-space: nowrap;
   transition: all 0.2s ease;
@@ -187,44 +190,53 @@ body {
 }
 
 .profile-tab-btn:hover {
-  color: var(--primary-color);
-  background: rgba(128, 0, 0, 0.04);
+  color: #1A1715;
+  background: rgba(0, 0, 0, 0.04);
 }
 
 .profile-tab-btn.active {
-  background: var(--primary-gradient);
-  color: #FFFFFF;
-  box-shadow: 0 3px 10px rgba(128, 0, 0, 0.22);
+  background: #B8860B !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(184, 134, 11, 0.35);
 }
 
 .profile-tab-btn.active i {
-  color: var(--gold-accent);
+  color: #FFFFFF !important;
 }
 
 /* ─── Section Cards ─── */
 .profile-section-card {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
-  border-radius: 14px;
-  padding: 1.75rem 2rem;
-  box-shadow: var(--shadow-subtle);
+  border-radius: 16px;
+  padding: 1.85rem 2.25rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
+.section-title-eyebrow,
 .profile-section-title {
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--primary-color);
-  margin-bottom: 0.3rem;
+  color: #B8860B;
+  margin-bottom: 0.35rem;
 }
 
 .profile-section-heading {
   font-family: var(--font-serif);
-  font-size: 1.25rem;
+  font-size: 1.45rem;
   font-weight: 700;
   color: var(--text-dark);
   margin: 0 0 1.25rem;
+  line-height: 1.2;
+}
+
+.profile-section-heading em,
+.profile-section-heading .italic {
+  font-style: italic;
+  font-weight: 400;
+  font-family: var(--font-serif);
 }
 
 /* ─── Form Inputs (mirrors artisan-dashboard.css .form-input) ─── */
@@ -243,25 +255,30 @@ body {
 }
 
 .form-input:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(128, 0, 0, 0.07);
+  border-color: #B8860B;
+  box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
   background: #FFFFFF;
 }
 
 .form-input:disabled,
 .form-input[readonly] {
-  background: #F2EDE5;
-  color: var(--text-muted);
-  cursor: not-allowed;
-  border-style: dashed;
+  background: #F4EFE6;
+  color: #1A1715;
+  cursor: default;
+  border-style: solid;
+  border-color: #E2D7C5;
 }
 
 .form-label {
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text-dark);
-  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #1A1715;
+  margin-bottom: 0.4rem;
 }
 
 .form-hint {

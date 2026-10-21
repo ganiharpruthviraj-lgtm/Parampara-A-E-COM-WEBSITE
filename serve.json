@@ -1,4 +1,5 @@
 {
+  "cleanUrls": true,
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
     { "source": "/shop/:state", "destination": "/state_categories.html" },
@@ -6,6 +7,11 @@
     { "source": "/artisans", "destination": "/artisans.html" },
     { "source": "/about", "destination": "/about.html" },
     { "source": "/search", "destination": "/search.html" },
-    { "source": "/masterpiece", "destination": "/masterpiece.html" }
+    { "source": "/masterpiece", "destination": "/masterpiece.html" },
+    { "source": "/profile", "destination": "/profile.html" },
+    { "source": "/artisan-dashboard", "destination": "/artisan-dashboard.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/checkout", "destination": "/checkout.html" },
+    { "source": "/collection", "destination": "/collection.html" }
   ]
 }

@@ -234,7 +234,7 @@ function renderHeroBanner(user) {
     const parts = rawName.trim().split(/\s+/);
     if (parts.length >= 2) {
       const last = parts.pop();
-      nameEl.innerHTML = `${escapeHtml(parts.join(' '))} <em>${escapeHtml(last)}</em>`;
+      nameEl.innerHTML = `${escapeHtml(parts.join(' '))}<br><span class="italic font-normal">${escapeHtml(last)}</span>`;
     } else {
       nameEl.textContent = rawName;
     }
@@ -270,11 +270,11 @@ function renderHeroBanner(user) {
   if (roleTextEl) roleTextEl.textContent = roleMap[role] || 'Heritage Collector';
 
   // Member since
-  const sinceText = createdAt ? `Member since ${formatDate(createdAt)}` : 'Heritage Collector';
+  const sinceText = createdAt ? `Member since ${formatDate(createdAt)}` : 'Member since 20 Oct 2026';
   const sinceEl = document.getElementById('profile-member-since');
   const sinceMobile = document.getElementById('profile-member-since-mobile');
-  if (sinceEl)     sinceEl.innerHTML = `<i class="fa-regular fa-clock text-[#F3E5AB]/80 text-[11px] mr-1"></i> ${escapeHtml(sinceText)}`;
-  if (sinceMobile) sinceMobile.innerHTML = `<i class="fa-regular fa-clock text-[#F3E5AB]/80 text-[11px] mr-1"></i> ${escapeHtml(sinceText)}`;
+  if (sinceEl)     sinceEl.innerHTML = `<i class="fa-regular fa-clock text-[#EEDB9F]/80 text-[11px] mr-1"></i> ${escapeHtml(sinceText)}`;
+  if (sinceMobile) sinceMobile.innerHTML = `<i class="fa-regular fa-clock text-[#EEDB9F]/80 text-[11px] mr-1"></i> ${escapeHtml(sinceText)}`;
 }
 
 function populateAccountForm(user) {

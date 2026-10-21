@@ -53,30 +53,30 @@
               <span class="text-white/40 hidden sm:inline">·</span>
               <span class="text-xs text-white/60 hidden sm:inline" id="profile-member-since">Member since —</span>
             </div>
-            <h1 class="font-serif text-2xl sm:text-3xl font-bold tracking-wide text-white" id="profile-display-name">
+            <h1 class="font-serif text-3xl sm:text-4xl font-bold tracking-wide text-white leading-tight" id="profile-display-name">
               Loading…
             </h1>
-            <p class="text-sm text-white/65 mt-0.5 flex items-center gap-2" id="profile-email-display">
-              <i class="fa-regular fa-envelope text-xs"></i>
+            <p class="text-sm text-white/70 mt-1 flex items-center gap-2" id="profile-email-display">
+              <i class="fa-regular fa-envelope text-xs text-[#EEDB9F]"></i>
               <span>—</span>
             </p>
-            <p class="text-xs text-white/50 mt-0.5 sm:hidden" id="profile-member-since-mobile">Member since —</p>
+            <p class="text-xs text-white/50 mt-1 sm:hidden" id="profile-member-since-mobile">Member since —</p>
           </div>
         </div>
 
-        <!-- Right: Quick Stats -->
-        <div class="flex items-center gap-3 flex-wrap">
+        <!-- Right: Quick Stats in 2x2 grid layout matching screenshot -->
+        <div class="grid grid-cols-2 gap-2.5 w-full sm:w-auto min-w-[260px]">
           <div class="profile-hero-stat" id="stat-orders">
-            <div class="profile-hero-stat-value" id="stat-orders-val">—</div>
-            <div class="profile-hero-stat-label">Orders</div>
+            <div class="profile-hero-stat-value" id="stat-orders-val">0</div>
+            <div class="profile-hero-stat-label">ORDERS</div>
           </div>
           <div class="profile-hero-stat" id="stat-collection">
-            <div class="profile-hero-stat-value" id="stat-collection-val">—</div>
-            <div class="profile-hero-stat-label">Collection</div>
+            <div class="profile-hero-stat-value" id="stat-collection-val">0</div>
+            <div class="profile-hero-stat-label">COLLECTION</div>
           </div>
-          <div class="profile-hero-stat" id="stat-spent">
-            <div class="profile-hero-stat-value" id="stat-spent-val">—</div>
-            <div class="profile-hero-stat-label">Total Spent</div>
+          <div class="profile-hero-stat col-span-2" id="stat-spent">
+            <div class="profile-hero-stat-value" id="stat-spent-val">₹0</div>
+            <div class="profile-hero-stat-label">ARTISAN PATRONAGE</div>
           </div>
         </div>
 
@@ -101,7 +101,7 @@
       </button>
       <button id="tab-btn-collection" class="profile-tab-btn" role="tab" aria-selected="false"
         aria-controls="tab-collection" onclick="switchTab('collection')">
-        <i class="fa-regular fa-bookmark"></i>
+        <i class="fa-regular fa-heart"></i>
         <span>My Collection</span>
         <span id="tab-collection-count"
           class="hidden text-[0.65rem] font-bold bg-white/20 px-1.5 py-0.5 rounded-full">0</span>
@@ -116,8 +116,8 @@
 
         <!-- ─ Personal Information Form ─ -->
         <div class="profile-section-card">
-          <div class="section-title-eyebrow">Collector Identity</div>
-          <h2 class="profile-section-heading">Personal Information</h2>
+          <div class="section-title-eyebrow">COLLECTOR DOSSIER</div>
+          <h2 class="profile-section-heading">Personal <em>Information</em></h2>
 
           <form id="form-personal-info" class="space-y-4" novalidate>
             <!-- Full Name -->
@@ -129,15 +129,15 @@
 
             <!-- Email (read-only) -->
             <div>
-              <label for="input-email" class="form-label flex items-center gap-1.5">
-                Email Address
+              <label for="input-email" class="form-label flex items-center justify-between">
+                <span>Email Address</span>
                 <span
-                  class="inline-flex items-center gap-1 text-[0.65rem] font-semibold text-[#B8860B] bg-[rgba(212,175,55,0.1)] px-1.5 py-0.5 rounded">
-                  <i class="fa-solid fa-lock text-[0.6rem]"></i> Locked
+                  class="inline-flex items-center gap-1 text-[0.62rem] font-bold text-[#B8860B] bg-[rgba(212,175,55,0.12)] border border-[rgba(212,175,55,0.35)] px-2 py-0.5 rounded-full">
+                  <i class="fa-solid fa-lock text-[0.55rem]"></i> AUTHENTICATED ID
                 </span>
               </label>
               <input type="email" id="input-email" name="email" class="form-input" readonly />
-              <p class="form-hint">Email cannot be changed after registration.</p>
+              <p class="form-hint">Email address is permanently bound to your GI certificate provenance records.</p>
             </div>
 
             <!-- Phone -->
