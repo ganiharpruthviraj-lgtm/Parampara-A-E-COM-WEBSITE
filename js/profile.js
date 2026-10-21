@@ -157,16 +157,20 @@ window.togglePasswordVisibility = togglePasswordVisibility;
 function updatePasswordStrength(value) {
   const fill  = document.getElementById('password-strength-fill');
   const label = document.getElementById('password-strength-label');
+  const wrap  = document.getElementById('password-strength-wrap');
   if (!fill || !label) return;
 
   fill.className = 'password-strength-fill';
 
   if (!value || value.length === 0) {
     fill.style.width = '0%';
-    label.textContent = '—';
+    label.textContent = '';
     label.style.color = '';
+    if (wrap) wrap.classList.remove('is-active');
     return;
   }
+
+  if (wrap) wrap.classList.add('is-active');
 
   let score = 0;
   if (value.length >= 6)  score++;
@@ -177,11 +181,11 @@ function updatePasswordStrength(value) {
 
   if (score <= 2) {
     fill.classList.add('strength-weak');
-    label.textContent = 'Weak — add more characters & symbols';
+    label.textContent = 'Weak — add uppercase, numbers or symbols';
     label.style.color = '#EF4444';
   } else if (score <= 3) {
     fill.classList.add('strength-fair');
-    label.textContent = 'Fair — add uppercase or numbers';
+    label.textContent = 'Fair — add special characters';
     label.style.color = '#D97706';
   } else {
     fill.classList.add('strength-strong');

@@ -287,6 +287,60 @@ body {
   margin-top: 0.3rem;
 }
 
+/* ─── Password Input Wrap & Eye Visibility Toggle ─── */
+.password-input-wrap {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.password-input-wrap .form-input {
+  width: 100% !important;
+  padding-right: 2.85rem !important;
+}
+
+.password-input-wrap .btn-eye-toggle {
+  position: absolute !important;
+  right: 0.75rem !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  --tw-translate-y: -50% !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 6px !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #8C827A !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  z-index: 5 !important;
+}
+
+.password-input-wrap .btn-eye-toggle:hover {
+  color: #B8860B !important;
+  background: rgba(184, 134, 11, 0.1) !important;
+}
+
+.password-input-wrap .btn-eye-toggle:active {
+  transform: translateY(-50%) scale(0.92) !important;
+}
+
+.password-input-wrap .btn-eye-toggle:focus-visible {
+  outline: 2px solid #B8860B !important;
+  outline-offset: 1px !important;
+}
+
+.password-input-wrap .btn-eye-toggle i {
+  font-size: 0.95rem !important;
+  line-height: 1 !important;
+}
+
 /* ─── Password Strength Meter ─── */
 .password-strength-bar {
   height: 4px;
@@ -295,6 +349,11 @@ body {
   margin-top: 0.4rem;
   overflow: hidden;
   transition: all 0.3s ease;
+  opacity: 0.35;
+}
+
+.password-strength-bar.is-active {
+  opacity: 1;
 }
 
 .password-strength-fill {
@@ -317,6 +376,110 @@ body {
 .strength-strong {
   background: #22C55E;
   width: 100%;
+}
+
+/* ─── Professional Primary Gold Button (.btn-gold-primary) ─── */
+.btn-gold-primary {
+  background: linear-gradient(135deg, #C89928 0%, #B8860B 52%, #9B6E06 100%);
+  color: #FFFFFF !important;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.68rem 1.45rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 14px rgba(184, 134, 11, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  text-decoration: none;
+}
+
+.btn-gold-primary:hover {
+  background: linear-gradient(135deg, #D6AA36 0%, #C49214 52%, #A87808 100%);
+  color: #FFFFFF !important;
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 20px rgba(184, 134, 11, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.btn-gold-primary:active {
+  transform: translateY(0.5px);
+  box-shadow: 0 2px 6px rgba(184, 134, 11, 0.25);
+}
+
+.btn-gold-primary:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-gold-primary i {
+  font-size: 0.85rem;
+  color: #FFFFFF;
+  transition: transform 0.2s ease;
+}
+
+.btn-gold-primary:hover i {
+  transform: scale(1.08);
+}
+
+/* ─── Danger Zone & Sign Out Button ─── */
+.danger-zone-card {
+  background: #FFFFFF;
+  border: 1px solid #F1E5D5;
+  border-left: 3px solid #EF4444;
+  border-radius: 14px;
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+@media (min-width: 640px) {
+  .danger-zone-card {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.btn-danger {
+  background: #FFF5F5;
+  color: #DC2626;
+  border: 1px solid #FECACA;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-danger:hover {
+  background: #FEE2E2;
+  border-color: #EF4444;
+  color: #B91C1C;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+}
+
+.btn-danger:active {
+  transform: translateY(0);
 }
 
 /* ─── Buttons (mirrors artisan-dashboard.css) ─── */
