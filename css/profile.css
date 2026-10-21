@@ -478,6 +478,13 @@ body {
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
 }
 
+@media (max-width: 639px) {
+  .btn-danger {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 .btn-danger:active {
   transform: translateY(0);
 }
