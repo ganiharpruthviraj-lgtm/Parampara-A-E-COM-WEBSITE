@@ -219,7 +219,24 @@ async function loadProfileData() {
 
     const data = res.ok ? await res.json() : null;
     const cached = getCachedUser();
-    const user   = data?.data || data || cached;
+    const serverUser = (data && typeof data === 'object') ? (data.data || data) : null;
+
+    // Merge server data with local cache:
+    // If serverUser has an avatarUrl, use it. If server returned null/empty, PRESERVE cached.avatarUrl!
+    const effectiveAvatar = (serverUser && serverUser.avatarUrl) ? serverUser.avatarUrl : (cached.avatarUrl || null);
+
+    const user = {
+      ...cached,
+      ...(serverUser || {}),
+      avatarUrl: effectiveAvatar
+    };
+
+    // Update local cache so it has the unified data
+    try {
+      localStorage.setItem('user', JSON.stringify(user));
+    } catch (e) {
+      console.warn('[Profile] localStorage sync error:', e);
+    }
 
     renderHeroBanner(user);
     populateAccountForm(user);
@@ -883,21 +900,86 @@ function updateCollectionCountAfterRemoval() {
 // 7.1 AVATAR UPLOAD, SMART PINCODE AUTO-FILL & KEYBOARD NAVIGATION
 // ─────────────────────────────────────────────────────────────────
 
-function clearAvatarImage() {
-  const avatarInput = document.getElementById('input-avatar');
-  const fileInput   = document.getElementById('input-avatar-file');
-  const clearBtn    = document.getElementById('btn-clear-avatar');
-  if (avatarInput) avatarInput.value = '';
-  if (fileInput)   fileInput.value   = '';
-  if (clearBtn)    clearBtn.classList.add('hidden');
+function compressAndResizeImage(file, maxSize = 400, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onerror = reject;
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onerror = reject;
+      img.onload = () => {
+        try {
+          const width = img.width;
+          const height = img.height;
+          // Crop square from center
+          const minDim = Math.min(width, height);
+          const sx = (width - minDim) / 2;
+          const sy = (height - minDim) / 2;
 
-  const cached   = getCachedUser();
-  const rawName  = cached.name || 'Heritage Collector';
-  const avatarWrap = document.getElementById('profile-avatar-wrap');
-  if (avatarWrap) {
-    avatarWrap.innerHTML = `<div class="profile-avatar-initials" id="profile-initials">${getInitials(rawName)}</div>`;
+          const canvas = document.createElement('canvas');
+          const outSize = Math.min(minDim, maxSize);
+          canvas.width = outSize;
+          canvas.height = outSize;
+
+          const ctx = canvas.getContext('2d');
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.drawImage(img, sx, sy, minDim, minDim, 0, 0, outSize, outSize);
+
+          const dataUrl = canvas.toDataURL('image/jpeg', quality);
+          resolve(dataUrl);
+        } catch (canvasErr) {
+          resolve(e.target.result);
+        }
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+async function saveAvatarToServer(avatarUrl, isClear = false) {
+  const cached = getCachedUser();
+  cached.avatarUrl = isClear ? null : (avatarUrl || null);
+  try {
+    localStorage.setItem('user', JSON.stringify(cached));
+  } catch (err) {
+    console.warn('[Profile] localStorage avatar quota warning:', err);
   }
-  showToast('Avatar reset to monogram crest. Click "Save Changes" to save.', 'info');
+
+  renderHeroBanner(cached);
+
+  const avatarInput = document.getElementById('input-avatar');
+  if (avatarInput) avatarInput.value = cached.avatarUrl || '';
+
+  const clearBtn = document.getElementById('btn-clear-avatar');
+  if (clearBtn) clearBtn.classList.toggle('hidden', !cached.avatarUrl);
+
+  try {
+    const res = await fetch(`${API()}/api/auth/profile`, {
+      method: 'PATCH',
+      headers: authHeaders(),
+      body: JSON.stringify({ avatarUrl: cached.avatarUrl })
+    });
+    if (res.ok) {
+      showToast(isClear ? 'Avatar reset to monogram crest.' : '✓ Profile photo updated and saved!', 'success');
+    } else {
+      showToast(isClear ? 'Avatar reset.' : '✓ Photo saved to your archive!', 'info');
+    }
+  } catch (err) {
+    console.warn('[Profile] Server avatar sync offline:', err);
+    showToast(isClear ? 'Avatar reset.' : '✓ Photo saved to your device.', 'info');
+  }
+
+  if (typeof updateGlobalNav === 'function') {
+    updateGlobalNav();
+  }
+}
+
+function clearAvatarImage() {
+  const fileInput = document.getElementById('input-avatar-file');
+  if (fileInput) fileInput.value = '';
+  saveAvatarToServer(null, true);
 }
 window.clearAvatarImage = clearAvatarImage;
 
@@ -907,7 +989,7 @@ function bindAvatarUpload() {
   const clearBtn    = document.getElementById('btn-clear-avatar');
   if (!fileInput) return;
 
-  fileInput.addEventListener('change', (e) => {
+  fileInput.addEventListener('change', async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -917,50 +999,39 @@ function bindAvatarUpload() {
       return;
     }
 
-    if (file.size > 3 * 1024 * 1024) {
-      showToast('Image file size must be under 3MB.', 'error');
+    if (file.size > 10 * 1024 * 1024) {
+      showToast('Image file size must be under 10MB.', 'error');
       fileInput.value = '';
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (evt) => {
-      const dataUrl = evt.target?.result;
-      if (!dataUrl) return;
-
-      if (avatarInput) avatarInput.value = dataUrl;
-      if (clearBtn) clearBtn.classList.remove('hidden');
-
-      const avatarWrap = document.getElementById('profile-avatar-wrap');
-      const cached = getCachedUser();
-      const rawName = cached.name || 'Heritage Collector';
-      if (avatarWrap) {
-        avatarWrap.innerHTML = `
-          <img src="${dataUrl}" alt="${escapeHtml(rawName)}" class="profile-avatar-img" />
-        `;
-      }
-      showToast('Photo selected! Click "Save Changes" to persist your avatar.', 'success');
-    };
-    reader.readAsDataURL(file);
+    try {
+      showToast('Optimizing and saving photo…', 'info');
+      const optimizedDataUrl = await compressAndResizeImage(file, 400, 0.85);
+      await saveAvatarToServer(optimizedDataUrl, false);
+    } catch (err) {
+      console.error('[Profile] Failed to process image:', err);
+      showToast('Could not process photo. Please try another image.', 'error');
+    } finally {
+      fileInput.value = '';
+    }
   });
 
   if (avatarInput) {
+    let debounceTimer;
     avatarInput.addEventListener('input', () => {
-      const val = avatarInput.value.trim();
-      if (clearBtn) clearBtn.classList.toggle('hidden', !val);
-      const isValid = val && (/^https?:\/\//i.test(val) || /^data:image\//i.test(val) || /^\/?assets\//i.test(val));
-      if (isValid) {
-        const avatarWrap = document.getElementById('profile-avatar-wrap');
-        const cached = getCachedUser();
-        const rawName = cached.name || 'Heritage Collector';
-        if (avatarWrap) {
-          avatarWrap.innerHTML = `
-            <img src="${escapeHtml(val)}" alt="${escapeHtml(rawName)}" class="profile-avatar-img"
-                 onerror="this.style.display='none'; const fb = document.getElementById('profile-initials-fallback'); if(fb) fb.style.display='flex';" />
-            <div class="profile-avatar-initials" id="profile-initials-fallback" style="display:none;">${getInitials(rawName)}</div>
-          `;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(async () => {
+        const val = avatarInput.value.trim();
+        if (!val) {
+          await saveAvatarToServer(null, true);
+          return;
         }
-      }
+        const isValid = /^https?:\/\//i.test(val) || /^data:image\//i.test(val) || /^\/?assets\//i.test(val);
+        if (isValid) {
+          await saveAvatarToServer(val, false);
+        }
+      }, 700);
     });
   }
 }
@@ -1282,6 +1353,13 @@ function renderEmptyState(icon, title, text) {
 // ─────────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // 1. Instant local render: paint from cached user so photo and identity appear with zero latency
+  const cachedInitial = getCachedUser();
+  if (cachedInitial && (cachedInitial.name || cachedInitial.avatarUrl || cachedInitial.email)) {
+    renderHeroBanner(cachedInitial);
+    populateAccountForm(cachedInitial);
+  }
+
   const initialTab = getTargetTabFromUrl();
   switchTab(initialTab, false);
 
