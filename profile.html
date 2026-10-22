@@ -40,9 +40,14 @@
 
         <!-- Left: Avatar + Identity -->
         <div class="flex items-center gap-5">
-          <div class="profile-avatar-ring" id="profile-avatar-wrap">
-            <!-- Filled by profile.js -->
-            <div class="profile-avatar-initials" id="profile-initials">–</div>
+          <div class="relative flex-shrink-0 w-[96px] h-[96px]">
+            <div class="profile-avatar-ring" id="profile-avatar-wrap">
+              <!-- Filled by profile.js -->
+              <div class="profile-avatar-initials" id="profile-initials">–</div>
+            </div>
+            <button type="button" class="avatar-camera-btn" id="btn-camera-upload" onclick="document.getElementById('input-avatar-file').click()" title="Upload Profile Photo (Max 3MB)">
+              <i class="fa-solid fa-camera"></i>
+            </button>
           </div>
           <div>
             <div class="flex flex-wrap items-center gap-2 mb-1.5">
@@ -50,6 +55,11 @@
                 <i class="fa-solid fa-gem"></i>
                 <span id="profile-role-text">Heritage Collector</span>
               </span>
+              <a id="btn-artisan-portal" href="artisan-dashboard.html" style="display: none;" class="items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-[#D4AF37] to-[#B8860B] text-[#181512] text-xs font-bold shadow-md hover:brightness-110 transition-all cursor-pointer">
+                <i class="fa-solid fa-hammer text-[11px]"></i>
+                <span>Open Artisan Studio</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-75"></i>
+              </a>
               <span class="text-white/40 hidden sm:inline">·</span>
               <span class="text-xs text-white/60 hidden sm:inline" id="profile-member-since">Member since —</span>
             </div>
@@ -64,19 +74,19 @@
           </div>
         </div>
 
-        <!-- Right: Quick Stats in 2x2 grid layout matching screenshot -->
+        <!-- Right: Quick Stats in 2x2 grid layout (Interactive Tab Shortcuts) -->
         <div class="grid grid-cols-2 gap-2.5 w-full sm:w-auto min-w-[260px]">
-          <div class="profile-hero-stat" id="stat-orders">
-            <div class="profile-hero-stat-value" id="stat-orders-val">0</div>
-            <div class="profile-hero-stat-label">ORDERS</div>
+          <div class="profile-hero-stat cursor-pointer group" id="stat-orders" onclick="switchTab('orders')" role="button" tabindex="0" title="Click to view Order History">
+            <div class="profile-hero-stat-value group-hover:text-[#F3E5AB] transition-colors" id="stat-orders-val">0</div>
+            <div class="profile-hero-stat-label flex items-center justify-center gap-1">ORDERS <i class="fa-solid fa-arrow-right text-[8px] opacity-50 group-hover:translate-x-0.5 transition-transform"></i></div>
           </div>
-          <div class="profile-hero-stat" id="stat-collection">
-            <div class="profile-hero-stat-value" id="stat-collection-val">0</div>
-            <div class="profile-hero-stat-label">COLLECTION</div>
+          <div class="profile-hero-stat cursor-pointer group" id="stat-collection" onclick="switchTab('collection')" role="button" tabindex="0" title="Click to view Saved Collection">
+            <div class="profile-hero-stat-value group-hover:text-[#F3E5AB] transition-colors" id="stat-collection-val">0</div>
+            <div class="profile-hero-stat-label flex items-center justify-center gap-1">COLLECTION <i class="fa-solid fa-arrow-right text-[8px] opacity-50 group-hover:translate-x-0.5 transition-transform"></i></div>
           </div>
-          <div class="profile-hero-stat col-span-2" id="stat-spent">
-            <div class="profile-hero-stat-value" id="stat-spent-val">₹0</div>
-            <div class="profile-hero-stat-label">ARTISAN PATRONAGE</div>
+          <div class="profile-hero-stat col-span-2 cursor-pointer group" id="stat-spent" onclick="switchTab('orders')" role="button" tabindex="0" title="Click to view Direct Artisan Contributions">
+            <div class="profile-hero-stat-value group-hover:text-[#F3E5AB] transition-colors" id="stat-spent-val">₹0</div>
+            <div class="profile-hero-stat-label flex items-center justify-center gap-1">ARTISAN PATRONAGE (70%) <i class="fa-solid fa-arrow-right text-[8px] opacity-50 group-hover:translate-x-0.5 transition-transform"></i></div>
           </div>
         </div>
 
@@ -151,14 +161,26 @@
               <p class="form-hint" id="phone-hint">Used for order dispatch tracking and mobile OTP authentication.</p>
             </div>
 
-            <!-- Profile Picture URL -->
+            <!-- Profile Picture (Direct Upload & URL) -->
             <div>
-              <label for="input-avatar" class="form-label flex items-center justify-between">
-                <span>Profile Picture URL</span>
+              <label class="form-label flex items-center justify-between">
+                <span>Profile Picture</span>
                 <span class="text-[10px] text-[#8C827A] font-normal">Optional</span>
               </label>
-              <input type="url" id="input-avatar" name="avatarUrl" class="form-input" placeholder="https://... direct image link" autocomplete="photo" />
-              <p class="form-hint">Enter an image URL or leave blank to display your monogram crest.</p>
+              <div class="space-y-2">
+                <div class="flex items-center gap-2">
+                  <input type="file" id="input-avatar-file" accept="image/png, image/jpeg, image/webp" class="hidden" />
+                  <button type="button" onclick="document.getElementById('input-avatar-file').click()" class="btn-avatar-upload">
+                    <i class="fa-solid fa-cloud-arrow-up text-xs text-[#B8860B]"></i>
+                    <span>Choose Photo from Device</span>
+                  </button>
+                  <button type="button" id="btn-clear-avatar" onclick="clearAvatarImage()" class="hidden btn-avatar-clear" title="Revert to Monogram Crest">
+                    <i class="fa-solid fa-xmark"></i> Revert
+                  </button>
+                </div>
+                <input type="text" id="input-avatar" name="avatarUrl" class="form-input text-xs" placeholder="Or paste direct image URL (https://...)" autocomplete="photo" />
+              </div>
+              <p class="form-hint" id="avatar-hint">Select a photo (max 3MB), paste an image URL, or leave blank to display your monogram crest.</p>
             </div>
 
             <!-- Default Delivery Address -->
@@ -174,6 +196,7 @@
                   <input type="text" id="input-state" name="state" class="form-input" placeholder="State" autocomplete="address-level1" />
                   <input type="text" id="input-pincode" name="pincode" class="form-input" placeholder="6-digit PIN" maxlength="6" pattern="[0-9]{6}" autocomplete="postal-code" />
                 </div>
+                <p class="text-[11px] text-[#B8860B] font-medium hidden" id="pincode-status"></p>
               </div>
             </div>
 
@@ -291,6 +314,36 @@
           <h2 class="font-serif text-xl font-bold text-[#1A1715]">Order History</h2>
         </div>
         <p class="text-xs text-[#6B6259]" id="orders-summary-text">Loading orders…</p>
+      </div>
+
+      <!-- Order Filter Chips & Search Bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 p-3 rounded-xl bg-white border border-[#EADBCC]/70 shadow-2xs">
+        <div class="flex flex-wrap items-center gap-1.5" id="order-filter-chips">
+          <button type="button" class="order-filter-chip active" data-filter="all" onclick="filterOrders('all')">
+            <span>All Orders</span>
+            <span class="order-filter-count" id="filter-count-all">0</span>
+          </button>
+          <button type="button" class="order-filter-chip" data-filter="active" onclick="filterOrders('active')">
+            <i class="fa-solid fa-hammer text-[10px] text-[#B8860B]"></i>
+            <span>In Loom / Crafting</span>
+            <span class="order-filter-count" id="filter-count-active">0</span>
+          </button>
+          <button type="button" class="order-filter-chip" data-filter="dispatched" onclick="filterOrders('dispatched')">
+            <i class="fa-solid fa-truck-fast text-[10px] text-blue-600"></i>
+            <span>Dispatched</span>
+            <span class="order-filter-count" id="filter-count-dispatched">0</span>
+          </button>
+          <button type="button" class="order-filter-chip" data-filter="delivered" onclick="filterOrders('delivered')">
+            <i class="fa-solid fa-circle-check text-[10px] text-emerald-600"></i>
+            <span>Delivered & Certified</span>
+            <span class="order-filter-count" id="filter-count-delivered">0</span>
+          </button>
+        </div>
+
+        <div class="relative w-full sm:w-64">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs text-[#8C827A]"></i>
+          <input type="text" id="order-search-input" oninput="searchOrders(this.value)" placeholder="Search order ID or craft…" class="w-full text-xs pl-8 pr-3 py-1.5 rounded-lg border border-[#EADBCC] focus:border-[#B8860B] focus:outline-none bg-[#FAF9F5] text-[#1A1715]" />
+        </div>
       </div>
 
       <!-- Orders list (rendered by profile.js) -->

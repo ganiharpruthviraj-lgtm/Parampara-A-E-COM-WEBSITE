@@ -329,7 +329,117 @@
    </div>
   </footer>
   <script>
-   const states = [  { name: "Himachal Pradesh", craft: "Pine Wooden Crafts", badge: "Himalayan", region: "north", img: "https://picsum.photos/seed/HimachalPradesh/600/400" }, { name: "Jammu and Kashmir", craft: "Kashmiri Pashmina & Walnut Wood", badge: "Himalayan", region: "north", img: "https://picsum.photos/seed/kashmirWood/600/400" }, { name: "Ladakh", craft: "Pashmina & Himalayan Woodcraft", badge: "Himalayan", region: "north", img: "https://picsum.photos/seed/ladakhPashmina/600/400" }, { name: "Punjab", craft: "Phulkari Textiles", badge: "Traditional", region: "north", img: "https://picsum.photos/seed/Punjab/600/400" }, { name: "Haryana", craft: "Terracotta Home Décor", badge: "Heritage", region: "north", img: "https://picsum.photos/seed/Haryana/600/400" }, { name: "Uttarakhand", craft: "Natural Beauty Products", badge: "Himalayan", region: "north", img: "https://picsum.photos/seed/Uttarakhand/600/400" }, { name: "Uttar Pradesh", craft: "Chikankari Textiles", badge: "Iconic", region: "north", img: "https://picsum.photos/seed/UttarPradesh/600/400" },  { name: "Rajasthan", craft: "Meenakari Jewelry", badge: "Featured", region: "west", img: "https://picsum.photos/seed/Rajasthan/600/400" }, { name: "Gujarat", craft: "Bandhani Textiles", badge: "Vibrant", region: "west", img: "https://picsum.photos/seed/Gujarat/600/400" }, { name: "Maharashtra", craft: "Paithani Silk", badge: "Popular", region: "west", img: "https://picsum.photos/seed/Maharashtra/600/400" }, { name: "Goa", craft: "Cashew Food & Sweets", badge: "Coastal", region: "west", img: "https://picsum.photos/seed/Goa/600/400" },  { name: "Karnataka", craft: "Sandalwood Crafts", badge: "Traditional", region: "south", img: "https://picsum.photos/seed/Karnataka/600/400" }, { name: "Kerala", craft: "Ayurvedic Products", badge: "Organic", region: "south", img: "https://picsum.photos/seed/Kerala/600/400" }, { name: "Tamil Nadu", craft: "Kanchipuram Silk", badge: "Iconic", region: "south", img: "https://picsum.photos/seed/TamilNadu/600/400" }, { name: "Andhra Pradesh", craft: "Kondapalli Toys", badge: "Artisan", region: "south", img: "https://picsum.photos/seed/AndhraPradesh/600/400" }, { name: "Telangana", craft: "Bidriware Art", badge: "Heritage", region: "south", img: "https://picsum.photos/seed/Telangana/600/400" },  { name: "Madhya Pradesh", craft: "Chanderi Textiles", badge: "Heritage", region: "central", img: "https://picsum.photos/seed/MadhyaPradesh/600/400" }, { name: "Chhattisgarh", craft: "Dhokra Metal Décor", badge: "Tribal", region: "central", img: "https://picsum.photos/seed/Chhattisgarh/600/400" }, { name: "Odisha", craft: "Pattachitra Paintings", badge: "Handcrafted", region: "central", img: "https://picsum.photos/seed/Odisha/600/400" }, { name: "West Bengal", craft: "Jamdani Weaves", badge: "Artistic", region: "central", img: "https://picsum.photos/seed/WestBengal/600/400" }, { name: "Bihar", craft: "Madhubani Paintings", badge: "Cultural", region: "central", img: "https://picsum.photos/seed/Bihar/600/400" }, { name: "Jharkhand", craft: "Tussar Silk", badge: "Natural", region: "central", img: "https://picsum.photos/seed/Jharkhand/600/400" },  { name: "Sikkim", craft: "Organic Beauty Products", badge: "Pristine", region: "northeast", img: "https://picsum.photos/seed/Sikkim/600/400" }, { name: "Arunachal Pradesh", craft: "Hand-Woven Textiles", badge: "Dawn-Lit", region: "northeast", img: "https://picsum.photos/seed/ArunachalPradesh/600/400" }, { name: "Assam", craft: "Muga Silk", badge: "Golden", region: "northeast", img: "https://picsum.photos/seed/Assam/600/400" }, { name: "Meghalaya", craft: "Bamboo Home Décor", badge: "Cloud", region: "northeast", img: "https://picsum.photos/seed/Meghalaya/600/400" }, { name: "Nagaland", craft: "Beaded Jewelry", badge: "Festival", region: "northeast", img: "https://picsum.photos/seed/Nagaland/600/400" }, { name: "Manipur", craft: "Kauna Reed Gift", badge: "Jewel", region: "northeast", img: "https://picsum.photos/seed/Manipur/600/400" }, { name: "Mizoram", craft: "Bamboo Toys", badge: "Peaceful", region: "northeast", img: "https://picsum.photos/seed/Mizoram/600/400" }, { name: "Tripura", craft: "Cane & Bamboo Crafts", badge: "Artisan", region: "northeast", img: "https://picsum.photos/seed/Tripura/600/400" }, ]; const badgeColors = { "Featured": "bg-green-600", "Popular": "bg-orange-500", "Traditional": "bg-blue-600", "Handcrafted": "bg-purple-600", "Himalayan": "bg-sky-600", "Iconic": "bg-red-600", "Vibrant": "bg-pink-600", "Coastal": "bg-teal-600", "Organic": "bg-lime-700", "Tribal": "bg-amber-700", "Artistic": "bg-indigo-600", "Cultural": "bg-rose-600", "Natural": "bg-emerald-600", "Heritage": "bg-yellow-600", "Artisan": "bg-cyan-700", "Golden": "bg-yellow-500", "Cloud": "bg-slate-500", "Festival": "bg-fuchsia-600", "Jewel": "bg-violet-600", "Peaceful": "bg-teal-700", "Dawn-Lit": "bg-orange-600", "Pristine": "bg-green-500", }; function renderCards(filter = 'all') { const grid = document.getElementById('states-grid'); grid.innerHTML = ''; const filtered = filter === 'all' ? states : states.filter(s => s.region === filter); filtered.forEach((state, index) => { const badgeClass = badgeColors[state.badge] || 'bg-gray-600'; const card = document.createElement('a'); card.href = `state_categories.html?name=${encodeURIComponent(state.name)}`; card.className = "state-card reveal group relative block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"; card.style.animationDelay = `${index * 60}ms`; card.innerHTML = ` <div class="relative aspect-video overflow-hidden"> <img decoding="async" src="${state.img}" alt="${state.name}" class="card-img w-full h-full object-cover" loading="lazy"> <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div> <span class="${badgeClass} absolute top-3 left-3 text-white text-[9px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-sm shadow-sm">${state.badge}</span> <div class="absolute bottom-0 left-0 right-0 p-5"> <h3 class="text-white font-bold text-xl leading-tight">${state.name}</h3> <p class="text-gray-300 text-[11px] font-medium tracking-wide mt-1 uppercase opacity-80">${state.craft}</p> <span class="explore-btn inline-block mt-3 text-[#B8860B] text-xs font-extrabold uppercase tracking-widest">Explore Heritage →</span> </div> </div>`; grid.appendChild(card); }); } function filterRegion(region) { document.querySelectorAll('.region-btn').forEach(btn => { btn.classList.remove('bg-[#B8860B]', 'text-white', 'shadow-md', 'hover:shadow-xl', 'active'); btn.classList.add('bg-[#white]', 'border', 'border-gray-200', 'text-gray-500'); }); const active = document.querySelector(`[data-region="${region}"]`); active.classList.add('bg-[#B8860B]', 'text-white', 'shadow-md', 'hover:shadow-xl', 'active'); active.classList.remove('bg-white', 'border', 'border-gray-200', 'text-gray-500');  const grid = document.getElementById('states-grid'); grid.style.opacity = '0'; setTimeout(() => { renderCards(region); grid.style.opacity = '1'; }, 50); } renderCards();
+   const states = [
+     // North
+     { name: "Himachal Pradesh", craft: "Kullu Shawls & Chamba Rumal", badge: "Himalayan", region: "north", img: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80" },
+     { name: "Jammu and Kashmir", craft: "Pashmina & Walnut Wood", badge: "Himalayan", region: "north", img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" },
+     { name: "Ladakh", craft: "Pashmina (Lena) & Woodcraft", badge: "Himalayan", region: "north", img: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=800&q=80" },
+     { name: "Punjab", craft: "Phulkari Silk Embroidery", badge: "Traditional", region: "north", img: "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=800&q=80" },
+     { name: "Haryana", craft: "Panipat Dhurries & Terracotta", badge: "Heritage", region: "north", img: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=800&q=80" },
+     { name: "Uttarakhand", craft: "Bhotiya Weaves & Ringal Craft", badge: "Himalayan", region: "north", img: "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=800&q=80" },
+     { name: "Uttar Pradesh", craft: "Banarasi Brocade & Chikankari", badge: "Iconic", region: "north", img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80" },
+     
+     // West
+     { name: "Rajasthan", craft: "Jaipur Blue Pottery & Meenakari", badge: "Featured", region: "west", img: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=800&q=80" },
+     { name: "Gujarat", craft: "Patan Patola & Bandhani Silk", badge: "Vibrant", region: "west", img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80" },
+     { name: "Maharashtra", craft: "Paithani Silk & Warli Art", badge: "Popular", region: "west", img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80", url: "maharashtra.html" },
+     { name: "Goa", craft: "Goan Azulejos Tiles & Kunbi Weaves", badge: "Coastal", region: "west", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80" },
+     
+     // South
+     { name: "Karnataka", craft: "Bidriware & Channapatna Toys", badge: "Traditional", region: "south", img: "https://s7ap1.scene7.com/is/image/incredibleindia/bidriware-bidar-karnataka-craft-hero?qlt=82&ts=1726641338177", url: "karnataka.html" },
+     { name: "Kerala", craft: "Aranmula Mirror & Kasavu Silk", badge: "Organic", region: "south", img: "https://images.unsplash.com/photo-1567591414240-e17926fb966f?auto=format&fit=crop&w=800&q=80" },
+     { name: "Tamil Nadu", craft: "Kanchipuram Silk & Thanjavur Art", badge: "Iconic", region: "south", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80" },
+     { name: "Andhra Pradesh", craft: "Kondapalli Toys & Kalamkari", badge: "Artisan", region: "south", img: "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=800&q=80" },
+     { name: "Telangana", craft: "Pochampally Ikat & Silver Filigree", badge: "Heritage", region: "south", img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80" },
+     
+     // Central & East
+     { name: "Madhya Pradesh", craft: "Chanderi Silk & Gond Folk Art", badge: "Heritage", region: "central", img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80" },
+     { name: "Chhattisgarh", craft: "Bastar Dokra & Wild Kosa Silk", badge: "Tribal", region: "central", img: "https://images.unsplash.com/photo-1567591414240-e17926fb966f?auto=format&fit=crop&w=800&q=80" },
+     { name: "Odisha", craft: "Pattachitra & Sambalpuri Ikat", badge: "Handcrafted", region: "central", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80" },
+     { name: "West Bengal", craft: "Baluchari Silk & Darjeeling Tea", badge: "Artistic", region: "central", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80" },
+     { name: "Bihar", craft: "Madhubani Paintings & Tussar Silk", badge: "Cultural", region: "central", img: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80" },
+     { name: "Jharkhand", craft: "Sohrai-Khovar & Tussar Silks", badge: "Natural", region: "central", img: "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=800&q=80" },
+     
+     // Northeast
+     { name: "Sikkim", craft: "Temi Orthodox Tea & Lepcha Weaves", badge: "Pristine", region: "northeast", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=800&q=80" },
+     { name: "Arunachal Pradesh", craft: "Apatani Weaves & Wancho Woodcraft", badge: "Dawn-Lit", region: "northeast", img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" },
+     { name: "Assam", craft: "Golden Muga Silk & Cane Crafts", badge: "Golden", region: "northeast", img: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80" },
+     { name: "Meghalaya", craft: "Eri Peace Silk & Bamboo Decor", badge: "Cloud", region: "northeast", img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" },
+     { name: "Nagaland", craft: "Naga Beaded Necklaces & Shawls", badge: "Festival", region: "northeast", img: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=80" },
+     { name: "Manipur", craft: "Kauna Reed Crafts & Moirang Phee", badge: "Jewel", region: "northeast", img: "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=800&q=80" },
+     { name: "Mizoram", craft: "Puan Handloom Weaving", badge: "Peaceful", region: "northeast", img: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=800&q=80" },
+     { name: "Tripura", craft: "Cane, Bamboo & Pachra Weaves", badge: "Artisan", region: "northeast", img: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" }
+   ]; 
+
+   const badgeColors = { 
+     "Featured": "bg-green-600", 
+     "Popular": "bg-orange-500", 
+     "Traditional": "bg-blue-600", 
+     "Handcrafted": "bg-purple-600", 
+     "Himalayan": "bg-sky-600", 
+     "Iconic": "bg-red-600", 
+     "Vibrant": "bg-pink-600", 
+     "Coastal": "bg-teal-600", 
+     "Organic": "bg-lime-700", 
+     "Tribal": "bg-amber-700", 
+     "Artistic": "bg-indigo-600", 
+     "Cultural": "bg-rose-600", 
+     "Natural": "bg-emerald-600", 
+     "Heritage": "bg-yellow-600", 
+     "Artisan": "bg-cyan-700", 
+     "Golden": "bg-yellow-500", 
+     "Cloud": "bg-slate-500", 
+     "Festival": "bg-fuchsia-600", 
+     "Jewel": "bg-violet-600", 
+     "Peaceful": "bg-teal-700", 
+     "Dawn-Lit": "bg-orange-600", 
+     "Pristine": "bg-green-500" 
+   }; 
+
+   function renderCards(filter = 'all') { 
+     const grid = document.getElementById('states-grid'); 
+     grid.innerHTML = ''; 
+     const filtered = filter === 'all' ? states : states.filter(s => s.region === filter); 
+     filtered.forEach((state, index) => { 
+       const badgeClass = badgeColors[state.badge] || 'bg-gray-600'; 
+       const card = document.createElement('a'); 
+       card.href = state.url || `state_categories.html?name=${encodeURIComponent(state.name)}`; 
+       card.className = "state-card reveal group relative block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 hover:-translate-y-2"; 
+       card.style.animationDelay = `${index * 60}ms`; 
+       card.innerHTML = ` 
+         <div class="relative aspect-video overflow-hidden"> 
+           <img decoding="async" src="${state.img}" alt="${state.name}" class="card-img w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80';"> 
+           <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div> 
+           <span class="${badgeClass} absolute top-3 left-3 text-white text-[9px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-sm shadow-sm">${state.badge}</span> 
+           <div class="absolute bottom-0 left-0 right-0 p-5"> 
+             <h3 class="text-white font-bold text-xl leading-tight group-hover:text-[#B8860B] transition-colors">${state.name}</h3> 
+             <p class="text-gray-300 text-[11px] font-medium tracking-wide mt-1 uppercase opacity-90">${state.craft}</p> 
+             <span class="explore-btn inline-block mt-3 text-[#B8860B] text-xs font-extrabold uppercase tracking-widest group-hover:translate-x-1 transition-transform">Explore Heritage →</span> 
+           </div> 
+         </div>`; 
+       grid.appendChild(card); 
+     }); 
+   } 
+
+   function filterRegion(region) { 
+     document.querySelectorAll('.region-btn').forEach(btn => { 
+       btn.classList.remove('bg-[#B8860B]', 'text-white', 'shadow-md', 'hover:shadow-xl', 'active'); 
+       btn.classList.add('bg-[#white]', 'border', 'border-gray-200', 'text-gray-500'); 
+     }); 
+     const active = document.querySelector(`[data-region="${region}"]`); 
+     if (active) {
+       active.classList.add('bg-[#B8860B]', 'text-white', 'shadow-md', 'hover:shadow-xl', 'active'); 
+       active.classList.remove('bg-white', 'border', 'border-gray-200', 'text-gray-500'); 
+     }
+     const grid = document.getElementById('states-grid'); 
+     grid.style.opacity = '0'; 
+     setTimeout(() => { 
+       renderCards(region); 
+       grid.style.opacity = '1'; 
+     }, 50); 
+   } 
+
+   renderCards();
   </script>
   <script>
    /* Preloader Logic */

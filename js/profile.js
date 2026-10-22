@@ -19,6 +19,11 @@ var getCachedUser = () => {
   try { return JSON.parse(localStorage.getItem('user') || '{}'); } catch { return {}; }
 };
 
+// Global state for interactive order filtering & search (Step 5)
+var _allOrders = [];
+var _currentOrderFilter = 'all';
+var _orderSearchQuery = '';
+
 function authHeaders() {
   return { 'Content-Type': 'application/json', 'Authorization': `Bearer ${getToken()}` };
 }
@@ -251,11 +256,12 @@ function renderHeroBanner(user) {
     if (span) span.textContent = email;
   }
 
-  // Avatar image or initials fallback
+  // Avatar image or initials fallback (Supports HTTPS, Data URLs, and local assets)
   const avatarWrap = document.getElementById('profile-avatar-wrap');
   if (avatarWrap) {
     const rawUrl = (user.avatarUrl || '').trim();
-    if (rawUrl && /^https?:\/\//i.test(rawUrl)) {
+    const isValidAvatar = rawUrl && (/^https?:\/\//i.test(rawUrl) || /^data:image\//i.test(rawUrl) || /^\/?assets\//i.test(rawUrl));
+    if (isValidAvatar) {
       avatarWrap.innerHTML = `
         <img src="${escapeHtml(rawUrl)}" alt="${escapeHtml(rawName)}" class="profile-avatar-img"
              onerror="this.style.display='none'; const fb = document.getElementById('profile-initials-fallback'); if(fb) fb.style.display='flex';" />
@@ -268,10 +274,19 @@ function renderHeroBanner(user) {
     }
   }
 
-  // Role badge
+  // Role badge & Artisan Portal Quick-Switch (Step 4)
   const roleTextEl = document.getElementById('profile-role-text');
   const roleMap = { user: 'Heritage Collector', artisan: 'Shilp Guru Guild', admin: 'Platform Admin' };
   if (roleTextEl) roleTextEl.textContent = roleMap[role] || 'Heritage Collector';
+
+  const artisanBtn = document.getElementById('btn-artisan-portal');
+  if (artisanBtn) {
+    if (role === 'artisan' || role === 'admin') {
+      artisanBtn.style.display = 'inline-flex';
+    } else {
+      artisanBtn.style.display = 'none';
+    }
+  }
 
   // Member since
   const sinceText = createdAt ? `Member since ${formatDate(createdAt)}` : 'Member since 20 Oct 2026';
@@ -294,7 +309,11 @@ function populateAccountForm(user) {
   if (nameInput)   nameInput.value   = user.name  || '';
   if (emailInput)  emailInput.value  = user.email || '';
   if (phoneInput)  phoneInput.value  = user.phone || '';
-  if (avatarInput) avatarInput.value = user.avatarUrl || '';
+  if (avatarInput) {
+    avatarInput.value = user.avatarUrl || '';
+    const clearBtn = document.getElementById('btn-clear-avatar');
+    if (clearBtn) clearBtn.classList.toggle('hidden', !user.avatarUrl);
+  }
 
   const ship = user.shippingAddress || {};
   if (addrInput)  addrInput.value  = ship.address || '';
@@ -352,31 +371,9 @@ async function loadOrderHistory() {
       spentEl.textContent = artisanContribution > 0 ? formatCurrency(artisanContribution) : '₹0';
     }
 
-    if (!listEl) return;
-
-    if (orders.length === 0) {
-      listEl.innerHTML = `
-        <div class="profile-empty-state">
-          <div class="profile-empty-state-icon"><i class="fa-solid fa-bag-shopping"></i></div>
-          <div class="profile-empty-state-title">No acquisitions in archive</div>
-          <p class="profile-empty-state-text">Explore certified one-of-a-kind heritage masterpieces across India's 28 states with 70% direct artisan payout.</p>
-          <a href="search.html" class="btn-gold-primary">
-            <i class="fa-solid fa-compass text-xs"></i> Explore Masterpieces
-          </a>
-        </div>
-      `;
-      if (summaryEl) summaryEl.textContent = 'No orders placed yet.';
-      return;
-    }
-
-    if (summaryEl) {
-      summaryEl.textContent = `${orders.length} acquisition${orders.length > 1 ? 's' : ''} · ${formatCurrency(totalSpent)} total archive value`;
-    }
-
-    listEl.innerHTML = orders
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-      .map(order => renderOrderCard(order))
-      .join('');
+    // Store master orders list and delegate to interactive filter/search engine (Step 5)
+    _allOrders = orders;
+    renderFilteredOrders();
 
   } catch (err) {
     console.warn('[Profile] loadOrderHistory error:', err);
@@ -393,6 +390,128 @@ async function loadOrderHistory() {
     if (summaryEl) summaryEl.textContent = 'Unable to load orders.';
   }
 }
+
+// ─────────────────────────────────────────────────────────────────
+// 6.1 ORDER HISTORY FILTERING & SEARCH (Step 5)
+// ─────────────────────────────────────────────────────────────────
+
+function renderFilteredOrders() {
+  const listEl    = document.getElementById('orders-list');
+  const summaryEl = document.getElementById('orders-summary-text');
+  if (!listEl) return;
+
+  let filtered = _allOrders.slice();
+
+  // 1. Status Filter
+  if (_currentOrderFilter === 'active') {
+    filtered = filtered.filter(o => o.orderStatus === 'Processing' || o.orderStatus === 'Handcrafted');
+  } else if (_currentOrderFilter === 'dispatched') {
+    filtered = filtered.filter(o => o.orderStatus === 'Dispatched');
+  } else if (_currentOrderFilter === 'delivered') {
+    filtered = filtered.filter(o => o.orderStatus === 'Delivered');
+  }
+
+  // 2. Search Query Filter (order ID, craft name, or artisan)
+  if (_orderSearchQuery) {
+    const q = _orderSearchQuery.toLowerCase();
+    filtered = filtered.filter(o => {
+      const id = String(o._id || o.id || '').toLowerCase();
+      const itemsMatch = (o.orderItems || []).some(item =>
+        (item.name || '').toLowerCase().includes(q) ||
+        (item.artisanName || '').toLowerCase().includes(q) ||
+        (item.giNumber || '').toLowerCase().includes(q)
+      );
+      return id.includes(q) || itemsMatch;
+    });
+  }
+
+  updateFilterCounts();
+
+  if (_allOrders.length === 0) {
+    listEl.innerHTML = `
+      <div class="profile-empty-state">
+        <div class="profile-empty-state-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+        <div class="profile-empty-state-title">No acquisitions in archive</div>
+        <p class="profile-empty-state-text">Explore certified one-of-a-kind heritage masterpieces across India's 28 states with 70% direct artisan payout.</p>
+        <a href="search.html" class="btn-gold-primary">
+          <i class="fa-solid fa-compass text-xs"></i> Explore Masterpieces
+        </a>
+      </div>
+    `;
+    if (summaryEl) summaryEl.textContent = 'No orders placed yet.';
+    return;
+  }
+
+  if (filtered.length === 0) {
+    listEl.innerHTML = `
+      <div class="profile-empty-state">
+        <div class="profile-empty-state-icon"><i class="fa-solid fa-filter"></i></div>
+        <div class="profile-empty-state-title">No matching orders</div>
+        <p class="profile-empty-state-text">No acquisitions found matching your filter criteria.</p>
+        <button onclick="resetOrderFilters()" class="btn-gold-primary">
+          <i class="fa-solid fa-rotate-left text-xs"></i> Reset Filters
+        </button>
+      </div>
+    `;
+    if (summaryEl) summaryEl.textContent = `0 of ${_allOrders.length} orders matching filter`;
+    return;
+  }
+
+  const totalSpent = _allOrders.reduce((sum, o) => sum + (Number(o.totalPrice) || 0), 0);
+  if (summaryEl) {
+    summaryEl.textContent = `${filtered.length} acquisition${filtered.length > 1 ? 's' : ''} · ${formatCurrency(totalSpent)} total archive value`;
+  }
+
+  listEl.innerHTML = filtered
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .map(order => renderOrderCard(order))
+    .join('');
+}
+
+function updateFilterCounts() {
+  const allCount = _allOrders.length;
+  const activeCount = _allOrders.filter(o => o.orderStatus === 'Processing' || o.orderStatus === 'Handcrafted').length;
+  const dispatchedCount = _allOrders.filter(o => o.orderStatus === 'Dispatched').length;
+  const deliveredCount = _allOrders.filter(o => o.orderStatus === 'Delivered').length;
+
+  const setEl = (id, count) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = count;
+  };
+  setEl('filter-count-all', allCount);
+  setEl('filter-count-active', activeCount);
+  setEl('filter-count-dispatched', dispatchedCount);
+  setEl('filter-count-delivered', deliveredCount);
+}
+
+function filterOrders(filterKey) {
+  _currentOrderFilter = filterKey || 'all';
+  const chips = document.querySelectorAll('#order-filter-chips .order-filter-chip');
+  chips.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === _currentOrderFilter);
+  });
+  renderFilteredOrders();
+}
+window.filterOrders = filterOrders;
+
+function searchOrders(val) {
+  _orderSearchQuery = (val || '').trim();
+  renderFilteredOrders();
+}
+window.searchOrders = searchOrders;
+
+function resetOrderFilters() {
+  _currentOrderFilter = 'all';
+  _orderSearchQuery = '';
+  const searchInput = document.getElementById('order-search-input');
+  if (searchInput) searchInput.value = '';
+  const chips = document.querySelectorAll('#order-filter-chips .order-filter-chip');
+  chips.forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === 'all');
+  });
+  renderFilteredOrders();
+}
+window.resetOrderFilters = resetOrderFilters;
 
 function toggleOrderDossier(orderId) {
   const el = document.getElementById(`dossier-${orderId}`);
@@ -464,6 +583,19 @@ function renderOrderCard(order) {
   const shipRecipient = ship.fullName || 'Collector';
   const shipPhone = ship.phone ? `+91 ${ship.phone}` : '—';
   const paymentBadge = `${order.paymentMethod || 'Razorpay Secured'} · ${order.isPaid ? 'Payment Confirmed ✓' : 'Payment Completed'}`;
+
+  // Consignment AWB & Estimated Delivery (Step 6)
+  const awbNumber = order.awb || `INP-2026-${shortId}-GI`;
+  let estDeliveryText = 'Delivered & Certified';
+  if (order.orderStatus !== 'Delivered') {
+    try {
+      const orderDate = new Date(order.createdAt || Date.now());
+      const estDate = new Date(orderDate.getTime() + 6 * 24 * 60 * 60 * 1000);
+      estDeliveryText = `Est. Arrival: ${estDate.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+    } catch {
+      estDeliveryText = 'Est. Arrival: 5–7 business days';
+    }
+  }
 
   // Timeline steps
   const stepsDef = [
@@ -546,6 +678,17 @@ function renderOrderCard(order) {
             <div class="font-semibold text-[#1A1A1A]">${escapeHtml(shipRecipient)}</div>
             <div class="text-[#6B6B6B] mt-0.5">${escapeHtml(shipDest)}</div>
             <div class="text-[#8C827A] text-[11px] mt-1"><i class="fa-solid fa-phone text-[10px] mr-1"></i> ${escapeHtml(shipPhone)}</div>
+          </div>
+          <div class="order-detail-box">
+            <div class="order-detail-title"><i class="fa-solid fa-truck-ramp-box text-[#B8860B] mr-1"></i> Consignment Tracking</div>
+            <div class="flex items-center justify-between gap-1 mt-0.5">
+              <span class="font-mono text-xs font-bold text-[#1A1A1A]">${escapeHtml(awbNumber)}</span>
+              <button type="button" onclick="navigator.clipboard.writeText('${escapeHtml(awbNumber)}'); showToast('Consignment AWB copied: ${escapeHtml(awbNumber)}', 'info')" class="text-[10px] text-[#B8860B] hover:underline font-bold flex items-center gap-0.5 cursor-pointer">
+                <i class="fa-regular fa-copy"></i> Copy
+              </button>
+            </div>
+            <div class="text-[#6B6B6B] mt-0.5 text-[11px]">Carrier: <strong>India Post SpeedPost</strong></div>
+            <div class="text-[#8C827A] text-[11px] mt-1"><i class="fa-regular fa-calendar-check text-[10px] mr-1"></i> ${escapeHtml(estDeliveryText)}</div>
           </div>
           <div class="order-detail-box">
             <div class="order-detail-title"><i class="fa-solid fa-shield-halved text-[#B8860B] mr-1"></i> Payment & Guarantee</div>
@@ -734,6 +877,189 @@ function updateCollectionCountAfterRemoval() {
       </div>
     `;
   }
+}
+
+// ─────────────────────────────────────────────────────────────────
+// 7.1 AVATAR UPLOAD, SMART PINCODE AUTO-FILL & KEYBOARD NAVIGATION
+// ─────────────────────────────────────────────────────────────────
+
+function clearAvatarImage() {
+  const avatarInput = document.getElementById('input-avatar');
+  const fileInput   = document.getElementById('input-avatar-file');
+  const clearBtn    = document.getElementById('btn-clear-avatar');
+  if (avatarInput) avatarInput.value = '';
+  if (fileInput)   fileInput.value   = '';
+  if (clearBtn)    clearBtn.classList.add('hidden');
+
+  const cached   = getCachedUser();
+  const rawName  = cached.name || 'Heritage Collector';
+  const avatarWrap = document.getElementById('profile-avatar-wrap');
+  if (avatarWrap) {
+    avatarWrap.innerHTML = `<div class="profile-avatar-initials" id="profile-initials">${getInitials(rawName)}</div>`;
+  }
+  showToast('Avatar reset to monogram crest. Click "Save Changes" to save.', 'info');
+}
+window.clearAvatarImage = clearAvatarImage;
+
+function bindAvatarUpload() {
+  const fileInput   = document.getElementById('input-avatar-file');
+  const avatarInput = document.getElementById('input-avatar');
+  const clearBtn    = document.getElementById('btn-clear-avatar');
+  if (!fileInput) return;
+
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      showToast('Please select a valid image file (JPG, PNG, WebP).', 'error');
+      fileInput.value = '';
+      return;
+    }
+
+    if (file.size > 3 * 1024 * 1024) {
+      showToast('Image file size must be under 3MB.', 'error');
+      fileInput.value = '';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const dataUrl = evt.target?.result;
+      if (!dataUrl) return;
+
+      if (avatarInput) avatarInput.value = dataUrl;
+      if (clearBtn) clearBtn.classList.remove('hidden');
+
+      const avatarWrap = document.getElementById('profile-avatar-wrap');
+      const cached = getCachedUser();
+      const rawName = cached.name || 'Heritage Collector';
+      if (avatarWrap) {
+        avatarWrap.innerHTML = `
+          <img src="${dataUrl}" alt="${escapeHtml(rawName)}" class="profile-avatar-img" />
+        `;
+      }
+      showToast('Photo selected! Click "Save Changes" to persist your avatar.', 'success');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  if (avatarInput) {
+    avatarInput.addEventListener('input', () => {
+      const val = avatarInput.value.trim();
+      if (clearBtn) clearBtn.classList.toggle('hidden', !val);
+      const isValid = val && (/^https?:\/\//i.test(val) || /^data:image\//i.test(val) || /^\/?assets\//i.test(val));
+      if (isValid) {
+        const avatarWrap = document.getElementById('profile-avatar-wrap');
+        const cached = getCachedUser();
+        const rawName = cached.name || 'Heritage Collector';
+        if (avatarWrap) {
+          avatarWrap.innerHTML = `
+            <img src="${escapeHtml(val)}" alt="${escapeHtml(rawName)}" class="profile-avatar-img"
+                 onerror="this.style.display='none'; const fb = document.getElementById('profile-initials-fallback'); if(fb) fb.style.display='flex';" />
+            <div class="profile-avatar-initials" id="profile-initials-fallback" style="display:none;">${getInitials(rawName)}</div>
+          `;
+        }
+      }
+    });
+  }
+}
+
+// Regional pincode mapping for instant zero-latency feedback (Step 3)
+const PIN_DIRECTORY = {
+  '110001': { city: 'New Delhi', state: 'Delhi' },
+  '400001': { city: 'Mumbai', state: 'Maharashtra' },
+  '560001': { city: 'Bengaluru', state: 'Karnataka' },
+  '600001': { city: 'Chennai', state: 'Tamil Nadu' },
+  '700001': { city: 'Kolkata', state: 'West Bengal' },
+  '500001': { city: 'Hyderabad', state: 'Telangana' },
+  '302001': { city: 'Jaipur', state: 'Rajasthan' },
+  '221001': { city: 'Varanasi', state: 'Uttar Pradesh' },
+  '175101': { city: 'Kullu', state: 'Himachal Pradesh' },
+  '190001': { city: 'Srinagar', state: 'Jammu and Kashmir' },
+  '492001': { city: 'Raipur', state: 'Chhattisgarh' },
+  '781001': { city: 'Guwahati', state: 'Assam' },
+  '380001': { city: 'Ahmedabad', state: 'Gujarat' },
+  '682001': { city: 'Kochi', state: 'Kerala' },
+  '751001': { city: 'Bhubaneswar', state: 'Odisha' }
+};
+
+function bindPincodeLookup() {
+  const pinInput   = document.getElementById('input-pincode');
+  const cityInput  = document.getElementById('input-city');
+  const stateInput = document.getElementById('input-state');
+  const statusEl   = document.getElementById('pincode-status');
+  if (!pinInput) return;
+
+  pinInput.addEventListener('input', async () => {
+    const pin = pinInput.value.replace(/\D/g, '').slice(0, 6);
+    pinInput.value = pin;
+
+    if (pin.length !== 6) {
+      if (statusEl) statusEl.classList.add('hidden');
+      return;
+    }
+
+    // 1. Instant check against curated regional hubs
+    if (PIN_DIRECTORY[pin]) {
+      const match = PIN_DIRECTORY[pin];
+      if (cityInput && !cityInput.value)  cityInput.value = match.city;
+      if (stateInput && !stateInput.value) stateInput.value = match.state;
+      if (statusEl) {
+        statusEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Auto-filled ${escapeHtml(match.city)}, ${escapeHtml(match.state)}`;
+        statusEl.classList.remove('hidden');
+        setTimeout(() => { statusEl?.classList.add('hidden'); }, 3500);
+      }
+      return;
+    }
+
+    // 2. Fetch from India Post Open Postal API with 2.5s abort timeout
+    if (statusEl) {
+      statusEl.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin text-xs"></i> Checking postal circle…`;
+      statusEl.classList.remove('hidden');
+    }
+
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 2500);
+      const res = await fetch(`https://api.postalpincode.in/pincode/${pin}`, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data) && data[0]?.Status === 'Success' && data[0]?.PostOffice?.length > 0) {
+          const po = data[0].PostOffice[0];
+          const resolvedCity  = po.District || po.Block || po.Circle;
+          const resolvedState = po.State;
+          if (cityInput && !cityInput.value)   cityInput.value  = resolvedCity;
+          if (stateInput && !stateInput.value) stateInput.value = resolvedState;
+          if (statusEl) {
+            statusEl.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600"></i> Auto-filled ${escapeHtml(resolvedCity)}, ${escapeHtml(resolvedState)}`;
+            setTimeout(() => { statusEl?.classList.add('hidden'); }, 3500);
+          }
+          return;
+        }
+      }
+    } catch {
+      // Graceful offline fallback
+    }
+
+    if (statusEl) statusEl.classList.add('hidden');
+  });
+}
+
+function bindStatTilesAccessibility() {
+  ['stat-orders', 'stat-collection', 'stat-spent'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (id === 'stat-collection') switchTab('collection');
+        else switchTab('orders');
+      }
+    });
+  });
 }
 
 // ─────────────────────────────────────────────────────────────────
@@ -976,4 +1302,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   bindAccountForm();
   bindPasswordForm();
+  bindAvatarUpload();
+  bindPincodeLookup();
+  bindStatTilesAccessibility();
 });

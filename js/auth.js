@@ -2,14 +2,23 @@
  * Parampara Heritage - Global Auth Management & Mandatory Authentication
  */
 
-// ─── MANDATORY PLATFORM AUTHENTICATION ENFORCEMENT ─────────────────────────
+// ─── PROTECTED ROUTE AUTHENTICATION ENFORCEMENT ─────────────────────────
 (function enforcePlatformAuth() {
     // Check current page
     const path = window.location.pathname.toLowerCase();
     const filename = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
 
-    // Public authentication routes (allowed without logging in)
-    if (filename === 'login.html' || filename === 'login' || filename === 'register.html' || filename === 'register') {
+    // Specific member routes requiring mandatory authenticated login:
+    // Collector Profile, Saved Collections / Wishlist, and Artisan Guild Dashboard
+    const protectedPages = [
+        'profile.html', 'profile',
+        'collection.html', 'collection',
+        'artisan-dashboard.html', 'artisan-dashboard'
+    ];
+
+    const isProtected = protectedPages.some(page => filename === page || filename.startsWith(page + '?') || filename.startsWith(page + '#'));
+    if (!isProtected) {
+        // Public browsing allowed across all catalog, search, state and product pages
         return;
     }
 

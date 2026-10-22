@@ -557,6 +557,40 @@
       "Tripura": "The Masterful Fine Craftsmanship of Cane, Bamboo, and Pachra Tribal Handlooms."
     };
 
+    // Curated High-Definition Heritage Craft Imagery per State
+    const STATE_HERO_IMAGES = {
+      "Himachal Pradesh": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=1200&q=80",
+      "Jammu and Kashmir": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1200&q=80",
+      "Ladakh": "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=1200&q=80",
+      "Punjab": "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=1200&q=80",
+      "Haryana": "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1200&q=80",
+      "Uttarakhand": "https://images.unsplash.com/photo-1584100936595-c0654b55a2e2?auto=format&fit=crop&w=1200&q=80",
+      "Uttar Pradesh": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=80",
+      "Rajasthan": "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=1200&q=80",
+      "Gujarat": "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1200&q=80",
+      "Maharashtra": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=80",
+      "Goa": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=80",
+      "Karnataka": "https://s7ap1.scene7.com/is/image/incredibleindia/bidriware-bidar-karnataka-craft-hero?qlt=82&ts=1726641338177",
+      "Kerala": "https://images.unsplash.com/photo-1567591414240-e17926fb966f?auto=format&fit=crop&w=1200&q=80",
+      "Tamil Nadu": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=80",
+      "Andhra Pradesh": "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=1200&q=80",
+      "Telangana": "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1200&q=80",
+      "Madhya Pradesh": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=80",
+      "Chhattisgarh": "https://images.unsplash.com/photo-1567591414240-e17926fb966f?auto=format&fit=crop&w=1200&q=80",
+      "Odisha": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=80",
+      "West Bengal": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=80",
+      "Bihar": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1200&q=80",
+      "Jharkhand": "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=1200&q=80",
+      "Sikkim": "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=1200&q=80",
+      "Arunachal Pradesh": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1200&q=80",
+      "Assam": "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=80",
+      "Meghalaya": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1200&q=80",
+      "Nagaland": "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=1200&q=80",
+      "Manipur": "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=1200&q=80",
+      "Mizoram": "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=1200&q=80",
+      "Tripura": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1200&q=80"
+    };
+
     // Category Icons Mapping
     const CATEGORY_ICONS = {
       "Textiles & Weaves": "fa-solid fa-scroll",
@@ -631,7 +665,16 @@
 
       const narrative = STATE_NARRATIVES[stateName] || "Discover the iconic certified craft traditions of India's heritage states.";
       document.getElementById('state-tagline').textContent = narrative;
-      document.getElementById('state-image').src = `https://picsum.photos/seed/${encodeURIComponent(stateName.replace(/[^a-zA-Z]/g, ''))}/800/600`;
+      
+      const heroImg = STATE_HERO_IMAGES[stateName] || 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=1200&q=80';
+      const stateImgEl = document.getElementById('state-image');
+      if (stateImgEl) {
+        stateImgEl.src = heroImg;
+        stateImgEl.onerror = function() {
+          this.onerror = null;
+          this.src = 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=1200&q=80';
+        };
+      }
 
       // Update selector
       const select = document.getElementById('state-selector');
@@ -823,6 +866,45 @@
             { id: "mh-tuljapur-kavdi-14", name: "Tuljapur Sacred Polished Kavdi Maal (Necklace)", state: "Maharashtra", category: "Sacred Adornment & Collectibles", craft: "Kavdi Maal of Tuljapur", originHub: "Tuljapur (Dharashiv)", artisan: "Tuljabhavani Pujak & Artisan Seva Sangha", price: 1200, rating: 4.8, imageUrl: "https://images.unsplash.com/photo-1611080626919-7cf5a9dbab5b?auto=format&fit=crop&w=900&q=80", description: "Sacred devotional garland made of marine cowrie shells hand-sorted, smoothed, and knotted.", giNumber: "GI/MH/TULJAPUR/14", district: "Dharashiv", registrationYear: 2015, artisanCount: 950, giTagged: true, exportEligible: true }
           ];
         }
+
+        // Inline hardcoded fallback for Rajasthan if fetch is blocked
+        if (stateProducts.length === 0 && stateName.toLowerCase() === 'rajasthan') {
+          stateProducts = [
+            { id: "rj-blue-pottery-01", name: "Azure Floral Blue Pottery Vase of Jaipur", state: "Rajasthan", category: "Pottery & Ceramics", craft: "Quartz Pottery", originHub: "Jaipur", district: "Jaipur", artisan: "Kripal Kumbh / Gopal Saini (National Awardee)", price: 3400, rating: 4.9, imageUrl: "https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=900&q=80", description: "Handcrafted using a non-clay paste of ground quartz, raw glaze, sodium sulphate, and gum. Hand-painted with traditional cobalt blue and green oxide floral arabesques.", giNumber: "GI/RS/080/2016", registrationYear: 2016, artisanCount: 4500, giTagged: true, exportEligible: true },
+            { id: "rj-meenakari-02", name: "Royal Jaipur 24K Gold Plated Meenakari Choker Set", state: "Rajasthan", category: "Jewelry & Ornaments", craft: "Enamel Jewelry", originHub: "Jaipur", district: "Jaipur", artisan: "Kudrat Singh Meenakar Family Guild", price: 18500, rating: 5.0, imageUrl: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=900&q=80", description: "Intricate Persian-style enameling fused onto engraved metal surfaces using ruby reds, emerald greens, and turquoise blues, adorned with pearls and kundan stones.", giNumber: "GI/RS/120/2020", registrationYear: 2020, artisanCount: 9500, giTagged: true, exportEligible: true },
+            { id: "rj-sanganer-print-03", name: "Sanganeri Hand Block Printed Pure Cotton Mulmul Dupatta", state: "Rajasthan", category: "Textiles & Weaves", craft: "Block Printing", originHub: "Sanganer (Jaipur)", district: "Jaipur", artisan: "Sanganer Hand Printers Association", price: 1650, rating: 4.8, imageUrl: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=80", description: "Delicate hand-carved teak wood block prints rendered on airy white cotton mulmul, featuring royal floral sprays (bel & bootis) in natural vegetable dyes.", giNumber: "GI/RS/150/2022", registrationYear: 2022, artisanCount: 8000, giTagged: true, exportEligible: true },
+            { id: "rj-jodhpuri-mojari-04", name: "Jodhpuri Royal Embroidered Camel Leather Mojari", state: "Rajasthan", category: "Leather Craft & Footwear", craft: "Hand-stitched Footwear", originHub: "Jodhpur", district: "Jodhpur", artisan: "Jodhpur Mochi Guild & Craftsmen", price: 2200, rating: 4.7, imageUrl: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?auto=format&fit=crop&w=900&q=80", description: "Handcrafted soft camel leather footwear stitched with brass tilla threads and fine needlework. Features classic curved toe tip (naal) without iron nails.", giNumber: "GI/RS/052/2013", registrationYear: 2013, artisanCount: 7500, giTagged: true, exportEligible: true },
+            { id: "rj-kota-doria-05", name: "Kota Doria Pure Silk Zari Check Light Saree", state: "Rajasthan", category: "Textiles & Weaves", craft: "Khat Weaving", originHub: "Kaithoon (Kota)", district: "Kota", artisan: "Kota Doria Bunkar Sansthan", price: 6800, rating: 4.9, imageUrl: "https://images.unsplash.com/photo-1617627143750-d86bc21e42bb?auto=format&fit=crop&w=900&q=80", description: "Translucent featherweight saree woven with cotton and silk yarns using onion-juice sizing to form 300+ signature square grid check patterns (Khats) per border.", giNumber: "GI/RS/028/2005", registrationYear: 2005, artisanCount: 14000, giTagged: true, exportEligible: true }
+          ];
+        }
+
+        // Inline hardcoded fallback for Jammu and Kashmir if fetch is blocked
+        if (stateProducts.length === 0 && (stateName.toLowerCase().includes('jammu') || stateName.toLowerCase().includes('kashmir'))) {
+          stateProducts = [
+            { id: "jk-pashmina-01", name: "Hand-Spun Kashmiri Pashmina Sozni Needlework Shawl", state: "Jammu and Kashmir", category: "Textiles & Weaves", craft: "Pashmina Weaving", originHub: "Srinagar", district: "Srinagar", artisan: "Kashmir Pashmina Artisans Forum & Ghulam Hassan", price: 28500, rating: 5.0, imageUrl: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=900&q=80", description: "Woven from 12-micron grade Changthangi goat underfleece hand-spun on wooden charkhas. Embellished with fine Sozni needlework that is identical on both faces.", giNumber: "GI/RS/079/2008", registrationYear: 2008, artisanCount: 35000, giTagged: true, exportEligible: true },
+            { id: "jk-walnut-wood-02", name: "Hand-Carved Kashmiri Walnut Wood Chinar Wall Plaque", state: "Jammu and Kashmir", category: "Wooden Crafts", craft: "Walnut Wood Carving", originHub: "Srinagar", district: "Srinagar", artisan: "Tariq Ahmad Woodcraft Guild", price: 8400, rating: 4.9, imageUrl: "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=900&q=80", description: "Relief carving executed on seasoned root-wood of Juglans regia (English Walnut), detailing graceful floating Chinar leaves, dragon motifs, and lattice jali work.", giNumber: "GI/RS/081/2009", registrationYear: 2009, artisanCount: 8200, giTagged: true, exportEligible: true },
+            { id: "jk-papier-mache-03", name: "Kashmiri Gold-Foil Hand-Painted Papier-Mâché Samovar Box", state: "Jammu and Kashmir", category: "Folk Art & Collectibles", craft: "Naqashi Papier-Mâché", originHub: "Srinagar", district: "Srinagar", artisan: "Sakhta & Naqash Guild of Kashmir", price: 4500, rating: 4.8, imageUrl: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?auto=format&fit=crop&w=900&q=80", description: "Molded paper pulp cured and coated with gypsum plaster, hand-painted with fine cat-hair brushes using pure mineral colors and 24K gold foil illumination.", giNumber: "GI/RS/082/2009", registrationYear: 2009, artisanCount: 4500, giTagged: true, exportEligible: true },
+            { id: "jk-saffron-04", name: "Pampore Grade-A Kashmiri Organic Mongra Saffron (5g)", state: "Jammu and Kashmir", category: "Agricultural & Spices", craft: "Saffron Cultivation", originHub: "Pampore", district: "Pulwama", artisan: "Pampore Saffron Farmers Cooperative", price: 2450, rating: 5.0, imageUrl: "https://images.unsplash.com/photo-1509358271058-acd05cc93228?auto=format&fit=crop&w=900&q=80", description: "Deep crimson stigmas of Crocus sativus harvested exclusively from the karewa soils of Pampore. Highest crocin and safranal content globally.", giNumber: "GI/RS/638/2020", registrationYear: 2020, artisanCount: 16000, giTagged: true, exportEligible: true }
+          ];
+        }
+
+        // Inline hardcoded fallback for Tamil Nadu if fetch is blocked
+        if (stateProducts.length === 0 && stateName.toLowerCase() === 'tamil nadu') {
+          stateProducts = [
+            { id: "tn-kanchipuram-01", name: "Kanchipuram Temple Gold Zari Mulberry Silk Saree", state: "Tamil Nadu", category: "Textiles & Weaves", craft: "Kanchipuram Silk Weaving", originHub: "Kanchipuram", district: "Kanchipuram", artisan: "Kanchi Kamakshi Silk Weavers Federation", price: 32000, rating: 5.0, imageUrl: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=80", description: "Woven using 3 ply heavy mulberry silk with silver-copper zari dipped in 24K gold. Features Korvai interlocking warp-weft technique attaching contrast borders securely.", giNumber: "GI/RS/004/2005", registrationYear: 2005, artisanCount: 45000, giTagged: true, exportEligible: true },
+            { id: "tn-thanjavur-painting-02", name: "Thanjavur 24K Gold Foil Framed Lord Ganesha Artwork", state: "Tamil Nadu", category: "Traditional Paintings", craft: "Tanjore Gold Painting", originHub: "Thanjavur", district: "Thanjavur", artisan: "Thanjavur Iconography & Painting Guild", price: 16500, rating: 4.9, imageUrl: "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=900&q=80", description: "Classical 16th-century Chola-Nayak style art on teakwood board featuring raised gesso relief (makku), embedded with Jaipur un-cut glass gems and 24K gold foil leafing.", giNumber: "GI/RS/115/2009", registrationYear: 2009, artisanCount: 6800, giTagged: true, exportEligible: true },
+            { id: "tn-swamimalai-bronze-03", name: "Swamimalai Lost-Wax Chola Bronze Nataraja Icon", state: "Tamil Nadu", category: "Metal Crafts & Sculpture", craft: "Lost-Wax Bronze Casting", originHub: "Swamimalai (Thanjavur)", district: "Thanjavur", artisan: "Stapati Heritage Bronze Artisans Guild", price: 24500, rating: 5.0, imageUrl: "https://images.unsplash.com/photo-1567591414240-e17926fb966f?auto=format&fit=crop&w=900&q=80", description: "Cast using ancient Shilpa Shastra proportions from Panchaloha (5 metal alloy) using clay from the banks of the Cauvery river, preserving 1,000-year-old imperial Chola traditions.", giNumber: "GI/RS/134/2008", registrationYear: 2008, artisanCount: 3200, giTagged: true, exportEligible: true }
+          ];
+        }
+
+        // Inline hardcoded fallback for Uttar Pradesh if fetch is blocked
+        if (stateProducts.length === 0 && stateName.toLowerCase() === 'uttar pradesh') {
+          stateProducts = [
+            { id: "up-banarasi-saree-01", name: "Banarasi Pure Katan Silk Gold Brocade Saree", state: "Uttar Pradesh", category: "Textiles & Weaves", craft: "Banarasi Brocade", originHub: "Varanasi", district: "Varanasi", artisan: "Mustafa Ahmed / Bunkar Sahakari Samiti", price: 26500, rating: 4.9, imageUrl: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=900&q=80", description: "Woven on jacquard handlooms with pure twisted mulberry Katan silk yarns and zari threads, depicting floral jaal, floral bel, and Mughal minakari motifs.", giNumber: "GI/RS/099/2009", registrationYear: 2009, artisanCount: 150000, giTagged: true, exportEligible: true },
+            { id: "up-chikankari-02", name: "Lucknow Hand-Embroidered Pure Cotton Chikankari Kurta", state: "Uttar Pradesh", category: "Embroidery", craft: "Shadow Embroidery", originHub: "Lucknow", district: "Lucknow", artisan: "Lucknow Artisan Women Craft Collective", price: 3800, rating: 4.8, imageUrl: "https://images.unsplash.com/photo-1582533561751-ef6f6ab93a2e?auto=format&fit=crop&w=900&q=80", description: "Finest delicate white-on-white needlework featuring 32 distinct stitch types including Tepchi, Bakhiya (shadow stitch), and Phanda (millet knots) on fine cambric cotton.", giNumber: "GI/RS/075/2008", registrationYear: 2008, artisanCount: 250000, giTagged: true, exportEligible: true },
+            { id: "up-kannauj-attar-03", name: "Kannauj Traditional Mitti Attar (Baked Earth Perfume 12ml)", state: "Uttar Pradesh", category: "Natural Products & Wellness", craft: "Hydro-Distillation (Deg-Bhapka)", originHub: "Kannauj", district: "Kannauj", artisan: "Kannauj Perfumers Association", price: 2100, rating: 4.9, imageUrl: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=900&q=80", description: "The essence of first rain on sun-baked Gangetic clay captured in sandalwood oil using copper stills (Degs) through a 400-year-old hydro-distillation process without alcohol.", giNumber: "GI/RS/142/2014", registrationYear: 2014, artisanCount: 18000, giTagged: true, exportEligible: true }
+          ];
+        }
       }
 
       // Update stats
@@ -988,14 +1070,14 @@
         const giNum = item.giNumber || 'GI/GOV/IND';
         const price = item.price ? `₹ ${item.price.toLocaleString('en-IN')}` : '₹ 18,500';
         const district = item.district ? `${item.district}, ` : '';
-        const imgUrl = item.imageUrl || `https://picsum.photos/seed/${encodeURIComponent(item.name.replace(/[^a-zA-Z]/g, ''))}/800/800`;
+        const imgUrl = item.imageUrl || 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80';
 
         return `
           <div class="item-card bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm flex flex-col justify-between">
             <div>
               <!-- Image Container with GI Badge & Wishlist -->
               <div class="relative aspect-[4/3] sm:aspect-square overflow-hidden bg-gray-100">
-                <img decoding="async" src="${imgUrl}" alt="${item.name}" onerror="this.onerror=null; this.src='https://picsum.photos/seed/' + encodeURIComponent(this.alt.replace(/[^a-zA-Z]/g, '')) + '/800/800';" class="item-image w-full h-full object-cover transition-transform duration-700" loading="lazy">
+                <img decoding="async" src="${imgUrl}" alt="${item.name}" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=800&q=80';" class="item-image w-full h-full object-cover transition-transform duration-700" loading="lazy">
                 
                 <!-- Official GI Badge -->
                 <div class="absolute top-3 left-3 z-10">

@@ -1307,3 +1307,281 @@ body {
 .nav-signin-btn[href*="profile"] * {
   color: #FFFFFF !important;
 }
+
+/* ─── Avatar Camera & Upload Controls (Step 1) ─── */
+/* ─── Avatar Camera & Upload Controls (Step 1) ─── */
+.avatar-camera-btn,
+#btn-camera-upload {
+  position: absolute !important;
+  bottom: 0px !important;
+  right: 0px !important;
+  left: auto !important;
+  top: auto !important;
+  margin: 0 !important;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
+  color: #181512;
+  border: 2px solid #181512;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+  z-index: 20;
+}
+
+.avatar-camera-btn:hover {
+  background: #F3E5AB;
+  transform: scale(1.12);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.6);
+}
+
+.avatar-camera-btn:active {
+  transform: scale(0.95);
+}
+
+.btn-avatar-upload {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.95rem;
+  border-radius: 8px;
+  background: #FAF7F2;
+  border: 1px solid #EADBCC;
+  color: #1A1715;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-avatar-upload:hover {
+  background: #F2EDE5;
+  border-color: #B8860B;
+  color: #8B6508;
+}
+
+.btn-avatar-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 8px;
+  background: #FEF2F2;
+  border: 1px solid #FECACA;
+  color: #DC2626;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-avatar-clear:hover {
+  background: #FEE2E2;
+}
+
+/* ─── Hero Stat Active Affordance (Step 2) ─── */
+.profile-hero-stat.cursor-pointer:hover {
+  transform: translateY(-2px);
+  border-color: rgba(212, 175, 55, 0.55);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.profile-hero-stat.cursor-pointer:active {
+  transform: translateY(0);
+}
+
+.profile-hero-stat:focus-visible {
+  outline: 2px solid #D4AF37 !important;
+  outline-offset: 2px !important;
+}
+
+/* ─── Order History Filter Chips (Step 5) ─── */
+.order-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 9999px;
+  border: 1px solid #EADBCC;
+  background: #FAF9F5;
+  color: #6B6259;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.order-filter-chip:hover {
+  background: #F2EDE5;
+  border-color: #B8860B;
+  color: #1A1715;
+}
+
+.order-filter-chip.active {
+  background: #1C1916;
+  color: #FFFFFF;
+  border-color: #1C1916;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.order-filter-chip.active i {
+  color: #D4AF37 !important;
+}
+
+.order-filter-count {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 9999px;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.order-filter-chip.active .order-filter-count {
+  background: rgba(212, 175, 55, 0.25);
+  color: #F3E5AB;
+}
+
+/* ─── 70% Direct Artisan Payout Highlight in Order Card ─── */
+.order-artisan-payout-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.65rem 0.95rem;
+  border-radius: 8px;
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px dashed rgba(212, 175, 55, 0.45);
+  font-size: 0.75rem;
+  color: #1A1715;
+  margin-bottom: 0.85rem;
+}
+
+.order-artisan-payout-banner strong {
+  color: #8B6508;
+  font-weight: 700;
+}
+
+/* ─── Expandable Tracking Dossier ─── */
+.btn-dossier-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #8B6508;
+  background: #FAF7F2;
+  border: 1px solid #EADBCC;
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-dossier-toggle:hover {
+  background: #F2EDE5;
+  border-color: #B8860B;
+  color: #B8860B;
+}
+
+.order-dossier-expand {
+  display: none;
+  background: #FAF7F2;
+  border: 1px solid #EADBCC;
+  border-radius: 10px;
+  padding: 1.15rem;
+  margin-bottom: 0.95rem;
+  animation: fadeIn 0.25s ease;
+}
+
+.order-dossier-expand.show {
+  display: block;
+}
+
+/* Timeline */
+.order-timeline {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1.15rem;
+  position: relative;
+}
+
+.order-timeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+
+.order-step-dot {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #EADBCC;
+  color: #6B6259;
+  border: 2px solid #FFFFFF;
+  margin-bottom: 0.4rem;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.order-timeline-step.completed .order-step-dot {
+  background: #16A34A;
+  color: #FFFFFF;
+  box-shadow: 0 0 10px rgba(22, 163, 74, 0.35);
+}
+
+.order-timeline-step.active .order-step-dot {
+  background: #B8860B;
+  color: #FFFFFF;
+  box-shadow: 0 0 12px rgba(184, 134, 11, 0.45);
+}
+
+.order-step-label {
+  font-size: 0.7rem;
+  line-height: 1.25;
+  color: #1A1715;
+}
+
+/* Dossier Details Grid */
+.order-details-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .order-details-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.order-detail-box {
+  background: #FFFFFF;
+  border: 1px solid #EADBCC;
+  border-radius: 8px;
+  padding: 0.85rem;
+  font-size: 0.75rem;
+}
+
+.order-detail-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8C827A;
+  margin-bottom: 0.35rem;
+}
