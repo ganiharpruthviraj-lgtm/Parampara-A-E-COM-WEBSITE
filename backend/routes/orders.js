@@ -89,7 +89,10 @@ router.post('/', orderValidation, handleValidation, async (req, res) => {
     const orderData = {
       user: userId,
       orderItems: processedOrderItems,
-      shippingAddress,
+      shippingAddress: {
+        ...shippingAddress,
+        email: shippingAddress.email || req.body.email || (req.user && req.user.email) || ''
+      },
       paymentMethod,
       itemsPrice: itemsPrice || processedOrderItems.reduce((acc, i) => acc + (i.price * i.qty), 0),
       taxPrice,
@@ -278,17 +281,32 @@ router.post('/verify-payment', async (req, res) => {
 // @access  Private
 router.get('/my-orders', protect, async (req, res) => {
   try {
-    if (mongoose.connection.readyState === 1 && req.user && req.user._id !== 'demo-collector-id') {
+    if (mongoose.connection.readyState === 1 && req.user) {
       try {
         const uid = req.user._id;
-        const query = mongoose.Types.ObjectId.isValid(uid)
-          ? { $or: [{ user: new mongoose.Types.ObjectId(uid) }, { user: uid.toString() }] }
-          : { user: uid };
+        const queryOr = [];
+        if (mongoose.Types.ObjectId.isValid(uid)) {
+          queryOr.push({ user: new mongoose.Types.ObjectId(uid) });
+          queryOr.push({ user: uid.toString() });
+        } else if (uid) {
+          queryOr.push({ user: uid });
+        }
+        if (req.user.email) {
+          queryOr.push({ 'shippingAddress.email': req.user.email });
+        }
+        if (uid === 'demo-collector-id' || !uid) {
+          queryOr.push({ user: 'demo-collector-id' });
+          queryOr.push({ user: 'guest-collector-session' });
+        }
+
+        const query = queryOr.length > 0 ? { $or: queryOr } : {};
         const orders = await Order.find(query).sort({ createdAt: -1 });
         if (orders && orders.length > 0) {
           return res.json({ success: true, count: orders.length, data: orders });
         }
-      } catch (dbErr) {}
+      } catch (dbErr) {
+        console.warn('DB search notice in /my-orders:', dbErr.message);
+      }
     }
 
     const currentUserId = req.user ? req.user._id : 'demo-collector-id';

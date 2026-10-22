@@ -370,6 +370,7 @@ async function goToPayment() {
       })),
       shippingAddress: {
         fullName: `${firstName} ${lastName}`,
+        email,
         address,
         city,
         state,
@@ -478,15 +479,70 @@ async function placeOrder() {
     const pdfBtnContainer = document.getElementById('pdf-download-container');
     if (pdfBtnContainer) {
       pdfBtnContainer.innerHTML = `
-        <a href="${API_BASE}/orders/${orderId}/invoice-pdf" target="_blank" download class="inline-flex items-center gap-2 bg-[#8B0000] hover:bg-[#680000] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all shadow-lg hover:shadow-xl my-3">
-          <i class="fa-solid fa-file-pdf text-sm text-[#FFD700]"></i>
-          <span>Download Certified GI Certificate & Receipt (PDF)</span>
-        </a>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3 my-3">
+          <a href="${API_BASE}/orders/${orderId}/invoice-pdf" target="_blank" download class="inline-flex items-center gap-2 bg-[#8B0000] hover:bg-[#680000] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all shadow-lg hover:shadow-xl">
+            <i class="fa-solid fa-file-pdf text-sm text-[#FFD700]"></i>
+            <span>Download Certified GI Certificate & Receipt (PDF)</span>
+          </a>
+          <a href="profile.html#orders" class="inline-flex items-center gap-2 bg-[#181512] hover:bg-[#2A241E] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all shadow">
+            <i class="fa-solid fa-clock-rotate-left text-[#D4AF37]"></i>
+            <span>View in Collector Profile</span>
+          </a>
+        </div>
       `;
+    }
+
+    // Cache order in localStorage so it appears instantly in profile.html
+    try {
+      const existingOrders = JSON.parse(localStorage.getItem('parampara_orders') || '[]');
+      const firstName = document.getElementById('first-name')?.value.trim() || '';
+      const lastName = document.getElementById('last-name')?.value.trim() || '';
+      const email = document.getElementById('email-checkout')?.value.trim() || '';
+      const phone = document.getElementById('phone')?.value.trim() || '';
+      const address = document.getElementById('address1')?.value.trim() || '';
+      const city = document.getElementById('city')?.value.trim() || '';
+      const state = document.getElementById('state-select')?.value.trim() || '';
+      const postalCode = document.getElementById('pincode')?.value.trim() || '';
+
+      const cachedOrder = {
+        _id: orderId,
+        id: orderId,
+        orderItems: cartItems.map(item => ({
+          name: item.name,
+          qty: item.qty || 1,
+          price: item.price,
+          image: item.imageUrl,
+          giNumber: item.giNumber || 'GI-AUTHENTIC',
+          artisanName: item.artisanName || 'Verified Heritage Guild'
+        })),
+        shippingAddress: {
+          fullName: `${firstName} ${lastName}`.trim() || 'Collector',
+          email,
+          address,
+          city,
+          state,
+          postalCode,
+          phone
+        },
+        itemsPrice: craftSubtotal,
+        taxPrice: gst,
+        shippingPrice: shipping,
+        discountPrice: discount,
+        totalPrice: total,
+        isPaid: true,
+        paidAt: new Date().toISOString(),
+        orderStatus: 'Handcrafted',
+        createdAt: new Date().toISOString()
+      };
+      const mergedOrders = [cachedOrder, ...existingOrders.filter(o => (o._id || o.id) !== orderId)];
+      localStorage.setItem('parampara_orders', JSON.stringify(mergedOrders));
+    } catch (cacheErr) {
+      console.warn("Could not cache order locally:", cacheErr);
     }
 
     // Clear cart after placement
     localStorage.removeItem('parampara_cart');
+    window.dispatchEvent(new Event('cart-updated'));
 
     document.getElementById('form-payment').classList.add('hidden');
     document.getElementById('form-confirm').classList.remove('hidden');

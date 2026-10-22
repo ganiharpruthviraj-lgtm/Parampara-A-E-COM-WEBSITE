@@ -198,6 +198,33 @@
       script.defer = true;
       document.body.appendChild(script);
     }
+
+    // Auto-inject PWA Manifest & Mobile App Shell Meta
+    if (!document.querySelector('link[rel="manifest"]')) {
+      const manifestLink = document.createElement('link');
+      manifestLink.rel = 'manifest';
+      manifestLink.href = 'manifest.json';
+      document.head.appendChild(manifestLink);
+    }
+    if (!document.querySelector('meta[name="theme-color"]')) {
+      const metaTheme = document.createElement('meta');
+      metaTheme.name = 'theme-color';
+      metaTheme.content = '#B8860B';
+      document.head.appendChild(metaTheme);
+    }
+
+    // Register Service Worker for PWA Offline Caching
+    if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then((reg) => {
+            // PWA Service Worker active
+          })
+          .catch((err) => {
+            console.debug('[PWA] Service worker registration notice:', err.message);
+          });
+      });
+    }
   }
 
   if (document.readyState === 'loading') {

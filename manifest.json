@@ -1,0 +1,31 @@
+{
+  "name": "Parampara — Authentic Indian Heritage Crafts & GI Registry",
+  "short_name": "Parampara",
+  "description": "Preserving India's authentic Geographical Indication (GI) heritage handicrafts across all 28 states with direct 70% master artisan patronage.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FAF9F5",
+  "theme_color": "#B8860B",
+  "categories": ["shopping", "culture", "lifestyle"],
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/parampara_logo_crest.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/parampara_logo_crest.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

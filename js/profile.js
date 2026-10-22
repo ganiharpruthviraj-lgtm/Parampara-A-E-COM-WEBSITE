@@ -361,6 +361,20 @@ async function loadOrderHistory() {
   const summaryEl = document.getElementById('orders-summary-text');
   const countEl   = document.getElementById('tab-orders-count');
 
+  // 1. Instant paint from cached orders
+  let localOrders = [];
+  try {
+    const raw = localStorage.getItem('parampara_orders');
+    if (raw) localOrders = JSON.parse(raw);
+    if (!Array.isArray(localOrders)) localOrders = [];
+  } catch (e) {}
+
+  if (localOrders.length > 0 && _allOrders.length === 0) {
+    _allOrders = localOrders;
+    updateOrderStats(localOrders);
+    renderFilteredOrders();
+  }
+
   try {
     const res  = await fetch(`${API()}/api/orders/my-orders`, { headers: authHeaders() });
     if (res.status === 401) {
@@ -368,43 +382,66 @@ async function loadOrderHistory() {
       return;
     }
     const json = res.ok ? await res.json() : null;
-    const orders = Array.isArray(json?.data) ? json.data : (Array.isArray(json?.orders) ? json.orders : (Array.isArray(json) ? json : []));
+    const remoteOrders = Array.isArray(json?.data) ? json.data : (Array.isArray(json?.orders) ? json.orders : (Array.isArray(json) ? json : []));
 
-    // Update hero order count
-    const statEl = document.getElementById('stat-orders-val');
-    if (statEl) statEl.textContent = orders.length;
+    // Merge remote and local orders (deduplicate by id)
+    const orderMap = new Map();
+    remoteOrders.forEach(o => {
+      const id = String(o._id || o.id);
+      if (id) orderMap.set(id, o);
+    });
+    localOrders.forEach(o => {
+      const id = String(o._id || o.id);
+      if (id && !orderMap.has(id)) orderMap.set(id, o);
+    });
 
-    // Update tab count badge
-    if (countEl && orders.length > 0) {
-      countEl.textContent = orders.length;
-      countEl.classList.remove('hidden');
-    }
+    const orders = Array.from(orderMap.values()).sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
 
-    // Update 70% direct artisan patronage stat in hero
-    const totalSpent = orders.reduce((sum, o) => sum + (Number(o.totalPrice) || 0), 0);
-    const artisanContribution = Math.round(totalSpent * 0.7);
-    const spentEl = document.getElementById('stat-spent-val');
-    if (spentEl) {
-      spentEl.textContent = artisanContribution > 0 ? formatCurrency(artisanContribution) : '₹0';
-    }
-
-    // Store master orders list and delegate to interactive filter/search engine (Step 5)
+    updateOrderStats(orders);
     _allOrders = orders;
     renderFilteredOrders();
 
   } catch (err) {
     console.warn('[Profile] loadOrderHistory error:', err);
-    if (listEl) listEl.innerHTML = `
-      <div class="profile-empty-state">
-        <div class="profile-empty-state-icon"><i class="fa-solid fa-wifi"></i></div>
-        <div class="profile-empty-state-title">Archive Offline</div>
-        <p class="profile-empty-state-text">Could not retrieve your purchase history. Check server connection.</p>
-        <button onclick="loadOrderHistory()" class="btn-gold-primary">
-          <i class="fa-solid fa-rotate-right text-xs"></i> Retry
-        </button>
-      </div>
-    `;
-    if (summaryEl) summaryEl.textContent = 'Unable to load orders.';
+    if (localOrders.length > 0) {
+      _allOrders = localOrders;
+      updateOrderStats(localOrders);
+      renderFilteredOrders();
+    } else if (listEl) {
+      listEl.innerHTML = `
+        <div class="profile-empty-state">
+          <div class="profile-empty-state-icon"><i class="fa-solid fa-wifi"></i></div>
+          <div class="profile-empty-state-title">Archive Offline</div>
+          <p class="profile-empty-state-text">Could not retrieve your purchase history. Check server connection.</p>
+          <button onclick="loadOrderHistory()" class="btn-gold-primary">
+            <i class="fa-solid fa-rotate-right text-xs"></i> Retry
+          </button>
+        </div>
+      `;
+      if (summaryEl) summaryEl.textContent = 'Unable to load orders.';
+    }
+  }
+}
+
+function updateOrderStats(orders) {
+  const statEl = document.getElementById('stat-orders-val');
+  if (statEl) statEl.textContent = orders.length;
+
+  const countEl = document.getElementById('tab-orders-count');
+  if (countEl) {
+    if (orders.length > 0) {
+      countEl.textContent = orders.length;
+      countEl.classList.remove('hidden');
+    } else {
+      countEl.classList.add('hidden');
+    }
+  }
+
+  const totalSpent = orders.reduce((sum, o) => sum + (Number(o.totalPrice) || 0), 0);
+  const artisanContribution = Math.round(totalSpent * 0.7);
+  const spentEl = document.getElementById('stat-spent-val');
+  if (spentEl) {
+    spentEl.textContent = artisanContribution > 0 ? formatCurrency(artisanContribution) : '₹0';
   }
 }
 
@@ -573,7 +610,7 @@ function renderOrderCard(order) {
     const artisan = item.artisanName || 'Verified Heritage Guild';
     return `
       <li class="order-item-row">
-        <img src="${escapeHtml(itemImg)}" alt="${escapeHtml(item.name || 'Craft')}" class="order-item-thumb" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=200&q=80';"/>
+        <img src="${escapeHtml(itemImg)}" alt="${escapeHtml(item.name || 'Craft')}" class="order-item-thumb w-14 h-14 rounded-lg object-cover flex-shrink-0" style="width: 56px !important; height: 56px !important; max-width: 56px !important; max-height: 56px !important; object-fit: cover !important; flex-shrink: 0 !important; border-radius: 8px !important;" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?w=200&q=80';"/>
         <div class="order-item-meta">
           <div class="order-item-name">${escapeHtml(item.name || 'Heritage Craft')}</div>
           <div class="order-item-sub">
