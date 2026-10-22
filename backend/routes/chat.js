@@ -151,7 +151,7 @@ router.post('/', async (req, res) => {
       try {
         const productCount = await Product.countDocuments();
         const host = mongoose.connection.host || 'MongoDB Atlas';
-        reply = `🟢 **Database Connected!**\n\n• **Status:** Active & Online (State: Connected)\n• **Host:** ${host}\n• **Total Products Registered:** ${productCount} authentic heritage items across 18 states\n• **Collections Connected:** Products, Users, Orders, GI Registry\n\nParampara Mitra has full real-time access to the live product catalog, order tracking, and pricing database.`;
+        reply = `🟢 **Database Connected!**\n\n• **Status:** Active & Online (State: Connected)\n• **Host:** ${host}\n• **Total Products Registered:** ${productCount} authentic heritage items across all 28 states of India\n• **Collections Connected:** Products, Users, Orders, GI Registry\n\nParampara Mitra has full real-time access to the live product catalog, order tracking, and pricing database.`;
         suggestions = ['Karnataka crafts', 'Kashmir Pashmina', 'Return policy', 'How to buy?'];
       } catch (err) {
         reply = `🟡 Database is connected, but query failed: ${err.message}`;

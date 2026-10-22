@@ -1,0 +1,23 @@
+[
+  {
+    "id": "ap-kondapalli-toys-01",
+    "name": "Kondapalli Hand-Carved Softwood Village Musician Set",
+    "title": "Kondapalli Hand-Carved Softwood Village Musician Set",
+    "state": "Andhra Pradesh",
+    "category": "Wooden Craft & Toys",
+    "craft": "Kondapalli Toys",
+    "giTag": "GI/RS/035/2007",
+    "giNumber": "GI/RS/035/2007",
+    "originHub": "Kondapalli (NTR District)",
+    "district": "NTR District",
+    "artisan": "Kondapalli Toy Artisans Mutual Aid Coop",
+    "price": 1850,
+    "rating": 4.8,
+    "imageUrl": "https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?auto=format&fit=crop&w=900&q=80",
+    "description": "Carved from lightweight white softwood (Tella Poniki) and joined with tamarind seed paste, painted with vegetable watercolors.",
+    "registrationYear": 2007,
+    "artisanCount": 1200,
+    "giTagged": true,
+    "exportEligible": true
+  }
+]
