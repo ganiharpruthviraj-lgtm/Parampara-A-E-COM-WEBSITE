@@ -215,6 +215,7 @@ function addQuickCraftItem(itemObj) {
 function saveCartToLocalStorage() {
   try {
     localStorage.setItem('parampara_cart', JSON.stringify(cartItems));
+    window.dispatchEvent(new Event('cart-updated'));
   } catch (e) {}
 }
 
@@ -240,6 +241,8 @@ function recalculate() {
   if (gstEl) gstEl.textContent = formatINR(gst);
   const totEl = document.getElementById('price-total');
   if (totEl) totEl.textContent = formatINR(totalPayable);
+  const mobTotEl = document.getElementById('mobile-price-total');
+  if (mobTotEl) mobTotEl.textContent = formatINR(totalPayable);
   const artEl = document.getElementById('artisan-amount');
   if (artEl) artEl.textContent = formatINR(artisanPayout);
 
@@ -331,13 +334,58 @@ async function goToPayment() {
   }
 
   const fields = ['first-name','last-name','email-checkout','phone','address1','city','state-select','pincode'];
+  let firstInvalid = null;
   for (const id of fields) {
     const el = document.getElementById(id);
-    if (el && !el.value.trim()) {
-      el.focus();
-      showToast('Please fill in all required shipping fields', 'error');
-      return;
+    if (!el || !el.value.trim()) {
+      if (el) el.classList.add('border-red-500', 'bg-red-50');
+      if (!firstInvalid) firstInvalid = el;
+    } else {
+      if (el) el.classList.remove('border-red-500', 'bg-red-50');
     }
+  }
+
+  if (firstInvalid) {
+    firstInvalid.focus();
+    firstInvalid.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    showToast('Please fill in all highlighted required shipping fields.', 'error');
+    return;
+  }
+
+  // Validate mobile phone format (at least 10 digits)
+  const phoneVal = (document.getElementById('phone')?.value || '').replace(/\D/g, '');
+  if (phoneVal.length < 10) {
+    const pEl = document.getElementById('phone');
+    if (pEl) {
+      pEl.classList.add('border-red-500', 'bg-red-50');
+      pEl.focus();
+    }
+    showToast('Please enter a valid 10-digit mobile number.', 'error');
+    return;
+  }
+
+  // Validate email address
+  const emailVal = document.getElementById('email-checkout')?.value.trim() || '';
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal)) {
+    const eEl = document.getElementById('email-checkout');
+    if (eEl) {
+      eEl.classList.add('border-red-500', 'bg-red-50');
+      eEl.focus();
+    }
+    showToast('Please enter a valid email address for certificate delivery.', 'error');
+    return;
+  }
+
+  // Validate 6-digit postal PIN code
+  const pinVal = (document.getElementById('pincode')?.value || '').replace(/\D/g, '');
+  if (pinVal.length !== 6) {
+    const pinEl = document.getElementById('pincode');
+    if (pinEl) {
+      pinEl.classList.add('border-red-500', 'bg-red-50');
+      pinEl.focus();
+    }
+    showToast('Please enter a valid 6-digit postal PIN code.', 'error');
+    return;
   }
 
   // Pre-create Order on backend via POST /api/orders
@@ -406,10 +454,31 @@ async function goToPayment() {
   document.getElementById('form-shipping').classList.add('hidden');
   document.getElementById('form-payment').classList.remove('hidden');
 
+  // Stepper Transition: Step 1 Complete (Green Check), Step 2 Active (Gold)
   const sNavShip = document.getElementById('step-nav-shipping');
   const sNavPay = document.getElementById('step-nav-payment');
-  if (sNavShip) sNavShip.className = 'flex items-center gap-2 text-gray-400';
-  if (sNavPay) sNavPay.className = 'flex items-center gap-2 text-[#B8860B] font-bold';
+  if (sNavShip) {
+    sNavShip.className = 'flex items-center gap-2 text-green-700 font-semibold';
+    sNavShip.innerHTML = `
+      <span class="w-6 h-6 rounded-full bg-green-600 text-white flex items-center justify-center text-[10px] font-bold shadow-xs">
+        <i class="fa-solid fa-check"></i>
+      </span>
+      <span>Shipping</span>
+    `;
+  }
+  if (sNavPay) {
+    sNavPay.className = 'flex items-center gap-2 text-[#B8860B] font-bold';
+    sNavPay.innerHTML = `
+      <span class="w-6 h-6 rounded-full bg-[#B8860B] text-white flex items-center justify-center text-[11px] font-bold shadow-sm">3</span>
+      <span>Payment</span>
+    `;
+  }
+
+  // Update Mobile Sticky Checkout Bar
+  const mobText = document.getElementById('mobile-action-text');
+  const mobIcon = document.getElementById('mobile-action-icon');
+  if (mobText) mobText.textContent = 'Place Secure Order';
+  if (mobIcon) mobIcon.className = 'fa-solid fa-lock text-[10px]';
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -418,12 +487,40 @@ function goToShipping() {
   document.getElementById('form-payment').classList.add('hidden');
   document.getElementById('form-shipping').classList.remove('hidden');
 
+  // Stepper Transition: Step 2 Active (Gold), Step 3 Pending (Gray)
   const sNavShip = document.getElementById('step-nav-shipping');
   const sNavPay = document.getElementById('step-nav-payment');
-  if (sNavShip) sNavShip.className = 'flex items-center gap-2 text-[#B8860B] font-bold';
-  if (sNavPay) sNavPay.className = 'flex items-center gap-2 text-gray-400';
+  if (sNavShip) {
+    sNavShip.className = 'flex items-center gap-2 text-[#B8860B] font-bold';
+    sNavShip.innerHTML = `
+      <span class="w-6 h-6 rounded-full bg-[#B8860B] text-white flex items-center justify-center text-[11px] font-bold shadow-sm">2</span>
+      <span>Shipping</span>
+    `;
+  }
+  if (sNavPay) {
+    sNavPay.className = 'flex items-center gap-2 text-gray-400 font-semibold';
+    sNavPay.innerHTML = `
+      <span class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-[11px] font-bold">3</span>
+      <span>Payment</span>
+    `;
+  }
+
+  // Update Mobile Sticky Checkout Bar
+  const mobText = document.getElementById('mobile-action-text');
+  const mobIcon = document.getElementById('mobile-action-icon');
+  if (mobText) mobText.textContent = 'Proceed to Pay';
+  if (mobIcon) mobIcon.className = 'fa-solid fa-arrow-right text-[10px]';
 
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function handleMobileAction() {
+  const isShippingActive = !document.getElementById('form-shipping')?.classList.contains('hidden');
+  if (isShippingActive) {
+    goToPayment();
+  } else {
+    placeOrder();
+  }
 }
 
 async function placeOrder() {
@@ -547,10 +644,29 @@ async function placeOrder() {
     document.getElementById('form-payment').classList.add('hidden');
     document.getElementById('form-confirm').classList.remove('hidden');
 
+    // Hide mobile bottom action bar on order confirmation
+    document.getElementById('mobile-checkout-bar')?.classList.add('hidden');
+
     const sNavPay = document.getElementById('step-nav-payment');
     const sNavConf = document.getElementById('step-nav-confirm');
-    if (sNavPay) sNavPay.className = 'flex items-center gap-2 text-gray-400';
-    if (sNavConf) sNavConf.className = 'flex items-center gap-2 text-green-700 font-bold';
+    if (sNavPay) {
+      sNavPay.className = 'flex items-center gap-2 text-green-700 font-semibold';
+      sNavPay.innerHTML = `
+        <span class="w-6 h-6 rounded-full bg-green-600 text-white flex items-center justify-center text-[10px] font-bold shadow-xs">
+          <i class="fa-solid fa-check"></i>
+        </span>
+        <span>Payment</span>
+      `;
+    }
+    if (sNavConf) {
+      sNavConf.className = 'flex items-center gap-2 text-green-700 font-bold';
+      sNavConf.innerHTML = `
+        <span class="w-6 h-6 rounded-full bg-green-600 text-white flex items-center justify-center text-[10px] font-bold shadow-xs">
+          <i class="fa-solid fa-check"></i>
+        </span>
+        <span>Confirmed</span>
+      `;
+    }
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
     showToast('🎉 Payment Verified! 70% direct artisan payout processed.', 'success');
@@ -641,6 +757,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   renderCartItems();
   syncCheckoutAuth();
+  setupInputFormatters();
 });
 
 function syncCheckoutAuth() {
@@ -780,4 +897,144 @@ function syncCheckoutAuth() {
     }
   }
 }
+
+/**
+ * Pincode to City/State Auto-Detection Mapping
+ */
+const PINCODE_MAP = {
+  '110': { state: 'Delhi', city: 'New Delhi' },
+  '400': { state: 'Maharashtra', city: 'Mumbai' },
+  '411': { state: 'Maharashtra', city: 'Pune' },
+  '560': { state: 'Karnataka', city: 'Bengaluru' },
+  '570': { state: 'Karnataka', city: 'Mysuru' },
+  '585': { state: 'Karnataka', city: 'Bidar' },
+  '600': { state: 'Tamil Nadu', city: 'Chennai' },
+  '631': { state: 'Tamil Nadu', city: 'Kanchipuram' },
+  '700': { state: 'West Bengal', city: 'Kolkata' },
+  '302': { state: 'Rajasthan', city: 'Jaipur' },
+  '342': { state: 'Rajasthan', city: 'Jodhpur' },
+  '781': { state: 'Assam', city: 'Kamrup / Guwahati' },
+  '190': { state: 'Jammu & Kashmir', city: 'Srinagar' },
+  '175': { state: 'Himachal Pradesh', city: 'Kullu' },
+  '221': { state: 'Uttar Pradesh', city: 'Varanasi' }
+};
+
+function autoFillLocationFromPin(pin) {
+  const prefix = pin.slice(0, 3);
+  const loc = PINCODE_MAP[prefix];
+  if (loc) {
+    const cityInput = document.getElementById('city');
+    const stateSelect = document.getElementById('state-select');
+    if (cityInput && !cityInput.value) {
+      cityInput.value = loc.city;
+      cityInput.classList.remove('border-red-500', 'bg-red-50');
+    }
+    if (stateSelect && (!stateSelect.value || stateSelect.value === '')) {
+      for (let i = 0; i < stateSelect.options.length; i++) {
+        if (stateSelect.options[i].text.toLowerCase() === loc.state.toLowerCase() ||
+            stateSelect.options[i].value.toLowerCase() === loc.state.toLowerCase()) {
+          stateSelect.selectedIndex = i;
+          stateSelect.classList.remove('border-red-500', 'bg-red-50');
+          break;
+        }
+      }
+    }
+    showToast(`Detected location: ${loc.city}, ${loc.state}`, 'info');
+  }
+}
+
+/**
+ * Setup Real-time Input Formatters & Error Clear Listeners
+ */
+function setupInputFormatters() {
+  // 1. Card Number Auto-formatting (XXXX  XXXX  XXXX  XXXX)
+  const cardInput = document.getElementById('card-number');
+  if (cardInput) {
+    cardInput.addEventListener('input', function() {
+      let val = this.value.replace(/\D/g, '').slice(0, 16);
+      let formatted = val.match(/.{1,4}/g)?.join('  ') || val;
+      this.value = formatted;
+    });
+  }
+
+  // 2. Card Expiry Auto-formatting (MM / YY)
+  const expiryInput = document.getElementById('card-expiry');
+  if (expiryInput) {
+    expiryInput.addEventListener('input', function() {
+      let val = this.value.replace(/\D/g, '').slice(0, 4);
+      if (val.length >= 2) {
+        let month = parseInt(val.slice(0, 2), 10);
+        if (month > 12) month = 12;
+        if (month === 0) month = 1;
+        let monthStr = String(month).padStart(2, '0');
+        this.value = monthStr + (val.length > 2 ? ' / ' + val.slice(2) : ' / ');
+      } else {
+        this.value = val;
+      }
+    });
+  }
+
+  // 3. Card CVV Formatting (max 4 digits)
+  const cvvInput = document.getElementById('card-cvv');
+  if (cvvInput) {
+    cvvInput.addEventListener('input', function() {
+      this.value = this.value.replace(/\D/g, '').slice(0, 4);
+    });
+  }
+
+  // 4. Mobile Phone Number Formatting
+  const phoneInput = document.getElementById('phone');
+  if (phoneInput) {
+    phoneInput.addEventListener('input', function() {
+      let clean = this.value.replace(/[^\d+]/g, '');
+      if (clean.startsWith('+91')) {
+        let digits = clean.slice(3).replace(/\D/g, '').slice(0, 10);
+        this.value = '+91 ' + digits;
+      } else if (!clean.startsWith('+')) {
+        let digits = clean.replace(/\D/g, '').slice(0, 10);
+        this.value = digits;
+      }
+      this.classList.remove('border-red-500', 'bg-red-50');
+    });
+  }
+
+  // 5. Postal PIN Code Auto-formatting & Auto-detection
+  const pinInput = document.getElementById('pincode');
+  if (pinInput) {
+    pinInput.addEventListener('input', function() {
+      this.value = this.value.replace(/\D/g, '').slice(0, 6);
+      this.classList.remove('border-red-500', 'bg-red-50');
+      if (this.value.length === 6) {
+        autoFillLocationFromPin(this.value);
+      }
+    });
+  }
+
+  // 6. Real-time error highlight removal on input/change
+  document.querySelectorAll('#form-shipping input, #form-shipping select').forEach(input => {
+    input.addEventListener('input', () => input.classList.remove('border-red-500', 'bg-red-50'));
+    input.addEventListener('change', () => input.classList.remove('border-red-500', 'bg-red-50'));
+  });
+
+  // 7. Modal Keyboard Accessibility: Escape key closes Quick Add modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('quick-add-modal');
+      if (modal && !modal.classList.contains('hidden')) {
+        modal.classList.add('hidden');
+      }
+    }
+  });
+
+  // 8. Close modal when clicking dark backdrop outside dialog card
+  const quickModal = document.getElementById('quick-add-modal');
+  if (quickModal) {
+    quickModal.addEventListener('click', (e) => {
+      if (e.target.id === 'quick-add-modal') {
+        toggleQuickAddModal();
+      }
+    });
+  }
+}
+
 

@@ -581,3 +581,51 @@ button[onclick="goToPayment()"]:active,
 ::-webkit-scrollbar-thumb:hover {
   background: var(--primary);
 }
+
+/* ─── 12. MOBILE STICKY CHECKOUT BAR ─────────────────────────────────────── */
+#mobile-checkout-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 120;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(184, 134, 11, 0.25);
+  padding: 0.75rem 1rem;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+}
+
+@media (min-width: 1024px) {
+  #mobile-checkout-bar {
+    display: none !important;
+  }
+}
+
+/* ─── 13. FORM ERROR & VALIDATION STATES ─────────────────────────────────── */
+.border-red-500 {
+  border-color: #EF4444 !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+}
+
+.bg-red-50 {
+  background-color: #FEF2F2 !important;
+}
+
+/* ─── 14. STEPPER BADGE TRANSITIONS ───────────────────────────────────────── */
+#step-nav-shipping span,
+#step-nav-payment span,
+#step-nav-confirm span {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Focus and hover micro-animations */
+.delivery-opt:hover {
+  transform: translateY(-1px);
+}
+
+.pay-method:hover {
+  transform: translateY(-1px);
+}
+

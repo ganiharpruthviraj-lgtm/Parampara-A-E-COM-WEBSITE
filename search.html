@@ -12,12 +12,12 @@
   <meta content="Parampara Heritage" property="og:site_name"/>
   <meta content="Shop Authentic Heritage Crafts | Parampara" property="og:title"/>
   <meta content="Search and discover authentic Indian heritage crafts — handmade textiles, jewelry, pottery and more from all 28 states of India." property="og:description"/>
-  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" property="og:image"/>
+  <meta content="assets/parampara_logo_crest.webp" property="og:image"/>
   <meta content="https://parampara.in/search.html" property="og:url"/>
   <meta content="summary_large_image" name="twitter:card"/>
   <meta content="Shop Authentic Heritage Crafts | Parampara" name="twitter:title"/>
   <meta content="Discover authentic Indian heritage crafts from all 28 states. Certified masterpieces by master artisans." name="twitter:description"/>
-  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" name="twitter:image"/>
+  <meta content="assets/parampara_logo_crest.webp" name="twitter:image"/>
   <script crossorigin="anonymous" src="https://kit.fontawesome.com/8e98006f77.js">
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
@@ -48,7 +48,7 @@
      <div class="flex justify-between items-center h-20">
       <!-- Logo -->
       <a class="flex items-center" href="index.html">
-       <img decoding="async" alt="Parampara Logo" class="h-12 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" loading="lazy"/>
+       <img decoding="async" alt="Parampara Logo" class="h-12 w-auto" src="assets/parampara_logo_crest.webp" loading="lazy"/>
       </a>
       <!-- Desktop Navigation -->
       <div class="hidden lg:flex items-center space-x-8">
@@ -405,7 +405,7 @@
      <!-- Brand Column -->
      <div class="col-span-2 md:col-span-4 lg:col-span-1">
       <a class="inline-block mb-6" href="index.html">
-       <img decoding="async" alt="Parampara Logo" class="h-12 w-auto brightness-0 invert" data-logo="" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" loading="lazy"/>
+       <img decoding="async" alt="Parampara Logo" class="h-12 w-auto brightness-0 invert" data-logo="" src="assets/parampara_logo_crest.webp" loading="lazy"/>
       </a>
       <p class="text-gray-400 text-sm leading-relaxed mb-6" style="font-family: var(--font-family-body);">
        One State. One Masterpiece. Discover India's most iconic handcrafted treasures from each of the 28 states.
@@ -771,7 +771,12 @@
           <p class="product-name">${p.name}</p>
           <div class="product-footer">
             <span class="product-craft">${p.craft}</span>
-            <span class="product-price">₹ ${p.price.toLocaleString('en-IN')}</span>
+            <div style="display:flex;align-items:center;gap:0.5rem">
+              <span class="product-price">₹ ${p.price.toLocaleString('en-IN')}</span>
+              <button type="button" onclick="event.stopPropagation(); quickAddCraft('${p._id}', '${(p.name || '').replace(/'/g, "\\'")}', ${p.price || 0}, '${(p.state || '').replace(/'/g, "\\'")}', '${p.imageUrl || ''}', '${(p.craft || '').replace(/'/g, "\\'")}', this)" style="background:none;border:none;cursor:pointer;padding:0.25rem 0.5rem;color:var(--gold);font-size:0.85rem;border-radius:9999px;transition:all 0.2s" title="Add to Shopping Bag">
+                <i class="fa-solid fa-bag-shopping"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -878,6 +883,33 @@
     }
     loadProducts();
   });
+
+  window.quickAddCraft = function(id, name, price, state, imageUrl, craft, btn) {
+    const cartItem = {
+      id: id || `gi-${Date.now()}`,
+      name: name,
+      price: Number(price) || 0,
+      state: state || 'India',
+      origin: state ? `${state}, India` : 'India',
+      imageUrl: imageUrl || 'assets/parampara_logo.webp',
+      craft: craft || 'Heritage Craft'
+    };
+    try {
+      let cart = JSON.parse(localStorage.getItem('parampara_cart') || '[]');
+      if (!Array.isArray(cart)) cart = [];
+      cart.push(cartItem);
+      localStorage.setItem('parampara_cart', JSON.stringify(cart));
+      window.dispatchEvent(new Event('cart-updated'));
+    } catch(e) {}
+
+    if (btn) {
+      const orig = btn.innerHTML;
+      btn.innerHTML = '<i class="fa-solid fa-check" style="color:#15803d"></i>';
+      setTimeout(() => {
+        btn.innerHTML = orig;
+      }, 1800);
+    }
+  };
   </script>
   <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js">
   </script>

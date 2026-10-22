@@ -10,7 +10,7 @@
   <meta content="Parampara Heritage" property="og:site_name"/>
   <meta content="Checkout | Parampara Heritage" property="og:title"/>
   <meta content="Complete your order of authentic Indian heritage crafts. Secure checkout with free insured shipping." property="og:description"/>
-  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" property="og:image"/>
+  <meta content="assets/parampara_logo_crest.webp" property="og:image"/>
   
   <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet"/>
@@ -58,8 +58,10 @@
 
     <!-- Stepper Indicator -->
     <div class="hidden md:flex items-center gap-3 text-xs font-semibold">
-     <div class="flex items-center gap-2 text-gray-400">
-      <span class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-[11px] font-bold">1</span>
+     <div class="flex items-center gap-2 text-green-700 font-semibold" id="step-nav-bag">
+      <span class="w-6 h-6 rounded-full bg-green-600 text-white flex items-center justify-center text-[10px] font-bold shadow-xs">
+       <i class="fa-solid fa-check"></i>
+      </span>
       <span>Bag</span>
      </div>
      <span class="w-8 h-[1px] bg-gray-200"></span>
@@ -514,8 +516,27 @@
 
   </main>
 
+  <!-- ── Mobile Sticky Checkout Action Bar ── -->
+  <aside id="mobile-checkout-bar" aria-label="Mobile Checkout Actions" class="lg:hidden fixed bottom-0 left-0 right-0 z-[120] bg-white/95 backdrop-blur-md border-t border-[#B8860B]/25 p-3.5 shadow-2xl transition-transform duration-300">
+   <div class="max-w-md mx-auto flex items-center justify-between gap-3">
+    <div class="flex flex-col">
+     <div class="flex items-baseline gap-1.5">
+      <span class="text-[10px] uppercase font-bold text-gray-500">Payable</span>
+      <span class="text-base font-extrabold font-sora text-gray-900" id="mobile-price-total">₹ 27,440</span>
+     </div>
+     <span class="text-[10px] font-semibold text-green-700 flex items-center gap-1">
+      <i class="fa-solid fa-stamp text-[9px] text-[#B8860B]"></i> 70% to Artisan
+     </span>
+    </div>
+    <button id="mobile-action-btn" onclick="handleMobileAction()" class="flex-grow max-w-[210px] py-3 px-4 rounded-full bg-gradient-to-r from-[#B8860B] to-[#8B6508] text-white text-xs font-bold uppercase tracking-wider shadow-lg hover:shadow-xl flex items-center justify-center gap-1.5 transition-all">
+     <span id="mobile-action-text">Proceed to Pay</span>
+     <i class="fa-solid fa-arrow-right text-[10px]" id="mobile-action-icon"></i>
+    </button>
+   </div>
+  </aside>
+
   <!-- ── Footer ── -->
-  <footer class="bg-[#1A1A1A] text-white text-xs py-8 px-4 border-t border-white/10 mt-auto">
+  <footer class="bg-[#1A1A1A] text-white text-xs py-8 px-4 border-t border-white/10 mt-auto pb-20 lg:pb-8">
    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
     <p class="text-gray-400">© 2026 Parampara Heritage Platform. Preserving India's Craft Traditions across 28 States.</p>
     <div class="flex items-center gap-4 text-gray-400 text-sm">

@@ -12,12 +12,12 @@
   <meta content="Parampara Heritage" property="og:site_name"/>
   <meta content="Authenticated Heritage Masterpiece | Parampara — 28 States Craft Archive" property="og:title"/>
   <meta content="Explore a one-of-a-kind authenticated heritage masterpiece from India's finest craft traditions — hand-made by master artisans with a Certificate of Authenticity." property="og:description"/>
-  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" property="og:image"/>
+  <meta content="assets/parampara_logo_crest.webp" property="og:image"/>
   <meta content="https://parampara.in/masterpiece.html" property="og:url"/>
   <meta content="summary_large_image" name="twitter:card"/>
   <meta content="Authenticated Heritage Masterpiece | Parampara — 28 States Craft Archive" name="twitter:title"/>
   <meta content="Explore a one-of-a-kind authenticated heritage masterpiece from India's finest craft traditions." name="twitter:description"/>
-  <meta content="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=1200" name="twitter:image"/>
+  <meta content="assets/parampara_logo_crest.webp" name="twitter:image"/>
   <script crossorigin="anonymous" src="https://kit.fontawesome.com/8e98006f77.js">
   </script>
   <script src="js/auth.js">
@@ -53,7 +53,7 @@
      <div class="flex justify-between items-center h-20">
       <!-- Logo -->
       <a class="flex items-center" href="index.html">
-       <img decoding="async" alt="Parampara Logo" class="h-12 w-auto" src="https://assets.ls-assets.com/uploads/f24bfd2a-136d-48fa-ae0d-f0f9f79fbe67/7e4cfe35-4b17-4f27-b5bc-6f8ea447d211.webp?w=768" loading="lazy"/>
+       <img decoding="async" alt="Parampara Logo" class="h-12 w-auto" src="assets/parampara_logo_crest.webp" loading="lazy"/>
       </a>
       <!-- Desktop Navigation -->
       <div class="hidden lg:flex items-center space-x-8">
@@ -156,14 +156,17 @@
         Heritage Certified
        </span>
       </div>
+     <div class="flex flex-wrap items-center gap-3">
+      <button id="acquire-masterpiece-btn" class="bg-brand-gold hover:bg-brand-goldHover text-white text-xs font-bold uppercase tracking-widest py-4 px-8 rounded flex items-center space-x-3 transition-all transform hover:-translate-y-1 hover:shadow-lg cursor-pointer">
+       <span>Acquire Masterpiece — Buy Now</span>
+       <i class="fa-solid fa-arrow-right">
+       </i>
+      </button>
+      <button id="desktop-masterpiece-bag-btn" type="button" class="border-2 border-brand-gold text-brand-gold hover:bg-brand-gold/10 text-xs font-bold uppercase tracking-widest py-4 px-6 rounded flex items-center space-x-2 transition-all cursor-pointer" title="Add to Shopping Bag">
+       <i class="fa-solid fa-bag-shopping"></i>
+       <span>Add to Bag</span>
+      </button>
      </div>
-     <button id="acquire-masterpiece-btn" class="bg-brand-gold hover:bg-brand-goldHover text-white text-xs font-bold uppercase tracking-widest py-4 px-8 rounded flex items-center space-x-3 transition-all transform hover:-translate-y-1 hover:shadow-lg">
-      <span>
-       Add to Collection
-      </span>
-      <i class="fa-solid fa-arrow-right">
-      </i>
-     </button>
     </div>
     <!-- Right Imagery -->
     <div class="order-1 md:order-2 relative h-[500px] lg:h-[700px] w-full flex justify-end">
@@ -498,34 +501,43 @@
 
       const mobileBagBtn = document.getElementById('mobile-masterpiece-bag-btn');
       const mobileBuyBtn = document.getElementById('mobile-masterpiece-buy-btn');
+      const desktopBagBtn = document.getElementById('desktop-masterpiece-bag-btn');
+
+      const handleAddBag = (btn, isDesktop = false) => {
+          const cartItem = {
+              id: productId || product._id,
+              name: product.name,
+              price: product.price || 24500,
+              state: product.state,
+              origin: `${product.state}, India`,
+              imageUrl: product.imageUrl,
+              craft: product.craft
+          };
+          try {
+              let cart = JSON.parse(localStorage.getItem('parampara_cart') || '[]');
+              if (!Array.isArray(cart)) cart = [];
+              cart.push(cartItem);
+              localStorage.setItem('parampara_cart', JSON.stringify(cart));
+              window.dispatchEvent(new Event('cart-updated'));
+          } catch(e) {}
+
+          if (btn) {
+              const orig = btn.innerHTML;
+              btn.innerHTML = `<i class="fa-solid fa-check text-green-700"></i> <span class="${isDesktop ? 'text-xs text-green-700 font-bold' : 'text-[11px] text-green-700 font-bold'}">Added</span>`;
+              btn.classList.add('border-green-600', 'bg-green-50');
+              setTimeout(() => {
+                  btn.innerHTML = orig;
+                  btn.classList.remove('border-green-600', 'bg-green-50');
+              }, 2200);
+          }
+      };
+
+      if (desktopBagBtn) {
+          desktopBagBtn.onclick = () => handleAddBag(desktopBagBtn, true);
+      }
 
       if (mobileBagBtn) {
-          mobileBagBtn.onclick = () => {
-              const cartItem = {
-                  id: productId || product._id,
-                  name: product.name,
-                  price: product.price || 24500,
-                  state: product.state,
-                  origin: `${product.state}, India`,
-                  imageUrl: product.imageUrl,
-                  craft: product.craft
-              };
-              try {
-                  let cart = JSON.parse(localStorage.getItem('parampara_cart') || '[]');
-                  if (!Array.isArray(cart)) cart = [];
-                  cart.push(cartItem);
-                  localStorage.setItem('parampara_cart', JSON.stringify(cart));
-                  window.dispatchEvent(new Event('cart-updated'));
-              } catch(e) {}
-
-              const orig = mobileBagBtn.innerHTML;
-              mobileBagBtn.innerHTML = '<i class="fa-solid fa-check text-green-700"></i> <span class="text-[11px] text-green-700 font-bold">Added</span>';
-              mobileBagBtn.classList.add('border-green-600', 'bg-green-50');
-              setTimeout(() => {
-                  mobileBagBtn.innerHTML = orig;
-                  mobileBagBtn.classList.remove('border-green-600', 'bg-green-50');
-              }, 2200);
-          };
+          mobileBagBtn.onclick = () => handleAddBag(mobileBagBtn, false);
       }
 
       if (mobileBuyBtn) {
