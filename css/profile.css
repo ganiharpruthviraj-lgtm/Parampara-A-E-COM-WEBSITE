@@ -70,8 +70,8 @@ body {
 
 /* ─── Profile Avatar ─── */
 .profile-avatar-ring {
-  width: 96px;
-  height: 96px;
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
   border: 2.5px solid #D4AF37;
   padding: 3px;
@@ -1031,7 +1031,31 @@ body {
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 640px) {
+  .profile-hero-banner {
+    padding: 1.35rem 1.15rem !important;
+  }
+
+  .profile-avatar-ring,
+  .profile-avatar-wrap-box {
+    width: 80px !important;
+    height: 80px !important;
+  }
+
+  .profile-avatar-initials {
+    font-size: 1.35rem !important;
+    letter-spacing: 0.01em !important;
+  }
+
+  .avatar-camera-btn,
+  #btn-camera-upload {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 0.65rem !important;
+    bottom: -2px !important;
+    right: -2px !important;
+  }
+
   .profile-hero-stat {
     min-width: 80px;
     padding: 0.65rem 0.85rem;
@@ -1039,6 +1063,31 @@ body {
 
   .profile-hero-stat-value {
     font-size: 1.1rem;
+  }
+
+  .profile-tab-nav {
+    padding: 0.25rem 0.35rem !important;
+  }
+
+  .profile-tab-btn {
+    padding: 0.5rem 0.85rem !important;
+    font-size: 0.78rem !important;
+    gap: 0.35rem !important;
+  }
+
+  .order-filter-chip {
+    padding: 0.38rem 0.75rem !important;
+    font-size: 0.7rem !important;
+  }
+
+  .btn-avatar-upload,
+  .btn-avatar-clear {
+    font-size: 0.7rem !important;
+    padding: 0.45rem 0.75rem !important;
+  }
+
+  .order-detail-box {
+    padding: 0.75rem !important;
   }
 }
 
@@ -1415,6 +1464,15 @@ body {
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+}
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
 }
 
 .order-filter-chip:hover {

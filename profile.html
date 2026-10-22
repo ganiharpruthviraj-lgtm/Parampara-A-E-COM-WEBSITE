@@ -21,7 +21,7 @@
     href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
-  <link href="css/profile.css?v=7" rel="stylesheet" />
+  <link href="css/profile.css?v=8" rel="stylesheet" />
 </head>
 
 <body class="bg-[#FDFBF7] text-[#1A1715]">
@@ -30,7 +30,7 @@
   <header id="global-header"></header>
 
   <!-- ─── MAIN CONTENT ─── -->
-  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-36 sm:pb-12 space-y-6">
 
     <!-- ══════════════════════════════════════════════════════════ -->
     <!-- 1. PROFILE HERO BANNER                                     -->
@@ -39,8 +39,8 @@
       <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
 
         <!-- Left: Avatar + Identity -->
-        <div class="flex items-center gap-5">
-          <div class="relative flex-shrink-0 w-[96px] h-[96px]">
+        <div class="flex items-center gap-3.5 sm:gap-5">
+          <div class="relative flex-shrink-0 w-20 h-20 sm:w-24 sm:h-24 profile-avatar-wrap-box">
             <div class="profile-avatar-ring" id="profile-avatar-wrap">
               <!-- Filled by profile.js -->
               <div class="profile-avatar-initials" id="profile-initials">–</div>
@@ -63,7 +63,7 @@
               <span class="text-white/40 hidden sm:inline">·</span>
               <span class="text-xs text-white/60 hidden sm:inline" id="profile-member-since">Member since —</span>
             </div>
-            <h1 class="font-serif text-3xl sm:text-4xl font-bold tracking-wide text-white leading-tight" id="profile-display-name">
+            <h1 class="font-serif text-2xl sm:text-4xl font-bold tracking-wide text-white leading-tight" id="profile-display-name">
               Loading…
             </h1>
             <p class="text-sm text-white/70 mt-1 flex items-center gap-2" id="profile-email-display">
@@ -201,9 +201,9 @@
             </div>
 
             <!-- Save Button -->
-            <div class="flex items-center justify-between gap-3 pt-3 border-t border-[#F5EFE6]">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-[#F5EFE6]">
               <p class="text-xs text-[#6B6259] flex-1" id="personal-form-status" aria-live="polite"></p>
-              <button type="submit" id="btn-save-personal" class="btn-gold-primary">
+              <button type="submit" id="btn-save-personal" class="btn-gold-primary w-full sm:w-auto justify-center">
                 <i class="fa-solid fa-floppy-disk text-xs"></i>
                 Save Changes
               </button>
@@ -289,9 +289,9 @@
             </div>
 
             <!-- Update Button -->
-            <div class="flex items-center justify-end gap-3 pt-2 border-t border-[#F5EFE6]">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-3 pt-2 border-t border-[#F5EFE6]">
               <p class="text-xs text-[#6B6259] flex-1" id="password-form-status" aria-live="polite"></p>
-              <button type="submit" id="btn-update-password" class="btn-gold-primary">
+              <button type="submit" id="btn-update-password" class="btn-gold-primary w-full sm:w-auto justify-center">
                 <i class="fa-solid fa-shield-halved text-xs"></i>
                 Update Password
               </button>
@@ -318,7 +318,7 @@
 
       <!-- Order Filter Chips & Search Bar -->
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4 p-3 rounded-xl bg-white border border-[#EADBCC]/70 shadow-2xs">
-        <div class="flex flex-wrap items-center gap-1.5" id="order-filter-chips">
+        <div class="flex items-center gap-2 overflow-x-auto pb-1 -mx-1 px-1 sm:mx-0 sm:px-0 sm:flex-wrap no-scrollbar w-full flex-nowrap" id="order-filter-chips">
           <button type="button" class="order-filter-chip active" data-filter="all" onclick="filterOrders('all')">
             <span>All Orders</span>
             <span class="order-filter-count" id="filter-count-all">0</span>
@@ -408,7 +408,7 @@
     <!-- ══════════════════════════════════════════════════════════ -->
     <!-- 6. DANGER ZONE                                             -->
     <!-- ══════════════════════════════════════════════════════════ -->
-    <div class="danger-zone-card">
+    <div class="danger-zone-card flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div>
         <p class="text-sm font-semibold text-[#1A1715]">
           <i class="fa-solid fa-right-from-bracket text-red-400 mr-1.5"></i>
@@ -417,7 +417,7 @@
         <p class="text-xs text-[#8C827A] mt-0.5">You will need to sign in again to access your collection and orders.
         </p>
       </div>
-      <button id="btn-signout" class="btn-danger" onclick="confirmSignOut()">
+      <button id="btn-signout" class="btn-danger w-full sm:w-auto justify-center" onclick="confirmSignOut()">
         <i class="fa-solid fa-right-from-bracket"></i>
         Sign Out
       </button>

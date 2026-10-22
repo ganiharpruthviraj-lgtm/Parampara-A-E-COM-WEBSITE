@@ -838,13 +838,28 @@
   .pm-launcher,
   #pm-fab {
     position: fixed !important;
-    bottom: 18px !important;
-    right: 18px !important;
+    bottom: 16px !important;
+    right: 16px !important;
     left: auto !important;
     top: auto !important;
-    height: 48px;
-    padding: 0 16px 0 12px;
-    font-size: 12.5px;
+    height: 42px;
+    padding: 0 12px 0 10px;
+    font-size: 11.5px;
+    gap: 6px;
+    border-radius: 21px;
+    box-shadow: 0 6px 18px rgba(139, 0, 0, 0.35);
+  }
+
+  .pm-launcher-icon {
+    font-size: 16px;
+  }
+
+  .pm-launcher-title {
+    font-size: 12px;
+  }
+
+  .pm-launcher-sub {
+    display: none !important;
   }
 
   /* When chat window is open on mobile, hide the bottom floating button so it never covers the send button */
