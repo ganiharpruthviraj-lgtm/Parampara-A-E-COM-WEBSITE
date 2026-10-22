@@ -298,11 +298,7 @@ function renderHeroBanner(user) {
 
   const artisanBtn = document.getElementById('btn-artisan-portal');
   if (artisanBtn) {
-    if (role === 'artisan' || role === 'admin') {
-      artisanBtn.style.display = 'inline-flex';
-    } else {
-      artisanBtn.style.display = 'none';
-    }
+    artisanBtn.style.display = 'inline-flex';
   }
 
   // Member since
@@ -458,7 +454,7 @@ function renderFilteredOrders() {
 
   // 1. Status Filter
   if (_currentOrderFilter === 'active') {
-    filtered = filtered.filter(o => o.orderStatus === 'Processing' || o.orderStatus === 'Handcrafted');
+    filtered = filtered.filter(o => ['Processing', 'Crafting', 'Handcrafted', 'Inspected'].includes(o.orderStatus));
   } else if (_currentOrderFilter === 'dispatched') {
     filtered = filtered.filter(o => o.orderStatus === 'Dispatched');
   } else if (_currentOrderFilter === 'delivered') {
@@ -524,7 +520,7 @@ function renderFilteredOrders() {
 
 function updateFilterCounts() {
   const allCount = _allOrders.length;
-  const activeCount = _allOrders.filter(o => o.orderStatus === 'Processing' || o.orderStatus === 'Handcrafted').length;
+  const activeCount = _allOrders.filter(o => ['Processing', 'Crafting', 'Handcrafted', 'Inspected'].includes(o.orderStatus)).length;
   const dispatchedCount = _allOrders.filter(o => o.orderStatus === 'Dispatched').length;
   const deliveredCount = _allOrders.filter(o => o.orderStatus === 'Delivered').length;
 
@@ -595,10 +591,12 @@ window.openOrderSupport = openOrderSupport;
 
 function renderOrderCard(order) {
   const statusMap = {
-    Processing:  { step: 1, cls: 'status-processing',  icon: 'fa-clock',        label: 'Processing' },
-    Handcrafted: { step: 2, cls: 'status-handcrafted', icon: 'fa-hammer',       label: 'Handcrafted in Loom' },
-    Dispatched:  { step: 3, cls: 'status-dispatched',  icon: 'fa-truck-fast',   label: 'Dispatched' },
-    Delivered:   { step: 4, cls: 'status-delivered',   icon: 'fa-circle-check', label: 'Delivered & Certified' }
+    Processing:  { step: 1, cls: 'status-processing',  icon: 'fa-clock',                label: 'Order Processing' },
+    Crafting:    { step: 2, cls: 'status-crafting',    icon: 'fa-wand-magic-sparkles', label: 'Crafting on Loom/Wheel' },
+    Handcrafted: { step: 2, cls: 'status-handcrafted', icon: 'fa-hammer',               label: 'Handcrafted in Studio' },
+    Inspected:   { step: 2, cls: 'status-inspected',   icon: 'fa-shield-halved',       label: 'GI Inspected & Sealed' },
+    Dispatched:  { step: 3, cls: 'status-dispatched',  icon: 'fa-truck-fast',          label: 'Dispatched to Courier' },
+    Delivered:   { step: 4, cls: 'status-delivered',   icon: 'fa-circle-check',         label: 'Delivered & Certified' }
   };
   const currentStep = statusMap[order.orderStatus]?.step || 1;
   const status = statusMap[order.orderStatus] || statusMap['Processing'];
@@ -1407,6 +1405,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   window.addEventListener('hashchange', () => {
     const target = getTargetTabFromUrl();
     switchTab(target, false);
+  });
+
+  // Cross-tab & intra-session real-time artisan fulfillment sync
+  window.addEventListener('order-status-updated', () => {
+    loadOrderHistory();
+  });
+  window.addEventListener('storage', (e) => {
+    if (e.key === 'parampara_orders') {
+      loadOrderHistory();
+    }
   });
 
   await Promise.allSettled([

@@ -60,6 +60,60 @@ const GUILD_PROFILES = {
     pendingPayout: 45000,
     disbursedPayout: 504500,
     fulfilledUnits: 29
+  },
+  sudarsan_sahoo: {
+    id: 'sudarsan_sahoo',
+    name: 'Sudarsan Sahoo (Padma Shri)',
+    craftTradition: 'Puri Stone Carving & Pattachitra',
+    state: 'Odisha',
+    district: 'Puri Heritage Craft Hub',
+    giNumber: 'GI/87/OD/STONE',
+    avatar: 'https://images.unsplash.com/photo-1544717305-2782549b5136?w=200&q=80',
+    award: 'Padma Shri & Shilp Guru Awardee',
+    membersCount: '34 Stone Sculptors & Pattachitra Chitrakars',
+    bankAccount: 'Bank of India •••• 4209 (Verified NEFT/UPI)',
+    establishedYear: '1977',
+    initialGross: 720000,
+    initialPayout: 504000,
+    pendingPayout: 42000,
+    disbursedPayout: 462000,
+    fulfilledUnits: 36
+  },
+  babulal_marotia: {
+    id: 'babulal_marotia',
+    name: 'Babulal Marotia (Shilp Guru)',
+    craftTradition: 'Banarasi Zari Handloom Brocade',
+    state: 'Uttar Pradesh',
+    district: 'Varanasi Weavers Corridor',
+    giNumber: 'GI/99/UP/BANARASI',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80',
+    award: 'National Master Weavers Guild Leader',
+    membersCount: '52 Master Handloom Families',
+    bankAccount: 'Union Bank of India •••• 6631 (Verified NEFT/UPI)',
+    establishedYear: '1965',
+    initialGross: 940000,
+    initialPayout: 658000,
+    pendingPayout: 56000,
+    disbursedPayout: 602000,
+    fulfilledUnits: 42
+  },
+  dr_venkat_raman: {
+    id: 'dr_venkat_raman',
+    name: 'Dr. Venkat Raman',
+    craftTradition: 'Mysore Rosewood Inlay & Raw Silk',
+    state: 'Karnataka',
+    district: 'Mysuru Artisan Colony',
+    giNumber: 'GI/24/KA/ROSEWOOD',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80',
+    award: 'State Shilp Awardee & Guild Chair',
+    membersCount: '19 Inlay Masters & Carvers',
+    bankAccount: 'Canara Bank •••• 7712 (Verified NEFT/UPI)',
+    establishedYear: '1988',
+    initialGross: 560000,
+    initialPayout: 392000,
+    pendingPayout: 31500,
+    disbursedPayout: 360500,
+    fulfilledUnits: 26
   }
 };
 
@@ -134,30 +188,117 @@ async function loadGuildData() {
              pName.includes(currentGuild.craftTradition.toLowerCase().split(' ')[0]);
     });
 
-    // If few items matched, add default masterpiece catalog for this guild
     if (guildCrafts.length === 0) {
       guildCrafts = getFallbackCraftsForGuild(currentGuild.id);
     }
-
     renderCraftsGrid(guildCrafts);
 
-    // 2. Fetch Guild Orders & 70% Payout Stats
-    const statsRes = await fetch(`${API_BASE}/api/orders/artisan/stats?artisan=${encodeURIComponent(currentGuild.name)}`);
-    const statsData = await statsRes.json();
-
-    if (statsData.success) {
-      renderMetrics(statsData.metrics);
-      guildOrders = statsData.orders || [];
-      renderOrdersTable(guildOrders);
-    } else {
-      renderMetricsFallback();
+    // 2. Fetch Guild Orders & 70% Payout Stats from Backend
+    let backendOrders = [];
+    try {
+      const statsRes = await fetch(`${API_BASE}/api/orders/artisan/stats?artisan=${encodeURIComponent(currentGuild.name)}`);
+      const statsData = await statsRes.json();
+      if (statsData.success) {
+        backendOrders = statsData.orders || [];
+      }
+    } catch (e) {
+      console.warn('Artisan stats endpoint notice:', e.message);
     }
+
+    // 3. Integrate Local Orders placed during checkout
+    let localOrders = [];
+    try {
+      localOrders = JSON.parse(localStorage.getItem('parampara_orders') || '[]');
+    } catch {}
+
+    const combinedMap = new Map();
+
+    // Insert backend orders
+    backendOrders.forEach(ord => {
+      const id = String(ord._id || ord.id || '');
+      if (id) combinedMap.set(id, ord);
+    });
+
+    // Merge local orders (enriching with newly placed checkouts)
+    localOrders.forEach(ord => {
+      const id = String(ord._id || ord.id || '');
+      if (!id) return;
+
+      const items = ord.orderItems || ord.items || [];
+      const gross = Number(ord.totalPrice) || items.reduce((s, it) => s + (Number(it.price || 0) * (it.qty || 1)), 0) || 5400;
+      const artisanShare = Math.round(gross * 0.70);
+
+      const existing = combinedMap.get(id);
+      if (existing) {
+        if (ord.orderStatus) existing.orderStatus = ord.orderStatus;
+        if (ord.awb) existing.awb = ord.awb;
+      } else {
+        combinedMap.set(id, {
+          _id: id,
+          orderNumber: id.length > 8 ? id.slice(-8).toUpperCase() : id.toUpperCase(),
+          customerName: ord.shippingAddress ? (ord.shippingAddress.fullName || ord.shippingAddress.name) : 'Heritage Collector',
+          city: ord.shippingAddress ? (ord.shippingAddress.city || 'Bengaluru') : 'Bengaluru',
+          items: items.map(i => ({
+            name: i.name || 'Masterpiece',
+            qty: i.qty || 1,
+            price: i.price,
+            artisanPayout: Math.round((Number(i.price) || 0) * 0.70)
+          })),
+          grossAmount: gross,
+          artisanPayout: artisanShare,
+          orderStatus: ord.orderStatus || (ord.isPaid ? 'Handcrafted' : 'Processing'),
+          isPaid: Boolean(ord.isPaid),
+          awb: ord.awb || null,
+          createdAt: ord.createdAt || new Date().toISOString()
+        });
+      }
+    });
+
+    guildOrders = Array.from(combinedMap.values());
+    if (guildOrders.length === 0) {
+      guildOrders = getFallbackOrders();
+    }
+
+    // Sort latest first
+    guildOrders.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+
+    // Calculate aggregated metrics
+    let totalGrossSales = 0;
+    let totalArtisanPayout = 0;
+    let pendingPayout = 0;
+    let disbursedPayout = 0;
+    let fulfilledCrafts = 0;
+
+    guildOrders.forEach(ord => {
+      const gross = Number(ord.grossAmount) || 0;
+      const payout = Number(ord.artisanPayout) || Math.round(gross * 0.70);
+      totalGrossSales += gross;
+      totalArtisanPayout += payout;
+
+      if (ord.orderStatus === 'Delivered' || (ord.isPaid && ord.orderStatus !== 'Processing')) {
+        disbursedPayout += payout;
+        fulfilledCrafts += (ord.items && ord.items.length) ? ord.items.reduce((s, it) => s + (it.qty || 1), 0) : 1;
+      } else {
+        pendingPayout += payout;
+      }
+    });
+
+    renderMetrics({
+      totalGrossSales: totalGrossSales || currentGuild.initialGross,
+      totalArtisanPayout: totalArtisanPayout || currentGuild.initialPayout,
+      pendingPayout: pendingPayout || currentGuild.pendingPayout,
+      disbursedPayout: disbursedPayout || currentGuild.disbursedPayout,
+      fulfilledCrafts: fulfilledCrafts || currentGuild.fulfilledUnits
+    });
+
+    renderOrdersTable(guildOrders);
   } catch (err) {
     console.warn('Using local guild fallback dataset:', err);
     guildCrafts = getFallbackCraftsForGuild(currentGuild.id);
     renderCraftsGrid(guildCrafts);
     renderMetricsFallback();
-    renderOrdersTable(getFallbackOrders());
+    guildOrders = getFallbackOrders();
+    renderOrdersTable(guildOrders);
   }
 }
 
@@ -282,20 +423,38 @@ function renderOrdersTable(orders) {
   }
 
   tbody.innerHTML = orders.map(ord => {
-    const orderNum = ord.orderNumber || (ord._id || 'ORD').slice(-6).toUpperCase();
+    const rawId = String(ord._id || ord.id || '');
+    const orderNum = ord.orderNumber || (rawId.length > 8 ? rawId.slice(-8).toUpperCase() : rawId);
     const customer = ord.customerName || 'Heritage Collector';
     const city = ord.city || 'Bengaluru';
     const gross = ord.grossAmount || 4500;
     const payout = ord.artisanPayout || Math.round(gross * 0.70);
-    const status = ord.orderStatus || 'Handcrafted';
+    const status = ord.orderStatus || 'Processing';
+    const awb = ord.awb || (status === 'Dispatched' || status === 'Delivered' ? `INP-2026-${orderNum}-GI` : null);
     const date = new Date(ord.createdAt || Date.now()).toLocaleDateString('en-IN', { month: 'short', day: 'numeric', year: 'numeric' });
+    const itemsSummary = Array.isArray(ord.items) && ord.items.length > 0
+      ? ord.items.map(it => `${it.name || 'Craft'} (x${it.qty || 1})`).join(', ')
+      : 'Authentic GI Masterpiece';
+
+    const isDisbursed = status === 'Delivered' || (ord.isPaid && status !== 'Processing');
+    const escrowBadge = isDisbursed
+      ? '<span class="inline-block text-[0.65rem] bg-emerald-50 text-emerald-800 px-1.5 py-0.5 rounded font-bold border border-emerald-200"><i class="fa-solid fa-check"></i> 70% Disbursed</span>'
+      : '<span class="inline-block text-[0.65rem] bg-amber-50 text-amber-800 px-1.5 py-0.5 rounded font-bold border border-amber-200"><i class="fa-solid fa-hourglass-half"></i> 70% In Escrow</span>';
 
     return `
-      <tr>
-        <td class="font-mono font-bold text-xs text-[#800000]">#${orderNum}</td>
+      <tr id="order-row-${rawId}">
+        <td>
+          <div class="font-mono font-bold text-xs text-[#800000]">#${orderNum}</div>
+          ${awb ? `
+            <div class="text-[0.68rem] font-mono text-[#6B6259] bg-[#FAF7F2] border border-[#EADBCC] px-1 py-0.5 rounded mt-1 inline-flex items-center gap-1" title="India Post SpeedPost AWB">
+              <i class="fa-solid fa-truck-fast text-[var(--gold-dark)]"></i> ${awb}
+            </div>
+          ` : ''}
+        </td>
         <td>
           <div class="font-semibold text-sm text-[#1A1715]">${customer}</div>
           <div class="text-[0.72rem] text-[#8C827A]"><i class="fa-solid fa-location-dot"></i> ${city} · ${date}</div>
+          <div class="text-[0.70rem] text-[#6B6259] truncate max-w-xs mt-0.5" title="${itemsSummary}">${itemsSummary}</div>
         </td>
         <td>
           <div class="text-xs font-mono font-bold text-[#1A1715]">₹${gross.toLocaleString('en-IN')}</div>
@@ -303,21 +462,27 @@ function renderOrdersTable(orders) {
         </td>
         <td>
           <div class="text-sm font-mono font-bold text-[var(--primary-color)]">₹${payout.toLocaleString('en-IN')}</div>
-          <span class="inline-block text-[0.65rem] bg-amber-50 text-amber-800 px-1.5 py-0.5 rounded font-bold border border-amber-200">70% Disbursed</span>
+          ${escrowBadge}
         </td>
         <td>
-          <select class="workflow-select" onchange="updateOrderStatus('${ord._id}', this.value)">
-            <option value="Crafting" ${status === 'Crafting' ? 'selected' : ''}>🛠️ Crafting on Wheel/Loom</option>
-            <option value="Handcrafted" ${status === 'Handcrafted' ? 'selected' : ''}>✨ Handcrafted & Packed</option>
-            <option value="Inspected" ${status === 'Inspected' ? 'selected' : ''}>🎖️ GI Inspected</option>
+          <select class="workflow-select" onchange="updateOrderStatus('${rawId}', this.value)" style="min-width: 200px;">
+            <option value="Processing" ${status === 'Processing' ? 'selected' : ''}>⏳ Order Confirmed &amp; In Queue</option>
+            <option value="Crafting" ${status === 'Crafting' ? 'selected' : ''}>🛠️ Crafting on Loom/Wheel</option>
+            <option value="Handcrafted" ${status === 'Handcrafted' ? 'selected' : ''}>✨ Handcrafted &amp; Packed</option>
+            <option value="Inspected" ${status === 'Inspected' ? 'selected' : ''}>🎖️ GI Inspected &amp; Certified</option>
             <option value="Dispatched" ${status === 'Dispatched' ? 'selected' : ''}>🚚 Dispatched to Courier</option>
             <option value="Delivered" ${status === 'Delivered' ? 'selected' : ''}>✅ Delivered to Collector</option>
           </select>
         </td>
         <td class="text-right">
-          <a href="${API_BASE}/api/orders/${ord._id}/invoice-pdf" target="_blank" class="text-xs text-[#800000] hover:text-[var(--primary-dark)] underline font-medium inline-flex items-center gap-1">
-            <i class="fa-solid fa-file-pdf"></i> GI Certificate
-          </a>
+          <div class="flex flex-col items-end gap-1">
+            <a href="${API_BASE}/api/orders/${rawId}/invoice-pdf" target="_blank" class="text-xs text-[#800000] hover:text-[var(--primary-dark)] underline font-medium inline-flex items-center gap-1">
+              <i class="fa-solid fa-file-pdf"></i> GI Certificate
+            </a>
+            <a href="profile.html#orders" class="text-[0.70rem] text-[#B8860B] hover:underline inline-flex items-center gap-1 font-semibold">
+              <i class="fa-solid fa-compass"></i> Collector View
+            </a>
+          </div>
         </td>
       </tr>
     `;
@@ -383,17 +548,94 @@ window.removeCraft = async function(craftId) {
 };
 
 window.updateOrderStatus = async function(orderId, newStatus) {
+  let awb = null;
+  const shortId = orderId.length > 8 ? orderId.slice(-8).toUpperCase() : orderId.toUpperCase();
+
+  if (newStatus === 'Dispatched') {
+    const defaultAwb = `INP-2026-${shortId}-GI`;
+    const promptInput = prompt('Enter India Post SpeedPost AWB Tracking Number:', defaultAwb);
+    awb = (promptInput && promptInput.trim()) ? promptInput.trim() : defaultAwb;
+  }
+
+  // 1. Update remote API
   try {
+    const payload = { status: newStatus };
+    if (awb) payload.awb = awb;
+
     const res = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status: newStatus })
+      body: JSON.stringify(payload)
     });
-    const data = await res.json();
-    showToast(`✓ Order status updated to "${newStatus}"`);
+    if (!res.ok) {
+      console.warn('Status API returned HTTP status:', res.status);
+    }
   } catch (e) {
-    showToast(`✓ Status transitioned to "${newStatus}"`);
+    console.warn('Order status API update notice:', e.message);
   }
+
+  // 2. Synchronize local storage order cache
+  try {
+    const storedOrders = JSON.parse(localStorage.getItem('parampara_orders') || '[]');
+    let found = false;
+    storedOrders.forEach(ord => {
+      if ((ord._id && ord._id === orderId) || (ord.id && ord.id === orderId)) {
+        ord.orderStatus = newStatus;
+        if (awb) ord.awb = awb;
+        found = true;
+      }
+    });
+    if (found) {
+      localStorage.setItem('parampara_orders', JSON.stringify(storedOrders));
+    }
+  } catch (lsErr) {
+    console.warn('Local storage order update notice:', lsErr.message);
+  }
+
+  // 3. Update in-memory guildOrders
+  const target = guildOrders.find(o => (o._id || o.id) === orderId);
+  if (target) {
+    target.orderStatus = newStatus;
+    if (awb) target.awb = awb;
+  }
+
+  // 4. Dispatch event for live cross-tab and profile sync
+  try {
+    window.dispatchEvent(new CustomEvent('order-status-updated', {
+      detail: { orderId, status: newStatus, awb }
+    }));
+  } catch {}
+
+  // 5. Re-render table and metrics
+  renderOrdersTable(guildOrders);
+
+  let gross = 0;
+  let payout = 0;
+  let pending = 0;
+  let disbursed = 0;
+  let fulfilled = 0;
+  guildOrders.forEach(ord => {
+    const g = Number(ord.grossAmount) || 0;
+    const p = Number(ord.artisanPayout) || Math.round(g * 0.70);
+    gross += g;
+    payout += p;
+    if (ord.orderStatus === 'Delivered' || (ord.isPaid && ord.orderStatus !== 'Processing')) {
+      disbursed += p;
+      fulfilled += 1;
+    } else {
+      pending += p;
+    }
+  });
+
+  renderMetrics({
+    totalGrossSales: gross || currentGuild.initialGross,
+    totalArtisanPayout: payout || currentGuild.initialPayout,
+    pendingPayout: pending || currentGuild.pendingPayout,
+    disbursedPayout: disbursed || currentGuild.disbursedPayout,
+    fulfilledCrafts: fulfilled || currentGuild.fulfilledUnits
+  });
+
+  showToast(`✓ Order #${shortId} transitioned to "${newStatus}"${awb ? ` with AWB: ${awb}` : ''}`);
 };
 
 function setupEventListeners() {
@@ -588,6 +830,81 @@ function getFallbackCraftsForGuild(guildId) {
         stockCount: 9,
         giNumber: 'GI/182/JK/WOOD',
         imageUrl: 'assets/products/blue_pottery_vase.webp',
+        inStock: true
+      }
+    ];
+  } else if (guildId === 'sudarsan_sahoo') {
+    return [
+      {
+        _id: 'od-stone-1',
+        name: 'Hand-Carved Chlorite Stone Konark Sun Temple Wheel',
+        state: 'Odisha',
+        category: 'Stonecraft',
+        price: 18500,
+        stockCount: 5,
+        giNumber: 'GI/87/OD/STONE',
+        imageUrl: 'assets/products/blue_pottery_vase.webp',
+        inStock: true
+      },
+      {
+        _id: 'od-patta-1',
+        name: 'Raghurajpur Palm Leaf Pattachitra Gita Govinda Scroll',
+        state: 'Odisha',
+        category: 'Paintings',
+        price: 12800,
+        stockCount: 8,
+        giNumber: 'GI/86/OD/PATTACHITRA',
+        imageUrl: 'assets/products/banarasi_saree.webp',
+        inStock: true
+      }
+    ];
+  } else if (guildId === 'babulal_marotia') {
+    return [
+      {
+        _id: 'up-ban-1',
+        name: 'Shikargah Royal Hunting Motif Pure Katan Silk Saree',
+        state: 'Uttar Pradesh',
+        category: 'Textiles',
+        price: 48000,
+        stockCount: 4,
+        giNumber: 'GI/99/UP/BANARASI',
+        imageUrl: 'assets/products/banarasi_saree.webp',
+        inStock: true
+      },
+      {
+        _id: 'up-ban-2',
+        name: 'Jangla Floral Antique Gold Zari Brocade Dupatta',
+        state: 'Uttar Pradesh',
+        category: 'Textiles',
+        price: 22000,
+        stockCount: 7,
+        giNumber: 'GI/99/UP/BANARASI',
+        imageUrl: 'assets/products/banarasi_saree.webp',
+        inStock: true
+      }
+    ];
+  } else if (guildId === 'dr_venkat_raman') {
+    return [
+      {
+        _id: 'ka-rose-1',
+        name: 'Mysore Rosewood Floral Marquetry Elephant Keepsake Chest',
+        state: 'Karnataka',
+        category: 'Woodcraft',
+        price: 16500,
+        stockCount: 6,
+        giNumber: 'GI/24/KA/ROSEWOOD',
+        imageUrl: 'assets/products/blue_pottery_vase.webp',
+        inStock: true
+      },
+      {
+        _id: 'ka-silk-1',
+        name: 'Pure Mulberry KSIC Mysore Silk Gold Zari Saree',
+        state: 'Karnataka',
+        category: 'Textiles',
+        price: 26500,
+        stockCount: 8,
+        giNumber: 'GI/25/KA/SILK',
+        imageUrl: 'assets/products/banarasi_saree.webp',
         inStock: true
       }
     ];

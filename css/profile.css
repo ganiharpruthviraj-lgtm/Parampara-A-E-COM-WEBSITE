@@ -715,10 +715,22 @@ body {
   border: 1px solid rgba(245, 158, 11, 0.3);
 }
 
+.status-crafting {
+  background: rgba(184, 134, 11, 0.12);
+  color: #855800;
+  border: 1px solid rgba(184, 134, 11, 0.3);
+}
+
 .status-handcrafted {
   background: rgba(99, 102, 241, 0.10);
   color: #4338CA;
   border: 1px solid rgba(99, 102, 241, 0.25);
+}
+
+.status-inspected {
+  background: rgba(13, 148, 136, 0.12);
+  color: #0F766E;
+  border: 1px solid rgba(13, 148, 136, 0.3);
 }
 
 .status-dispatched {

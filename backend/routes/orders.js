@@ -482,6 +482,7 @@ router.get('/artisan/stats', async (req, res) => {
         artisanPayout: orderArtisanShare,
         orderStatus: order.orderStatus || (order.isPaid ? 'Handcrafted' : 'Processing'),
         isPaid: Boolean(order.isPaid),
+        awb: order.awb || null,
         createdAt: order.createdAt || new Date().toISOString()
       });
     });
@@ -520,8 +521,8 @@ router.get('/artisan/stats', async (req, res) => {
 // @access  Public / Artisan
 router.put('/:id/status', async (req, res) => {
   try {
-    const { status } = req.body;
-    const validStatuses = ['Crafting', 'Handcrafted', 'Inspected', 'Dispatched', 'Delivered'];
+    const { status, awb } = req.body;
+    const validStatuses = ['Processing', 'Crafting', 'Handcrafted', 'Inspected', 'Dispatched', 'Delivered'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: `Status must be one of: ${validStatuses.join(', ')}` });
     }
@@ -529,9 +530,12 @@ router.put('/:id/status', async (req, res) => {
     const orderId = req.params.id;
     let order = null;
 
+    const updateFields = { orderStatus: status };
+    if (awb) updateFields.awb = awb;
+
     if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(orderId)) {
       try {
-        order = await Order.findByIdAndUpdate(orderId, { orderStatus: status }, { returnDocument: 'after' });
+        order = await Order.findByIdAndUpdate(orderId, updateFields, { new: true, returnDocument: 'after' });
       } catch (e) {}
     }
 
@@ -539,9 +543,10 @@ router.put('/:id/status', async (req, res) => {
       if (inMemoryOrders.has(orderId)) {
         order = inMemoryOrders.get(orderId);
         order.orderStatus = status;
+        if (awb) order.awb = awb;
         inMemoryOrders.set(orderId, order);
       } else {
-        order = { _id: orderId, orderStatus: status, updatedAt: new Date().toISOString() };
+        order = { _id: orderId, orderStatus: status, awb: awb || null, updatedAt: new Date().toISOString() };
       }
     }
 

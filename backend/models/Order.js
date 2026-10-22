@@ -54,10 +54,11 @@ const orderSchema = new mongoose.Schema(
     totalPrice: { type: Number, required: true, default: 0.0 },
     isPaid: { type: Boolean, required: true, default: false },
     paidAt: { type: Date },
+    awb: { type: String },
     orderStatus: {
       type: String,
       required: true,
-      enum: ['Processing', 'Handcrafted', 'Dispatched', 'Delivered'],
+      enum: ['Processing', 'Crafting', 'Handcrafted', 'Inspected', 'Dispatched', 'Delivered'],
       default: 'Processing'
     }
   },
