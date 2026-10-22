@@ -24,7 +24,7 @@ const QUICK_ADD_CRAFTS = [
     name: 'Assam Pure Natural Golden Muga Silk Saree',
     price: 24500,
     origin: 'Kamrup, Assam',
-    imageUrl: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=300&q=80',
+    imageUrl: 'assets/products/banarasi_saree.webp',
     giNumber: 'GI/RS/038/2007',
     artisanName: 'Kamrup Silk Weavers Cooperative'
   },
@@ -33,7 +33,7 @@ const QUICK_ADD_CRAFTS = [
     name: 'Jaipur Blue Pottery Azure Floral Royal Vase',
     price: 3400,
     origin: 'Jaipur, Rajasthan',
-    imageUrl: 'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&w=300&q=80',
+    imageUrl: 'assets/products/blue_pottery_vase.webp',
     giNumber: 'GI/RS/080/2016',
     artisanName: 'Gopal Saini (National Awardee)'
   },
@@ -42,7 +42,7 @@ const QUICK_ADD_CRAFTS = [
     name: 'Authentic Kullu Handwoven Woolen Shawl',
     price: 4800,
     origin: 'Kullu Valley, Himachal Pradesh',
-    imageUrl: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=300&q=80',
+    imageUrl: 'assets/products/dokra_figurine.webp',
     giNumber: 'GI/RS/130/2004',
     artisanName: 'Bhuttico Handloom Weavers Cooperative'
   },
@@ -51,7 +51,7 @@ const QUICK_ADD_CRAFTS = [
     name: 'Bidriware Pure Silver Inlay Heritage Surahi Vase',
     price: 4200,
     origin: 'Bidar, Karnataka',
-    imageUrl: 'https://s7ap1.scene7.com/is/image/incredibleindia/bidriware-bidar-karnataka-craft-hero?qlt=82&ts=1726641338177',
+    imageUrl: 'assets/products/meenakari_choker.webp',
     giNumber: 'GI/RS/070/2015',
     artisanName: 'Shah Rasheed Ahmed Quadri (Padma Shri)'
   }
@@ -615,7 +615,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 24500,
         qty: 1,
         origin: 'Kamrup, Assam',
-        imageUrl: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=300&q=80',
+        imageUrl: 'assets/products/banarasi_saree.webp',
         giNumber: 'GI/RS/038/2007',
         artisanName: 'Kamrup Silk Weavers Cooperative'
       }
