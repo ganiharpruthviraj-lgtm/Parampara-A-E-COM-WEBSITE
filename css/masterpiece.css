@@ -44,3 +44,86 @@ h1, h2, h3 {
   background: rgba(184, 134, 11, 0.1);
   border-style: solid;
 }
+
+/* ------------------------------------------------------------------------------
+ * Mobile Viewport Clearance for Sticky Bottom Action Bar
+ * ------------------------------------------------------------------------------ */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: 5.5rem !important;
+  }
+  #pm-bubble {
+    bottom: 84px !important;
+  }
+}
+
+/* ─── Mobile Sticky Bottom Action Bar (Vanilla CSS Core) ─── */
+#mobile-bottom-action-bar {
+  display: flex !important;
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 9999 !important;
+  background: rgba(250, 249, 246, 0.96) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border-top: 1px solid #EADBCC !important;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.12) !important;
+  padding: 0.6rem 1rem !important;
+  padding-bottom: calc(0.6rem + env(safe-area-inset-bottom, 0px)) !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.75rem !important;
+}
+
+@media (min-width: 768px) {
+  #mobile-bottom-action-bar {
+    display: none !important;
+  }
+}
+
+.mobile-bar-btn-bag {
+  padding: 0.6rem 0.85rem !important;
+  border-radius: 8px !important;
+  border: 1.5px solid #9A7B4F !important;
+  color: #9A7B4F !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.35rem !important;
+  background: transparent !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+}
+
+.mobile-bar-btn-bag:hover {
+  background: rgba(154, 123, 79, 0.08) !important;
+}
+
+.mobile-bar-btn-buy {
+  flex: 1 !important;
+  padding: 0.65rem 1.1rem !important;
+  border-radius: 8px !important;
+  border: none !important;
+  background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%) !important;
+  color: #181512 !important;
+  font-weight: 800 !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.04em !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0.4rem !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3) !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+}
+
+.mobile-bar-btn-buy:hover {
+  filter: brightness(1.1) !important;
+  box-shadow: 0 6px 16px rgba(184, 134, 11, 0.4) !important;
+}

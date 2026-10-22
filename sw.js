@@ -3,7 +3,7 @@
  * High-performance PWA caching engine with Stale-While-Revalidate & Network-First strategies.
  */
 
-const CACHE_VERSION = 'parampara-v1.3';
+const CACHE_VERSION = 'parampara-v1.4';
 const STATIC_CACHE = `parampara-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `parampara-runtime-${CACHE_VERSION}`;
 

@@ -462,8 +462,45 @@
 
       // Update Acquire / Checkout Button
       const acquireBtn = document.getElementById('acquire-masterpiece-btn');
+      const triggerCheckout = () => {
+          const cartItem = {
+              id: productId || product._id,
+              name: product.name,
+              price: product.price || 24500,
+              state: product.state,
+              origin: `${product.state}, India`,
+              imageUrl: product.imageUrl,
+              craft: product.craft
+          };
+          try {
+              let cart = JSON.parse(localStorage.getItem('parampara_cart') || '[]');
+              if (!Array.isArray(cart)) cart = [];
+              cart.push(cartItem);
+              localStorage.setItem('parampara_cart', JSON.stringify(cart));
+              window.dispatchEvent(new Event('cart-updated'));
+          } catch(e) {}
+          window.location.href = `checkout.html?name=${encodeURIComponent(cartItem.name)}&price=${cartItem.price}&origin=${encodeURIComponent(cartItem.origin)}`;
+      };
+
       if (acquireBtn) {
-          acquireBtn.onclick = () => {
+          acquireBtn.onclick = triggerCheckout;
+      }
+
+      // Update Mobile Sticky Action Bar
+      const mobileThumb = document.getElementById('mobile-bar-thumb');
+      const mobileTitle = document.getElementById('mobile-bar-title');
+      const mobilePrice = document.getElementById('mobile-bar-price');
+      const mobileState = document.getElementById('mobile-bar-state');
+      if (mobileThumb && product.imageUrl) mobileThumb.src = product.imageUrl;
+      if (mobileTitle) mobileTitle.textContent = product.name;
+      if (mobilePrice) mobilePrice.textContent = `₹ ${product.price.toLocaleString('en-IN')}`;
+      if (mobileState) mobileState.innerHTML = `<i class="fa-solid fa-award text-[10px] text-brand-gold"></i> ${(product.state || 'GI').toUpperCase()} • AUTHENTIC`;
+
+      const mobileBagBtn = document.getElementById('mobile-masterpiece-bag-btn');
+      const mobileBuyBtn = document.getElementById('mobile-masterpiece-buy-btn');
+
+      if (mobileBagBtn) {
+          mobileBagBtn.onclick = () => {
               const cartItem = {
                   id: productId || product._id,
                   name: product.name,
@@ -480,8 +517,19 @@
                   localStorage.setItem('parampara_cart', JSON.stringify(cart));
                   window.dispatchEvent(new Event('cart-updated'));
               } catch(e) {}
-              window.location.href = `checkout.html?name=${encodeURIComponent(cartItem.name)}&price=${cartItem.price}&origin=${encodeURIComponent(cartItem.origin)}`;
+
+              const orig = mobileBagBtn.innerHTML;
+              mobileBagBtn.innerHTML = '<i class="fa-solid fa-check text-green-700"></i> <span class="text-[11px] text-green-700 font-bold">Added</span>';
+              mobileBagBtn.classList.add('border-green-600', 'bg-green-50');
+              setTimeout(() => {
+                  mobileBagBtn.innerHTML = orig;
+                  mobileBagBtn.classList.remove('border-green-600', 'bg-green-50');
+              }, 2200);
           };
+      }
+
+      if (mobileBuyBtn) {
+          mobileBuyBtn.onclick = triggerCheckout;
       }
   }
 
@@ -506,7 +554,11 @@
   <script src="https://unpkg.com/lenis@1.1.20/dist/lenis.min.js">
   </script>
   <script>
-   const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true, }); function raf(time) { lenis.raf(time); requestAnimationFrame(raf); } requestAnimationFrame(raf);
+   if (typeof Lenis !== 'undefined') {
+     const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), smoothWheel: true });
+     function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+     requestAnimationFrame(raf);
+   }
   </script>
   <script>
    /* Preloader Logic */
@@ -524,6 +576,40 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
   </script>
+
+  <!-- ─── MOBILE STICKY BOTTOM ACTION BAR (Smartphone Collectors) ─── -->
+  <aside id="mobile-bottom-action-bar" aria-label="Quick Purchase Action Bar" class="fixed bottom-0 left-0 right-0 z-40 bg-[#FAF9F6]/95 dark:bg-[#1C1C1C]/95 backdrop-blur-md border-t border-[#EADBCC] shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-4 py-2.5 flex md:hidden items-center justify-between gap-3 pb-[calc(0.65rem+env(safe-area-inset-bottom,0px))]">
+    <!-- Left: Item Meta & Price -->
+    <div class="flex items-center gap-2.5 min-w-0 flex-1">
+      <img id="mobile-bar-thumb" src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=200&amp;q=80" alt="Masterpiece" class="w-11 h-11 rounded-lg object-cover border border-[#EADBCC] flex-shrink-0" loading="lazy"/>
+      <div class="min-w-0 flex-1">
+        <div class="text-[0.70rem] font-bold text-brand-red uppercase tracking-wider flex items-center gap-1 truncate" id="mobile-bar-state">
+          <i class="fa-solid fa-award text-[10px] text-brand-gold"></i> Heritage Certified
+        </div>
+        <div class="text-xs font-serif font-bold text-brand-dark truncate" id="mobile-bar-title">
+          Authenticated Masterpiece
+        </div>
+        <div class="flex items-center gap-1.5 mt-0.5">
+          <span class="text-sm font-bold text-brand-dark font-serif leading-none" id="mobile-bar-price">₹ --</span>
+          <span class="text-[9px] bg-amber-50 text-amber-800 border border-amber-200 px-1 py-0.2 rounded font-semibold leading-tight">70% to Artisan</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Two High-Conversion Buttons -->
+    <div class="flex items-center gap-2 flex-shrink-0" style="display: flex; align-items: center; gap: 0.5rem;">
+      <button type="button" id="mobile-masterpiece-bag-btn" class="mobile-bar-btn-bag" title="Add to Bag">
+        <i class="fa-solid fa-bag-shopping text-xs"></i>
+        <span>Bag</span>
+      </button>
+
+      <button type="button" id="mobile-masterpiece-buy-btn" class="mobile-bar-btn-buy">
+        <span>Buy Now</span>
+        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+  </aside>
+
   <script src="js/components.js"></script>
   <script src="js/nav.js"></script>
   <script src="js/widget.js" defer></script>

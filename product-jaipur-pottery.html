@@ -24,6 +24,7 @@
    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
    <script id="tailwind-config">
+    window.tailwind = window.tailwind || {};
     tailwind.config = {
         darkMode: "class",
         theme: {
@@ -398,7 +399,76 @@
     </div>
    </div>
   </footer>
+
+  <!-- ─── MOBILE STICKY BOTTOM ACTION BAR (Smartphone Collectors) ─── -->
+  <aside id="mobile-bottom-action-bar" aria-label="Quick Purchase Action Bar" class="fixed bottom-0 left-0 right-0 z-40 bg-[#FCF9F8]/95 dark:bg-[#181512]/95 backdrop-blur-md border-t border-[#EADBCC] dark:border-[#3D332A] shadow-[0_-8px_30px_rgba(0,0,0,0.12)] px-4 py-2.5 flex md:hidden items-center justify-between gap-3 pb-[calc(0.65rem+env(safe-area-inset-bottom,0px))]">
+    <!-- Left: Item Meta & Price -->
+    <div class="flex items-center gap-2.5 min-w-0 flex-1">
+      <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCRvNfriugx0NdrdLeauMrU-T9Tr87a7nC-J4nvAoCW_TkiqjfVtVIlJP91Ik6MOOER3m_6SHZgiPfHnJtX0iMVO6ZKw1P35uXn8NGIoC6tveTbjBTXulXuQDrOLgugDb06sR0mF6t4wF-P3UOpyzP6wGvXetfE-qoHRIyRhZHpab56fAgLIzl0juu9z7X0LepiTAGCIQw_FSnOvAQtp-CcfOnBcg19DxmOeCqZICVR4LsNoXDtgTix5ZzRMECyixHzagr7bWx_bBs" alt="Jaipur Blue Pottery" class="w-11 h-11 rounded-lg object-cover border border-[#EADBCC] flex-shrink-0" loading="lazy"/>
+      <div class="min-w-0 flex-1">
+        <div class="text-[0.70rem] font-bold text-[#800000] uppercase tracking-wider flex items-center gap-1 truncate">
+          <i class="fa-solid fa-award text-[10px] text-[#B8860B]"></i> GI Certified • RJ
+        </div>
+        <div class="text-xs font-serif font-bold text-[#1A1715] dark:text-[#FDFBF7] truncate">
+          Jaipur Blue Pottery Vase
+        </div>
+        <div class="flex items-center gap-1.5 mt-0.5">
+          <span class="text-sm font-bold text-[#785600] font-mono leading-none">₹24,500</span>
+          <span class="text-[9px] bg-amber-50 text-amber-800 border border-amber-200 px-1 py-0.2 rounded font-semibold leading-tight">70% to Artisan</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Two High-Conversion Buttons -->
+    <div class="flex items-center gap-2 flex-shrink-0" style="display: flex; align-items: center; gap: 0.5rem;">
+      <button type="button" id="mobile-add-bag-btn" onclick="addToBagFromMobile('Jaipur Blue Pottery Masterpiece Vase', 24500, 'Rajasthan, India', 'https://lh3.googleusercontent.com/aida-public/AB6AXuCRvNfriugx0NdrdLeauMrU-T9Tr87a7nC-J4nvAoCW_TkiqjfVtVIlJP91Ik6MOOER3m_6SHZgiPfHnJtX0iMVO6ZKw1P35uXn8NGIoC6tveTbjBTXulXuQDrOLgugDb06sR0mF6t4wF-P3UOpyzP6wGvXetfE-qoHRIyRhZHpab56fAgLIzl0juu9z7X0LepiTAGCIQw_FSnOvAQtp-CcfOnBcg19DxmOeCqZICVR4LsNoXDtgTix5ZzRMECyixHzagr7bWx_bBs', this)" class="mobile-bar-btn-bag" title="Add to Bag">
+        <i class="fa-solid fa-bag-shopping text-xs"></i>
+        <span>Bag</span>
+      </button>
+
+      <button type="button" id="mobile-buy-now-btn" onclick="buyNowFromMobile('Jaipur Blue Pottery Masterpiece Vase', 24500, 'Rajasthan, India', 'https://lh3.googleusercontent.com/aida-public/AB6AXuCRvNfriugx0NdrdLeauMrU-T9Tr87a7nC-J4nvAoCW_TkiqjfVtVIlJP91Ik6MOOER3m_6SHZgiPfHnJtX0iMVO6ZKw1P35uXn8NGIoC6tveTbjBTXulXuQDrOLgugDb06sR0mF6t4wF-P3UOpyzP6wGvXetfE-qoHRIyRhZHpab56fAgLIzl0juu9z7X0LepiTAGCIQw_FSnOvAQtp-CcfOnBcg19DxmOeCqZICVR4LsNoXDtgTix5ZzRMECyixHzagr7bWx_bBs')" class="mobile-bar-btn-buy">
+        <span>Buy Now</span>
+        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+      </button>
+    </div>
+  </aside>
+
   <!-- Shared Application Scripts -->
+  <script>
+    function addToBagFromMobile(name, price, origin, imageUrl, btn) {
+      const cartItem = {
+        id: '60a8f48pottery',
+        name: name,
+        price: Number(price) || 24500,
+        state: 'Rajasthan',
+        origin: origin,
+        imageUrl: imageUrl,
+        craft: 'Jaipur Blue Pottery'
+      };
+      try {
+        let cart = JSON.parse(localStorage.getItem('parampara_cart') || '[]');
+        if (!Array.isArray(cart)) cart = [];
+        cart.push(cartItem);
+        localStorage.setItem('parampara_cart', JSON.stringify(cart));
+        window.dispatchEvent(new Event('cart-updated'));
+      } catch(e) {}
+
+      if (btn) {
+        const originalHTML = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check text-green-700"></i> <span class="text-[11px] text-green-700 font-bold">Added</span>';
+        btn.classList.add('border-green-600', 'bg-green-50');
+        setTimeout(() => {
+          btn.innerHTML = originalHTML;
+          btn.classList.remove('border-green-600', 'bg-green-50');
+        }, 2200);
+      }
+    }
+
+    function buyNowFromMobile(name, price, origin, imageUrl) {
+      addToBagFromMobile(name, price, origin, imageUrl);
+      window.location.href = `checkout.html?name=${encodeURIComponent(name)}&price=${price}&origin=${encodeURIComponent(origin)}`;
+    }
+  </script>
   <script src="js/auth.js"></script>
   <script src="js/nav.js"></script>
   <script src="js/components.js"></script>
