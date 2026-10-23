@@ -19,6 +19,8 @@ const PRECACHE_ASSETS = [
   './artisans.html',
   './about.html',
   './favicon.png',
+  './assets/parampara_logo.webp',
+  './assets/parampara_logo.png',
   './assets/parampara_logo_crest.webp',
   './css/index.css',
   './css/checkout.css',

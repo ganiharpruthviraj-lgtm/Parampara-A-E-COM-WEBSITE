@@ -34,7 +34,7 @@
       <div class="flex justify-between items-center h-20">
         <!-- Logo -->
         <a class="flex items-center" href="index.html">
-          <img alt="Parampara Logo" class="h-12 w-auto object-contain" src="assets/parampara_logo_crest.webp" onerror="this.src='assets/parampara_logo.webp'" loading="lazy"/>
+          <img alt="Parampara Logo" class="h-12 w-auto object-contain" src="assets/parampara_logo.webp" onerror="this.src='assets/parampara_logo.png'" loading="lazy"/>
         </a>
         <!-- Desktop Navigation -->
         <div class="hidden lg:flex items-center space-x-8" id="nav-desktop-links">
@@ -101,7 +101,7 @@
 <footer class="bg-[#1A1A1A] text-white py-12 text-center border-t border-white/10" id="global-footer">
   <div class="max-w-7xl mx-auto px-4">
     <a href="index.html" class="inline-block mb-6">
-      <img alt="Parampara" class="h-10 w-auto mx-auto object-contain opacity-90 hover:opacity-100 transition-opacity" src="assets/parampara_logo_crest.webp" onerror="this.src='assets/parampara_logo.webp'" loading="lazy"/>
+      <img alt="Parampara" class="h-10 w-auto mx-auto object-contain brightness-0 invert opacity-90 hover:opacity-100 transition-opacity" src="assets/parampara_logo.webp" onerror="this.src='assets/parampara_logo.png'" loading="lazy"/>
     </a>
     <p class="text-gray-400 text-sm mb-4">© 2026 Parampara. Preserving India's Craft Heritage.</p>
     <div class="flex justify-center flex-wrap gap-6 text-sm text-gray-500">
