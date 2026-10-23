@@ -535,7 +535,7 @@ router.put('/:id/status', async (req, res) => {
 
     if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(orderId)) {
       try {
-        order = await Order.findByIdAndUpdate(orderId, updateFields, { new: true, returnDocument: 'after' });
+        order = await Order.findByIdAndUpdate(orderId, updateFields, { returnDocument: 'after' });
       } catch (e) {}
     }
 
