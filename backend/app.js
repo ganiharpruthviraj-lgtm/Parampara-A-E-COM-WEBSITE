@@ -148,7 +148,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
   const jwtSecret = process.env.JWT_SECRET || '';
   const googleClientId = process.env.GOOGLE_CLIENT_ID || '';
 
-  if (!jwtSecret || jwtSecret.length < 32 || jwtSecret === 'your_jwt_secret_64_character_random_hex_string_here') {
+  if (!jwtSecret || jwtSecret.length < 64 || jwtSecret === 'your_jwt_secret_64_character_random_hex_string_here') {
     warnings.push('⚠️  JWT_SECRET is weak or not set. Generate one: node -e "console.log(require(\'crypto\').randomBytes(64).toString(\'hex\'))"');
   }
   if (['YOUR_GOOGLE_CLIENT_ID_GOES_HERE', 'GOOGLE_CLIENT_ID_PLACEHOLDER', 'dummy-client-id', 'YOUR_GOOGLE_CLIENT_ID', ''].includes(googleClientId)) {
