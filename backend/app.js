@@ -27,7 +27,7 @@ const defaultDevOrigins = [
 ];
 
 // --- Security Headers (helmet) ---
-// Configured to permit required CDN assets, Google GIS SDK, Apple ID SDK, fonts, images, and inline event listeners
+// Configured to permit required CDN assets, Razorpay SDK, Google GIS SDK, Apple ID SDK, fonts, images, and inline event listeners
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -41,7 +41,8 @@ app.use(
           "https://accounts.google.com",
           "https://appleid.cdn-apple.com",
           "https://cdnjs.cloudflare.com",
-          "https://unpkg.com"
+          "https://unpkg.com",
+          "https://checkout.razorpay.com"
         ],
         scriptSrcAttr: [
           "'self'",
@@ -76,12 +77,16 @@ app.use(
           "https://appleid.cdn-apple.com",
           "https://parampara-a-e-com-website-1.onrender.com",
           "https://parampara-a-e-com-website.vercel.app",
-          "https://*.vercel.app"
+          "https://*.vercel.app",
+          "https://api.razorpay.com",
+          "https://lumberjack.razorpay.com"
         ],
         frameSrc: [
           "'self'",
           "https://accounts.google.com",
-          "https://appleid.cdn-apple.com"
+          "https://appleid.cdn-apple.com",
+          "https://api.razorpay.com",
+          "https://checkout.razorpay.com"
         ]
       }
     }
@@ -139,7 +144,12 @@ const authLimiter = rateLimit({
 });
 
 app.use(compression());
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({
+  limit: '10mb',
+  verify: (req, res, buf) => {
+    req.rawBody = buf;
+  }
+}));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // --- Startup Production Readiness Warnings ---
@@ -147,12 +157,16 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
   const warnings = [];
   const jwtSecret = process.env.JWT_SECRET || '';
   const googleClientId = process.env.GOOGLE_CLIENT_ID || '';
+  const rzpKey = process.env.RAZORPAY_KEY_ID || '';
 
   if (!jwtSecret || jwtSecret.length < 64 || jwtSecret === 'your_jwt_secret_64_character_random_hex_string_here') {
     warnings.push('⚠️  JWT_SECRET is weak or not set. Generate one: node -e "console.log(require(\'crypto\').randomBytes(64).toString(\'hex\'))"');
   }
   if (['YOUR_GOOGLE_CLIENT_ID_GOES_HERE', 'GOOGLE_CLIENT_ID_PLACEHOLDER', 'dummy-client-id', 'YOUR_GOOGLE_CLIENT_ID', ''].includes(googleClientId)) {
     warnings.push('ℹ️  GOOGLE_CLIENT_ID is not configured — Google Sign-In will use Google GIS client SDK & demo fallbacks.');
+  }
+  if (!rzpKey || rzpKey.includes('your_') || rzpKey.includes('placeholder')) {
+    warnings.push('ℹ️  RAZORPAY_KEY_ID not configured — payments will run in Smart Sandbox Simulation Mode.');
   }
   if (process.env.NODE_ENV === 'production') {
     if (!process.env.ALLOWED_ORIGINS) {
@@ -168,7 +182,12 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
   }
 })();
 
-// Apply rate limiters
+const ordersRouter = require('./routes/orders');
+
+// Razorpay Dedicated Webhook Endpoint
+app.post('/webhook/razorpay', ordersRouter.handleRazorpayWebhook);
+
+// Apply rate limiters and route handlers
 app.use('/api/auth/login', authLimiter);
 app.use('/api/auth/register', authLimiter);
 app.use('/api/auth/google', authLimiter);
@@ -177,7 +196,7 @@ app.use('/api/auth', apiLimiter, require('./routes/auth'));
 app.use('/api/products', apiLimiter, require('./routes/products'));
 app.use('/api/saathi', apiLimiter, require('./routes/saathi'));
 app.use('/api/gi', apiLimiter, require('./routes/gi'));
-app.use('/api/orders', apiLimiter, require('./routes/orders'));
+app.use('/api/orders', apiLimiter, ordersRouter);
 
 // Parampara Mitra Chatbot Endpoint
 app.use('/api/chat', apiLimiter, require('./routes/chat'));

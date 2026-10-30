@@ -241,9 +241,14 @@
         <p class="text-xs text-gray-500 mt-0.5">Select your preferred 256-bit encrypted payment method.</p>
        </div>
       </div>
-      <span class="text-xs font-bold uppercase tracking-wider text-[#B8860B] bg-[#FAF9F5] px-3 py-1.5 rounded-full border border-[#B8860B]/30 hidden sm:inline-block">
-       Step 2 of 2
-      </span>
+      <div class="flex items-center gap-2">
+       <span class="inline-flex items-center gap-1.5 bg-[#0C2340]/5 border border-[#0C2340]/15 text-[#0C2340] px-2.5 py-1 rounded-full text-[11px] font-semibold">
+        <i class="fa-solid fa-shield-halved text-[#0C2340]"></i> Secured by Razorpay
+       </span>
+       <span class="text-xs font-bold uppercase tracking-wider text-[#B8860B] bg-[#FAF9F5] px-3 py-1.5 rounded-full border border-[#B8860B]/30 hidden sm:inline-block">
+        Step 2 of 2
+       </span>
+      </div>
      </div>
 
      <!-- Payment Method Switcher Tabs -->
@@ -392,7 +397,7 @@
        <span class="text-gray-500 font-medium">Estimated Delivery</span>
        <strong class="font-bold text-green-700" id="confirm-delivery">Oct 12 – 14, 2026</strong>
       </div>
-      <div class="pt-1 text-center bg-amber-50 p-2.5 rounded-xl border border-amber-200 text-amber-900 font-semibold text-[11px]">
+      <div id="confirm-artisan-payout" class="pt-1 text-center bg-amber-50 p-2.5 rounded-xl border border-amber-200 text-amber-900 font-semibold text-[11px]">
        <i class="fa-solid fa-hand-holding-heart text-[#B8860B] mr-1"></i> ₹ 17,150 (70%) transferred directly to master artisan's account.
       </div>
      </div>
@@ -636,6 +641,7 @@
    </div>
   </div>
 
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   <script src="js/checkout.js"></script>
   <script src="js/widget.js" defer></script>
  </body>

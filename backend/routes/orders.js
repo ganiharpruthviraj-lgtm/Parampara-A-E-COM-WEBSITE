@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const Order = require('../models/Order');
 const { protect } = require('../middleware/auth');
 const { generateOrderInvoicePDF } = require('../services/pdfInvoiceService');
+const razorpayService = require('../services/razorpayService');
 const { body, validationResult } = require('express-validator');
 
 // In-memory order fallback store for offline / memory execution
@@ -129,51 +130,14 @@ router.post('/', orderValidation, handleValidation, async (req, res) => {
 // @access  Public / Optional Auth
 router.post('/create-razorpay-order', async (req, res) => {
   try {
-    const { amount, currency = 'INR', receipt } = req.body;
+    const { amount, currency = 'INR', receipt, notes } = req.body;
 
     if (!amount || amount <= 0) {
       return res.status(400).json({ message: 'Valid payment amount in INR is required.' });
     }
 
-    const keyId = process.env.RAZORPAY_KEY_ID;
-    const keySecret = process.env.RAZORPAY_KEY_SECRET;
-
-    // 1. Live Razorpay SDK check if environment keys exist
-    if (keyId && keySecret && !keyId.includes('YOUR_') && !keyId.includes('PLACEHOLDER')) {
-      try {
-        const Razorpay = require('razorpay');
-        const instance = new Razorpay({ key_id: keyId, key_secret: keySecret });
-        const options = {
-          amount: Math.round(amount * 100), // amount in paise
-          currency,
-          receipt: receipt || `receipt_${Date.now()}`
-        };
-        const order = await instance.orders.create(options);
-        return res.json({
-          success: true,
-          mode: 'live',
-          keyId: keyId,
-          orderId: order.id,
-          amount: order.amount,
-          currency: order.currency
-        });
-      } catch (rzpErr) {
-        console.warn("Live Razorpay order creation failed, defaulting to simulated sandbox mode:", rzpErr.message);
-      }
-    }
-
-    // 2. Simulated Razorpay Payment Gateway Sandbox Mode
-    const simulatedOrderId = `order_rzp_demo_${Date.now()}_${Math.floor(Math.random() * 8999 + 1000)}`;
-
-    res.json({
-      success: true,
-      mode: 'sandbox_simulation',
-      keyId: 'rzp_test_parampara_heritage_demo_2026',
-      orderId: simulatedOrderId,
-      amount: Math.round(amount * 100),
-      currency: currency,
-      message: 'Razorpay Sandbox Gateway Initialized successfully.'
-    });
+    const orderData = await razorpayService.createOrder({ amount, currency, receipt, notes });
+    return res.json(orderData);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -192,20 +156,11 @@ router.post('/verify-payment', async (req, res) => {
       paymentMethod = 'Razorpay'
     } = req.body;
 
-    const keySecret = process.env.RAZORPAY_KEY_SECRET;
-
-    let isValid = false;
-
-    if (keySecret && razorpayOrderId && razorpayPaymentId && razorpaySignature) {
-      const generatedSignature = crypto
-        .createHmac('sha256', keySecret)
-        .update(razorpayOrderId + '|' + razorpayPaymentId)
-        .digest('hex');
-      isValid = generatedSignature === razorpaySignature;
-    } else {
-      // In simulation mode or direct mock verification
-      isValid = Boolean(razorpayPaymentId || razorpayOrderId);
-    }
+    const isValid = razorpayService.verifyPaymentSignature({
+      razorpayOrderId,
+      razorpayPaymentId,
+      razorpaySignature
+    });
 
     if (!isValid) {
       return res.status(400).json({ success: false, message: 'Payment signature verification failed.' });
@@ -560,5 +515,192 @@ router.put('/:id/status', async (req, res) => {
   }
 });
 
+// @desc    Disburse 70% direct artisan share via RazorpayX Payouts
+// @route   POST /api/orders/payout and POST /api/orders/:id/payout
+// @access  Public / Artisan Guild / Webhook
+async function handleArtisanPayout(req, res) {
+  try {
+    const orderId = req.params.id || req.body.orderId;
+    if (!orderId) {
+      return res.status(400).json({ success: false, message: 'Order ID is required for artisan disbursement.' });
+    }
+
+    let order = null;
+    if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(orderId)) {
+      try {
+        order = await Order.findById(orderId);
+      } catch (e) {}
+    }
+    if (!order && inMemoryOrders.has(orderId)) {
+      order = inMemoryOrders.get(orderId);
+    }
+    if (!order) {
+      for (const memOrder of inMemoryOrders.values()) {
+        if (memOrder._id === orderId || memOrder.id === orderId) {
+          order = memOrder;
+          break;
+        }
+      }
+    }
+
+    // Determine artisan payout amount (70% standard)
+    let payoutAmount = req.body.amount;
+    let artisanName = req.body.artisanName || 'Verified Heritage Artisan Guild';
+
+    if (order) {
+      if (!payoutAmount) {
+        payoutAmount = order.artisanSupportContribution || Math.round((order.totalPrice || 0) * 0.7);
+      }
+      if (order.orderItems && order.orderItems[0]?.artisanName) {
+        artisanName = order.orderItems[0].artisanName;
+      }
+    }
+
+    if (!payoutAmount || payoutAmount <= 0) {
+      payoutAmount = 3360; // fallback standard amount
+    }
+
+    const payoutResult = await razorpayService.disburseArtisanPayout({
+      orderId,
+      amount: payoutAmount,
+      artisanName,
+      mode: req.body.mode || 'UPI',
+      fundAccount: req.body.fundAccount || {},
+      narration: req.body.narration || `Parampara 70% Share: ${orderId}`
+    });
+
+    // Update order with payout status
+    if (order) {
+      order.payoutStatus = payoutResult.status || 'processed';
+      order.payoutResult = payoutResult;
+      if (typeof order.save === 'function') {
+        await order.save();
+      } else if (inMemoryOrders.has(orderId)) {
+        inMemoryOrders.set(orderId, order);
+      }
+    }
+
+    res.json({
+      success: true,
+      message: `70% direct artisan payout of ₹${payoutAmount.toLocaleString('en-IN')} disbursed successfully.`,
+      payout: payoutResult,
+      order: order || { _id: orderId, payoutStatus: 'processed' }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Artisan payout disbursement failed: ' + error.message });
+  }
+}
+
+// @desc    Razorpay Webhook Handler for payment and payout events
+// @route   POST /api/orders/webhook & /webhook/razorpay
+// @access  Public (Webhook signature verified)
+async function handleRazorpayWebhook(req, res) {
+  try {
+    const signature = req.headers['x-razorpay-signature'];
+    const rawBody = req.rawBody || (typeof req.body === 'string' ? req.body : JSON.stringify(req.body));
+
+    const isValid = razorpayService.verifyWebhookSignature(rawBody, signature);
+    if (!isValid) {
+      console.warn('⚠️ Webhook signature validation failed.');
+      return res.status(400).json({ success: false, message: 'Invalid webhook signature' });
+    }
+
+    const event = req.body ? req.body.event : null;
+    const payload = (req.body && req.body.payload) ? req.body.payload : {};
+
+    console.log(`🔔 Razorpay Webhook Event Received: ${event}`);
+
+    if (event === 'payment.captured' || event === 'order.paid') {
+      const paymentEntity = payload.payment ? payload.payment.entity : (payload.order ? payload.order.entity : {});
+      const rzpOrderId = paymentEntity.order_id || paymentEntity.id;
+      const rzpPaymentId = paymentEntity.id;
+      const orderRef = paymentEntity.notes?.orderId || paymentEntity.receipt;
+
+      let matchedOrder = null;
+      if (mongoose.connection.readyState === 1) {
+        try {
+          if (orderRef && mongoose.Types.ObjectId.isValid(orderRef)) {
+            matchedOrder = await Order.findById(orderRef);
+          }
+          if (!matchedOrder && rzpOrderId) {
+            matchedOrder = await Order.findOne({ 'paymentResult.razorpayOrderId': rzpOrderId });
+          }
+        } catch (e) {}
+      }
+
+      if (!matchedOrder && orderRef && inMemoryOrders.has(orderRef)) {
+        matchedOrder = inMemoryOrders.get(orderRef);
+      }
+
+      if (matchedOrder) {
+        matchedOrder.isPaid = true;
+        matchedOrder.paidAt = new Date();
+        matchedOrder.orderStatus = 'Handcrafted';
+        matchedOrder.paymentResult = {
+          id: rzpPaymentId,
+          status: 'Captured',
+          update_time: new Date().toISOString(),
+          razorpayOrderId: rzpOrderId,
+          razorpayPaymentId: rzpPaymentId,
+          email_address: paymentEntity.email || ''
+        };
+
+        // Automatically trigger 70% artisan disbursement
+        const artisanShare = matchedOrder.artisanSupportContribution || Math.round((matchedOrder.totalPrice || 0) * 0.7);
+        const payout = await razorpayService.disburseArtisanPayout({
+          orderId: matchedOrder._id || orderRef,
+          amount: artisanShare,
+          artisanName: matchedOrder.orderItems?.[0]?.artisanName || 'Verified Heritage Artisan Guild',
+          mode: 'UPI'
+        });
+
+        matchedOrder.payoutStatus = 'processed';
+        matchedOrder.payoutResult = payout;
+
+        if (typeof matchedOrder.save === 'function') {
+          await matchedOrder.save();
+        } else if (orderRef) {
+          inMemoryOrders.set(orderRef, matchedOrder);
+        }
+      }
+    } else if (event === 'payout.processed') {
+      const payoutEntity = payload.payout ? payload.payout.entity : {};
+      const refId = payoutEntity.reference_id;
+      if (refId && mongoose.connection.readyState === 1) {
+        try {
+          await Order.findOneAndUpdate(
+            { $or: [{ _id: refId }, { 'payoutResult.payoutId': payoutEntity.id }] },
+            { payoutStatus: 'processed' }
+          );
+        } catch (e) {}
+      }
+    } else if (event === 'payout.reversed' || event === 'payout.failed') {
+      const payoutEntity = payload.payout ? payload.payout.entity : {};
+      const refId = payoutEntity.reference_id;
+      if (refId && mongoose.connection.readyState === 1) {
+        try {
+          await Order.findOneAndUpdate(
+            { $or: [{ _id: refId }, { 'payoutResult.payoutId': payoutEntity.id }] },
+            { payoutStatus: 'failed' }
+          );
+        } catch (e) {}
+      }
+    }
+
+    res.json({ success: true, event, status: 'processed' });
+  } catch (error) {
+    console.error('Webhook processing error:', error);
+    res.status(500).json({ success: false, message: error.message });
+  }
+}
+
+// Artisan Payout routes
+router.post('/payout', handleArtisanPayout);
+router.post('/:id/payout', handleArtisanPayout);
+
+// Webhook route on router
+router.post('/webhook', handleRazorpayWebhook);
+
+router.handleRazorpayWebhook = handleRazorpayWebhook;
 module.exports = router;
 

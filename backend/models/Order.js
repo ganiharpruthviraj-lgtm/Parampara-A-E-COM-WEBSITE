@@ -54,6 +54,22 @@ const orderSchema = new mongoose.Schema(
     totalPrice: { type: Number, required: true, default: 0.0 },
     isPaid: { type: Boolean, required: true, default: false },
     paidAt: { type: Date },
+    payoutStatus: {
+      type: String,
+      enum: ['pending', 'queued', 'processing', 'processed', 'reversed', 'failed'],
+      default: 'pending'
+    },
+    payoutResult: {
+      id: { type: String },
+      payoutId: { type: String },
+      amount: { type: Number },
+      currency: { type: String, default: 'INR' },
+      status: { type: String },
+      utr: { type: String },
+      disbursementMode: { type: String },
+      artisanName: { type: String },
+      disbursedAt: { type: String }
+    },
     awb: { type: String },
     orderStatus: {
       type: String,

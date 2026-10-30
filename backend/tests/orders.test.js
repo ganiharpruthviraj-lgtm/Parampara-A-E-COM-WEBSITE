@@ -187,5 +187,95 @@ describe('Orders & Razorpay Payment Gateway API', () => {
     });
   });
 
+  describe('Artisan Payouts via RazorpayX (POST /api/orders/:id/payout)', () => {
+    it('should disburse 70% direct artisan payout for an order', async () => {
+      const createRes = await request(app)
+        .post('/api/orders')
+        .send(sampleOrderPayload);
+
+      const orderId = createRes.body.data._id;
+
+      const payoutRes = await request(app)
+        .post(`/api/orders/${orderId}/payout`)
+        .send({
+          mode: 'UPI',
+          fundAccount: { vpa: 'bhuttico.weavers@upi' }
+        });
+
+      expect(payoutRes.statusCode).toBe(200);
+      expect(payoutRes.body.success).toBe(true);
+      expect(payoutRes.body).toHaveProperty('payout');
+      expect(payoutRes.body.payout.amount).toBe(3360); // 70% of 4800
+      expect(payoutRes.body.payout.status).toBe('processed');
+      expect(payoutRes.body.payout).toHaveProperty('utr');
+    });
+  });
+
+  describe('Razorpay Webhook Handler (POST /webhook/razorpay & /api/orders/webhook)', () => {
+    it('should process payment.captured event, mark order paid, and trigger artisan disbursement', async () => {
+      const createRes = await request(app)
+        .post('/api/orders')
+        .send(sampleOrderPayload);
+
+      const orderId = createRes.body.data._id;
+
+      const webhookPayload = {
+        event: 'payment.captured',
+        payload: {
+          payment: {
+            entity: {
+              id: 'pay_test_webhook_123',
+              order_id: 'order_test_webhook_456',
+              amount: 504000,
+              currency: 'INR',
+              status: 'captured',
+              email: 'collector@parampara.org',
+              notes: {
+                orderId: orderId
+              }
+            }
+          }
+        }
+      };
+
+      const res = await request(app)
+        .post('/webhook/razorpay')
+        .send(webhookPayload);
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body.success).toBe(true);
+      expect(res.body.event).toBe('payment.captured');
+
+      // Verify the order was updated in DB
+      const orderCheck = await request(app).get(`/api/orders/${orderId}`);
+      expect(orderCheck.body.data.isPaid).toBe(true);
+      expect(orderCheck.body.data.payoutStatus).toBe('processed');
+    });
+
+    it('should process payout.processed webhook event', async () => {
+      const webhookPayload = {
+        event: 'payout.processed',
+        payload: {
+          payout: {
+            entity: {
+              id: 'pout_test_webhook_789',
+              amount: 336000,
+              status: 'processed',
+              reference_id: 'sample-ref-id'
+            }
+          }
+        }
+      };
+
+      const res = await request(app)
+        .post('/api/orders/webhook')
+        .send(webhookPayload);
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body.success).toBe(true);
+      expect(res.body.event).toBe('payout.processed');
+    });
+  });
+
 });
 

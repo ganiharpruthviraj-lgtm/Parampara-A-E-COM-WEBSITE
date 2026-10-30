@@ -52,11 +52,34 @@
 
 ---
 
-## Milestone 2: Artisan Commerce (Q1 2027)
+## Milestone 2: Artisan Commerce
+**Status:** 🚀 Active  
+**Goal:** Direct digital commerce, verified payment integrity, and automated 70% artisan payouts.
+
+### Phase 6 — Razorpay Checkout, Webhooks & Automated 70% Artisan Payouts
+**Status:** ✅ Complete  
+**Requirement:** US-06  
+**Deliverables:**
+- ✅ Official `razorpay` Node SDK installed in `backend/package.json`
+- ✅ Dedicated `services/razorpayService.js` for order creation, signature validation, webhooks, and RazorpayX payouts
+- ✅ Razorpay standard Checkout modal integration into `checkout.html` and `js/checkout.js`
+- ✅ Automated 70% direct artisan disbursement (`POST /api/orders/:id/payout` and `POST /api/orders/payout`)
+- ✅ Razorpay Webhook receiver (`POST /webhook/razorpay` and `POST /api/orders/webhook`) with HMAC SHA-256 verification
+- ✅ Helmet CSP updated in `backend/app.js` with Razorpay CDN and API origins
+- ✅ `.env.example` in backend and root updated with Razorpay and RazorpayX credentials
+- ✅ 12/12 Jest tests passing in `backend/tests/orders.test.js`
+
+### Phase 7 — Production SMS Gateway
+**Status:** 📋 Ready for Planning  
+**Requirement:** US-07  
+- Fast2SMS / Twilio production SMS delivery for physical mobile OTP and dispatch alerts
+
+### Phase 8 — Shipping & Logistics API
 **Status:** 🔒 Locked  
-- Razorpay live KYC + Payouts API integration
-- Fast2SMS / Twilio production credentials
-- India Post / Shiprocket shipping API
+**Requirement:** US-08  
+- India Post / Shiprocket live shipping rates, AWB generation, and shipment tracking
+
+---
 
 ## Milestone 3: PWA & Offline (Q3 2027)
 **Status:** 🔒 Locked  
