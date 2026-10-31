@@ -1461,10 +1461,35 @@ window.placeOrder = async function() {
     // 1. YouPI-PG Gateway Route (Zero Platform Fee & Direct Bank Routing)
     if (currentPayMethod === 'youpi') {
       if (typeof window.Youpi !== 'undefined' && typeof window.Youpi.pay === 'function') {
+        let youpiSessionData = null;
+        try {
+          const ypRes = await fetch(`${API_BASE}/orders/youpi-create`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              orderId: confirmedOrderId,
+              amount: total,
+              currency: 'INR',
+              customer: {
+                name: `${firstName} ${lastName}`.trim(),
+                email: emailVal,
+                phone: phoneVal
+              }
+            })
+          });
+          if (ypRes.ok) {
+            youpiSessionData = await ypRes.json();
+          }
+        } catch (ypErr) {
+          console.warn('YouPI backend session pre-creation notice:', ypErr);
+        }
+
         window.Youpi.pay({
           order_id: confirmedOrderId,
           amount: total,
           currency: 'INR',
+          merchant_vpa: youpiSessionData?.merchantVpa || 'parampara.ateliers@icici',
+          merchant_name: youpiSessionData?.merchantName || 'Parampara Royal Ateliers',
           prefill: {
             name: `${firstName} ${lastName}`.trim(),
             email: emailVal,
@@ -1549,17 +1574,31 @@ async function finalizeOrder({ orderId, razorpayOrderId, razorpayPaymentId, paym
   try {
     // 1. Backend Payment Verification
     try {
-      await fetch(`${API_BASE}/orders/verify-payment`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          orderId,
-          razorpayOrderId,
-          razorpayPaymentId,
-          paymentMethod
-        })
-      });
-    } catch (e) {}
+      if (paymentMethod === 'YouPI Gateway') {
+        await fetch(`${API_BASE}/orders/youpi-verify`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            orderId,
+            utr: razorpayOrderId,
+            paymentId: razorpayPaymentId
+          })
+        });
+      } else {
+        await fetch(`${API_BASE}/orders/verify-payment`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            orderId,
+            razorpayOrderId,
+            razorpayPaymentId,
+            paymentMethod
+          })
+        });
+      }
+    } catch (e) {
+      console.warn('Backend payment verification notice:', e);
+    }
 
     // 2. Trigger 70% Direct Artisan Disbursement via RazorpayX
     try {
