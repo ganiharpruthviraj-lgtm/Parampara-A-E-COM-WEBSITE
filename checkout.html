@@ -337,15 +337,19 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-              <button onclick="selectPayMethod('upi'); document.getElementById('panel-upi')?.scrollIntoView({behavior:'smooth'});" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#FAF7F2] hover:bg-[#f3ede1] border border-[#B8860B]/40 transition text-xs font-serif font-bold uppercase tracking-wider text-stone-800 shadow-xs group" type="button">
-                <span class="material-symbols-outlined text-base text-[#785600] group-hover:scale-110 transition-transform">account_balance_wallet</span>
-                <span>Instant UPI Pay</span>
+              <button onclick="selectPayMethod('razorpay'); triggerRazorpayCheckout();" class="flex items-center justify-center gap-2.5 py-3 px-4 rounded bg-[#0C2340] text-white hover:bg-[#17375E] border border-[#3395FF]/40 transition text-xs font-sans font-bold tracking-wide shadow-xs group" type="button">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="#3395FF">
+                  <path d="M12.3 2.1L4.8 14.8H12.9L8.1 22.8L20.6 8.5H12.6L14.7 2.1H12.3Z"/>
+                </svg>
+                <span>Pay with Razorpay</span>
               </button>
-              <button onclick="placeOrder()" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#1C1B1B] text-white hover:bg-stone-900 border border-stone-800 transition text-xs font-serif font-semibold uppercase tracking-wider shadow-xs" type="button">
-                <span class="font-headline italic font-bold text-amber-300 text-sm">G</span> Pay Sovereign
+              <button onclick="selectPayMethod('upi'); scrollToSection('payment');" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#FAF7F2] hover:bg-[#f3ede1] border border-[#B8860B]/40 transition text-xs font-serif font-bold uppercase tracking-wider text-stone-800 shadow-xs group" type="button">
+                <span class="material-symbols-outlined text-base text-[#785600] group-hover:scale-110 transition-transform">qr_code_scanner</span>
+                <span>Instant UPI &amp; QR</span>
               </button>
-              <button onclick="placeOrder()" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#FAF7F2] border border-[#B8860B]/40 hover:bg-[#f3ede1] text-stone-800 transition text-xs font-serif font-semibold uppercase tracking-wider shadow-xs" type="button">
-                <span class="font-sans font-bold text-sm"></span> Apple Pay
+              <button onclick="selectPayMethod('card'); scrollToSection('payment');" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#FAF7F2] border border-[#B8860B]/40 hover:bg-[#f3ede1] text-stone-800 transition text-xs font-serif font-semibold uppercase tracking-wider shadow-xs" type="button">
+                <span class="material-symbols-outlined text-base text-[#785600]">credit_card</span>
+                <span>Sovereign Card</span>
               </button>
             </div>
 
@@ -643,14 +647,25 @@
             </div>
 
             <!-- Authentic Payment Method Navigation Tabs -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1" id="payment-tabs-container">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 pt-1" id="payment-tabs-container">
+              <button type="button" onclick="selectPayMethod('razorpay')" id="tab-btn-razorpay" class="pay-tab-btn col-span-2 sm:col-span-1 flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-active">
+                <div class="flex items-center gap-1.5 mb-1">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="#3395FF">
+                    <path d="M12.3 2.1L4.8 14.8H12.9L8.1 22.8L20.6 8.5H12.6L14.7 2.1H12.3Z"/>
+                  </svg>
+                  <span class="text-xs font-bold text-[#0C2340] font-sans">Razorpay</span>
+                </div>
+                <span class="text-xs font-serif font-bold uppercase tracking-wider text-[#785600]">Gateway</span>
+                <span class="text-[9px] text-stone-400 font-sans">UPI, Cards, Banks</span>
+              </button>
+
               <button type="button" onclick="selectPayMethod('upi')" id="tab-btn-upi" class="pay-tab-btn flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-inactive">
                 <span class="material-symbols-outlined text-xl mb-1 text-[#785600]">qr_code_scanner</span>
                 <span class="text-xs font-serif font-bold uppercase tracking-wider">Instant UPI</span>
                 <span class="text-[9px] text-stone-400 font-sans">GPay, PhonePe, QR</span>
               </button>
 
-              <button type="button" onclick="selectPayMethod('card')" id="tab-btn-card" class="pay-tab-btn flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-active">
+              <button type="button" onclick="selectPayMethod('card')" id="tab-btn-card" class="pay-tab-btn flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-inactive">
                 <span class="material-symbols-outlined text-xl mb-1 text-[#785600]">credit_card</span>
                 <span class="text-xs font-serif font-bold uppercase tracking-wider">Sovereign Card</span>
                 <span class="text-[9px] text-stone-400 font-sans">RuPay, Visa, MC</span>
@@ -662,11 +677,72 @@
                 <span class="text-[9px] text-stone-400 font-sans">Top 40 Treasuries</span>
               </button>
 
-              <button type="button" onclick="selectPayMethod('cod')" id="tab-btn-cod" class="pay-tab-btn flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-inactive">
+              <button type="button" onclick="selectPayMethod('cod')" id="tab-btn-cod" class="pay-tab-btn col-span-2 sm:col-span-1 flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-inactive">
                 <span class="material-symbols-outlined text-xl mb-1 text-[#785600]">local_shipping</span>
                 <span class="text-xs font-serif font-bold uppercase tracking-wider">Cash on Delivery</span>
                 <span class="text-[9px] text-stone-400 font-sans">Verified Postal Pin</span>
               </button>
+            </div>
+
+            <!-- ─── PANEL 0: RAZORPAY OFFICIAL GATEWAY SUITE ─── -->
+            <div id="panel-razorpay" class="space-y-4 pt-2">
+              <div class="bg-white rounded-2xl p-5 sm:p-6 border-2 border-[#3395FF]/40 shadow-xs space-y-5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-stone-200">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-[#0C2340] flex items-center justify-center text-[#3395FF] shadow-xs">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12.3 2.1L4.8 14.8H12.9L8.1 22.8L20.6 8.5H12.6L14.7 2.1H12.3Z"/>
+                      </svg>
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <h4 class="font-headline text-base font-bold text-[#0C2340]">Razorpay Official Gateway</h4>
+                        <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-sans font-bold uppercase tracking-wider">Verified Gateway</span>
+                      </div>
+                      <p class="text-xs text-stone-500 font-serif">Escrow Protected • 70% Direct Master Artisan Payout</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-2 text-xs font-mono text-stone-500 bg-stone-50 px-3 py-1.5 rounded-lg border border-stone-200">
+                    <span class="material-symbols-outlined text-sm text-emerald-600">verified</span>
+                    <span>256-Bit Escrow Vault</span>
+                  </div>
+                </div>
+
+                <!-- Supported Channels Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs font-serif text-stone-700">
+                  <div class="p-2.5 rounded-lg bg-[#FAF7F2] border border-[#E6DFD5] flex flex-col items-center gap-1">
+                    <span class="material-symbols-outlined text-base text-[#785600]">qr_code_scanner</span>
+                    <span class="font-bold text-[11px]">UPI &amp; QR</span>
+                    <span class="text-[9px] text-stone-400 font-sans">GPay, PhonePe, Paytm</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-[#FAF7F2] border border-[#E6DFD5] flex flex-col items-center gap-1">
+                    <span class="material-symbols-outlined text-base text-[#785600]">credit_card</span>
+                    <span class="font-bold text-[11px]">All Bank Cards</span>
+                    <span class="text-[9px] text-stone-400 font-sans">RuPay, Visa, MC</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-[#FAF7F2] border border-[#E6DFD5] flex flex-col items-center gap-1">
+                    <span class="material-symbols-outlined text-base text-[#785600]">account_balance</span>
+                    <span class="font-bold text-[11px]">50+ NetBanking</span>
+                    <span class="text-[9px] text-stone-400 font-sans">SBI, HDFC, ICICI</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-[#FAF7F2] border border-[#E6DFD5] flex flex-col items-center gap-1">
+                    <span class="material-symbols-outlined text-base text-[#785600]">account_balance_wallet</span>
+                    <span class="font-bold text-[11px]">Wallets &amp; EMI</span>
+                    <span class="text-[9px] text-stone-400 font-sans">Cred, Mobikwik</span>
+                  </div>
+                </div>
+
+                <!-- Launch Razorpay Button -->
+                <div class="pt-2 text-center space-y-2">
+                  <button type="button" onclick="triggerRazorpayCheckout()" id="btn-launch-razorpay" class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#0C2340] to-[#17375E] text-white hover:to-[#0C2340] font-sans font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2.5 border border-[#3395FF]/40 cursor-pointer">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="#3395FF">
+                      <path d="M12.3 2.1L4.8 14.8H12.9L8.1 22.8L20.6 8.5H12.6L14.7 2.1H12.3Z"/>
+                    </svg>
+                    <span id="btn-razorpay-text">Launch Razorpay Gateway • Pay ₹19,790</span>
+                  </button>
+                  <p class="text-[11px] text-stone-500 font-serif">Click above to open the secure Razorpay checkout modal or click "Ratify Order" at the bottom.</p>
+                </div>
+              </div>
             </div>
 
             <!-- ─── PANEL 1: INSTANT UPI & DYNAMIC QR ─── -->
@@ -1111,6 +1187,139 @@
 
     </div>
   </main>
+
+  <!-- ─── RAZORPAY OFFICIAL TEST/SANDBOX CHECKOUT MODAL ─── -->
+  <div class="fixed inset-0 z-[250] bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto" id="razorpay-interactive-modal">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full relative my-6 overflow-hidden border border-stone-300">
+      
+      <!-- Test Mode Corner Ribbon -->
+      <div class="absolute top-0 right-0 z-20">
+        <span class="inline-block bg-[#E53E3E] text-white text-[9px] font-sans font-bold uppercase tracking-widest px-3 py-1 rounded-bl-lg shadow-sm">
+          Test Mode
+        </span>
+      </div>
+
+      <!-- Razorpay Blue Header -->
+      <div class="bg-[#0C2340] text-white p-5 pt-6 relative">
+        <button type="button" onclick="closeRazorpayModal()" class="absolute top-3.5 left-3.5 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm font-bold transition">
+          &times;
+        </button>
+        <div class="flex items-center gap-3.5 pl-6">
+          <div class="w-12 h-12 rounded-xl bg-white p-1.5 shadow-md flex items-center justify-center shrink-0 border border-white/20">
+            <img src="assets/parampara_logo_crest.webp" alt="Parampara Crest" class="w-full h-full object-contain" onerror="this.src='assets/products/blue_pottery_vase.webp'"/>
+          </div>
+          <div class="min-w-0 pr-16">
+            <h3 class="font-sans font-bold text-sm sm:text-base text-white truncate leading-tight">Parampara Royal Ateliers</h3>
+            <p class="text-[11px] text-blue-200 font-sans truncate">Privileged Master Artisan Acquisition</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Amount Strip -->
+      <div class="bg-[#17375E] text-white px-5 py-3 flex items-center justify-between border-t border-white/10">
+        <div class="text-[11px] text-blue-200 font-sans">
+          <span>Amount Payable</span>
+          <span class="block text-[10px] text-blue-300/80" id="rzp-modal-customer-info">ananya@archival-arts.org</span>
+        </div>
+        <div class="text-right">
+          <span class="font-sans font-bold text-base sm:text-lg text-white" id="rzp-modal-amount">₹19,790.00</span>
+        </div>
+      </div>
+
+      <!-- Modal Body: Tabs / Methods -->
+      <div class="p-5 space-y-4 relative">
+        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-sans flex items-start gap-2.5">
+          <span class="material-symbols-outlined text-base text-amber-700 shrink-0">info</span>
+          <div>
+            <p class="font-bold">Razorpay Test Gateway Simulated Sandbox</p>
+            <p class="text-[11px] text-amber-800 mt-0.5 leading-relaxed">
+              Test mode is active. Choose any payment method below to authorize an authentic Razorpay settlement with simulated signature verification and 70% direct artisan allocation.
+            </p>
+          </div>
+        </div>
+
+        <!-- Payment Method Accordion / Selector -->
+        <div class="space-y-2 font-sans text-xs">
+          <!-- UPI Option -->
+          <div class="border border-stone-200 rounded-xl p-3.5 hover:border-[#3395FF] cursor-pointer transition bg-stone-50/60" onclick="simulateRzpPayment('UPI')">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-blue-50 text-[#3395FF] flex items-center justify-center">
+                  <span class="material-symbols-outlined text-sm">qr_code_scanner</span>
+                </span>
+                <div>
+                  <strong class="text-stone-900 block text-xs">UPI (Google Pay, PhonePe, Paytm, QR)</strong>
+                  <span class="text-[10px] text-stone-500 font-sans">Instant approval via UPI app or simulated collect</span>
+                </div>
+              </div>
+              <span class="text-[#3395FF] font-bold text-[11px]">Pay &rarr;</span>
+            </div>
+          </div>
+
+          <!-- Card Option -->
+          <div class="border border-stone-200 rounded-xl p-3.5 hover:border-[#3395FF] cursor-pointer transition bg-stone-50/60" onclick="simulateRzpPayment('Card')">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-sm">credit_card</span>
+                </span>
+                <div>
+                  <strong class="text-stone-900 block text-xs">Cards (RuPay, Visa, Mastercard, Amex)</strong>
+                  <span class="text-[10px] text-stone-500 font-sans">Test Card: •••• 8821 (Authorized OTP simulation)</span>
+                </div>
+              </div>
+              <span class="text-[#3395FF] font-bold text-[11px]">Pay &rarr;</span>
+            </div>
+          </div>
+
+          <!-- NetBanking Option -->
+          <div class="border border-stone-200 rounded-xl p-3.5 hover:border-[#3395FF] cursor-pointer transition bg-stone-50/60" onclick="simulateRzpPayment('NetBanking')">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2.5">
+                <span class="w-7 h-7 rounded-lg bg-purple-50 text-purple-600 flex items-center justify-center">
+                  <span class="material-symbols-outlined text-sm">account_balance</span>
+                </span>
+                <div>
+                  <strong class="text-stone-900 block text-xs">NetBanking (SBI, HDFC, ICICI, Axis)</strong>
+                  <span class="text-[10px] text-stone-500 font-sans">Instant bank gateway escrow authorization</span>
+                </div>
+              </div>
+              <span class="text-[#3395FF] font-bold text-[11px]">Pay &rarr;</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Action Buttons -->
+        <div class="pt-2 space-y-2">
+          <button type="button" onclick="simulateRzpPayment('OneClick')" id="btn-rzp-success-test" class="w-full py-3 px-4 rounded-xl bg-[#3395FF] hover:bg-[#0070e0] text-white font-sans font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 cursor-pointer">
+            <span class="material-symbols-outlined text-sm">bolt</span>
+            <span>⚡ 1-Click Complete Payment (Success)</span>
+          </button>
+          <button type="button" onclick="simulateRzpFailure()" class="w-full py-2 text-stone-400 hover:text-red-600 text-xs font-sans transition text-center cursor-pointer">
+            Simulate Payment Failure / Decline
+          </button>
+        </div>
+
+        <!-- Processing State Overlay (hidden by default) -->
+        <div id="rzp-processing-overlay" class="hidden absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 space-y-3 z-30">
+          <div class="w-12 h-12 rounded-full border-3 border-[#3395FF] border-t-transparent animate-spin"></div>
+          <h4 class="font-sans font-bold text-sm text-[#0C2340]" id="rzp-processing-title">Authorizing Razorpay Settlement...</h4>
+          <p class="text-xs text-stone-500 font-sans" id="rzp-processing-sub">Verifying HMAC SHA-256 signature with RBI Escrow</p>
+        </div>
+      </div>
+
+      <!-- Razorpay Footer Stamp -->
+      <div class="bg-stone-50 px-5 py-3 border-t border-stone-200 flex items-center justify-between text-[11px] text-stone-500 font-sans">
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-xs text-stone-400">lock</span>
+          <span>Secured by</span>
+          <strong class="text-[#0C2340]">Razorpay</strong>
+        </div>
+        <span class="text-[10px] text-stone-400 font-sans">PCI-DSS Compliant</span>
+      </div>
+
+    </div>
+  </div>
 
   <!-- ─── AUTHENTIC 3D SECURE BANKING OTP VERIFICATION MODAL ─── -->
   <div class="fixed inset-0 z-[250] bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto" id="bank-otp-modal">

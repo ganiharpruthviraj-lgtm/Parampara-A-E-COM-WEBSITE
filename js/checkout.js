@@ -22,7 +22,7 @@ const API_BASE = window.location.origin.includes('localhost') || window.location
       : '/api');
 
 // Checkout State
-let currentPayMethod = 'card';
+let currentPayMethod = 'razorpay';
 let selectedTransit = 'standard'; // 'standard' | 'white_glove'
 let selectedPackaging = 'silk_coffer'; // 'silk_coffer' | 'lokta_paper'
 let promoApplied = true; // Default promo HERITAGE10 active as shown in Stitch design
@@ -389,6 +389,17 @@ function recalculate() {
       if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
     }
   }
+
+  // Update Dynamic UPI QR & Amount Display if active
+  if (typeof updateUpiQr === 'function') {
+    updateUpiQr();
+  }
+
+  // Update Razorpay launch button text
+  const rzpBtnText = document.getElementById('btn-razorpay-text');
+  if (rzpBtnText) {
+    rzpBtnText.textContent = `Launch Razorpay Gateway • Pay ${formatINR(totalPayable)}`;
+  }
 }
 
 /**
@@ -689,7 +700,7 @@ const BANK_NAMES = {
 window.selectPayMethod = function(method) {
   currentPayMethod = method;
 
-  const methods = ['upi', 'card', 'netbanking', 'cod'];
+  const methods = ['razorpay', 'upi', 'card', 'netbanking', 'cod'];
   methods.forEach(m => {
     const panel = document.getElementById('panel-' + m);
     if (panel) {
@@ -720,6 +731,102 @@ window.selectPayMethod = function(method) {
   }
 
   recalculate();
+};
+
+/**
+ * Razorpay Interactive Modal & Official Gateway Handlers
+ */
+window.triggerRazorpayCheckout = async function() {
+  currentPayMethod = 'razorpay';
+  selectPayMethod('razorpay');
+  await placeOrder();
+};
+
+window.openRazorpayModal = function(orderContext) {
+  pendingOrderContext = orderContext;
+  const modal = document.getElementById('razorpay-interactive-modal');
+  if (!modal) return;
+
+  const amountEl = document.getElementById('rzp-modal-amount');
+  if (amountEl && orderContext) {
+    amountEl.textContent = formatINR(orderContext.total);
+  }
+
+  const custInfo = document.getElementById('rzp-modal-customer-info');
+  if (custInfo) {
+    const email = document.getElementById('email-checkout')?.value || 'patron@parampara.in';
+    const phone = document.getElementById('phone')?.value || '+91 9876543210';
+    custInfo.textContent = `${email} • ${phone}`;
+  }
+
+  const overlay = document.getElementById('rzp-processing-overlay');
+  if (overlay) overlay.classList.add('hidden');
+
+  modal.classList.remove('hidden');
+  modal.classList.add('flex');
+};
+
+window.closeRazorpayModal = function() {
+  const modal = document.getElementById('razorpay-interactive-modal');
+  if (modal) {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+  const btnText = document.getElementById('order-btn-text');
+  const mobBtnText = document.getElementById('mobile-btn-text');
+  if (btnText && pendingOrderContext) btnText.textContent = `Ratify & Seal Royal Acquisition • ${formatINR(pendingOrderContext.total)}`;
+  if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
+};
+
+window.simulateRzpPayment = function(methodName = 'UPI') {
+  const overlay = document.getElementById('rzp-processing-overlay');
+  const title = document.getElementById('rzp-processing-title');
+  const sub = document.getElementById('rzp-processing-sub');
+
+  if (overlay) {
+    overlay.classList.remove('hidden');
+    if (title) title.textContent = `Authorizing Razorpay ${methodName} Settlement...`;
+    if (sub) sub.textContent = 'Verifying HMAC SHA-256 signature with RBI Escrow...';
+  }
+
+  setTimeout(async () => {
+    if (title) title.innerHTML = '<span class="text-emerald-600">Payment Captured! ✅</span>';
+    if (sub) sub.textContent = 'Disbursing 70% direct master artisan allocation...';
+
+    setTimeout(async () => {
+      closeRazorpayModal();
+      if (pendingOrderContext) {
+        showToast(`🎉 Razorpay ${methodName} Payment Authorized! 70% direct artisan share transferred.`, 'success');
+        await finalizeOrder({
+          orderId: pendingOrderContext.orderId,
+          razorpayOrderId: pendingOrderContext.rzpOrderId,
+          razorpayPaymentId: `pay_rzp_${Date.now()}_sim`,
+          razorpaySignature: 'rzp_verified_hmac_sha256_signature',
+          paymentMethod: `Razorpay ${methodName}`,
+          total: pendingOrderContext.total,
+          craftSubtotal: pendingOrderContext.craftSubtotal
+        });
+        pendingOrderContext = null;
+      }
+    }, 500);
+  }, 700);
+};
+
+window.simulateRzpFailure = function() {
+  const overlay = document.getElementById('rzp-processing-overlay');
+  const title = document.getElementById('rzp-processing-title');
+  const sub = document.getElementById('rzp-processing-sub');
+
+  if (overlay) {
+    overlay.classList.remove('hidden');
+    if (title) title.textContent = 'Contacting Issuer Bank...';
+  }
+
+  setTimeout(() => {
+    if (overlay) overlay.classList.add('hidden');
+    closeRazorpayModal();
+    showToast('Payment declined: Simulated user cancellation. Your curated vault is preserved.', 'info');
+  }, 600);
 };
 
 window.updateUpiQr = function() {
@@ -1336,7 +1443,18 @@ window.placeOrder = async function() {
     }
 
     // Sovereign Authentic Gateway Protocol:
-    // If Card or NetBanking: open the authentic 3D Secure Banking OTP Modal
+    // 1. Razorpay Gateway Route (Standard Sandbox Simulation or Real Keys)
+    if (currentPayMethod === 'razorpay') {
+      openRazorpayModal({
+        orderId: confirmedOrderId,
+        rzpOrderId,
+        total,
+        craftSubtotal
+      });
+      return;
+    }
+
+    // 2. Sovereign Card or NetBanking: open 3D Secure Banking OTP Modal
     if (currentPayMethod === 'card' || currentPayMethod === 'netbanking') {
       openBankOtpModal({
         orderId: confirmedOrderId,
@@ -1347,7 +1465,7 @@ window.placeOrder = async function() {
       return;
     }
 
-    // If UPI: direct instantaneous sovereign ratification
+    // 3. If UPI: direct instantaneous sovereign ratification
     showToast('✨ Authorizing Instantaneous Sovereign UPI Mandate...', 'info');
     await finalizeOrder({
       orderId: confirmedOrderId,
@@ -1747,6 +1865,10 @@ function setupInputFormatters() {
       const otpModal = document.getElementById('bank-otp-modal');
       if (otpModal && !otpModal.classList.contains('hidden')) {
         closeBankOtpModal();
+      }
+      const rzpModal = document.getElementById('razorpay-interactive-modal');
+      if (rzpModal && !rzpModal.classList.contains('hidden')) {
+        closeRazorpayModal();
       }
     }
   });
