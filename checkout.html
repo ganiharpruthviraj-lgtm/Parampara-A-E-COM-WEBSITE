@@ -1,649 +1,1008 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
- <head>
+<html lang="en" class="scroll-smooth light">
+<head>
   <meta charset="utf-8"/>
   <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
   <link href="/favicon.png" rel="icon" type="image/png"/>
-  <title>Checkout | Parampara Heritage — 100% Certified Order</title>
-  <meta content="Complete your heritage craft purchase securely. Authentic GI-tagged masterpieces with 70% direct artisan payout. Free insured shipping on all orders." name="description"/>
+  <title>Sovereign Patron Acquisition Salon | Parampara Royal Heritage Ateliers</title>
+  <meta content="Privileged Imperial Order & Custody Transfer. Authenticated Ministry of Textiles GI Provenance • Hand-wrought Artisanal Heirlooms with 70% direct artisan share." name="description"/>
   <meta content="website" property="og:type"/>
   <meta content="Parampara Heritage" property="og:site_name"/>
-  <meta content="Checkout | Parampara Heritage" property="og:title"/>
-  <meta content="Complete your order of authentic Indian heritage crafts. Secure checkout with free insured shipping." property="og:description"/>
+  <meta content="Sovereign Patron Acquisition Salon | Parampara Heritage" property="og:title"/>
+  <meta content="Authenticated Ministry of Textiles GI Provenance. Complete your acquisition with insured guild transit and 70% direct artisan payout." property="og:description"/>
   <meta content="assets/parampara_logo_crest.webp" property="og:image"/>
-  
-  <!-- Fonts & Icons -->
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet"/>
+
+  <!-- Google Fonts: Noto Serif (Royal Display & Headings) + Plus Jakarta Sans (Clean Modern Body) -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <!-- Material Symbols Outlined & FontAwesome 6 -->
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Tailwind CSS with Custom Royal Palette -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#785600",
+            "primary-container": "#986D00",
+            "primary-fixed": "#FFDEA6",
+            "secondary": "#7A1521",
+            "secondary-dark": "#5C0E16",
+            "gold-burnished": "#B8860B",
+            "gold-muted": "#8F6A1E",
+            "surface": "#FCF9F8",
+            "parchment": "#FAF7F2",
+            "parchment-light": "#FDFBF7",
+            "border-stone": "#E6DFD5",
+            "outline": "#817563",
+            "on-surface": "#1C1B1B"
+          },
+          fontFamily: {
+            "headline": ["Noto Serif", "Georgia", "serif"],
+            "display": ["Noto Serif", "Georgia", "serif"],
+            "body": ["Plus Jakarta Sans", "sans-serif"],
+            "sans": ["Plus Jakarta Sans", "sans-serif"],
+            "serif": ["Noto Serif", "serif"]
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Razorpay Checkout Official SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <!-- Platform Authentication Engine -->
   <script src="js/auth.js"></script>
+
+  <!-- Stylesheets -->
   <link href="css/index.css" rel="stylesheet"/>
   <link href="css/checkout.css" rel="stylesheet"/>
   <link href="css/widget.css" rel="stylesheet"/>
-  <style>
-    :root {
-      --primary-color: #B8860B;
-      --primary-hover: #8B6508;
-      --heritage-green: #2F5233;
-      --dark-bg: #1A1A1A;
-      --sand-bg: #FAF9F5;
-    }
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background-color: var(--sand-bg);
-      color: #1A1A1A;
-    }
-    .font-sora { font-family: 'Sora', sans-serif; }
-    .font-serif-heading { font-family: 'Cormorant Garamond', Georgia, serif; }
-  </style>
- </head>
- <body class="flex flex-col min-h-screen">
 
-  <!-- ── Top Security Announcement Bar ── -->
-  <div class="bg-[#1A1A1A] text-white text-xs py-2.5 px-4 text-center border-b border-[#B8860B]/30 flex items-center justify-center gap-4 flex-wrap">
-   <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-shield-halved text-[#B8860B]"></i> 256-Bit SSL Encrypted & Bank-Grade Security</span>
-   <span class="hidden sm:inline text-white/30">•</span>
-   <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-truck text-[#B8860B]"></i> Free Insured Shipping Across All 28 States</span>
-   <span class="hidden md:inline text-white/30">•</span>
-   <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-stamp text-[#B8860B]"></i> 70% Direct Artisan Payout Guarantee</span>
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #FCF9F8;
+      color: #1C1B1B;
+    }
+    .serif-royal {
+      font-family: 'Noto Serif', Georgia, serif;
+    }
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 22;
+      vertical-align: middle;
+    }
+    .gilded-box {
+      border: 1px solid rgba(184, 134, 11, 0.35);
+      box-shadow: inset 0 0 0 1px rgba(120, 86, 0, 0.12), 0 2px 8px rgba(92, 14, 22, 0.03);
+    }
+    .gilded-box-card {
+      background: #FAF7F2;
+      border: 1px solid rgba(184, 134, 11, 0.3);
+      position: relative;
+    }
+    .corner-ornament {
+      position: relative;
+    }
+    .corner-ornament::before {
+      content: "❖";
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      font-size: 8px;
+      color: #B8860B;
+      opacity: 0.55;
+    }
+    .corner-ornament::after {
+      content: "❖";
+      position: absolute;
+      top: 6px;
+      right: 8px;
+      font-size: 8px;
+      color: #B8860B;
+      opacity: 0.55;
+    }
+  </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-[#ffdea6] selection:text-[#5C0E16] flex flex-col min-h-screen">
+
+  <!-- ─── TOP SOVEREIGN PRESTIGE ANNOUNCEMENT BAR ─── -->
+  <div class="bg-[#5C0E16] text-[#ffdea6] text-[10px] sm:text-[11px] tracking-[0.22em] uppercase py-2 px-4 border-b border-[#B8860B]/30 flex justify-between items-center z-50 relative">
+    <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="text-[#B8860B]">❖</span>
+        <span class="font-serif font-medium">Imperial Atelier Provenance • Under Royal Patronage of Guild Masters</span>
+      </div>
+      <div class="hidden sm:flex items-center gap-6 text-[10px] text-[#ffdea6]/85 font-serif">
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[13px] text-[#B8860B]">verified</span> Ministry of Textiles GI Certified</span>
+        <span>•</span>
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[13px] text-[#B8860B]">shield_with_heart</span> Insured Guild Custody</span>
+        <span>•</span>
+        <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[13px] text-[#B8860B]">hand_holding_heart</span> 70% Direct Artisan Flow</span>
+      </div>
+    </div>
   </div>
 
-  <!-- ── Header & Stepper Navigation ── -->
-  <header class="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-    <!-- Brand Logo -->
-    <a class="flex items-center" href="index.html">
-     <img decoding="async" alt="Parampara Logo" class="h-11 w-auto object-contain" src="assets/parampara_logo.webp" onerror="this.src='assets/parampara_logo.png'" loading="lazy"/>
-    </a>
+  <!-- ─── PRIMARY ROYAL HEADER & NAVIGATION ─── -->
+  <header class="bg-[#FAF7F2]/95 backdrop-blur-md sticky top-0 z-40 border-b border-[#E6DFD5] shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-3.5 flex items-center justify-between">
+      <!-- Left: Brand Mark + Imperial Atelier Subtext -->
+      <div class="flex items-center gap-4 sm:gap-6">
+        <a class="flex items-center gap-3 group" href="index.html">
+          <img alt="Parampara Heritage" class="h-10 sm:h-11 w-auto object-contain drop-shadow-xs" src="assets/parampara_logo.webp" onerror="this.src='assets/parampara_logo_crest.webp'"/>
+          <div class="hidden lg:block pl-3 border-l border-[#B8860B]/30">
+            <span class="block text-[9px] tracking-[0.28em] uppercase text-[#785600] font-serif font-bold">Royal Heritage Ateliers</span>
+            <span class="block text-[8px] tracking-[0.3em] uppercase text-stone-500 font-serif">Estd. 1892 · Imperial Guild</span>
+          </div>
+        </a>
+      </div>
 
-    <!-- Stepper Indicator -->
-    <div class="hidden md:flex items-center gap-3 text-xs font-semibold">
-     <div class="flex items-center gap-2 text-green-700 font-semibold" id="step-nav-bag">
-      <span class="w-6 h-6 rounded-full bg-green-600 text-white flex items-center justify-center text-[10px] font-bold shadow-xs">
-       <i class="fa-solid fa-check"></i>
-      </span>
-      <span>Bag</span>
-     </div>
-     <span class="w-8 h-[1px] bg-gray-200"></span>
-     <div class="flex items-center gap-2 text-[#B8860B]" id="step-nav-shipping">
-      <span class="w-6 h-6 rounded-full bg-[#B8860B] text-white flex items-center justify-center text-[11px] font-bold shadow-sm">2</span>
-      <span class="font-bold">Shipping</span>
-     </div>
-     <span class="w-8 h-[1px] bg-gray-200"></span>
-     <div class="flex items-center gap-2 text-gray-400" id="step-nav-payment">
-      <span class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-[11px] font-bold">3</span>
-      <span>Payment</span>
-     </div>
-     <span class="w-8 h-[1px] bg-gray-200"></span>
-     <div class="flex items-center gap-2 text-gray-400" id="step-nav-confirm">
-      <span class="w-6 h-6 rounded-full bg-gray-100 flex items-center justify-center text-[11px] font-bold">4</span>
-      <span>Confirmation</span>
-     </div>
-    </div>
+      <!-- Center: Stately Salon Title -->
+      <div class="hidden md:flex flex-col items-center justify-center text-center">
+        <span class="text-[10px] uppercase font-serif tracking-[0.3em] text-[#7A1521] font-semibold flex items-center gap-1.5">
+          <span class="text-xs">✦</span> Acquisition Dossier <span class="text-xs">✦</span>
+        </span>
+        <span class="text-xs text-stone-600 font-serif tracking-wide italic">Sanctuary Checkout &amp; Provenance Ratification</span>
+      </div>
 
-    <!-- Back to Store Link & Collector Auth Badge -->
-    <div class="flex items-center gap-3">
-     <div id="checkout-header-auth" class="flex items-center gap-2"></div>
-     <a class="inline-flex items-center gap-2 text-xs font-bold text-gray-700 hover:text-[#B8860B] uppercase tracking-wider transition-colors" href="search.html">
-      <i class="fa-solid fa-arrow-left text-[11px]"></i>
-      <span class="hidden sm:inline">Continue Shopping</span>
-     </a>
+      <!-- Right: Patron Services & Vault Counter -->
+      <div class="flex items-center gap-4 sm:gap-6">
+        <nav class="hidden lg:flex items-center gap-5 text-[11px] uppercase tracking-wider font-serif text-stone-700">
+          <a class="hover:text-[#785600] transition flex items-center gap-1" href="support.html">
+            <span class="material-symbols-outlined text-sm text-[#B8860B]">history_edu</span> Patron Services
+          </a>
+          <a class="hover:text-[#785600] transition flex items-center gap-1" href="artisans.html">
+            <span class="material-symbols-outlined text-sm text-[#B8860B]">museum</span> Guild Archives
+          </a>
+        </nav>
+
+        <!-- Dynamic Vault Counter Pill -->
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#FAF7F2] border border-[#B8860B]/40 shadow-xs">
+          <span class="material-symbols-outlined text-[#7A1521] text-base">savings</span>
+          <div class="text-left">
+            <span class="block text-[9px] uppercase tracking-widest text-[#785600] font-bold leading-none">Vault Custody</span>
+            <span class="block text-[11px] font-serif font-bold text-stone-800 leading-tight" id="header-vault-count">3 Masterpieces</span>
+          </div>
+        </div>
+
+        <div id="checkout-header-auth" class="flex items-center gap-2"></div>
+
+        <a href="search.html" class="text-xs text-stone-600 hover:text-[#785600] flex items-center gap-1 font-serif font-semibold uppercase tracking-wider">
+          <span class="material-symbols-outlined text-sm">arrow_back</span>
+          <span class="hidden sm:inline">Store</span>
+        </a>
+      </div>
     </div>
-   </div>
   </header>
 
   <!-- Notification Toast Container -->
   <div id="toast"></div>
 
-  <!-- ── Main Checkout Content ── -->
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 flex-grow">
+  <!-- ─── MAIN SALON DOSSIER CONTENT ─── -->
+  <main class="w-full flex-grow">
+    <div class="max-w-7xl mx-auto px-4 sm:px-8 py-8 lg:py-12">
 
-   <!-- ========================================================================= -->
-   <!-- LEFT COLUMN: Step-by-Step Checkout Forms (Col-span-7) -->
-   <!-- ========================================================================= -->
-   <section class="lg:col-span-7 space-y-6">
-
-    <!-- ── STEP 1: Shipping Information ── -->
-    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-sm" id="form-shipping">
-     
-     <div class="flex items-center justify-between pb-6 mb-6 border-b border-gray-100">
-      <div class="flex items-center gap-3">
-       <div class="w-10 h-10 rounded-2xl bg-[#B8860B] text-white font-bold flex items-center justify-center text-lg shadow-md">
-        1
-       </div>
-       <div>
-        <h2 class="text-xl sm:text-2xl font-extrabold font-sora text-gray-900">Shipping Address & Contact</h2>
-        <p class="text-xs text-gray-500 mt-0.5">Where should your certified masterpiece be delivered?</p>
-       </div>
-      </div>
-      <span class="text-xs font-bold uppercase tracking-wider text-[#B8860B] bg-[#FAF9F5] px-3 py-1.5 rounded-full border border-[#B8860B]/30 hidden sm:inline-block">
-       Step 1 of 2
-      </span>
-     </div>
-
-     <!-- ── Collector Account Express Prompt / Status Banner ── -->
-     <div id="checkout-auth-banner" class="mb-6 rounded-2xl transition-all"></div>
-
-     <!-- Shipping Form Grid -->
-     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-      <!-- First Name -->
-      <div>
-       <label for="first-name" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">First Name <span class="text-red-500">*</span></label>
-       <input id="first-name" type="text" placeholder="Arjun" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
-      </div>
-      <!-- Last Name -->
-      <div>
-       <label for="last-name" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Last Name <span class="text-red-500">*</span></label>
-       <input id="last-name" type="text" placeholder="Sharma" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
-      </div>
-      <!-- Email Address -->
-      <div class="sm:col-span-2">
-       <label for="email-checkout" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Email Address <span class="text-red-500">*</span></label>
-       <div class="relative">
-        <input id="email-checkout" type="email" placeholder="arjun.sharma@example.com" class="w-full bg-white border border-gray-300 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
-        <i class="fa-solid fa-envelope absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
-       </div>
-       <p class="text-[11px] text-gray-500 mt-1 font-medium"><i class="fa-solid fa-circle-info text-[#B8860B] mr-1"></i> Order tracking & digital GI authenticity certificate will be sent here.</p>
-      </div>
-      <!-- Phone Number -->
-      <div class="sm:col-span-2">
-       <label for="phone" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Mobile Phone Number <span class="text-red-500">*</span></label>
-       <div class="relative">
-        <input id="phone" type="tel" placeholder="+91 98765 43210" class="w-full bg-white border border-gray-300 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
-        <i class="fa-solid fa-phone absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
-       </div>
-      </div>
-      <!-- Street Address -->
-      <div class="sm:col-span-2">
-       <label for="address1" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Flat, House No., Building, Apartment <span class="text-red-500">*</span></label>
-       <input id="address1" type="text" placeholder="Plot 42, Civil Lines, Near Heritage Circle" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
-      </div>
-      <!-- Street Line 2 -->
-      <div class="sm:col-span-2">
-       <label for="address2" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Landmark / Locality <span class="text-gray-400 font-normal">(Optional)</span></label>
-       <input id="address2" type="text" placeholder="Sector 14 / Opp. National Museum" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
-      </div>
-      <!-- City -->
-      <div>
-       <label for="city" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">City / District <span class="text-red-500">*</span></label>
-       <input id="city" type="text" placeholder="New Delhi" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
-      </div>
-      <!-- State Dropdown -->
-      <div>
-       <label for="state-select" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">State <span class="text-red-500">*</span></label>
-       <select id="state-select" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all cursor-pointer">
-        <option value="">Select State</option>
-        <option>Andhra Pradesh</option><option>Arunachal Pradesh</option><option>Assam</option>
-        <option>Bihar</option><option>Chhattisgarh</option><option>Goa</option>
-        <option>Gujarat</option><option>Haryana</option><option>Himachal Pradesh</option>
-        <option>Jharkhand</option><option>Karnataka</option><option>Kerala</option>
-        <option>Madhya Pradesh</option><option>Maharashtra</option><option>Manipur</option>
-        <option>Meghalaya</option><option>Mizoram</option><option>Nagaland</option>
-        <option>Odisha</option><option>Punjab</option><option>Rajasthan</option>
-        <option>Sikkim</option><option>Tamil Nadu</option><option>Telangana</option>
-        <option>Tripura</option><option>Uttar Pradesh</option><option>Uttarakhand</option>
-        <option>West Bengal</option><option>Delhi</option><option>Jammu &amp; Kashmir</option>
-       </select>
-      </div>
-      <!-- PIN Code -->
-      <div>
-       <label for="pincode" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Postal PIN Code <span class="text-red-500">*</span></label>
-       <input id="pincode" type="text" maxlength="6" placeholder="110001" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all font-mono"/>
-       <div id="pincode-feedback" class="mt-1.5 text-[11px] font-medium hidden"></div>
-      </div>
-      
-      <!-- Delivery Speed Card Selection -->
-      <div class="sm:col-span-2 pt-2">
-       <label class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">Delivery Option</label>
-       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <!-- Standard -->
-        <label class="delivery-opt selected flex flex-col justify-between p-4 rounded-2xl border-2 border-[#B8860B] bg-[#FAF6ED] cursor-pointer transition-all">
-         <div class="flex items-center justify-between mb-1">
-          <span class="text-sm font-bold text-gray-900 flex items-center gap-2"><i class="fa-solid fa-box text-[#B8860B]"></i> Standard Delivery</span>
-          <span class="text-xs font-extrabold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">FREE</span>
-         </div>
-         <p id="standard-delivery-text" class="text-xs text-gray-600 mb-2">3–5 Business Days via India Post Speed Post</p>
-         <input type="radio" name="delivery" value="standard" checked class="hidden"/>
-        </label>
-        <!-- Express -->
-        <label class="delivery-opt flex flex-col justify-between p-4 rounded-2xl border-2 border-gray-200 bg-white hover:border-[#B8860B]/50 cursor-pointer transition-all">
-         <div class="flex items-center justify-between mb-1">
-          <span class="text-sm font-bold text-gray-900 flex items-center gap-2"><i class="fa-solid fa-bolt text-[#B8860B]"></i> Express Air Delivery</span>
-          <span class="text-xs font-bold text-gray-800">₹ 299</span>
-         </div>
-         <p id="express-delivery-text" class="text-xs text-gray-600 mb-2">1–2 Days Priority Air Transit via Shiprocket</p>
-         <input type="radio" name="delivery" value="express" class="hidden"/>
-        </label>
-       </div>
-      </div>
-     </div>
-
-     <!-- Continue to Payment Button -->
-     <button onclick="goToPayment()" class="w-full mt-8 bg-gradient-to-r from-[#B8860B] to-[#8B6508] hover:from-[#8B6508] hover:to-[#684a04] text-white text-sm font-bold uppercase tracking-wider py-4 rounded-full transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-      <span>Proceed to Payment</span>
-      <i class="fa-solid fa-arrow-right text-xs"></i>
-     </button>
-    </div>
-
-    <!-- ── STEP 2: Payment Details ── -->
-    <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-sm hidden" id="form-payment">
-     
-     <button onclick="goToShipping()" class="inline-flex items-center gap-2 text-xs font-bold text-gray-500 hover:text-[#B8860B] uppercase tracking-wider mb-4 transition-colors">
-      <i class="fa-solid fa-arrow-left text-[10px]"></i> Back to Shipping Address
-     </button>
-
-     <div class="flex items-center justify-between pb-6 mb-6 border-b border-gray-100">
-      <div class="flex items-center gap-3">
-       <div class="w-10 h-10 rounded-2xl bg-[#B8860B] text-white font-bold flex items-center justify-center text-lg shadow-md">
-        2
-       </div>
-       <div>
-        <h2 class="text-xl sm:text-2xl font-extrabold font-sora text-gray-900">Payment Gateway</h2>
-        <p class="text-xs text-gray-500 mt-0.5">Select your preferred 256-bit encrypted payment method.</p>
-       </div>
-      </div>
-      <div class="flex items-center gap-2">
-       <span class="inline-flex items-center gap-1.5 bg-[#0C2340]/5 border border-[#0C2340]/15 text-[#0C2340] px-2.5 py-1 rounded-full text-[11px] font-semibold">
-        <i class="fa-solid fa-shield-halved text-[#0C2340]"></i> Secured by Razorpay
-       </span>
-       <span class="text-xs font-bold uppercase tracking-wider text-[#B8860B] bg-[#FAF9F5] px-3 py-1.5 rounded-full border border-[#B8860B]/30 hidden sm:inline-block">
-        Step 2 of 2
-       </span>
-      </div>
-     </div>
-
-     <!-- Payment Method Switcher Tabs -->
-     <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
-      <button id="pm-card" onclick="selectPayMethod('card', this)" class="pay-method active px-3 py-3 rounded-2xl border-2 border-[#B8860B] bg-white font-bold text-xs text-[#B8860B] flex items-center justify-center gap-1.5 shadow-sm transition-all">
-       <i class="fa-regular fa-credit-card"></i> Card
-      </button>
-      <button id="pm-upi" onclick="selectPayMethod('upi', this)" class="pay-method px-3 py-3 rounded-2xl border-2 border-gray-200 bg-white font-bold text-xs text-gray-700 hover:border-[#B8860B] flex items-center justify-center gap-1.5 transition-all">
-       <i class="fa-solid fa-mobile-screen-button text-[#B8860B]"></i> UPI / QR
-      </button>
-      <button id="pm-netbanking" onclick="selectPayMethod('netbanking', this)" class="pay-method px-3 py-3 rounded-2xl border-2 border-gray-200 bg-white font-bold text-xs text-gray-700 hover:border-[#B8860B] flex items-center justify-center gap-1.5 transition-all">
-       <i class="fa-solid fa-building-columns"></i> Net Banking
-      </button>
-      <button id="pm-cod" onclick="selectPayMethod('cod', this)" class="pay-method px-3 py-3 rounded-2xl border-2 border-gray-200 bg-white font-bold text-xs text-gray-700 hover:border-[#B8860B] flex items-center justify-center gap-1.5 transition-all">
-       <i class="fa-solid fa-hand-holding-dollar"></i> Cash on Delivery
-      </button>
-     </div>
-
-     <!-- Panel 1: Card Input -->
-     <div id="panel-card" class="pay-panel bg-[#FAF9F5] p-5 rounded-2xl border border-gray-200 mb-6">
-      <div class="space-y-4">
-       <div>
-        <label for="card-number" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Card Number</label>
-        <div class="relative">
-         <input id="card-number" type="text" maxlength="19" placeholder="4532  8900  1234  5678" class="w-full bg-white border border-gray-300 text-sm rounded-xl pl-10 pr-24 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm"/>
-         <i class="fa-regular fa-credit-card absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
-         <div class="absolute right-3 top-3 flex items-center gap-1 opacity-70">
-          <i class="fa-brands fa-cc-visa text-blue-700 text-lg"></i>
-          <i class="fa-brands fa-cc-mastercard text-orange-600 text-lg"></i>
-         </div>
+      <!-- ─── UNIFIED IMPERIAL BANNER SEAL ─── -->
+      <div class="mb-10 p-6 sm:p-8 rounded-xl bg-gradient-to-r from-[#FAF7F2] via-[#FDFBF7] to-[#FAF7F2] border border-[#B8860B]/30 shadow-sm relative overflow-hidden">
+        <div class="absolute -right-8 -top-8 w-36 h-36 rounded-full border border-[#B8860B]/15 pointer-events-none flex items-center justify-center">
+          <span class="material-symbols-outlined text-6xl text-[#B8860B]/20">shield_lock</span>
         </div>
-       </div>
-       <div>
-        <label for="card-name" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Name on Card</label>
-        <input id="card-name" type="text" placeholder="ARJUN SHARMA" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm uppercase"/>
-       </div>
-       <div class="grid grid-cols-2 gap-4">
+        <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div class="flex items-center gap-4 sm:gap-6">
+            <div class="w-16 h-16 rounded-full bg-[#FAF7F2] border-2 border-[#B8860B] p-1 flex-shrink-0 flex items-center justify-center shadow-md">
+              <div class="w-full h-full rounded-full border border-dashed border-[#785600] flex items-center justify-center text-[#785600] bg-[#f7f2e7]">
+                <span class="material-symbols-outlined text-3xl">workspace_premium</span>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 text-[#7A1521] uppercase text-[11px] tracking-[0.25em] font-serif font-bold mb-1">
+                <span class="material-symbols-outlined text-[16px] text-[#7A1521]">verified_user</span>
+                <span>Privileged Imperial Order &amp; Custody Transfer</span>
+              </div>
+              <h1 class="serif-royal text-2xl sm:text-3xl lg:text-4xl text-[#1C1B1B] font-normal tracking-tight">
+                Sovereign <span class="italic font-serif text-[#7A1521]">Patron Acquisition</span> Salon
+              </h1>
+              <p class="text-xs text-stone-600 font-serif mt-1 tracking-wide">
+                Authenticated Ministry of Textiles GI Provenance • Hand-wrought Artisanal Heirlooms
+              </p>
+            </div>
+          </div>
+          <div class="flex flex-col sm:flex-row md:flex-col items-start md:items-end gap-2.5 pt-2 sm:pt-0 w-full sm:w-auto">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-[#FAF7F2] border border-[#B8860B]/40 shadow-xs">
+              <span class="material-symbols-outlined text-[#785600] text-sm">lock</span>
+              <span class="text-[11px] font-bold text-[#785600] uppercase tracking-wider font-serif">Imperial Seal of Authenticity</span>
+            </div>
+            <div class="flex items-center gap-3 text-xs uppercase font-serif text-stone-600 tracking-wider">
+              <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm text-[#785600]">verified</span> Master Craftsman Certified</span>
+              <span class="text-stone-300">•</span>
+              <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-sm text-[#7A1521]">shield</span> Bonded Guild Escort</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── 4-STAGE GILDED ILLUMINATED STEP PROGRESS TRACKER ─── -->
+      <div class="gilded-box-card rounded-xl p-5 shadow-xs mb-10">
+        <div class="flex items-center justify-between relative px-2 sm:px-4">
+          <!-- connecting line -->
+          <div class="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-0.5 bg-[#E6DFD5] z-0">
+            <div class="h-full bg-[#B8860B] transition-all duration-300" id="step-progress-fill" style="width: 75%;"></div>
+          </div>
+
+          <!-- Step 1: Completed -->
+          <div class="flex flex-col items-center gap-1.5 relative z-10" id="step-node-1">
+            <span class="w-9 h-9 rounded-full bg-[#785600] text-white text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#FAF7F2]">
+              <span class="material-symbols-outlined text-sm">check</span>
+            </span>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-[#785600] font-serif text-center">1. Patron Credentials</span>
+            <span class="text-[9px] text-stone-500 uppercase tracking-widest hidden sm:inline">Recorded</span>
+          </div>
+
+          <!-- Step 2: Completed -->
+          <div class="flex flex-col items-center gap-1.5 relative z-10" id="step-node-2">
+            <span class="w-9 h-9 rounded-full bg-[#785600] text-white text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#FAF7F2]">
+              <span class="material-symbols-outlined text-sm">check</span>
+            </span>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-[#785600] font-serif text-center">2. Palace &amp; Sanctuary</span>
+            <span class="text-[9px] text-stone-500 uppercase tracking-widest hidden sm:inline">Confirmed</span>
+          </div>
+
+          <!-- Step 3: Current -->
+          <div class="flex flex-col items-center gap-1.5 relative z-10" id="step-node-3">
+            <span class="w-9 h-9 rounded-full bg-[#7A1521] text-[#ffdea6] text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#B8860B]/30 border border-[#B8860B]">
+              3
+            </span>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-[#7A1521] font-serif text-center">3. Seals &amp; Calligraphy</span>
+            <span class="text-[9px] text-[#785600] font-bold uppercase tracking-widest hidden sm:inline">Current Stage</span>
+          </div>
+
+          <!-- Step 4: Upcoming -->
+          <div class="flex flex-col items-center gap-1.5 relative z-10 opacity-70" id="step-node-4">
+            <span class="w-9 h-9 rounded-full bg-stone-200 text-stone-600 text-xs font-semibold font-serif flex items-center justify-center ring-4 ring-[#FAF7F2]">
+              4
+            </span>
+            <span class="text-[11px] font-medium uppercase tracking-wider text-stone-600 font-serif text-center">4. Treasury Settlement</span>
+            <span class="text-[9px] text-stone-400 uppercase tracking-widest hidden sm:inline">Final Ratification</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── EDITORIAL TWO-COLUMN GRID: 62% LEFT (FORM), 38% RIGHT (VAULT SUMMARY) ─── -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 items-start">
+
+        <!-- ========================================================================= -->
+        <!-- LEFT COLUMN: Main Form & Process Flow (approx 62%) -->
+        <!-- ========================================================================= -->
+        <div class="lg:col-span-7 xl:col-span-7 space-y-10">
+
+          <!-- Express Sovereign Settlement Module -->
+          <div class="gilded-box rounded-xl p-5 sm:p-6 bg-[#FDFBF7] space-y-4">
+            <div class="flex items-center justify-between pb-2 border-b border-[#E6DFD5]">
+              <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-[#785600] text-lg">history_edu</span>
+                <p class="text-xs font-serif font-bold tracking-[0.2em] uppercase text-[#785600]">Express Sovereign Settlement</p>
+              </div>
+              <span class="text-[10px] text-stone-500 tracking-wider uppercase font-serif flex items-center gap-1">
+                <span class="material-symbols-outlined text-xs text-[#7A1521]">lock</span> Encrypted Imperial Vault
+              </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              <button onclick="selectPayMethod('upi'); document.getElementById('panel-upi')?.scrollIntoView({behavior:'smooth'});" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#FAF7F2] hover:bg-[#f3ede1] border border-[#B8860B]/40 transition text-xs font-serif font-bold uppercase tracking-wider text-stone-800 shadow-xs group" type="button">
+                <span class="material-symbols-outlined text-base text-[#785600] group-hover:scale-110 transition-transform">account_balance_wallet</span>
+                <span>Instant UPI Pay</span>
+              </button>
+              <button onclick="placeOrder()" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#1C1B1B] text-white hover:bg-stone-900 border border-stone-800 transition text-xs font-serif font-semibold uppercase tracking-wider shadow-xs" type="button">
+                <span class="font-headline italic font-bold text-amber-300 text-sm">G</span> Pay Sovereign
+              </button>
+              <button onclick="placeOrder()" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#FAF7F2] border border-[#B8860B]/40 hover:bg-[#f3ede1] text-stone-800 transition text-xs font-serif font-semibold uppercase tracking-wider shadow-xs" type="button">
+                <span class="font-sans font-bold text-sm"></span> Apple Pay
+              </button>
+            </div>
+
+            <div class="relative flex py-1 items-center">
+              <div class="flex-grow bg-[#E6DFD5] h-px"></div>
+              <span class="flex-shrink mx-4 text-[10px] uppercase tracking-widest text-stone-500 font-serif flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-[13px] text-[#785600]">edit_note</span> Or Complete Personalized Patron Dossier
+              </span>
+              <div class="flex-grow bg-[#E6DFD5] h-px"></div>
+            </div>
+          </div>
+
+          <!-- Collector Account Express Prompt / Status Banner -->
+          <div id="checkout-auth-banner" class="rounded-xl transition-all"></div>
+
+          <!-- ─── SECTION 01: PATRON CREDENTIALS & CONTACT ─── -->
+          <section class="gilded-box rounded-xl p-6 sm:p-7 bg-[#FAF7F2] space-y-6" id="section-patron">
+            <div class="flex items-baseline justify-between border-b border-[#E6DFD5] pb-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-serif italic text-[#7A1521] font-bold">01.</span>
+                <h2 class="font-headline text-lg sm:text-xl text-[#1C1B1B] font-semibold">Patron Credentials &amp; Contact</h2>
+              </div>
+              <a class="text-xs text-[#785600] font-serif font-semibold tracking-wide hover:underline uppercase flex items-center gap-1" href="login.html">
+                <span class="material-symbols-outlined text-sm">vpn_key</span> Recognized Patron? Log In
+              </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1.5 sm:col-span-2">
+                <label for="email-checkout" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Patron Email Address *</label>
+                <input id="email-checkout" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] focus:border-[#785600] shadow-xs transition" placeholder="patron@estate-archives.org" type="email" value="ananya.sharma@archival-arts.org"/>
+                <p class="text-[11px] text-stone-500 font-serif">Provenance deeds and bonded courier track codes will be dispatched to this secure dossier.</p>
+              </div>
+
+              <div class="space-y-1.5">
+                <label for="phone" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Mobile Contact (+91) *</label>
+                <input id="phone" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] focus:border-[#785600] shadow-xs transition" type="tel" value="+91 98201 44521"/>
+              </div>
+
+              <div class="space-y-1.5 flex flex-col justify-end">
+                <label class="inline-flex items-center gap-2.5 cursor-pointer pb-2 text-stone-700 text-xs">
+                  <input checked class="w-4 h-4 rounded text-[#785600] focus:ring-[#785600] accent-[#785600]" type="checkbox"/>
+                  <span>Notify me via WhatsApp &amp; SMS for temperature &amp; courier security updates</span>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- ─── SECTION 02: PALACE & SANCTUARY DESTINATION (SHIPPING) ─── -->
+          <section class="gilded-box rounded-xl p-6 sm:p-7 bg-[#FAF7F2] space-y-6" id="form-shipping">
+            <div class="flex items-baseline justify-between border-b border-[#E6DFD5] pb-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-serif italic text-[#7A1521] font-bold">02.</span>
+                <h2 class="font-headline text-lg sm:text-xl text-[#1C1B1B] font-semibold">Palace &amp; Sanctuary Destination</h2>
+              </div>
+              <span class="text-[11px] uppercase tracking-widest text-[#785600] font-serif font-bold">Delicate Cargo Protocol</span>
+            </div>
+
+            <!-- Address Presets -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-[11px] font-bold uppercase tracking-wider text-stone-700">Select Saved Royal Sanctuary Address</span>
+                <button type="button" onclick="clearAddressFields()" class="text-[10px] text-[#785600] font-bold hover:underline uppercase flex items-center gap-1">+ Add New Estate</button>
+              </div>
+              <div class="flex flex-wrap gap-2.5">
+                <button type="button" onclick="setPresetAddress('delhi')" class="preset-chip px-3.5 py-2 rounded-lg bg-[#FAF7F2] border-2 border-[#785600] text-[#785600] text-xs font-bold flex items-center gap-2 shadow-xs transition">
+                  <span class="material-symbols-outlined text-sm text-[#7A1521]">villa</span> Delhi Enclave (Primary)
+                </button>
+                <button type="button" onclick="setPresetAddress('jaipur')" class="preset-chip px-3.5 py-2 rounded-lg bg-stone-100/80 hover:bg-stone-200 border border-stone-300 text-stone-700 text-xs font-medium flex items-center gap-2 transition">
+                  <span class="material-symbols-outlined text-sm text-[#785600]">holiday_village</span> Jaipur Ancestral Haveli
+                </button>
+                <button type="button" onclick="setPresetAddress('mumbai')" class="preset-chip px-3.5 py-2 rounded-lg bg-stone-100/80 hover:bg-stone-200 border border-stone-300 text-stone-700 text-xs font-medium flex items-center gap-2 transition">
+                  <span class="material-symbols-outlined text-sm text-[#785600]">apartment</span> Mumbai Studio Atelier
+                </button>
+              </div>
+            </div>
+
+            <!-- Form Fields -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="space-y-1.5">
+                <label for="first-name" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Recipient Patron First Name *</label>
+                <input id="first-name" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="Ananya"/>
+              </div>
+
+              <div class="space-y-1.5">
+                <label for="last-name" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Patron Last Name *</label>
+                <input id="last-name" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="Sharma"/>
+              </div>
+
+              <div class="space-y-1.5 sm:col-span-2">
+                <label for="address1" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Residence / Estate Address *</label>
+                <input id="address1" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="Villa 14, The Oberoi Heritage Enclave, Golf Links"/>
+              </div>
+
+              <div class="space-y-1.5">
+                <label for="address2" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Apartment / Suite / Landmark</label>
+                <input id="address2" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="Near Ahinsa Sthal Tower"/>
+              </div>
+
+              <div class="space-y-1.5">
+                <label for="city" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">City / Town *</label>
+                <input id="city" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="New Delhi"/>
+              </div>
+
+              <div class="space-y-1.5">
+                <label for="state-select" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">State / Heritage Region *</label>
+                <select id="state-select" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs cursor-pointer">
+                  <option selected value="Delhi">Delhi (NCR)</option>
+                  <option value="Rajasthan">Rajasthan (Jaipur / Mewar)</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh (Varanasi / Awadh)</option>
+                  <option value="Odisha">Odisha (Cuttack / Puri)</option>
+                  <option value="Jammu & Kashmir">Jammu &amp; Kashmir (Srinagar)</option>
+                  <option value="Tamil Nadu">Tamil Nadu (Thanjavur / Kanchi)</option>
+                  <option value="West Bengal">West Bengal (Murshidabad / Bishnupur)</option>
+                  <option value="Maharashtra">Maharashtra (Paithan / Kolhapur)</option>
+                  <option value="Karnataka">Karnataka (Mysuru / Bidar)</option>
+                  <option value="Assam">Assam (Kamrup / Sualkuchi)</option>
+                  <option value="Gujarat">Gujarat (Patan / Kutch)</option>
+                  <option value="Himachal Pradesh">Himachal Pradesh (Kullu / Chamba)</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh (Chanderi / Maheshwar)</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Kerala">Kerala</option>
+                  <option value="Telangana">Telangana</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Bihar">Bihar</option>
+                </select>
+              </div>
+
+              <div class="space-y-1.5">
+                <div class="flex justify-between items-center">
+                  <label for="pincode" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Postal PIN Code *</label>
+                  <span class="text-[10px] text-emerald-800 font-bold uppercase flex items-center gap-1 font-serif">
+                    <span class="material-symbols-outlined text-[13px] text-emerald-700">check_circle</span> White-Glove Eligible
+                  </span>
+                </div>
+                <input id="pincode" maxlength="6" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="110003"/>
+                <div id="pincode-feedback" class="mt-1.5 text-[11px] font-medium hidden"></div>
+              </div>
+
+              <div class="space-y-1.5 sm:col-span-2">
+                <label for="special-instructions" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Artisanal Cargo Handling &amp; Security Protocol</label>
+                <textarea id="special-instructions" class="w-full px-4 py-2.5 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs leading-relaxed" placeholder="E.g., Fragile earthenware urn inside. Please hand deliver directly to recipient." rows="2">Fragile earthenware urn &amp; filigree coffer. Please notify via curator call prior to estate gate entry.</textarea>
+              </div>
+            </div>
+
+            <!-- Curated Royal Transit Options -->
+            <div class="space-y-3 pt-2">
+              <label class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Curated Transit Protocol</label>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Tier 1: Standard Insured Carriage -->
+                <label class="delivery-opt relative flex flex-col p-4 bg-white rounded-xl shadow-xs cursor-pointer hover:shadow-md transition border-2 border-[#785600]">
+                  <div class="flex items-start justify-between">
+                    <div class="flex items-center gap-2.5">
+                      <input checked class="text-[#785600] focus:ring-[#785600] accent-[#785600] w-4 h-4" name="transit_tier" value="standard" type="radio"/>
+                      <span class="font-headline font-semibold text-sm text-stone-900">Standard Insured Carriage</span>
+                    </div>
+                    <span class="text-xs font-bold text-[#7A1521] uppercase font-serif" id="standard-delivery-text">Complimentary</span>
+                  </div>
+                  <p class="text-xs text-stone-600 mt-2 pl-6 leading-relaxed">
+                    4–6 Business Days. Carbon-neutral fleet, wrapped in handloom cushioning. Included on orders over ₹1,999.
+                  </p>
+                  <div class="mt-3 pl-6 flex items-center gap-1.5 text-[10px] text-[#785600] uppercase font-bold tracking-wider">
+                    <span class="material-symbols-outlined text-[14px]">eco</span> Handloom Protected
+                  </div>
+                </label>
+
+                <!-- Tier 2: Imperial White-Glove Museum Escort -->
+                <label class="delivery-opt relative flex flex-col p-4 bg-[#FDFBF7] rounded-xl shadow-xs cursor-pointer hover:bg-white hover:shadow-sm transition border border-[#E6DFD5]">
+                  <div class="flex items-start justify-between">
+                    <div class="flex items-center gap-2.5">
+                      <input class="text-[#785600] focus:ring-[#785600] accent-[#785600] w-4 h-4" name="transit_tier" value="white_glove" type="radio"/>
+                      <span class="font-headline font-semibold text-sm text-stone-900">Imperial White-Glove Escort</span>
+                    </div>
+                    <span class="text-xs font-bold text-stone-800 font-serif" id="express-delivery-text">₹450</span>
+                  </div>
+                  <p class="text-xs text-stone-600 mt-2 pl-6 leading-relaxed">
+                    2–3 Business Days. Shock-isolated climate container, museum curator transit, bonded courier.
+                  </p>
+                  <div class="mt-3 pl-6 flex items-center gap-1.5 text-[10px] text-stone-600 uppercase font-medium tracking-wider">
+                    <span class="material-symbols-outlined text-[14px] text-[#785600]">security</span> Shock &amp; Thermal Insured
+                  </div>
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- ─── SECTION 03: ROYAL SEALS, PRESENTATION & CALLIGRAPHY ─── -->
+          <section class="gilded-box rounded-xl p-6 sm:p-7 bg-[#FAF7F2] space-y-6" id="section-presentation">
+            <div class="flex items-baseline justify-between border-b border-[#E6DFD5] pb-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-serif italic text-[#7A1521] font-bold">03.</span>
+                <h2 class="font-headline text-lg sm:text-xl text-[#1C1B1B] font-semibold">Presentation &amp; Royal Inscription</h2>
+              </div>
+              <span class="text-[11px] uppercase tracking-widest text-[#785600] font-semibold font-serif">Bespoke Embellishment</span>
+            </div>
+
+            <!-- Packaging Options -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- Packaging Option A: Raw Silk Keepsake -->
+              <label class="pack-opt relative p-4 rounded-xl bg-white shadow-xs flex flex-col justify-between cursor-pointer border-2 border-[#785600] transition">
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2.5">
+                      <input checked class="text-[#785600] focus:ring-[#785600] accent-[#785600] w-4 h-4" name="presentation_pack" value="silk_coffer" type="radio"/>
+                      <span class="font-headline font-semibold text-sm text-stone-900">Raw Silk Keepsake Coffer</span>
+                    </div>
+                    <span class="text-xs font-bold text-[#785600] font-serif">+₹350</span>
+                  </div>
+                  <p class="text-xs text-stone-600 pl-6 leading-relaxed">
+                    Crimson raw silk box bound with hand-twisted zari twine and handcrafted brass seal of provenance.
+                  </p>
+                </div>
+                <div class="mt-3 pl-6 flex items-center gap-1.5 text-[10px] text-[#7A1521] font-bold uppercase tracking-wider">
+                  <span class="material-symbols-outlined text-[15px]">token</span> Wax Sealed Certificate
+                </div>
+              </label>
+
+              <!-- Packaging Option B: Lokta Botanical Parchment -->
+              <label class="pack-opt relative p-4 rounded-xl bg-[#FDFBF7] shadow-xs flex flex-col justify-between cursor-pointer hover:bg-white transition border border-[#E6DFD5]">
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2.5">
+                      <input class="text-[#785600] focus:ring-[#785600] accent-[#785600] w-4 h-4" name="presentation_pack" value="lokta_paper" type="radio"/>
+                      <span class="font-headline font-semibold text-sm text-stone-900">Handcrafted Lokta Paper</span>
+                    </div>
+                    <span class="text-xs font-semibold text-stone-600 font-serif">Complimentary</span>
+                  </div>
+                  <p class="text-xs text-stone-600 pl-6 leading-relaxed">
+                    Sun-dried botanical bark paper infused with marigold petals, tied with organic raw jute cord.
+                  </p>
+                </div>
+                <div class="mt-3 pl-6 flex items-center gap-1.5 text-[10px] text-stone-600 uppercase font-medium tracking-wider">
+                  <span class="material-symbols-outlined text-[15px] text-[#785600]">nature</span> 100% Biodegradable
+                </div>
+              </label>
+            </div>
+
+            <!-- Live Master Calligrapher Note Accordion / Card -->
+            <div class="bg-white rounded-xl p-5 shadow-xs border border-[#B8860B]/30 space-y-4">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                  <div class="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#B8860B]/40 flex items-center justify-center flex-shrink-0 text-[#785600]">
+                    <span class="material-symbols-outlined text-lg">history_edu</span>
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <h3 class="font-headline text-sm font-semibold text-stone-900">Calligraphic Note on Handmade Khadi Parchment</h3>
+                      <span class="text-[9px] px-2 py-0.5 rounded bg-[#ffdad2] text-[#7A1521] font-bold uppercase font-serif">Patron Honorarium</span>
+                    </div>
+                    <p class="text-[11px] text-stone-500 font-serif">Inscribed by our in-house master scribe using natural walnut ink and brass stylus</p>
+                  </div>
+                </div>
+                <span class="material-symbols-outlined text-stone-400">draw</span>
+              </div>
+
+              <!-- Verses Templates -->
+              <div class="flex gap-2 flex-wrap pt-1">
+                <span class="text-[10px] font-bold uppercase text-stone-500 self-center mr-1">Inspirational Verses:</span>
+                <button type="button" onclick="setCalligraphyTemplate(1)" class="text-[11px] px-2.5 py-1 rounded bg-[#FAF7F2] hover:bg-[#ffdea6]/50 border border-[#E6DFD5] text-stone-800 transition font-serif font-medium">Blessing for New Sanctuary</button>
+                <button type="button" onclick="setCalligraphyTemplate(2)" class="text-[11px] px-2.5 py-1 rounded bg-stone-100 hover:bg-[#ffdea6]/50 text-stone-700 transition font-serif font-medium">Wedding Heirloom</button>
+                <button type="button" onclick="setCalligraphyTemplate(3)" class="text-[11px] px-2.5 py-1 rounded bg-stone-100 hover:bg-[#ffdea6]/50 text-stone-700 transition font-serif font-medium">Ancestral Reverence</button>
+              </div>
+
+              <!-- Parchment Preview Box -->
+              <div class="bg-[#FAF7F2] p-5 rounded-xl border border-[#B8860B]/30 shadow-inner relative overflow-hidden">
+                <div class="flex justify-between items-center mb-2.5">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[#785600] text-sm">draw</span>
+                    <span class="text-[10px] uppercase font-bold tracking-widest text-[#785600] font-serif">Master Calligrapher Preview</span>
+                  </div>
+                  <span class="text-[10px] text-[#7A1521] font-serif italic">Devanagari &amp; Latin Gold Leaf Script</span>
+                </div>
+                <textarea id="calligraphy-note" oninput="updateCalligraphyCount(this)" maxlength="250" class="w-full bg-transparent border-0 p-0 text-sm font-serif italic text-stone-900 placeholder-stone-400 focus:ring-0 resize-none leading-relaxed" rows="3">May these timeless heirlooms bring serenity and sacred grace to your new home. With deepest admiration for our craft heritage.</textarea>
+                <div class="flex justify-between items-center pt-3 border-t border-[#B8860B]/20 text-[11px] text-stone-600 font-sans">
+                  <span class="flex items-center gap-1">Inscribed Sign-off: <strong class="text-stone-900 font-serif" id="calligraphy-signoff">With Eternal Grace</strong></span>
+                  <span class="text-[10px] tracking-wider uppercase text-stone-500 font-mono" id="calligraphy-counter">124 / 250 characters</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ─── SECTION 04: TREASURY SETTLEMENT & PROTECTION (PAYMENT) ─── -->
+          <section class="gilded-box rounded-xl p-6 sm:p-7 bg-[#FAF7F2] space-y-6" id="form-payment">
+            <div class="flex items-baseline justify-between border-b border-[#E6DFD5] pb-3">
+              <div class="flex items-center gap-3">
+                <span class="text-xs font-serif italic text-[#7A1521] font-bold">04.</span>
+                <h2 class="font-headline text-lg sm:text-xl text-[#1C1B1B] font-semibold">Treasury Settlement &amp; Protection</h2>
+              </div>
+              <span class="text-[11px] text-stone-600 uppercase tracking-wider flex items-center gap-1 font-serif">
+                <span class="material-symbols-outlined text-sm text-[#7A1521]">encrypted</span> 256-Bit Imperial Vault
+              </span>
+            </div>
+
+            <div class="space-y-3.5">
+              <!-- Payment Option 1: Card Active -->
+              <div class="bg-white rounded-xl p-5 shadow-xs border-2 border-[#785600] space-y-4">
+                <div class="flex items-center justify-between">
+                  <label class="flex items-center gap-3 cursor-pointer">
+                    <input checked class="text-[#785600] focus:ring-[#785600] accent-[#785600] w-4 h-4" name="payment_choice" value="card" onchange="selectPayMethod('card')" type="radio"/>
+                    <div>
+                      <span class="font-headline font-semibold text-sm text-stone-900 block">Sovereign Cards (RuPay, Visa, Mastercard, Amex)</span>
+                      <span class="text-[11px] text-stone-500">Zero surcharge • International &amp; Sovereign Banking Accepted</span>
+                    </div>
+                  </label>
+                  <div class="flex items-center gap-1.5">
+                    <span class="font-bold text-[10px] px-2 py-0.5 bg-stone-100 border border-stone-200 rounded font-serif text-stone-700">RUPAY</span>
+                    <span class="font-bold text-[10px] px-2 py-0.5 bg-stone-100 border border-stone-200 rounded font-serif text-stone-700">VISA</span>
+                  </div>
+                </div>
+
+                <!-- Card Inputs -->
+                <div id="panel-card" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                  <div class="sm:col-span-2 space-y-1">
+                    <label for="card-number" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600">Card Number</label>
+                    <div class="relative">
+                      <input id="card-number" class="w-full px-4 py-2.5 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 tracking-widest font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" value="4532 •••• •••• 8821"/>
+                      <span class="material-symbols-outlined absolute right-3 top-2.5 text-[#785600] text-lg">credit_card</span>
+                    </div>
+                  </div>
+                  <div class="space-y-1">
+                    <label for="card-name" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600">Cardholder Name</label>
+                    <input id="card-name" class="w-full px-4 py-2.5 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 tracking-wider uppercase focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" value="ANANYA SHARMA"/>
+                  </div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <div class="space-y-1">
+                      <label for="card-expiry" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600">Expiry</label>
+                      <input id="card-expiry" class="w-full px-3 py-2.5 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 text-center font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" value="08 / 28"/>
+                    </div>
+                    <div class="space-y-1">
+                      <label for="card-cvv" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600">CVV / CVC</label>
+                      <input id="card-cvv" class="w-full px-3 py-2.5 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 text-center font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="password" value="987"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Payment Option 2: UPI / NetBanking -->
+              <div class="bg-white rounded-xl p-4 shadow-xs flex flex-col gap-3 cursor-pointer hover:bg-[#FAF7F2] transition border border-[#E6DFD5]">
+                <div class="flex items-center justify-between">
+                  <label class="flex items-center gap-3 cursor-pointer">
+                    <input class="text-[#785600] focus:ring-[#785600] accent-[#785600] w-4 h-4" name="payment_choice" value="upi" onchange="selectPayMethod('upi')" type="radio"/>
+                    <div>
+                      <span class="font-headline font-semibold text-sm text-stone-900 block">UPI QR / NetBanking</span>
+                      <span class="text-[11px] text-stone-500">BHIM, PhonePe, Paytm, GooglePay &amp; Top 40 Indian Royal Treasuries</span>
+                    </div>
+                  </label>
+                  <span class="material-symbols-outlined text-[#785600]">qr_code_2</span>
+                </div>
+                <div id="panel-upi" class="hidden pt-2 border-t border-stone-200">
+                  <label for="upi-id" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Enter UPI VPA ID</label>
+                  <div class="flex gap-2">
+                    <input id="upi-id" type="text" placeholder="collector@upi" class="w-full px-4 py-2 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900"/>
+                    <button type="button" onclick="selectUpiApp('BHIM')" class="px-3 py-2 bg-[#785600] text-white text-xs font-bold rounded-lg">Verify</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Payment Option 3: Cash on Delivery -->
+              <div class="bg-white rounded-xl p-4 shadow-xs flex items-center justify-between cursor-pointer hover:bg-[#FAF7F2] transition border border-[#E6DFD5]">
+                <label class="flex items-center gap-3 cursor-pointer">
+                  <input class="text-[#785600] focus:ring-[#785600] accent-[#785600] w-4 h-4" name="payment_choice" value="cod" onchange="selectPayMethod('cod')" type="radio"/>
+                  <div>
+                    <span class="font-headline font-semibold text-sm text-stone-900 block">Cash on Delivery / Verified Pin</span>
+                    <span class="text-[11px] text-stone-500">Available for verified postal clusters with ₹99 handling protocol</span>
+                  </div>
+                </label>
+                <span class="material-symbols-outlined text-stone-500">local_shipping</span>
+              </div>
+            </div>
+          </section>
+
+          <!-- ─── TRUST BADGES MATRIX ─── -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 p-5 bg-[#FAF7F2] rounded-xl border border-[#B8860B]/25 shadow-xs">
+            <div class="flex flex-col items-center text-center p-2 sm:border-r border-[#B8860B]/20">
+              <span class="material-symbols-outlined text-[#785600] text-2xl mb-1">palette</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider font-serif text-stone-900">100% Handcrafted</span>
+              <span class="text-[10px] text-stone-500 mt-0.5">Direct master artisan lineage</span>
+            </div>
+            <div class="flex flex-col items-center text-center p-2 sm:border-r border-[#B8860B]/20">
+              <span class="material-symbols-outlined text-[#7A1521] text-2xl mb-1">verified</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider font-serif text-stone-900">GI Tagged Provenance</span>
+              <span class="text-[10px] text-stone-500 mt-0.5">Ministry authenticated seal</span>
+            </div>
+            <div class="flex flex-col items-center text-center p-2 sm:border-r border-[#B8860B]/20">
+              <span class="material-symbols-outlined text-[#785600] text-2xl mb-1">inventory_2</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider font-serif text-stone-900">Museum Grade Pack</span>
+              <span class="text-[10px] text-stone-500 mt-0.5">Acid-free protective vault</span>
+            </div>
+            <div class="flex flex-col items-center text-center p-2">
+              <span class="material-symbols-outlined text-[#785600] text-2xl mb-1">local_shipping</span>
+              <span class="text-[11px] font-bold uppercase tracking-wider font-serif text-stone-900">Guild Escort Transit</span>
+              <span class="text-[10px] text-stone-500 mt-0.5">Insured door-to-door carriage</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- RIGHT COLUMN: Sticky Curated Vault Dossier (approx 38%) -->
+        <!-- ========================================================================= -->
+        <div class="lg:col-span-5 xl:col-span-5 space-y-6 lg:sticky lg:top-24">
+
+          <!-- Curated Vault Summary Card -->
+          <div class="gilded-box rounded-2xl p-6 sm:p-7 bg-[#FAF7F2] shadow-lg space-y-6">
+
+            <!-- Vault Header -->
+            <div class="pb-4 border-b border-[#E6DFD5]">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-[#7A1521]"></span>
+                    <span class="text-[10px] font-serif font-bold uppercase tracking-[0.25em] text-[#785600]">The Heritage Collection</span>
+                  </div>
+                  <h2 class="font-headline text-2xl text-stone-900 font-semibold mt-0.5">Imperial Curated Vault</h2>
+                </div>
+                <span class="text-xs px-3 py-1 bg-[#FDFBF7] rounded-full font-serif font-bold text-[#785600] border border-[#B8860B]/40 shadow-xs" id="summary-items-count">
+                  3 Masterpieces
+                </span>
+              </div>
+
+              <!-- Transit Schedule badge -->
+              <div class="mt-3.5 p-3 rounded-lg bg-white border border-[#B8860B]/30 flex items-center justify-between">
+                <div class="flex items-center gap-2 text-xs text-[#785600] font-serif">
+                  <span class="material-symbols-outlined text-base text-[#7A1521]">local_shipping</span>
+                  <span class="font-semibold">White-Glove Imperial Delivery:</span>
+                </div>
+                <span class="text-xs font-serif font-bold text-stone-800" id="estimated-delivery-date">Thursday, Nov 14</span>
+              </div>
+            </div>
+
+            <!-- Items List Container: Dynamically rendered with controls -->
+            <div id="cart-items-container" class="space-y-4 max-h-[380px] overflow-y-auto pr-1">
+              <!-- Rendered by js/checkout.js with 3 authentic pieces matching Stitch design -->
+            </div>
+
+            <!-- Quick Add Crafts Trigger -->
+            <div class="text-center pt-1">
+              <button onclick="toggleQuickAddModal()" class="text-xs text-[#785600] hover:text-[#986D00] font-serif font-semibold uppercase tracking-wider flex items-center justify-center gap-1 mx-auto transition" type="button">
+                <span class="material-symbols-outlined text-sm">add_circle</span> Add Another Masterpiece to Vault
+              </button>
+            </div>
+
+            <!-- Promo / Honorarium Code -->
+            <div class="pt-2">
+              <div class="flex gap-2">
+                <div class="relative flex-grow">
+                  <input id="promo-input" class="w-full px-3.5 py-2.5 bg-white rounded-lg text-xs font-serif uppercase tracking-wider text-stone-900 border border-[#B8860B]/40 focus:outline-none focus:ring-1 focus:ring-[#785600] font-bold" type="text" placeholder="Promo / Voucher Code" value="HERITAGE10"/>
+                  <span class="material-symbols-outlined text-[#785600] absolute right-3 top-2.5 text-base">check_circle</span>
+                </div>
+                <button onclick="applyPromo()" class="px-4 py-2.5 bg-[#785600] text-white hover:bg-[#986D00] rounded-lg text-xs font-serif font-semibold uppercase tracking-wider transition shadow-xs" type="button">Apply</button>
+              </div>
+              <p id="promo-msg" class="text-[11px] text-[#7A1521] font-serif font-semibold mt-1.5 flex items-center gap-1">
+                <span class="material-symbols-outlined text-[14px]">verified</span> Royal Patron Honorarium: 10% acquisition grant applied (-₹2,160).
+              </p>
+            </div>
+
+            <!-- Price Ledger Breakdown -->
+            <div class="space-y-2.5 pt-4 border-t border-[#E6DFD5] text-xs text-stone-600">
+              <div class="flex justify-between font-serif">
+                <span>Artisanal Guild Value (<span id="ledger-item-count">3 Works</span>)</span>
+                <span class="text-stone-900 font-medium" id="price-subtotal">₹21,600</span>
+              </div>
+              <div class="flex justify-between text-[#7A1521] font-serif font-bold" id="row-discount">
+                <span id="discount-label">Royal Patron Privilege (10%)</span>
+                <span id="price-discount">-₹2,160</span>
+              </div>
+              <div class="flex justify-between font-serif" id="row-packaging">
+                <span>Bespoke Crimson Silk Keepsake Box</span>
+                <span class="text-stone-900 font-medium" id="price-packaging">+₹350</span>
+              </div>
+              <div class="flex justify-between font-serif">
+                <span>Insured White-Glove Guild Transit</span>
+                <span class="text-[#7A1521] font-semibold uppercase" id="price-shipping">Complimentary</span>
+              </div>
+              <div class="flex justify-between font-serif">
+                <span>Embossed GI Parchment &amp; Brass Wax Seal</span>
+                <span class="text-[#785600] font-semibold">Included</span>
+              </div>
+              <div class="flex justify-between font-serif hidden" id="row-gst">
+                <span>Statutory Taxes (GST)</span>
+                <span class="text-stone-900 font-medium" id="price-gst">₹0</span>
+              </div>
+
+              <!-- Grand Total -->
+              <div class="pt-4 border-t border-[#E6DFD5] flex items-baseline justify-between">
+                <div>
+                  <span class="block text-xs uppercase tracking-widest font-serif font-bold text-stone-900">Total Sovereign Acquisition</span>
+                  <span class="text-[10px] text-stone-500 font-serif">All guild royalties &amp; statutory taxes honored</span>
+                </div>
+                <div class="text-right">
+                  <span class="font-headline text-3xl font-bold text-[#785600] tracking-tight" id="price-total">₹19,790</span>
+                  <span class="block text-[10px] uppercase tracking-wider text-stone-600 font-serif font-bold">INR Net Value</span>
+                </div>
+              </div>
+
+              <!-- 70% Direct Artisan Payout Callout Badge -->
+              <div id="confirm-artisan-payout" class="p-3 rounded-lg bg-[#FAF7F2] border border-[#B8860B]/40 text-[#785600] text-center font-serif text-[11px] font-semibold mt-3">
+                <span class="material-symbols-outlined text-sm text-[#7A1521] mr-1">volunteer_activism</span>
+                <span id="artisan-amount">₹15,120</span> (70%) transferred directly to master artisan cluster bank account.
+              </div>
+            </div>
+
+            <!-- Grand Sovereign CTA -->
+            <div class="pt-2">
+              <button onclick="placeOrder()" id="btn-place-order" class="w-full relative group overflow-hidden py-4 px-6 rounded-lg text-[#ffdea6] font-serif font-bold text-base tracking-wide shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2.5 bg-gradient-to-r from-[#5C0E16] via-[#7A1521] to-[#5C0E16] border border-[#B8860B]/40 active:scale-[0.99]" type="button">
+                <span class="material-symbols-outlined text-lg text-[#B8860B]">lock</span>
+                <span class="tracking-wider" id="order-btn-text">Ratify &amp; Seal Royal Acquisition</span>
+                <span class="material-symbols-outlined text-lg text-[#B8860B] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+              </button>
+              <p class="text-center text-[10px] text-stone-500 tracking-wider uppercase mt-2.5 font-serif">
+                By ratifying this order, you endorse the Parampara Artisan Charter of 1892.
+              </p>
+            </div>
+
+            <!-- Imperial Provenance Guarantee Badge -->
+            <div class="p-3.5 rounded-xl bg-gradient-to-br from-[#FAF7F2] to-[#FDFBF7] border border-[#B8860B]/35 flex items-center gap-3 shadow-xs">
+              <div class="w-10 h-10 rounded-full bg-[#785600] text-[#ffdea6] flex items-center justify-center flex-shrink-0 shadow-md">
+                <span class="material-symbols-outlined text-xl">workspace_premium</span>
+              </div>
+              <div>
+                <h5 class="text-[11px] font-bold uppercase tracking-wider text-[#785600] font-serif">Imperial Provenance Guarantee</h5>
+                <p class="text-[11px] text-stone-600 leading-snug">100% authenticity covenant &amp; government GI certified registry documentation.</p>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 24/7 Royal Curatorial Concierge Card -->
+          <div class="gilded-box rounded-xl p-4 bg-white shadow-xs flex items-center justify-between text-xs border border-[#E6DFD5]">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-[#FAF7F2] text-[#785600] border border-[#B8860B]/30 flex items-center justify-center shadow-xs">
+                <span class="material-symbols-outlined text-xl">support_agent</span>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <p class="font-serif font-bold text-stone-900 text-xs">Royal Curatorial Concierge</p>
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500" title="Desk Active"></span>
+                </div>
+                <p class="text-[11px] text-stone-500 font-serif">Immediate assistance with carriage, guild export &amp; packaging</p>
+              </div>
+            </div>
+            <a href="support.html#contact" class="px-3.5 py-1.5 bg-[#785600] rounded-md font-serif font-bold text-white hover:bg-[#986D00] transition text-[11px] tracking-wider uppercase shadow-xs flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-[14px]">chat</span> Concierge Desk
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ─── EDITORIAL PROVENANCE FOOTNOTE SECTION ─── -->
+      <div class="mt-20 pt-10 border-t border-[#E6DFD5] grid grid-cols-1 md:grid-cols-3 gap-8 text-stone-600">
         <div>
-         <label for="card-expiry" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Expiry Date</label>
-         <input id="card-expiry" type="text" maxlength="5" placeholder="MM / YY" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm text-center font-mono"/>
+          <h4 class="font-headline text-base text-stone-900 font-semibold mb-2">The Living Heritage Compact</h4>
+          <p class="text-xs leading-relaxed font-serif">
+            Every artifact featured on Parampara travels with its documented chain of custody. We eliminate middlemen, guaranteeing fair-trade remuneration and guild rights to master craftsmen and women.
+          </p>
         </div>
         <div>
-         <label for="card-cvv" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">CVV Security Code</label>
-         <input id="card-cvv" type="password" maxlength="4" placeholder="•••" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm text-center font-mono"/>
+          <h4 class="font-headline text-base text-stone-900 font-semibold mb-2">Conservation Grade Handling</h4>
+          <p class="text-xs leading-relaxed font-serif">
+            Delicate blue potteries and spun filigrees are secured with acid-free cushions, pH-neutral papers, and archival shock absorbers tested against micro-fractures in transit.
+          </p>
         </div>
-       </div>
-      </div>
-     </div>
-
-     <!-- Panel 2: UPI Input -->
-     <div id="panel-upi" class="pay-panel bg-[#FAF9F5] p-5 rounded-2xl border border-gray-200 mb-6 hidden">
-      <div class="space-y-4">
-       <div>
-        <label for="upi-id" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Enter Virtual Payment Address (VPA / UPI ID)</label>
-        <div class="relative">
-         <input id="upi-id" type="text" placeholder="mobile-number@upi or name@okaxis" class="w-full bg-white border border-gray-300 text-sm rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm"/>
-         <i class="fa-solid fa-at absolute left-3.5 top-3.5 text-gray-400 text-sm"></i>
+        <div>
+          <h4 class="font-headline text-base text-stone-900 font-semibold mb-2">Authenticated GI Tags</h4>
+          <p class="text-xs leading-relaxed font-serif">
+            Recognized by the Ministry of Commerce &amp; Industry. Physical provenance deeds include individual master artisan registration numbers and guild timestamps.
+          </p>
         </div>
-        <p class="text-[11px] text-gray-500 mt-1">Accepted: PhonePe, GPay, Paytm, BHIM, Amazon Pay</p>
-       </div>
-
-       <!-- Quick UPI App Chips -->
-       <div class="pt-2">
-        <span class="block text-xs font-bold text-gray-600 mb-2">Or launch your app directly:</span>
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-         <button onclick="selectUpiApp('PhonePe')" class="bg-white border border-gray-200 hover:border-[#B8860B] p-2.5 rounded-xl text-xs font-bold text-gray-700 flex items-center justify-center gap-1.5 shadow-sm transition-all">
-          <i class="fa-solid fa-mobile-screen text-purple-700"></i> PhonePe
-         </button>
-         <button onclick="selectUpiApp('GPay')" class="bg-white border border-gray-200 hover:border-[#B8860B] p-2.5 rounded-xl text-xs font-bold text-gray-700 flex items-center justify-center gap-1.5 shadow-sm transition-all">
-          <i class="fa-brands fa-google text-blue-600"></i> GPay
-         </button>
-         <button onclick="selectUpiApp('Paytm')" class="bg-white border border-gray-200 hover:border-[#B8860B] p-2.5 rounded-xl text-xs font-bold text-gray-700 flex items-center justify-center gap-1.5 shadow-sm transition-all">
-          <i class="fa-solid fa-wallet text-cyan-600"></i> Paytm
-         </button>
-         <button onclick="selectUpiApp('BHIM')" class="bg-white border border-gray-200 hover:border-[#B8860B] p-2.5 rounded-xl text-xs font-bold text-gray-700 flex items-center justify-center gap-1.5 shadow-sm transition-all">
-          <i class="fa-solid fa-building-columns text-orange-600"></i> BHIM
-         </button>
-        </div>
-       </div>
       </div>
-     </div>
-
-     <!-- Panel 3: Net Banking -->
-     <div id="panel-netbanking" class="pay-panel bg-[#FAF9F5] p-5 rounded-2xl border border-gray-200 mb-6 hidden">
-      <div>
-       <label for="bank-select" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Select Bank for Net Banking</label>
-       <select id="bank-select" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] shadow-sm cursor-pointer">
-        <option value="">Choose your bank</option>
-        <option>State Bank of India (SBI)</option>
-        <option>HDFC Bank</option>
-        <option>ICICI Bank</option>
-        <option>Axis Bank</option>
-        <option>Kotak Mahindra Bank</option>
-        <option>Bank of Baroda</option>
-        <option>Punjab National Bank</option>
-        <option>Canara Bank</option>
-        <option>Yes Bank</option>
-        <option>Federal Bank</option>
-       </select>
-      </div>
-     </div>
-
-     <!-- Panel 4: Cash on Delivery -->
-     <div id="panel-cod" class="pay-panel bg-[#FAF9F5] p-5 rounded-2xl border border-gray-200 mb-6 hidden">
-      <div class="flex items-start gap-3 text-xs text-gray-700">
-       <i class="fa-solid fa-circle-check text-green-600 text-lg mt-0.5"></i>
-       <div>
-        <strong class="font-bold block text-sm text-gray-900 mb-1">Cash on Delivery Available</strong>
-        Pay cash to courier agent upon delivery. A nominal ₹ 99 handling fee applies for COD processing.
-       </div>
-      </div>
-     </div>
-
-     <!-- Place Order Button -->
-     <button id="btn-place-order" onclick="placeOrder()" class="w-full bg-gradient-to-r from-[#B8860B] to-[#8B6508] hover:from-[#8B6508] hover:to-[#684a04] text-white text-sm font-bold uppercase tracking-wider py-4 rounded-full transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
-      <i class="fa-solid fa-lock text-xs"></i>
-      <span id="order-btn-text">Place Secure Order — ₹ 24,500</span>
-     </button>
-    </div>
-
-    <!-- ── STEP 3: Order Confirmation Screen ── -->
-    <div class="bg-white rounded-3xl p-6 sm:p-10 border border-gray-200 shadow-sm hidden text-center" id="form-confirm">
-     <div class="w-16 h-16 bg-green-100 text-green-700 rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-md">
-      <i class="fa-solid fa-circle-check"></i>
-     </div>
-     <span class="text-xs font-bold uppercase tracking-widest text-[#B8860B] block mb-1">Government GI Registry Certified</span>
-     <h2 class="text-3xl font-extrabold font-sora text-gray-900 mb-2">Order Confirmed!</h2>
-     <p class="text-sm text-gray-600 max-w-md mx-auto mb-6">
-      Your heritage masterpiece has been officially reserved. A digital copy of your GI Authenticity Certificate has been dispatched to your email.
-     </p>
-
-     <div class="bg-[#FAF9F5] p-5 rounded-2xl border border-gray-200 text-left max-w-md mx-auto mb-6 space-y-3 text-xs">
-      <div class="flex justify-between border-b border-gray-200 pb-2">
-       <span class="text-gray-500 font-medium">Order Reference</span>
-       <strong class="font-mono text-gray-900" id="confirm-order-id">PAR-2026-9842</strong>
-      </div>
-      <div class="flex justify-between border-b border-gray-200 pb-2">
-       <span class="text-gray-500 font-medium">Reserved Item</span>
-       <strong class="font-bold text-gray-900" id="confirm-item-name">Jaipur Blue Pottery</strong>
-      </div>
-      <div class="flex justify-between border-b border-gray-200 pb-2">
-       <span class="text-gray-500 font-medium">Total Paid</span>
-       <strong class="font-bold text-gray-900" id="confirm-total">₹ 24,500</strong>
-      </div>
-      <div class="flex justify-between border-b border-gray-200 pb-2">
-       <span class="text-gray-500 font-medium">Estimated Delivery</span>
-       <strong class="font-bold text-green-700" id="confirm-delivery">Oct 12 – 14, 2026</strong>
-      </div>
-      <div id="confirm-artisan-payout" class="pt-1 text-center bg-amber-50 p-2.5 rounded-xl border border-amber-200 text-amber-900 font-semibold text-[11px]">
-       <i class="fa-solid fa-hand-holding-heart text-[#B8860B] mr-1"></i> ₹ 17,150 (70%) transferred directly to master artisan's account.
-      </div>
-     </div>
-
-     <div id="pdf-download-container" class="my-4">
-      <a href="/api/orders/PRM-DEMO-98214/invoice-pdf" target="_blank" download class="inline-flex items-center gap-2 bg-[#8B0000] hover:bg-[#680000] text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all shadow-lg hover:shadow-xl">
-       <i class="fa-solid fa-file-pdf text-sm text-[#FFD700]"></i>
-       <span>Download Certified GI Certificate & Receipt (PDF)</span>
-      </a>
-     </div>
-
-     <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-      <a href="profile.html#orders" class="w-full sm:w-auto px-6 py-3 rounded-full bg-[#181512] hover:bg-[#2A241E] text-white text-xs font-bold uppercase tracking-wider transition-all shadow flex items-center justify-center gap-2">
-       <i class="fa-solid fa-clock-rotate-left text-[#D4AF37]"></i>
-       <span>Track Order in Profile</span>
-      </a>
-      <a href="search.html" class="w-full sm:w-auto px-6 py-3 rounded-full border border-gray-300 hover:bg-gray-100 text-gray-700 text-xs font-bold uppercase tracking-wider transition-all">
-       Explore More Crafts
-      </a>
-     </div>
-    </div>
-
-   </section>
-
-   <!-- ========================================================================= -->
-   <!-- RIGHT COLUMN: Order Summary & Artisan Transparency Sidebar (Col-span-5) -->
-   <!-- ========================================================================= -->
-   <aside class="lg:col-span-5 space-y-6">
-
-    <!-- Order Summary Card -->
-    <div class="bg-white rounded-3xl p-6 sm:p-7 border border-gray-200 shadow-sm sticky top-24">
-     <h3 class="text-lg font-bold font-sora text-gray-900 pb-4 mb-4 border-b border-gray-100 flex items-center justify-between">
-      <span>Order Summary</span>
-      <span id="summary-items-count" class="text-xs font-semibold text-[#B8860B] bg-[#FAF6ED] px-2.5 py-1 rounded-full border border-[#B8860B]/20">1 Item</span>
-     </h3>
-
-     <!-- Dynamic Product Items List (Includes quantity adjustment [-/+] & remove [🗑️] buttons) -->
-     <div id="cart-items-container" class="space-y-4 pb-4 mb-4 border-b border-gray-100 max-h-[380px] overflow-y-auto pr-1">
-      <!-- Rendered dynamically by js/checkout.js -->
-     </div>
-
-     <!-- Quick Add Heritage Craft Button -->
-     <div class="mb-5">
-      <button onclick="toggleQuickAddModal()" class="w-full py-2.5 px-3 rounded-xl border border-dashed border-[#B8860B]/60 bg-[#FAF9F5] hover:bg-[#FAF6ED] text-[#B8860B] font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-xs">
-       <i class="fa-solid fa-plus-circle text-sm"></i>
-       <span>Add Another Heritage Craft to Order</span>
-      </button>
-     </div>
-
-     <!-- Economic Transparency Calculator Card -->
-     <div class="bg-[#FAF9F5] p-4 rounded-2xl border border-gray-200 mb-5">
-      <div class="flex items-center justify-between text-xs font-bold text-gray-800 mb-2">
-       <span class="flex items-center gap-1.5 text-[#B8860B]"><i class="fa-solid fa-chart-pie"></i> 70% Direct Artisan Payout</span>
-       <span class="text-green-700" id="artisan-amount">₹ 17,150</span>
-      </div>
-      <div class="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden flex mb-2">
-       <div class="bg-green-600 h-full" style="width: 70%" title="Artisan 70%"></div>
-       <div class="bg-[#B8860B] h-full" style="width: 20%" title="Platform 20%"></div>
-       <div class="bg-gray-500 h-full" style="width: 10%" title="Logistics 10%"></div>
-      </div>
-      <div class="flex justify-between text-[10px] text-gray-500 font-medium">
-       <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-green-600"></span> Artisan (70%)</span>
-       <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#B8860B]"></span> Platform (20%)</span>
-       <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-gray-500"></span> Shipping (10%)</span>
-      </div>
-     </div>
-
-     <!-- Promo Code Input -->
-     <div class="mb-5">
-      <div class="flex gap-2">
-       <input id="promo-input" type="text" placeholder="Promo Code (e.g. ARTISAN10)" class="flex-grow bg-white border border-gray-300 text-xs rounded-xl px-3.5 py-2.5 uppercase focus:outline-none focus:border-[#B8860B] shadow-sm"/>
-       <button id="promo-btn" onclick="applyPromo()" class="bg-[#1A1A1A] hover:bg-[#B8860B] text-white text-xs font-bold uppercase tracking-wider px-4 py-2.5 rounded-xl transition-colors shadow">
-        Apply
-       </button>
-      </div>
-      <p id="promo-msg" class="text-xs mt-1.5 font-semibold hidden"></p>
-     </div>
-
-     <!-- Cost Breakdown -->
-     <div class="space-y-2.5 text-xs text-gray-600 pb-4 border-b border-gray-100">
-      <div class="flex justify-between">
-       <span>Craft Subtotal</span>
-       <span class="font-bold text-gray-900" id="price-subtotal">₹ 24,500</span>
-      </div>
-      <div class="flex justify-between text-green-700 hidden" id="row-discount">
-       <span id="discount-label">Promo Discount (10%)</span>
-       <span class="font-bold" id="price-discount">- ₹ 2,450</span>
-      </div>
-      <div class="flex justify-between">
-       <span>Insured Shipping</span>
-       <span class="font-bold text-green-700" id="price-shipping">FREE</span>
-      </div>
-      <div class="flex justify-between">
-       <span>GST (12% Handicraft Tax)</span>
-       <span class="font-bold text-gray-900" id="price-gst">₹ 2,940</span>
-      </div>
-     </div>
-
-     <!-- Grand Total -->
-     <div class="flex items-baseline justify-between pt-4 mb-6">
-      <div>
-       <span class="text-xs uppercase text-gray-500 font-bold tracking-wider block">Total Payable</span>
-       <span class="text-[10px] text-gray-400">Includes all government taxes & shipping</span>
-      </div>
-      <span class="text-2xl font-extrabold font-sora text-gray-900" id="price-total">₹ 27,440</span>
-     </div>
-
-     <!-- Master Artisan Story Dossier -->
-     <div class="bg-[#FAF9F5] p-4 rounded-2xl border border-[#B8860B]/30 flex items-center gap-3">
-      <img loading="lazy" decoding="async" id="artisan-img" src="assets/jaipur_pottery_artisan.webp" onerror="this.src='assets/master_potter_artisan.webp'" alt="Artisan" class="w-12 h-12 rounded-full object-cover border-2 border-[#B8860B] shrink-0"/>
-      <div class="text-xs">
-       <span class="text-[10px] font-bold text-[#B8860B] uppercase tracking-wider block">Master Artisan Lineage</span>
-       <h5 class="font-bold text-gray-900" id="artisan-name">Gopal Saini (National Awardee)</h5>
-       <p class="text-[11px] text-gray-500 line-clamp-1 italic font-serif-heading">"Our hands preserve what our ancestors whispered."</p>
-      </div>
-     </div>
 
     </div>
-
-   </aside>
-
   </main>
 
-  <!-- ── Mobile Sticky Checkout Action Bar ── -->
-  <aside id="mobile-checkout-bar" aria-label="Mobile Checkout Actions" class="lg:hidden fixed bottom-0 left-0 right-0 z-[120] bg-white/95 backdrop-blur-md border-t border-[#B8860B]/25 p-3.5 shadow-2xl transition-transform duration-300">
-   <div class="max-w-md mx-auto flex items-center justify-between gap-3">
-    <div class="flex flex-col">
-     <div class="flex items-baseline gap-1.5">
-      <span class="text-[10px] uppercase font-bold text-gray-500">Payable</span>
-      <span class="text-base font-extrabold font-sora text-gray-900" id="mobile-price-total">₹ 27,440</span>
-     </div>
-     <span class="text-[10px] font-semibold text-green-700 flex items-center gap-1">
-      <i class="fa-solid fa-stamp text-[9px] text-[#B8860B]"></i> 70% to Artisan
-     </span>
-    </div>
-    <button id="mobile-action-btn" onclick="handleMobileAction()" class="flex-grow max-w-[210px] py-3 px-4 rounded-full bg-gradient-to-r from-[#B8860B] to-[#8B6508] text-white text-xs font-bold uppercase tracking-wider shadow-lg hover:shadow-xl flex items-center justify-center gap-1.5 transition-all">
-     <span id="mobile-action-text">Proceed to Pay</span>
-     <i class="fa-solid fa-arrow-right text-[10px]" id="mobile-action-icon"></i>
-    </button>
-   </div>
-  </aside>
-
-  <!-- ── Footer ── -->
-  <footer class="bg-[#1A1A1A] text-white text-xs py-8 px-4 border-t border-white/10 mt-auto pb-20 lg:pb-8">
-   <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
-    <p class="text-gray-400">© 2026 Parampara Heritage Platform. Preserving India's Craft Traditions across 28 States.</p>
-    <div class="flex items-center gap-4 text-gray-400 text-sm">
-     <i class="fa-brands fa-cc-visa hover:text-white transition-colors"></i>
-     <i class="fa-brands fa-cc-mastercard hover:text-white transition-colors"></i>
-     <i class="fa-solid fa-shield-halved text-[#B8860B]"></i>
-     <span>256-Bit SSL Protected</span>
-    </div>
-   </div>
-  </footer>
-
-  <!-- ── Quick Add Heritage Craft Modal ── -->
-  <div id="quick-add-modal" class="fixed inset-0 z-[200] bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 hidden animate-[fadeIn_0.2s_ease-out]">
-   <div class="bg-white rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl border border-gray-200 relative">
-    <button onclick="toggleQuickAddModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 flex items-center justify-center font-bold text-sm transition-colors">
-     ✕
-    </button>
-    
-    <div class="flex items-center gap-3 mb-4">
-     <div class="w-10 h-10 rounded-2xl bg-[#B8860B] text-white flex items-center justify-center text-lg font-bold shadow-md">
-      <i class="fa-solid fa-gem"></i>
-     </div>
-     <div>
-      <h3 class="text-xl font-bold font-sora text-gray-900">Add Certified Heritage Craft</h3>
-      <p class="text-xs text-gray-500">Select authentic GI-tagged masterpieces to add to your order.</p>
-     </div>
-    </div>
-
-    <!-- Curated Crafts List -->
-    <div class="space-y-3 my-4 max-h-[340px] overflow-y-auto pr-1">
-     <!-- Craft 1 -->
-     <div class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-[#B8860B] bg-[#FAF9F5] transition-all">
-      <div class="flex items-center gap-3">
-       <img loading="lazy" decoding="async" src="assets/products/banarasi_saree.webp" onerror="this.src='assets/products/banarasi_saree.png'" alt="Muga Silk" class="w-12 h-12 rounded-xl object-cover shrink-0 border border-gray-200"/>
-       <div>
-        <h4 class="text-xs font-bold text-gray-900">Assam Muga Silk Saree</h4>
-        <span class="text-[10px] text-gray-500 block">GI/RS/038/2007 · Kamrup, Assam</span>
-        <strong class="text-xs font-extrabold text-[#B8860B] font-sora">₹ 24,500</strong>
-       </div>
+  <!-- ─── STEP 3: STATELY ORDER CONFIRMATION MODAL / SCREEN ─── -->
+  <div class="fixed inset-0 z-[200] bg-black/75 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto" id="form-confirm">
+    <div class="bg-[#FAF7F2] border-2 border-[#B8860B] rounded-3xl p-6 sm:p-10 shadow-2xl max-w-2xl w-full text-center relative my-8">
+      <div class="w-16 h-16 bg-[#785600] text-[#ffdea6] rounded-full flex items-center justify-center text-3xl mx-auto mb-4 shadow-lg border-2 border-[#ffdea6]">
+        <span class="material-symbols-outlined text-3xl">workspace_premium</span>
       </div>
-      <button onclick="addQuickCraftItem(QUICK_ADD_CRAFTS[0]); toggleQuickAddModal();" class="px-3.5 py-1.5 rounded-xl bg-[#B8860B] hover:bg-[#8B6508] text-white font-bold text-xs shadow transition-all flex items-center gap-1">
-       <i class="fa-solid fa-plus text-[10px]"></i> Add
-      </button>
-     </div>
 
-     <!-- Craft 2 -->
-     <div class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-[#B8860B] bg-[#FAF9F5] transition-all">
-      <div class="flex items-center gap-3">
-       <img loading="lazy" decoding="async" src="assets/products/blue_pottery_vase.webp" onerror="this.src='assets/products/blue_pottery_vase.png'" alt="Blue Pottery" class="w-12 h-12 rounded-xl object-cover shrink-0 border border-gray-200"/>
-       <div>
-        <h4 class="text-xs font-bold text-gray-900">Jaipur Blue Pottery Royal Vase</h4>
-        <span class="text-[10px] text-gray-500 block">GI/RS/080/2016 · Jaipur, Rajasthan</span>
-        <strong class="text-xs font-extrabold text-[#B8860B] font-sora">₹ 3,400</strong>
-       </div>
-      </div>
-      <button onclick="addQuickCraftItem(QUICK_ADD_CRAFTS[1]); toggleQuickAddModal();" class="px-3.5 py-1.5 rounded-xl bg-[#B8860B] hover:bg-[#8B6508] text-white font-bold text-xs shadow transition-all flex items-center gap-1">
-       <i class="fa-solid fa-plus text-[10px]"></i> Add
-      </button>
-     </div>
+      <span class="text-xs font-bold uppercase tracking-widest text-[#B8860B] font-serif block mb-1">Government GI Registry Certified Acquisition</span>
+      <h2 class="text-2xl sm:text-3xl font-normal serif-royal text-stone-900 mb-2">Royal Acquisition Ratified!</h2>
+      <p class="text-xs sm:text-sm text-stone-600 font-serif max-w-md mx-auto mb-6">
+        Your heirloom masterpiece has been officially reserved in the imperial registry. A digital provenance deed and sealed GI certificate have been dispatched to your email.
+      </p>
 
-     <!-- Craft 3 -->
-     <div class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-[#B8860B] bg-[#FAF9F5] transition-all">
-      <div class="flex items-center gap-3">
-       <img loading="lazy" decoding="async" src="assets/products/dokra_figurine.webp" onerror="this.src='assets/products/dokra_figurine.png'" alt="Kullu Shawl" class="w-12 h-12 rounded-xl object-cover shrink-0 border border-gray-200"/>
-       <div>
-        <h4 class="text-xs font-bold text-gray-900">Kullu Woolen Geometric Shawl</h4>
-        <span class="text-[10px] text-gray-500 block">GI/RS/130/2004 · Kullu, Himachal</span>
-        <strong class="text-xs font-extrabold text-[#B8860B] font-sora">₹ 4,800</strong>
-       </div>
+      <div class="bg-white p-5 rounded-2xl border border-[#B8860B]/30 text-left max-w-md mx-auto mb-6 space-y-3 text-xs font-serif">
+        <div class="flex justify-between border-b border-stone-200 pb-2">
+          <span class="text-stone-500 font-medium">Deed Reference</span>
+          <strong class="font-mono text-stone-900 font-bold" id="confirm-order-id">PAR-2026-9842</strong>
+        </div>
+        <div class="flex justify-between border-b border-stone-200 pb-2">
+          <span class="text-stone-500 font-medium">Reserved Works</span>
+          <strong class="font-bold text-stone-900 truncate max-w-[200px]" id="confirm-item-name">Jaipur Blue Pottery Urn &amp; Filigree Coffer</strong>
+        </div>
+        <div class="flex justify-between border-b border-stone-200 pb-2">
+          <span class="text-stone-500 font-medium">Sovereign Total Honored</span>
+          <strong class="font-bold text-[#785600]" id="confirm-total">₹19,790</strong>
+        </div>
+        <div class="flex justify-between border-b border-stone-200 pb-2">
+          <span class="text-stone-500 font-medium">Estimated Palace Delivery</span>
+          <strong class="font-bold text-emerald-800" id="confirm-delivery">Thursday, Nov 14</strong>
+        </div>
+        <div id="confirm-artisan-payout-modal" class="pt-1 text-center bg-[#FAF7F2] p-2.5 rounded-xl border border-[#B8860B]/30 text-[#785600] font-semibold text-[11px]">
+          <span class="material-symbols-outlined text-sm text-[#7A1521] mr-1">volunteer_activism</span>
+          70% direct craft share transferred to master artisan's cluster account.
+        </div>
       </div>
-      <button onclick="addQuickCraftItem(QUICK_ADD_CRAFTS[2]); toggleQuickAddModal();" class="px-3.5 py-1.5 rounded-xl bg-[#B8860B] hover:bg-[#8B6508] text-white font-bold text-xs shadow transition-all flex items-center gap-1">
-       <i class="fa-solid fa-plus text-[10px]"></i> Add
-      </button>
-     </div>
 
-     <!-- Craft 4 -->
-     <div class="flex items-center justify-between p-3.5 rounded-2xl border border-gray-200 hover:border-[#B8860B] bg-[#FAF9F5] transition-all">
-      <div class="flex items-center gap-3">
-       <img loading="lazy" decoding="async" src="assets/products/meenakari_choker.webp" onerror="this.src='assets/products/meenakari_choker.png'" alt="Bidriware" class="w-12 h-12 rounded-xl object-cover shrink-0 border border-gray-200"/>
-       <div>
-        <h4 class="text-xs font-bold text-gray-900">Bidriware Silver Inlay Surahi</h4>
-        <span class="text-[10px] text-gray-500 block">GI/RS/070/2015 · Bidar, Karnataka</span>
-        <strong class="text-xs font-extrabold text-[#B8860B] font-sora">₹ 4,200</strong>
-       </div>
+      <div id="pdf-download-container" class="my-4">
+        <a href="/api/orders/PRM-DEMO-98214/invoice-pdf" target="_blank" download class="inline-flex items-center gap-2 bg-[#7A1521] hover:bg-[#5C0E16] text-[#ffdea6] px-6 py-3 rounded-full text-xs font-serif font-bold uppercase tracking-wider transition-all shadow-lg hover:shadow-xl border border-[#B8860B]/40">
+          <span class="material-symbols-outlined text-base text-[#B8860B]">picture_as_pdf</span>
+          <span>Download Certified GI Certificate &amp; Receipt (PDF)</span>
+        </a>
       </div>
-      <button onclick="addQuickCraftItem(QUICK_ADD_CRAFTS[3]); toggleQuickAddModal();" class="px-3.5 py-1.5 rounded-xl bg-[#B8860B] hover:bg-[#8B6508] text-white font-bold text-xs shadow transition-all flex items-center gap-1">
-       <i class="fa-solid fa-plus text-[10px]"></i> Add
-      </button>
-     </div>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <a href="profile.html#orders" class="w-full sm:w-auto px-6 py-3 rounded-full bg-[#1C1B1B] hover:bg-stone-900 text-white text-xs font-serif font-bold uppercase tracking-wider transition-all shadow flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-sm text-[#B8860B]">history</span>
+          <span>Inspect Dossier in Profile</span>
+        </a>
+        <a href="search.html" class="w-full sm:w-auto px-6 py-3 rounded-full border border-stone-300 hover:bg-white text-stone-700 text-xs font-serif font-bold uppercase tracking-wider transition-all">
+          Explore More Masterpieces
+        </a>
+      </div>
     </div>
-
-    <div class="pt-2 text-center">
-     <button onclick="toggleQuickAddModal()" class="text-xs font-bold text-gray-500 hover:text-gray-900 uppercase tracking-wider">
-      Close Window
-     </button>
-    </div>
-   </div>
   </div>
 
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <!-- ─── QUICK ADD CRAFTS MODAL ─── -->
+  <div id="quick-add-modal" class="hidden">
+    <div class="bg-[#FAF7F2] rounded-3xl p-6 sm:p-8 max-w-xl w-full mx-4 border-2 border-[#B8860B]/40 shadow-2xl space-y-5">
+      <div class="flex items-center justify-between border-b border-[#E6DFD5] pb-4">
+        <div>
+          <h3 class="font-headline text-lg sm:text-xl font-bold text-stone-900">Curated Masterpiece Inventory</h3>
+          <p class="text-xs text-stone-500 font-serif">Quickly add authentic GI-certified crafts to your vault.</p>
+        </div>
+        <button onclick="toggleQuickAddModal()" class="w-8 h-8 rounded-full bg-stone-200 hover:bg-stone-300 text-stone-700 flex items-center justify-center font-bold text-sm transition">
+          &times;
+        </button>
+      </div>
+
+      <div id="quick-add-list" class="space-y-3 max-h-[360px] overflow-y-auto pr-1">
+        <!-- Rendered dynamically by js/checkout.js -->
+      </div>
+
+      <div class="pt-2 text-right border-t border-[#E6DFD5]">
+        <button onclick="toggleQuickAddModal()" class="px-5 py-2.5 rounded-full bg-[#785600] text-white text-xs font-serif font-bold uppercase tracking-wider hover:bg-[#986D00] transition shadow">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── MOBILE STICKY CHECKOUT BAR ─── -->
+  <div id="mobile-checkout-bar">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div>
+        <span class="text-[10px] text-stone-500 uppercase tracking-wider font-serif block">Total Acquisition</span>
+        <span class="font-headline text-lg font-bold text-[#785600]" id="mobile-price-total">₹19,790</span>
+      </div>
+      <button onclick="placeOrder()" class="px-5 py-3 rounded-lg bg-gradient-to-r from-[#5C0E16] to-[#7A1521] text-[#ffdea6] font-serif font-bold text-xs uppercase tracking-wider shadow-md flex items-center gap-1.5 border border-[#B8860B]/40">
+        <span class="material-symbols-outlined text-sm text-[#B8860B]">lock</span>
+        <span>Ratify Order</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ─── STATELY FOOTER ─── -->
+  <footer class="bg-[#FAF7F2] border-t border-[#E6DFD5] pt-16 pb-12 mt-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-6 sm:px-12 max-w-7xl mx-auto">
+      <div>
+        <a class="text-xl font-headline italic text-[#7A1521] block mb-4" href="index.html">Parampara Heritage Editorial</a>
+        <p class="text-stone-500 text-xs leading-relaxed max-w-xs font-body tracking-wider uppercase">
+          Preserving the intangible beauty of hand-wrought objects through intentional design and royal storytelling.
+        </p>
+      </div>
+      <div class="flex flex-col gap-3 font-serif">
+        <span class="text-[#785600] font-bold text-xs tracking-widest uppercase mb-1">Guild Navigation</span>
+        <a class="text-stone-600 hover:text-[#7A1521] text-xs transition" href="about.html">About The Sovereign Ateliers</a>
+        <a class="text-stone-600 hover:text-[#7A1521] text-xs transition" href="artisans.html">Craft Stories &amp; Lineage</a>
+        <a class="text-stone-600 hover:text-[#7A1521] text-xs transition" href="states.html">Living Heritage Foundation</a>
+      </div>
+      <div class="flex flex-col gap-3 font-serif">
+        <span class="text-[#785600] font-bold text-xs tracking-widest uppercase mb-1">Patron Services</span>
+        <a class="text-stone-600 hover:text-[#7A1521] text-xs transition" href="support.html#faq">Curator Inquiries</a>
+        <a class="text-stone-600 hover:text-[#7A1521] text-xs transition" href="support.html#shipping">Bespoke Commissioning</a>
+        <div class="flex gap-4 mt-2 text-stone-400">
+          <a href="support.html" class="hover:text-[#785600]"><i class="fa-solid fa-shield-halved text-sm"></i></a>
+          <a href="support.html#privacy" class="hover:text-[#785600]"><i class="fa-solid fa-lock text-sm"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="mt-14 text-center border-t border-[#E6DFD5]/60 pt-6">
+      <p class="text-stone-400 text-[10px] tracking-[0.3em] uppercase font-serif">
+        © 2026 PARAMPARA ROYAL HERITAGE ATELIERS · PRESERVING CRAFTSMANSHIP SINCE 1892.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ─── SCRIPTS ─── -->
   <script src="js/checkout.js"></script>
-  <script src="js/widget.js" defer></script>
- </body>
+</body>
 </html>
