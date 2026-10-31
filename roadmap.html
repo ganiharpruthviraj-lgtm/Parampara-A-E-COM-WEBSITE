@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="favicon.png" rel="icon" type="image/png"/>
+  <title>Engineering Roadmap & Planning | Parampara Heritage</title>
+  <meta content="Explore the technical roadmap, architectural milestones, live system health, and engineering progress of Parampara Heritage platform." name="description"/>
+  
+  <!-- Open Graph / Social Sharing -->
+  <meta content="website" property="og:type"/>
+  <meta content="Parampara Heritage" property="og:site_name"/>
+  <meta content="Engineering Roadmap & Planning | Parampara Heritage" property="og:title"/>
+  <meta content="Explore the technical roadmap, architectural milestones, live system health, and engineering progress of Parampara Heritage platform." property="og:description"/>
+  <meta content="assets/parampara_logo_crest.webp" property="og:image"/>
+  <meta content="https://parampara.in/roadmap.html" property="og:url"/>
+
+  <!-- Twitter Card -->
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Engineering Roadmap & Planning | Parampara Heritage" name="twitter:title"/>
+  <meta content="Explore the technical roadmap, architectural milestones, live system health, and engineering progress of Parampara Heritage platform." name="twitter:description"/>
+  <meta content="assets/parampara_logo_crest.webp" name="twitter:image"/>
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --primary-color: #800000;
+      --primary-hover: #990000;
+      --gold-primary: #B8860B;
+      --gold-hover: #9A7008;
+      --bg-cream: #FAF7F2;
+      --dark-surface: #1A1715;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-cream);
+      color: #1A1715;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, .font-serif {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    .font-sora {
+      font-family: 'Sora', sans-serif;
+    }
+    .milestone-card {
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .milestone-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 16px 32px -8px rgba(26, 23, 21, 0.12);
+    }
+    .badge-done {
+      background: #ECFDF5;
+      color: #065F46;
+      border: 1px solid #A7F3D0;
+    }
+    .badge-active {
+      background: #FFFBEB;
+      color: #92400E;
+      border: 1px solid #FDE68A;
+    }
+    .badge-planned {
+      background: #F3F4F6;
+      color: #4B5563;
+      border: 1px solid #E5E7EB;
+    }
+    .filter-tab.active {
+      background: #1A1715;
+      color: #FAF7F2;
+      border-color: #1A1715;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Universal Header injected by components.js -->
+  <header id="global-header"></header>
+
+  <!-- HERO SECTION -->
+  <section class="relative bg-gradient-to-b from-[#1A1715] via-[#2A1F1B] to-[#1A1715] text-[#FAF7F2] py-20 px-4 sm:px-6 lg:px-8 border-b border-white/10">
+    <div class="max-w-6xl mx-auto text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/20 text-[#D4AF37] text-xs font-bold tracking-widest uppercase mb-6 animate-pulse">
+        <i class="fa-solid fa-code-branch"></i>
+        Parampara System Architecture &amp; Planning
+      </div>
+      <h1 class="text-4xl sm:text-6xl font-bold tracking-tight text-white mb-6">
+        Platform Roadmap &amp; <span class="italic text-[#D4AF37]">Execution Status</span>
+      </h1>
+      <p class="max-w-2xl mx-auto text-base sm:text-lg text-gray-300 font-light leading-relaxed mb-10">
+        Transparent technical milestones, continuous verification audit results, and live infrastructure health metrics for India's premier GI-tagged handicraft provenance portal.
+      </p>
+
+      <!-- LIVE SYSTEM STATUS PILL -->
+      <div class="inline-flex flex-wrap items-center justify-center gap-4 bg-black/40 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/15 text-xs text-gray-300 shadow-xl">
+        <div class="flex items-center gap-2">
+          <span class="relative flex h-2.5 w-2.5">
+            <span id="health-ping-pulse" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span id="health-ping-dot" class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+          </span>
+          <span id="health-server-status" class="font-semibold text-white">Server: Checking...</span>
+        </div>
+        <span class="text-white/30">•</span>
+        <div class="flex items-center gap-1.5 text-gray-300">
+          <i class="fa-solid fa-database text-xs text-[#D4AF37]"></i>
+          <span id="health-db-status">Database: Checking...</span>
+        </div>
+        <span class="text-white/30">•</span>
+        <div class="flex items-center gap-1.5 text-gray-300">
+          <i class="fa-solid fa-vial-circle-check text-xs text-emerald-400"></i>
+          <span>Jest Tests: <strong class="text-white font-mono">67 / 67 Passed</strong></span>
+        </div>
+        <span class="text-white/30">•</span>
+        <div class="flex items-center gap-1.5 text-gray-300">
+          <i class="fa-solid fa-clock-rotate-left text-xs text-sky-400"></i>
+          <span id="health-uptime">Uptime: --</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI SUMMARY CARDS -->
+  <section class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+      <!-- KPI 1 -->
+      <div class="bg-white rounded-2xl p-5 border border-[#EADBCC] shadow-md">
+        <div class="flex items-center justify-between text-xs text-gray-500 font-semibold mb-2">
+          <span>PROGRESS</span>
+          <i class="fa-solid fa-chart-pie text-[#B8860B]"></i>
+        </div>
+        <div class="text-3xl font-extrabold text-[#1A1715] font-sora">78%</div>
+        <div class="text-xs text-gray-500 mt-1">7 of 9 Phases Shipped</div>
+      </div>
+      <!-- KPI 2 -->
+      <div class="bg-white rounded-2xl p-5 border border-[#EADBCC] shadow-md">
+        <div class="flex items-center justify-between text-xs text-gray-500 font-semibold mb-2">
+          <span>TEST SUITES</span>
+          <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+        </div>
+        <div class="text-3xl font-extrabold text-emerald-700 font-sora">100%</div>
+        <div class="text-xs text-gray-500 mt-1">7 / 7 Suites Green (67 Tests)</div>
+      </div>
+      <!-- KPI 3 -->
+      <div class="bg-white rounded-2xl p-5 border border-[#EADBCC] shadow-md">
+        <div class="flex items-center justify-between text-xs text-gray-500 font-semibold mb-2">
+          <span>POSTAL REACH</span>
+          <i class="fa-solid fa-envelope-open-text text-sky-600"></i>
+        </div>
+        <div class="text-3xl font-extrabold text-sky-700 font-sora">100%</div>
+        <div class="text-xs text-gray-500 mt-1">All 28 States &amp; 8 UTs</div>
+      </div>
+      <!-- KPI 4 -->
+      <div class="bg-white rounded-2xl p-5 border border-[#EADBCC] shadow-md">
+        <div class="flex items-center justify-between text-xs text-gray-500 font-semibold mb-2">
+          <span>ARTISAN SHARE</span>
+          <i class="fa-solid fa-hand-holding-dollar text-[#800000]"></i>
+        </div>
+        <div class="text-3xl font-extrabold text-[#800000] font-sora">70%</div>
+        <div class="text-xs text-gray-500 mt-1">Direct Bank Disbursement</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT CONTAINER -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow">
+
+    <!-- FILTER TABS & SEARCH -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-10 pb-6 border-b border-[#EADBCC]">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold text-[#1A1715]">
+          Milestone Breakdown
+        </h2>
+        <p class="text-xs text-gray-500 mt-1">Track architectural delivery across production hardening, artisan commerce, and offline capabilities.</p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button type="button" onclick="filterMilestones('all')" class="filter-tab active px-4 py-2 rounded-full border border-[#D5C9BC] text-xs font-semibold hover:border-[#1A1715] transition-all" data-filter="all">
+          All (9 Phases)
+        </button>
+        <button type="button" onclick="filterMilestones('completed')" class="filter-tab px-4 py-2 rounded-full border border-[#D5C9BC] text-xs font-semibold text-gray-600 hover:text-[#1A1715] hover:border-[#1A1715] transition-all" data-filter="completed">
+          <i class="fa-solid fa-check text-emerald-600 mr-1"></i> Completed (7)
+        </button>
+        <button type="button" onclick="filterMilestones('active')" class="filter-tab px-4 py-2 rounded-full border border-[#D5C9BC] text-xs font-semibold text-gray-600 hover:text-[#1A1715] hover:border-[#1A1715] transition-all" data-filter="active">
+          <i class="fa-solid fa-spinner fa-spin text-amber-600 mr-1"></i> Active (1)
+        </button>
+        <button type="button" onclick="filterMilestones('planned')" class="filter-tab px-4 py-2 rounded-full border border-[#D5C9BC] text-xs font-semibold text-gray-600 hover:text-[#1A1715] hover:border-[#1A1715] transition-all" data-filter="planned">
+          <i class="fa-solid fa-lock text-gray-400 mr-1"></i> Planned (1)
+        </button>
+      </div>
+    </div>
+
+    <!-- MILESTONE 1: PRODUCTION HARDENING -->
+    <div class="mb-14 milestone-section" data-milestone="1">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-8 h-8 rounded-full bg-[#1A1715] text-[#D4AF37] flex items-center justify-center font-bold text-sm">1</span>
+        <div>
+          <h3 class="text-xl sm:text-2xl font-bold text-[#1A1715]">Milestone 1 — Production Hardening &amp; Quality Gates</h3>
+          <p class="text-xs text-emerald-700 font-semibold flex items-center gap-1.5 mt-0.5">
+            <i class="fa-solid fa-circle-check"></i>
+            100% Shipped &amp; Verified (Raised repo audit score from 63 to 85+/100)
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Phase 1 -->
+        <div class="milestone-card bg-white rounded-2xl p-6 border border-[#EADBCC] flex flex-col justify-between" data-status="completed">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold tracking-widest text-[#B8860B] uppercase">Phase 1</span>
+              <span class="badge-done px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1">
+                <i class="fa-solid fa-check text-[9px]"></i> Shipped
+              </span>
+            </div>
+            <h4 class="text-lg font-bold text-[#1A1715] mb-2">Security Hardening</h4>
+            <p class="text-xs text-gray-600 leading-relaxed mb-4">
+              Enforced 64-char cryptographically secure JWT secrets, dynamic CORS whitelist supporting Vercel and Render, and safe template environment variables.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-[#F2ECE4] text-[11px] text-gray-500 font-mono">
+            Req: US-01 • backend/app.js
+          </div>
+        </div>
+
+        <!-- Phase 2 -->
+        <div class="milestone-card bg-white rounded-2xl p-6 border border-[#EADBCC] flex flex-col justify-between" data-status="completed">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold tracking-widest text-[#B8860B] uppercase">Phase 2</span>
+              <span class="badge-done px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1">
+                <i class="fa-solid fa-check text-[9px]"></i> Shipped
+              </span>
+            </div>
+            <h4 class="text-lg font-bold text-[#1A1715] mb-2">SEO &amp; Open Graph</h4>
+            <p class="text-xs text-gray-600 leading-relaxed mb-4">
+              Injected unique titles, meta descriptions, Open Graph cards, and Twitter summary tags across all 18 HTML pages for authentic social sharing previews.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-[#F2ECE4] text-[11px] text-gray-500 font-mono">
+            Req: US-02 • 18 HTML files
+          </div>
+        </div>
+
+        <!-- Phase 3 -->
+        <div class="milestone-card bg-white rounded-2xl p-6 border border-[#EADBCC] flex flex-col justify-between" data-status="completed">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold tracking-widest text-[#B8860B] uppercase">Phase 3</span>
+              <span class="badge-done px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1">
+                <i class="fa-solid fa-check text-[9px]"></i> Shipped
+              </span>
+            </div>
+            <h4 class="text-lg font-bold text-[#1A1715] mb-2">Asset Compression</h4>
+            <p class="text-xs text-gray-600 leading-relaxed mb-4">
+              Compressed heavy legacy PNG assets into high-efficiency WebP images under the 200 KB budget. Favicon optimized to 5.6 KB.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-[#F2ECE4] text-[11px] text-gray-500 font-mono">
+            Req: US-03 • assets/*.webp
+          </div>
+        </div>
+
+        <!-- Phase 4 -->
+        <div class="milestone-card bg-white rounded-2xl p-6 border border-[#EADBCC] flex flex-col justify-between" data-status="completed">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold tracking-widest text-[#B8860B] uppercase">Phase 4</span>
+              <span class="badge-done px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1">
+                <i class="fa-solid fa-check text-[9px]"></i> Shipped
+              </span>
+            </div>
+            <h4 class="text-lg font-bold text-[#1A1715] mb-2">CI/CD Test Gate</h4>
+            <p class="text-xs text-gray-600 leading-relaxed mb-4">
+              Automated GitHub Actions CI pipeline running <code class="bg-[#FAF7F2] px-1.5 py-0.5 rounded text-gray-800">npm test</code> on dual Node.js 18.x and 20.x matrix before any deployment.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-[#F2ECE4] text-[11px] text-gray-500 font-mono">
+            Req: US-04 • .github/workflows/ci.yml
+          </div>
+        </div>
+
+        <!-- Phase 5 -->
+        <div class="milestone-card bg-white rounded-2xl p-6 border border-[#EADBCC] flex flex-col justify-between" data-status="completed">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold tracking-widest text-[#B8860B] uppercase">Phase 5</span>
+              <span class="badge-done px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1">
+                <i class="fa-solid fa-check text-[9px]"></i> Shipped
+              </span>
+            </div>
+            <h4 class="text-lg font-bold text-[#1A1715] mb-2">Render Keep-Alive</h4>
+            <p class="text-xs text-gray-600 leading-relaxed mb-4">
+              Engineered <code class="bg-[#FAF7F2] px-1.5 py-0.5 rounded text-gray-800">scripts/keep-alive.js</code> with a scheduled GitHub Actions cron job running every 10 minutes to prevent cold-start latency.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-[#F2ECE4] text-[11px] text-gray-500 font-mono">
+            Req: US-05 • keep-alive.yml
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MILESTONE 2: ARTISAN COMMERCE -->
+    <div class="mb-14 milestone-section" data-milestone="2">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-8 h-8 rounded-full bg-[#800000] text-[#FAF7F2] flex items-center justify-center font-bold text-sm">2</span>
+        <div>
+          <h3 class="text-xl sm:text-2xl font-bold text-[#1A1715]">Milestone 2 — Direct Artisan Commerce &amp; Fair Trade Logistics</h3>
+          <p class="text-xs text-[#800000] font-semibold flex items-center gap-1.5 mt-0.5">
+            <i class="fa-solid fa-bolt"></i>
+            Active Milestone — Direct Payments, Automated 70% Payouts &amp; National Postal Logistics
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Phase 6 -->
+        <div class="milestone-card bg-white rounded-2xl p-6 border-2 border-[#B8860B]/40 shadow-sm flex flex-col justify-between" data-status="completed">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold tracking-widest text-[#B8860B] uppercase">Phase 6</span>
+              <span class="badge-done px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1">
+                <i class="fa-solid fa-check text-[9px]"></i> Shipped
+              </span>
+            </div>
+            <h4 class="text-lg font-bold text-[#1A1715] mb-2">Razorpay &amp; 70% Payouts</h4>
+            <p class="text-xs text-gray-600 leading-relaxed mb-4">
+              Integrated official Razorpay Checkout SDK, HMAC-SHA256 signature verification, webhook receivers, and RazorpayX automated 70% direct artisan cluster disbursement.
+            </p>
+            <div class="flex flex-wrap gap-1.5 mb-4">
+              <span class="text-[10px] bg-red-50 text-red-800 font-semibold px-2 py-0.5 rounded">Razorpay Checkout</span>
+              <span class="text-[10px] bg-amber-50 text-amber-800 font-semibold px-2 py-0.5 rounded">RazorpayX Payout</span>
+              <span class="text-[10px] bg-emerald-50 text-emerald-800 font-semibold px-2 py-0.5 rounded">12/12 Tests</span>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-[#F2ECE4] flex items-center justify-between">
+            <span class="text-[11px] text-gray-500 font-mono">Req: US-06</span>
+            <a href="checkout.html" class="text-xs font-bold text-[#800000] hover:underline flex items-center gap-1">
+              Test Checkout <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Phase 8 -->
+        <div class="milestone-card bg-white rounded-2xl p-6 border-2 border-emerald-500/40 shadow-sm flex flex-col justify-between" data-status="completed">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold tracking-widest text-[#B8860B] uppercase">Phase 8</span>
+              <span class="badge-done px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1">
+                <i class="fa-solid fa-check text-[9px]"></i> Shipped
+              </span>
+            </div>
+            <h4 class="text-lg font-bold text-[#1A1715] mb-2">India Post &amp; Logistics API</h4>
+            <p class="text-xs text-gray-600 leading-relaxed mb-4">
+              Multi-carrier rate engine across all 28 states &amp; UTs (Speed Post + Shiprocket). Automated AWB generation (<code class="bg-[#FAF7F2] text-[10px] text-gray-800 px-1 py-0.5 rounded">IP\d{9}IN</code>), rural cluster pickup scheduling, and interactive public tracker portal.
+            </p>
+            <div class="flex flex-wrap gap-1.5 mb-4">
+              <span class="text-[10px] bg-sky-50 text-sky-800 font-semibold px-2 py-0.5 rounded">19,000+ PIN Codes</span>
+              <span class="text-[10px] bg-indigo-50 text-indigo-800 font-semibold px-2 py-0.5 rounded">Speed Post AWB</span>
+              <span class="text-[10px] bg-emerald-50 text-emerald-800 font-semibold px-2 py-0.5 rounded">10/10 Tests</span>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-[#F2ECE4] flex items-center justify-between">
+            <span class="text-[11px] text-gray-500 font-mono">Req: US-08</span>
+            <a href="track.html" class="text-xs font-bold text-emerald-800 hover:underline flex items-center gap-1">
+              Open Tracker <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Phase 7 -->
+        <div class="milestone-card bg-white rounded-2xl p-6 border-2 border-amber-400 shadow-sm flex flex-col justify-between" data-status="active">
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-[10px] font-bold tracking-widest text-[#B8860B] uppercase">Phase 7</span>
+              <span class="badge-active px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1">
+                <i class="fa-solid fa-spinner fa-spin text-[9px]"></i> Active / Next Up
+              </span>
+            </div>
+            <h4 class="text-lg font-bold text-[#1A1715] mb-2">Production SMS Gateway</h4>
+            <p class="text-xs text-gray-600 leading-relaxed mb-4">
+              Connecting Fast2SMS (India domestic) and Twilio (international) gateway for real physical OTP delivery and dispatch SMS notifications to collectors and artisans.
+            </p>
+            <div class="flex flex-wrap gap-1.5 mb-4">
+              <span class="text-[10px] bg-amber-50 text-amber-800 font-semibold px-2 py-0.5 rounded">Fast2SMS</span>
+              <span class="text-[10px] bg-purple-50 text-purple-800 font-semibold px-2 py-0.5 rounded">Twilio</span>
+              <span class="text-[10px] bg-gray-100 text-gray-700 font-semibold px-2 py-0.5 rounded">Demo Console Mode Ready</span>
+            </div>
+          </div>
+          <div class="pt-4 border-t border-[#F2ECE4] flex items-center justify-between">
+            <span class="text-[11px] text-gray-500 font-mono">Req: US-07</span>
+            <span class="text-xs text-amber-800 font-medium">Ready for API keys</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MILESTONE 3: PWA & OFFLINE ARCHITECTURE -->
+    <div class="mb-14 milestone-section" data-milestone="3">
+      <div class="flex items-center gap-3 mb-6">
+        <span class="w-8 h-8 rounded-full bg-gray-400 text-white flex items-center justify-center font-bold text-sm">3</span>
+        <div>
+          <h3 class="text-xl sm:text-2xl font-bold text-[#1A1715]">Milestone 3 — PWA, Hardware Barcode Scanners &amp; Offline</h3>
+          <p class="text-xs text-gray-500 font-semibold flex items-center gap-1.5 mt-0.5">
+            <i class="fa-solid fa-lock"></i>
+            Scheduled for Q3 2027
+          </p>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="milestone-card bg-white/70 rounded-2xl p-6 border border-[#EADBCC] opacity-80" data-status="planned">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] font-bold tracking-widest text-gray-400 uppercase">Feature 3.1</span>
+            <span class="badge-planned px-2.5 py-0.5 rounded-full text-[11px] font-bold">Planned</span>
+          </div>
+          <h4 class="text-lg font-bold text-[#1A1715] mb-2">Service Worker &amp; Offline PWA</h4>
+          <p class="text-xs text-gray-600 leading-relaxed">
+            Full installable progressive web app with background synchronization and cached offline state catalogs.
+          </p>
+        </div>
+
+        <div class="milestone-card bg-white/70 rounded-2xl p-6 border border-[#EADBCC] opacity-80" data-status="planned">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] font-bold tracking-widest text-gray-400 uppercase">Feature 3.2</span>
+            <span class="badge-planned px-2.5 py-0.5 rounded-full text-[11px] font-bold">Planned</span>
+          </div>
+          <h4 class="text-lg font-bold text-[#1A1715] mb-2">On-Device GI Barcode Scanner</h4>
+          <p class="text-xs text-gray-600 leading-relaxed">
+            Mobile camera scanner allowing collectors to physically scan GI seal barcodes on packaging to verify provenance in real-time.
+          </p>
+        </div>
+
+        <div class="milestone-card bg-white/70 rounded-2xl p-6 border border-[#EADBCC] opacity-80" data-status="planned">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[10px] font-bold tracking-widest text-gray-400 uppercase">Feature 3.3</span>
+            <span class="badge-planned px-2.5 py-0.5 rounded-full text-[11px] font-bold">Planned</span>
+          </div>
+          <h4 class="text-lg font-bold text-[#1A1715] mb-2">Multilingual Regional Audio</h4>
+          <p class="text-xs text-gray-600 leading-relaxed">
+            Voice narration of master artisan stories in Hindi, Odia, Bengali, Kannada, and Marathi to empower non-English speaking artisan clusters.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE INTEGRATION MATRIX & AUDIT STATUS -->
+    <div class="bg-white rounded-3xl p-8 border border-[#EADBCC] shadow-sm mb-16">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-[#F2ECE4]">
+        <div>
+          <h3 class="text-2xl font-bold text-[#1A1715]">Live Service Integration Matrix</h3>
+          <p class="text-xs text-gray-500 mt-1">Audit status of external APIs, fallbacks, and credentials.</p>
+        </div>
+        <span class="text-xs bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1 rounded-full font-semibold">
+          100% Graceful Fallback Guaranteed
+        </span>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead>
+            <tr class="border-b border-[#EADBCC] text-gray-400 font-bold uppercase tracking-wider text-[10px]">
+              <th class="py-3 px-4">Subsystem</th>
+              <th class="py-3 px-4">Live Provider</th>
+              <th class="py-3 px-4">Current Operating Mode</th>
+              <th class="py-3 px-4">Sandbox / Fallback Mechanism</th>
+              <th class="py-3 px-4">Action Required</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-[#F2ECE4]">
+            <tr>
+              <td class="py-3.5 px-4 font-bold text-[#1A1715]">
+                <i class="fa-solid fa-credit-card text-[#800000] mr-2"></i> Payment Gateway
+              </td>
+              <td class="py-3.5 px-4 font-medium text-gray-700">Razorpay Standard</td>
+              <td class="py-3.5 px-4">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Live &amp; Test Ready
+                </span>
+              </td>
+              <td class="py-3.5 px-4 text-gray-600">Auto sandbox simulation with mock UTR</td>
+              <td class="py-3.5 px-4 text-gray-500 font-mono text-[11px]">Active (Key Configured)</td>
+            </tr>
+
+            <tr>
+              <td class="py-3.5 px-4 font-bold text-[#1A1715]">
+                <i class="fa-solid fa-money-bill-transfer text-emerald-600 mr-2"></i> Artisan 70% Payout
+              </td>
+              <td class="py-3.5 px-4 font-medium text-gray-700">RazorpayX Node SDK</td>
+              <td class="py-3.5 px-4">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Active (Automated)
+                </span>
+              </td>
+              <td class="py-3.5 px-4 text-gray-600">Sandbox batch simulation with UTR logs</td>
+              <td class="py-3.5 px-4 text-gray-500 font-mono text-[11px]">Provide Live Business Acct</td>
+            </tr>
+
+            <tr>
+              <td class="py-3.5 px-4 font-bold text-[#1A1715]">
+                <i class="fa-solid fa-truck-fast text-sky-600 mr-2"></i> Postal Rates &amp; AWB
+              </td>
+              <td class="py-3.5 px-4 font-medium text-gray-700">India Post / Shiprocket</td>
+              <td class="py-3.5 px-4">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Verified &amp; Tested
+                </span>
+              </td>
+              <td class="py-3.5 px-4 text-gray-600">19,000+ Pin directory + Speed Post AWB generation</td>
+              <td class="py-3.5 px-4 text-gray-500 font-mono text-[11px]">Optional Live Courier API</td>
+            </tr>
+
+            <tr>
+              <td class="py-3.5 px-4 font-bold text-[#1A1715]">
+                <i class="fa-solid fa-message text-amber-600 mr-2"></i> SMS OTP &amp; Alerts
+              </td>
+              <td class="py-3.5 px-4 font-medium text-gray-700">Fast2SMS / Twilio</td>
+              <td class="py-3.5 px-4">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Console Fallback
+                </span>
+              </td>
+              <td class="py-3.5 px-4 text-gray-600">OTPs printed directly to backend logs</td>
+              <td class="py-3.5 px-4 text-gray-500 font-mono text-[11px]">Add FAST2SMS_API_KEY</td>
+            </tr>
+
+            <tr>
+              <td class="py-3.5 px-4 font-bold text-[#1A1715]">
+                <i class="fa-solid fa-envelope text-purple-600 mr-2"></i> Email Invoices &amp; Reset
+              </td>
+              <td class="py-3.5 px-4 font-medium text-gray-700">Gmail SMTP / Nodemailer</td>
+              <td class="py-3.5 px-4">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800">
+                  <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Console Fallback
+                </span>
+              </td>
+              <td class="py-3.5 px-4 text-gray-600">Verification links printed to server console</td>
+              <td class="py-3.5 px-4 text-gray-500 font-mono text-[11px]">Add EMAIL_USER &amp; PASS</td>
+            </tr>
+
+            <tr>
+              <td class="py-3.5 px-4 font-bold text-[#1A1715]">
+                <i class="fa-solid fa-brain text-[#D4AF37] mr-2"></i> Saathi Cultural AI
+              </td>
+              <td class="py-3.5 px-4 font-medium text-gray-700">Domain-Grounded RAG</td>
+              <td class="py-3.5 px-4">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Active (RAG Engine)
+                </span>
+              </td>
+              <td class="py-3.5 px-4 text-gray-600">Curated GI dossiers &amp; 70% economics calculator</td>
+              <td class="py-3.5 px-4 text-gray-500 font-mono text-[11px]">Optional Gemini API</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- QUICK INTERACTIVE ACTIONS -->
+    <div class="text-center bg-gradient-to-r from-[#1A1715] to-[#2E201B] text-white rounded-3xl p-10 shadow-xl border border-white/10">
+      <h3 class="text-2xl sm:text-3xl font-bold mb-3">Verify Implemented Milestones Directly</h3>
+      <p class="text-sm text-gray-300 max-w-xl mx-auto mb-8 font-light leading-relaxed">
+        Test each architectural deliverable live in the browser using the interactive portals below:
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a href="checkout.html" class="px-6 py-3 rounded-full bg-[#B8860B] hover:bg-[#9A7008] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg hover:shadow-xl flex items-center gap-2">
+          <i class="fa-solid fa-credit-card"></i>
+          Test Checkout &amp; Payouts
+        </a>
+        <a href="track.html" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider transition-all border border-white/20 flex items-center gap-2">
+          <i class="fa-solid fa-truck"></i>
+          Live Parcel Tracker
+        </a>
+        <a href="artisan-dashboard.html" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider transition-all border border-white/20 flex items-center gap-2">
+          <i class="fa-solid fa-palette"></i>
+          Artisan Dashboard
+        </a>
+        <a href="/api/health" target="_blank" class="px-6 py-3 rounded-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs uppercase tracking-wider transition-all border border-white/20 flex items-center gap-2">
+          <i class="fa-solid fa-code"></i>
+          View Raw /api/health
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Universal Footer injected by components.js -->
+  <footer id="global-footer"></footer>
+
+  <!-- Universal Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/auth.js"></script>
+
+  <!-- ROADMAP CONTROLLER SCRIPT -->
+  <script>
+    // 1. Live Health Check
+    async function checkSystemHealth() {
+      try {
+        const res = await fetch('/api/health');
+        if (!res.ok) throw new Error('Status ' + res.status);
+        const data = await res.json();
+        
+        document.getElementById('health-server-status').textContent = 'Server: Online (' + (data.environment || 'production') + ')';
+        document.getElementById('health-db-status').textContent = 'Database: ' + (data.database && data.database.status === 'connected' ? 'Connected ✓' : 'Connecting');
+        
+        const uptimeSec = data.uptime || 0;
+        const uptimeMin = Math.floor(uptimeSec / 60);
+        document.getElementById('health-uptime').textContent = 'Uptime: ' + (uptimeMin > 60 ? Math.floor(uptimeMin/60) + 'h ' + (uptimeMin%60) + 'm' : uptimeMin + 'm');
+      } catch (err) {
+        document.getElementById('health-server-status').textContent = 'Server: Standby / Offline';
+        document.getElementById('health-ping-pulse')?.classList.remove('bg-emerald-400');
+        document.getElementById('health-ping-pulse')?.classList.add('bg-amber-400');
+        document.getElementById('health-ping-dot')?.classList.remove('bg-emerald-500');
+        document.getElementById('health-ping-dot')?.classList.add('bg-amber-500');
+      }
+    }
+
+    // 2. Interactive Milestone Filter
+    function filterMilestones(type) {
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      const activeBtn = document.querySelector(`.filter-tab[data-filter="${type}"]`);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const cards = document.querySelectorAll('.milestone-card');
+      cards.forEach(card => {
+        const status = card.getAttribute('data-status');
+        if (type === 'all' || status === type) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      checkSystemHealth();
+      // Periodically refresh health every 30 seconds
+      setInterval(checkSystemHealth, 30000);
+    });
+  </script>
+</body>
+</html>

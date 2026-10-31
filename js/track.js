@@ -207,3 +207,4 @@ function renderFallbackTracking(query) {
     ]
   });
 }
+

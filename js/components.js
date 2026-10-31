@@ -111,9 +111,12 @@
       <a class="hover:text-[var(--primary-color)] transition-colors" href="search.html">Shop</a>
       <a class="hover:text-[var(--primary-color)] transition-colors" href="saathi.html">Saathi AI</a>
       <a class="hover:text-[var(--primary-color)] transition-colors" href="profile.html">Collector Profile</a>
+      <a class="hover:text-[var(--primary-color)] transition-colors" href="roadmap.html">Roadmap &amp; Planning</a>
     </div>
-    <p class="text-gray-600 text-xs mt-6">
+    <p class="text-gray-600 text-xs mt-6 flex items-center justify-center gap-3">
       <a href="/api/health" target="_blank" class="hover:text-[var(--primary-color)] transition-colors" id="footer-status">🟢 Server Status</a>
+      <span class="text-gray-700">•</span>
+      <a href="roadmap.html" class="hover:text-[var(--primary-color)] transition-colors">📊 Platform Roadmap &amp; System Health</a>
     </p>
   </div>
 </footer>`;
