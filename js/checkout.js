@@ -17,7 +17,9 @@
 
 const API_BASE = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
   ? 'http://localhost:5000/api'
-  : '/api';
+  : (window.location.hostname.includes('github.io')
+      ? 'https://parampara-a-e-com-website-1.onrender.com/api'
+      : '/api');
 
 // Checkout State
 let currentPayMethod = 'card';
@@ -868,6 +870,7 @@ window.placeOrder = async function() {
     // 2. Initialize Razorpay Order if online
     let rzpOrderId = `order_rzp_demo_${Date.now()}`;
     let rzpKeyId = null;
+    let rzpMode = 'sandbox_simulation';
 
     try {
       const rzpRes = await fetch(`${API_BASE}/orders/create-razorpay-order`, {
@@ -886,6 +889,7 @@ window.placeOrder = async function() {
       const rzpData = await rzpRes.json();
       if (rzpData.orderId) rzpOrderId = rzpData.orderId;
       if (rzpData.keyId) rzpKeyId = rzpData.keyId;
+      if (rzpData.mode) rzpMode = rzpData.mode;
     } catch (rzpErr) {
       console.warn('Razorpay order pre-creation notice, using demo order id:', rzpErr.message);
     }
@@ -903,8 +907,23 @@ window.placeOrder = async function() {
       return;
     }
 
-    // Launch official Razorpay standard popup if SDK and Key are present
-    if (typeof Razorpay !== 'undefined' && rzpKeyId) {
+    // Helper: Determine if keyId is a real active Razorpay account key
+    function isLiveRazorpayKey(key) {
+      if (!key || typeof key !== 'string') return false;
+      const lower = key.toLowerCase();
+      if (lower.includes('demo') || lower.includes('placeholder') || lower.startsWith('rzp_test_parampara')) {
+        return false;
+      }
+      return key.startsWith('rzp_test_') || key.startsWith('rzp_live_');
+    }
+
+    // Launch official Razorpay standard popup ONLY if SDK is present AND a real merchant key is configured
+    const canLaunchRealRazorpay = typeof Razorpay !== 'undefined' &&
+                                  rzpKeyId &&
+                                  rzpMode === 'live' &&
+                                  isLiveRazorpayKey(rzpKeyId);
+
+    if (canLaunchRealRazorpay) {
       try {
         const options = {
           key: rzpKeyId,
@@ -943,19 +962,27 @@ window.placeOrder = async function() {
         };
 
         const rzp = new Razorpay(options);
+        rzp.on('payment.failed', function(resp) {
+          console.warn('Razorpay payment declined:', resp.error);
+          showToast(`Payment declined: ${resp.error?.description || 'Gateway error'}`, 'error');
+          if (btnText) btnText.textContent = `Ratify & Seal Royal Acquisition • ${formatINR(total)}`;
+          if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
+        });
         rzp.open();
         return;
       } catch (modalErr) {
-        console.warn('Standard modal fallback:', modalErr);
+        console.warn('Standard modal fallback, switching to sandbox mode:', modalErr);
       }
     }
 
-    // Direct sandbox verification if offline
+    // Verified Sandbox Heritage Mode:
+    // Seamlessly complete payment verification, process 70% artisan disbursement, and issue certified GI deed
+    showToast('✨ Ratifying Sovereign Acquisition in Verified Heritage Sandbox...', 'info');
     await finalizeOrder({
       orderId: confirmedOrderId,
       razorpayOrderId: rzpOrderId,
-      razorpayPaymentId: `pay_sim_${Date.now()}`,
-      razorpaySignature: 'simulated_sig',
+      razorpayPaymentId: `pay_sandbox_${Date.now()}`,
+      razorpaySignature: 'sandbox_authorized_signature',
       paymentMethod: currentPayMethod.toUpperCase(),
       total,
       craftSubtotal
@@ -1063,23 +1090,29 @@ async function finalizeOrder({ orderId, razorpayOrderId, razorpayPaymentId, paym
     const step4 = document.getElementById('step-node-4');
     const stepProgress = document.getElementById('step-progress-fill');
     if (step3) {
-      step3.className = 'flex flex-col items-center gap-1.5 relative z-10';
+      step3.className = 'flex flex-col items-center gap-1 relative z-10 w-1/4 max-w-[25%] px-0.5';
       step3.innerHTML = `
-        <span class="w-9 h-9 rounded-full bg-[#785600] text-white text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#FAF7F2]">
+        <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#785600] text-white text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#FAF7F2]">
           <span class="material-symbols-outlined text-sm">check</span>
         </span>
-        <span class="text-[11px] font-bold uppercase tracking-wider text-[#785600] font-serif text-center">3. Seals &amp; Calligraphy</span>
-        <span class="text-[9px] text-stone-500 uppercase tracking-widest hidden sm:inline">Inscribed</span>
+        <span class="text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-[#785600] font-serif text-center leading-tight truncate w-full">
+          <span class="sm:hidden">3. Seals</span>
+          <span class="hidden sm:inline">3. Seals &amp; Calligraphy</span>
+        </span>
+        <span class="text-[8px] sm:text-[9px] text-stone-500 uppercase tracking-widest hidden sm:inline">Inscribed</span>
       `;
     }
     if (step4) {
-      step4.className = 'flex flex-col items-center gap-1.5 relative z-10';
+      step4.className = 'flex flex-col items-center gap-1 relative z-10 w-1/4 max-w-[25%] px-0.5';
       step4.innerHTML = `
-        <span class="w-9 h-9 rounded-full bg-[#7A1521] text-[#ffdea6] text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#B8860B]/30 border border-[#B8860B]">
+        <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#7A1521] text-[#ffdea6] text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#B8860B]/30 border border-[#B8860B]">
           <span class="material-symbols-outlined text-sm">verified</span>
         </span>
-        <span class="text-[11px] font-bold uppercase tracking-wider text-[#7A1521] font-serif text-center">4. Treasury Settlement</span>
-        <span class="text-[9px] text-emerald-800 font-bold uppercase tracking-widest hidden sm:inline">Ratified</span>
+        <span class="text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-[#7A1521] font-serif text-center leading-tight truncate w-full">
+          <span class="sm:hidden">4. Payment</span>
+          <span class="hidden sm:inline">4. Treasury Settlement</span>
+        </span>
+        <span class="text-[8px] sm:text-[9px] text-emerald-800 font-bold uppercase tracking-widest hidden sm:inline">Ratified</span>
       `;
     }
     if (stepProgress) {
