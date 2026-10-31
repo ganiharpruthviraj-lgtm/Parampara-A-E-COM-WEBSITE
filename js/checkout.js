@@ -718,6 +718,11 @@ async function finalizeOrderVerification({
       artisanPayoutEl.innerHTML = `<i class="fa-solid fa-hand-holding-heart text-[#B8860B] mr-1"></i> ${formatINR(artisanShareAmount)} (70%) transferred directly to master artisan via RazorpayX${utrText}.`;
     }
 
+    const trackParcelBtn = document.getElementById('btn-track-parcel');
+    if (trackParcelBtn) {
+      trackParcelBtn.href = `track.html?order=${encodeURIComponent(orderId)}`;
+    }
+
     const pdfBtnContainer = document.getElementById('pdf-download-container');
     if (pdfBtnContainer) {
       pdfBtnContainer.innerHTML = `
@@ -1067,7 +1072,71 @@ const PINCODE_MAP = {
   '221': { state: 'Uttar Pradesh', city: 'Varanasi' }
 };
 
-function autoFillLocationFromPin(pin) {
+async function autoFillLocationFromPin(pin) {
+  const feedbackEl = document.getElementById('pincode-feedback');
+  if (feedbackEl) {
+    feedbackEl.className = 'mt-1.5 text-[11px] font-semibold text-[#B8860B] flex items-center gap-1.5';
+    feedbackEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-xs"></i> Checking India Post Speed Post route...';
+    feedbackEl.classList.remove('hidden');
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/shipping/calculate-rates`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        deliveryPincode: pin,
+        craftValue: cartItems.reduce((acc, i) => acc + (i.price * i.qty), 0) || 4800
+      })
+    });
+    const data = await res.json();
+
+    if (data.success && data.serviceable) {
+      const city = data.destination?.city || '';
+      const state = data.destination?.state || '';
+
+      const cityInput = document.getElementById('city');
+      const stateSelect = document.getElementById('state-select');
+      if (cityInput && !cityInput.value) {
+        cityInput.value = city;
+        cityInput.classList.remove('border-red-500', 'bg-red-50');
+      }
+      if (stateSelect && (!stateSelect.value || stateSelect.value === '')) {
+        for (let i = 0; i < stateSelect.options.length; i++) {
+          if (stateSelect.options[i].text.toLowerCase() === state.toLowerCase() ||
+              stateSelect.options[i].value.toLowerCase() === state.toLowerCase()) {
+            stateSelect.selectedIndex = i;
+            stateSelect.classList.remove('border-red-500', 'bg-red-50');
+            break;
+          }
+        }
+      }
+
+      const standardOpt = data.courierOptions?.find(c => c.id === 'standard');
+      const expressOpt = data.courierOptions?.find(c => c.id === 'express');
+
+      if (feedbackEl) {
+        feedbackEl.className = 'mt-1.5 text-[11px] font-semibold text-green-700 flex items-center gap-1.5';
+        feedbackEl.innerHTML = `<i class="fa-solid fa-circle-check text-xs"></i> Speed Post Serviceable to ${city}, ${state} (${data.destination?.distanceTier || 'Verified Zone'})`;
+      }
+
+      const stdText = document.getElementById('standard-delivery-text');
+      if (stdText && standardOpt) {
+        stdText.textContent = `${standardOpt.days} (${standardOpt.deliveryWindow}) via India Post`;
+      }
+      const expText = document.getElementById('express-delivery-text');
+      if (expText && expressOpt) {
+        expText.textContent = `${expressOpt.days} (${expressOpt.deliveryWindow}) via BlueDart Air`;
+      }
+
+      showToast(`Postal route verified: ${city}, ${state}`, 'info');
+      return;
+    }
+  } catch (err) {
+    console.debug('Live pincode query notice, using local dictionary:', err.message);
+  }
+
+  // Local dictionary fallback
   const prefix = pin.slice(0, 3);
   const loc = PINCODE_MAP[prefix];
   if (loc) {
@@ -1087,7 +1156,16 @@ function autoFillLocationFromPin(pin) {
         }
       }
     }
+    if (feedbackEl) {
+      feedbackEl.className = 'mt-1.5 text-[11px] font-semibold text-green-700 flex items-center gap-1.5';
+      feedbackEl.innerHTML = `<i class="fa-solid fa-circle-check text-xs"></i> Deliverable to ${loc.city}, ${loc.state}`;
+      feedbackEl.classList.remove('hidden');
+    }
     showToast(`Detected location: ${loc.city}, ${loc.state}`, 'info');
+  } else if (feedbackEl) {
+    feedbackEl.className = 'mt-1.5 text-[11px] font-semibold text-blue-700 flex items-center gap-1.5';
+    feedbackEl.innerHTML = '<i class="fa-solid fa-circle-info text-xs"></i> India Post Guaranteed Delivery (All 28 States)';
+    feedbackEl.classList.remove('hidden');
   }
 }
 

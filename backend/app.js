@@ -197,6 +197,7 @@ app.use('/api/products', apiLimiter, require('./routes/products'));
 app.use('/api/saathi', apiLimiter, require('./routes/saathi'));
 app.use('/api/gi', apiLimiter, require('./routes/gi'));
 app.use('/api/orders', apiLimiter, ordersRouter);
+app.use('/api/shipping', apiLimiter, require('./routes/shipping'));
 
 // Parampara Mitra Chatbot Endpoint
 app.use('/api/chat', apiLimiter, require('./routes/chat'));

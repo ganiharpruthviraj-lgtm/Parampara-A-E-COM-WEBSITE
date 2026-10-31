@@ -65,6 +65,6 @@
 **So that** I know exactly when my handcrafted piece will arrive.
 
 **Acceptance Criteria:**
-- [ ] Live postal rate calculator by pincode
-- [ ] Automated AWB generation upon artisan dispatch
-- [ ] Real-time tracking status updates in user profile
+- [x] Live postal rate calculator by pincode
+- [x] Automated AWB generation upon artisan dispatch
+- [x] Real-time tracking status updates in user profile & public tracker portal

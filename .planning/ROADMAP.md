@@ -75,9 +75,16 @@
 - Fast2SMS / Twilio production SMS delivery for physical mobile OTP and dispatch alerts
 
 ### Phase 8 — Shipping & Logistics API
-**Status:** 🔒 Locked  
+**Status:** ✅ Complete  
 **Requirement:** US-08  
-- India Post / Shiprocket live shipping rates, AWB generation, and shipment tracking
+**Deliverables:**
+- ✅ India Post Speed Post & Shiprocket multi-carrier rate calculation across all 28 Indian states & UTs
+- ✅ Automated AWB generation (`IP\d{9}IN` Speed Post format) & rural artisan cluster pickup dispatch
+- ✅ Carrier webhook endpoint (`POST /api/shipping/webhook`) for live delivery state syncing
+- ✅ Public order tracking portal ([`track.html`](file:///d:/ankush/track.html) & [`js/track.js`](file:///d:/ankush/js/track.js))
+- ✅ Dynamic checkout PIN code calculation badge & transit estimation
+- ✅ Artisan dashboard dispatch booking with direct tracking integration
+- ✅ 10/10 Jest tests passing in `backend/tests/shipping.test.js` (67/67 overall suite)
 
 ---
 

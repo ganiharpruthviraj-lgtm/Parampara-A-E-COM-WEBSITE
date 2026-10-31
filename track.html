@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Track GI Craft Shipment | India Post &amp; Speed Post Logistics — Parampara</title>
+  <meta content="Track authentic GI certified craft shipments across all 28 Indian states with live India Post Speed Post and courier transit milestones directly from rural artisan clusters." name="description"/>
+  <meta content="Track GI Craft Shipment | India Post &amp; Speed Post Logistics — Parampara" property="og:title"/>
+  <meta content="Track authentic GI certified craft shipments across India with real-time postal tracking and verified artisan dispatch." property="og:description"/>
+  <meta content="assets/parampara_logo.png" property="og:image"/>
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Track GI Craft Shipment | India Post &amp; Speed Post Logistics — Parampara" name="twitter:title"/>
+  <meta content="Track authentic GI certified craft shipments across India with real-time postal tracking and verified artisan dispatch." name="twitter:description"/>
+  <meta content="assets/parampara_logo.png" name="twitter:image"/>
+  <link href="favicon.png" rel="icon" type="image/png"/>
+  <link href="manifest.json" rel="manifest"/>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/auth.js"></script>
+  <link href="css/index.css" rel="stylesheet"/>
+  <link href="css/checkout.css" rel="stylesheet"/>
+  <link href="css/widget.css" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary-color: #B8860B;
+      --primary-hover: #8B6508;
+      --heritage-crimson: #8B0000;
+      --dark-bg: #181512;
+      --sand-bg: #FAF9F5;
+    }
+    .timeline-step.active .step-marker {
+      background-color: #B8860B;
+      color: white;
+      box-shadow: 0 0 0 4px rgba(184, 134, 11, 0.2);
+    }
+    .timeline-step.completed .step-marker {
+      background-color: #166534;
+      color: white;
+    }
+    .timeline-line-done {
+      background-color: #166534;
+    }
+  </style>
+ </head>
+ <body class="bg-[#FAF9F5] text-gray-800 font-sans min-h-screen flex flex-col antialiased">
+  
+  <!-- Global Shared Navigation Header -->
+  <div id="header-container"></div>
+
+  <!-- Main Content Container -->
+  <main class="flex-grow max-w-5xl mx-auto w-full px-4 sm:px-6 py-8 sm:py-12">
+   
+   <!-- Hero Eyebrow & Title -->
+   <div class="text-center mb-10">
+    <div class="inline-flex items-center gap-2 bg-[#B8860B]/10 border border-[#B8860B]/20 text-[#B8860B] px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest mb-3">
+      <i class="fa-solid fa-truck-fast"></i> India Post &amp; Courier Logistics Network
+    </div>
+    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-sora text-[#181512] tracking-tight mb-3">
+      Track Your Heritage Masterpiece
+    </h1>
+    <p class="text-sm sm:text-base text-gray-600 max-w-2xl mx-auto">
+      Trace your handcrafted order's journey from rural artisan guild clusters through India Post Speed Post directly to your doorstep.
+    </p>
+   </div>
+
+   <!-- Search Bar Box -->
+   <div class="bg-white rounded-3xl p-6 sm:p-8 border border-gray-200 shadow-sm mb-10 max-w-2xl mx-auto">
+    <label for="track-input" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-2">
+      Order Reference or AWB Tracking Number
+    </label>
+    <div class="flex flex-col sm:flex-row gap-3">
+      <div class="relative flex-grow">
+        <input 
+          id="track-input" 
+          type="text" 
+          placeholder="e.g. IP748291038IN or PAR-2026-9842" 
+          class="w-full bg-[#FAF9F5] border border-gray-300 text-sm rounded-2xl pl-11 pr-4 py-3.5 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] font-mono shadow-inner"
+        />
+        <i class="fa-solid fa-barcode absolute left-4 top-4 text-gray-400 text-base"></i>
+      </div>
+      <button 
+        id="btn-track" 
+        onclick="searchTracking()" 
+        class="bg-gradient-to-r from-[#B8860B] to-[#8B6508] hover:from-[#8B6508] hover:to-[#684a04] text-white text-xs font-bold uppercase tracking-wider px-8 py-3.5 rounded-2xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer flex-shrink-0"
+      >
+        <i class="fa-solid fa-location-crosshairs"></i>
+        <span>Track Parcel</span>
+      </button>
+    </div>
+
+    <!-- Quick Search Pill Samples -->
+    <div class="flex flex-wrap items-center gap-2 mt-4 text-xs text-gray-500">
+      <span class="font-semibold text-gray-700">Quick Samples:</span>
+      <button onclick="fillTrackingSample('IP748291038IN')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full font-mono transition-colors">
+        IP748291038IN
+      </button>
+      <button onclick="fillTrackingSample('SR849201938')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full font-mono transition-colors">
+        SR849201938
+      </button>
+      <button onclick="fillTrackingSample('PAR-2026-9842')" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-2.5 py-1 rounded-full font-mono transition-colors">
+        PAR-2026-9842
+      </button>
+    </div>
+   </div>
+
+   <!-- Tracking Details Display Card -->
+   <div id="tracking-card" class="bg-white rounded-3xl border border-gray-200 shadow-sm overflow-hidden mb-12">
+    
+    <!-- Top Status Bar -->
+    <div class="bg-gradient-to-r from-[#181512] to-[#2B231D] text-white p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div>
+        <div class="flex items-center gap-2 mb-1">
+          <span class="text-xs uppercase tracking-widest text-[#B8860B] font-bold">Speed Post Air Waybill</span>
+          <span class="inline-flex items-center gap-1 bg-green-500/20 text-green-300 border border-green-500/30 px-2.5 py-0.5 rounded-full text-[11px] font-semibold" id="pill-status">
+            <i class="fa-solid fa-circle text-[8px] animate-pulse"></i> In Transit
+          </span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold font-mono tracking-tight text-white" id="display-awb">
+          IP748291038IN
+        </h2>
+        <p class="text-xs text-stone-300 mt-1" id="display-order-ref">
+          Order Reference: PAR-2026-9842 • 70% Direct Artisan Payout Allocated
+        </p>
+      </div>
+
+      <div class="sm:text-right">
+        <div class="text-xs text-stone-300 font-medium">Estimated Arrival</div>
+        <div class="text-xl sm:text-2xl font-bold font-sora text-[#FFD700]" id="display-eta">
+          Nov 3 – Nov 5, 2026
+        </div>
+        <div class="text-[11px] text-stone-400 mt-0.5" id="display-courier">
+          Carrier: India Post Speed Post (Insured Parcel)
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Metrics Strip -->
+    <div class="grid grid-cols-1 sm:grid-cols-3 border-b border-gray-100 bg-[#FAF9F5] p-5 sm:p-6 gap-4 text-xs">
+      <div class="flex items-start gap-3">
+        <div class="w-9 h-9 rounded-xl bg-amber-100 text-[#B8860B] flex items-center justify-center text-sm flex-shrink-0">
+          <i class="fa-solid fa-landmark"></i>
+        </div>
+        <div>
+          <div class="text-gray-500 font-semibold uppercase tracking-wider text-[10px]">Artisan Origin Hub</div>
+          <div class="font-bold text-gray-900 mt-0.5" id="display-origin">Jaipur Craft Hub, Rajasthan</div>
+          <div class="text-[11px] text-gray-500">GI Verified Guild Cluster</div>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-800 flex items-center justify-center text-sm flex-shrink-0">
+          <i class="fa-solid fa-map-pin"></i>
+        </div>
+        <div>
+          <div class="text-gray-500 font-semibold uppercase tracking-wider text-[10px]">Destination Area</div>
+          <div class="font-bold text-gray-900 mt-0.5" id="display-dest">Bengaluru, Karnataka</div>
+          <div class="text-[11px] text-gray-500">PIN: 560038 • Direct Door Handoff</div>
+        </div>
+      </div>
+
+      <div class="flex items-start gap-3">
+        <div class="w-9 h-9 rounded-xl bg-green-100 text-green-800 flex items-center justify-center text-sm flex-shrink-0">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <div>
+          <div class="text-gray-500 font-semibold uppercase tracking-wider text-[10px]">Packaging Grade</div>
+          <div class="font-bold text-gray-900 mt-0.5">Museum-Grade Anti-Shock</div>
+          <div class="text-[11px] text-gray-500">Tamper-Evident GI Hologram Seal</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Live Milestones & Checkpoints Body -->
+    <div class="p-6 sm:p-10">
+      <h3 class="text-sm font-bold uppercase tracking-wider text-gray-900 mb-6 flex items-center gap-2">
+        <i class="fa-solid fa-route text-[#B8860B]"></i>
+        <span>Shipment Milestones &amp; Tracking History</span>
+      </h3>
+
+      <!-- Dynamic Timeline List -->
+      <div class="relative border-l-2 border-gray-200 ml-4 pl-6 space-y-8" id="timeline-container">
+        <!-- Rendered dynamically by track.js -->
+      </div>
+
+      <!-- Action Buttons Footer -->
+      <div class="mt-10 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex flex-wrap items-center gap-3">
+          <a id="btn-download-cert" href="/api/orders/PRM-DEMO-98214/invoice-pdf" target="_blank" download class="inline-flex items-center gap-2 bg-[#8B0000] hover:bg-[#680000] text-white px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all shadow">
+            <i class="fa-solid fa-file-pdf text-sm text-[#FFD700]"></i>
+            <span>Download Certified Invoice &amp; Certificate (PDF)</span>
+          </a>
+          <a href="checkout.html" class="inline-flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-gray-800 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all">
+            <i class="fa-solid fa-bag-shopping text-xs"></i>
+            <span>View Shopping Bag</span>
+          </a>
+        </div>
+        <button onclick="window.location.reload()" class="text-xs font-bold text-gray-500 hover:text-[#B8860B] uppercase tracking-wider flex items-center gap-1.5">
+          <i class="fa-solid fa-arrows-rotate"></i> Refresh Status
+        </button>
+      </div>
+
+    </div>
+
+   </div>
+
+  </main>
+
+  <!-- Global Shared Footer -->
+  <div id="footer-container"></div>
+
+  <!-- Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/track.js"></script>
+  <script src="js/widget.js" defer></script>
+ </body>
+</html>

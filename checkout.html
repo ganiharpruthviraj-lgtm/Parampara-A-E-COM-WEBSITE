@@ -188,7 +188,8 @@
       <!-- PIN Code -->
       <div>
        <label for="pincode" class="block text-xs font-bold uppercase tracking-wider text-gray-700 mb-1.5">Postal PIN Code <span class="text-red-500">*</span></label>
-       <input id="pincode" type="text" maxlength="6" placeholder="110001" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all"/>
+       <input id="pincode" type="text" maxlength="6" placeholder="110001" class="w-full bg-white border border-gray-300 text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-[#B8860B] focus:ring-1 focus:ring-[#B8860B] shadow-sm transition-all font-mono"/>
+       <div id="pincode-feedback" class="mt-1.5 text-[11px] font-medium hidden"></div>
       </div>
       
       <!-- Delivery Speed Card Selection -->
@@ -201,7 +202,7 @@
           <span class="text-sm font-bold text-gray-900 flex items-center gap-2"><i class="fa-solid fa-box text-[#B8860B]"></i> Standard Delivery</span>
           <span class="text-xs font-extrabold text-green-700 bg-green-100 px-2 py-0.5 rounded-full">FREE</span>
          </div>
-         <p class="text-xs text-gray-600 mb-2">5–7 Business Days via BlueDart Insured Handoff</p>
+         <p id="standard-delivery-text" class="text-xs text-gray-600 mb-2">3–5 Business Days via India Post Speed Post</p>
          <input type="radio" name="delivery" value="standard" checked class="hidden"/>
         </label>
         <!-- Express -->
@@ -210,7 +211,7 @@
           <span class="text-sm font-bold text-gray-900 flex items-center gap-2"><i class="fa-solid fa-bolt text-[#B8860B]"></i> Express Air Delivery</span>
           <span class="text-xs font-bold text-gray-800">₹ 299</span>
          </div>
-         <p class="text-xs text-gray-600 mb-2">2–3 Days Priority White-Glove Packaging</p>
+         <p id="express-delivery-text" class="text-xs text-gray-600 mb-2">1–2 Days Priority Air Transit via Shiprocket</p>
          <input type="radio" name="delivery" value="express" class="hidden"/>
         </label>
        </div>

@@ -71,6 +71,27 @@ const orderSchema = new mongoose.Schema(
       disbursedAt: { type: String }
     },
     awb: { type: String },
+    courierPartner: { type: String, default: 'India Post Speed Post' },
+    trackingUrl: { type: String },
+    estimatedDeliveryDate: { type: Date },
+    pickupDetails: {
+      scheduledDate: { type: Date },
+      clusterLocation: { type: String },
+      pickupToken: { type: String },
+      status: {
+        type: String,
+        enum: ['Pending', 'Scheduled', 'Collected', 'Failed'],
+        default: 'Pending'
+      }
+    },
+    shippingTimeline: [
+      {
+        status: { type: String },
+        location: { type: String },
+        timestamp: { type: Date, default: Date.now },
+        details: { type: String }
+      }
+    ],
     orderStatus: {
       type: String,
       required: true,

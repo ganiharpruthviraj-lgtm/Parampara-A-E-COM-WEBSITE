@@ -2,7 +2,7 @@
 
 ## Current Phase
 - Milestone: 2 — Artisan Commerce
-- Active Phase: Phase 6 — Razorpay Checkout, Webhooks & Automated 70% Artisan Payouts
+- Active Phase: Phase 8 — Shipping & Logistics API Integration (India Post / Shiprocket)
 - Status: ✅ **Complete & Verified**
 
 ## Completed Milestones
@@ -23,10 +23,17 @@
   - Helmet CSP headers updated in `backend/app.js` for Razorpay domains
   - `.env.example` files updated with complete Razorpay & RazorpayX variables
   - 12/12 Jest tests passing in `backend/tests/orders.test.js`
+- ✅ **Phase 8 — Shipping & Logistics API Integration (India Post / Shiprocket)**
+  - India Post Speed Post & Shiprocket multi-carrier rate calculator across 28 states & UTs
+  - Automated AWB generation (`IP\d{9}IN` Speed Post format) & rural artisan cluster pickup dispatch
+  - Courier webhook endpoint (`POST /api/shipping/webhook`) for live delivery state syncing
+  - Public order tracking portal ([`track.html`](file:///d:/ankush/track.html) & [`js/track.js`](file:///d:/ankush/js/track.js))
+  - Dynamic checkout PIN code calculation badge & transit estimation
+  - Artisan dashboard dispatch booking with direct tracking integration
+  - 10/10 Jest tests passing in `backend/tests/shipping.test.js` (67/67 overall suite)
 
 ## Blockers
 (none)
 
 ## Next
 - Phase 7: Production SMS Gateway (Fast2SMS / Twilio)
-- Phase 8: Shipping & Logistics API (India Post / Shiprocket)

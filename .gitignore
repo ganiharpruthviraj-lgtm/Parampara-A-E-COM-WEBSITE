@@ -20,3 +20,4 @@ yarn-debug.log*
 # Temporary Scratch Files
 scratch/
 .kilo/
+.planning-setup/

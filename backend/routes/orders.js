@@ -7,6 +7,7 @@ const Order = require('../models/Order');
 const { protect } = require('../middleware/auth');
 const { generateOrderInvoicePDF } = require('../services/pdfInvoiceService');
 const razorpayService = require('../services/razorpayService');
+const shippingService = require('../services/shippingService');
 const { body, validationResult } = require('express-validator');
 
 // In-memory order fallback store for offline / memory execution
@@ -485,8 +486,36 @@ router.put('/:id/status', async (req, res) => {
     const orderId = req.params.id;
     let order = null;
 
+    if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(orderId)) {
+      try {
+        order = await Order.findById(orderId);
+      } catch (e) {}
+    }
+
+    if (!order && inMemoryOrders.has(orderId)) {
+      order = inMemoryOrders.get(orderId);
+    }
+
     const updateFields = { orderStatus: status };
-    if (awb) updateFields.awb = awb;
+
+    // When order is dispatched, auto-generate official AWB & schedule courier pickup if needed
+    if (status === 'Dispatched') {
+      const shipment = await shippingService.createShipmentAndPickup({
+        orderId,
+        pickupDetails: {
+          clusterLocation: req.body.clusterLocation || (order?.orderItems?.[0]?.artisanName ? `${order.orderItems[0].artisanName} Hub` : 'Master Artisan Guild Hub')
+        },
+        shippingAddress: order?.shippingAddress || {},
+        provider: req.body.courierPartner || 'India Post Speed Post'
+      });
+      updateFields.awb = awb || shipment.awb;
+      updateFields.courierPartner = shipment.courierPartner;
+      updateFields.trackingUrl = shipment.trackingUrl;
+      updateFields.pickupDetails = shipment.pickupDetails;
+      updateFields.shippingTimeline = shipment.shippingTimeline;
+    } else if (awb) {
+      updateFields.awb = awb;
+    }
 
     if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(orderId)) {
       try {
@@ -497,11 +526,10 @@ router.put('/:id/status', async (req, res) => {
     if (!order) {
       if (inMemoryOrders.has(orderId)) {
         order = inMemoryOrders.get(orderId);
-        order.orderStatus = status;
-        if (awb) order.awb = awb;
+        Object.assign(order, updateFields);
         inMemoryOrders.set(orderId, order);
       } else {
-        order = { _id: orderId, orderStatus: status, awb: awb || null, updatedAt: new Date().toISOString() };
+        order = { _id: orderId, ...updateFields, updatedAt: new Date().toISOString() };
       }
     }
 
@@ -512,6 +540,88 @@ router.put('/:id/status', async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ message: 'Failed to update order status: ' + error.message });
+  }
+});
+
+// @desc    Dispatch order, generate AWB & schedule automated courier pickup
+// @route   POST /api/orders/:id/dispatch
+// @access  Public / Artisan Guild
+router.post('/:id/dispatch', async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    let order = null;
+
+    if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(orderId)) {
+      try {
+        order = await Order.findById(orderId);
+      } catch (e) {}
+    }
+    if (!order && inMemoryOrders.has(orderId)) {
+      order = inMemoryOrders.get(orderId);
+    }
+
+    const shipment = await shippingService.createShipmentAndPickup({
+      orderId,
+      pickupDetails: {
+        artisanName: req.body.artisanName || order?.orderItems?.[0]?.artisanName || 'Master Artisan Guild',
+        clusterLocation: req.body.clusterLocation || 'Master Artisan Workshop Hub'
+      },
+      shippingAddress: order?.shippingAddress || req.body.shippingAddress || {},
+      orderItems: order?.orderItems || [],
+      totalAmount: order?.totalPrice || 5040,
+      provider: req.body.provider || 'India Post Speed Post',
+      isCod: order?.paymentMethod === 'COD'
+    });
+
+    const updateFields = {
+      orderStatus: 'Dispatched',
+      awb: shipment.awb,
+      courierPartner: shipment.courierPartner,
+      trackingUrl: shipment.trackingUrl,
+      pickupDetails: shipment.pickupDetails,
+      shippingTimeline: shipment.shippingTimeline
+    };
+
+    if (order && typeof order.save === 'function') {
+      Object.assign(order, updateFields);
+      await order.save();
+    } else if (order) {
+      Object.assign(order, updateFields);
+      inMemoryOrders.set(orderId, order);
+    }
+
+    res.json({
+      success: true,
+      message: shipment.message,
+      shipment,
+      order: order || { _id: orderId, ...updateFields }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Dispatch failed: ' + error.message });
+  }
+});
+
+// @desc    Get live order shipment tracking details
+// @route   GET /api/orders/:id/tracking
+// @access  Public
+router.get('/:id/tracking', async (req, res) => {
+  try {
+    const orderId = req.params.id;
+    let order = null;
+
+    if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(orderId)) {
+      try {
+        order = await Order.findById(orderId);
+      } catch (e) {}
+    }
+    if (!order && inMemoryOrders.has(orderId)) {
+      order = inMemoryOrders.get(orderId);
+    }
+
+    const tracking = shippingService.getTrackingDetails(order?.awb || orderId, order);
+    res.json({ success: true, tracking });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Tracking lookup failed: ' + error.message });
   }
 });
 

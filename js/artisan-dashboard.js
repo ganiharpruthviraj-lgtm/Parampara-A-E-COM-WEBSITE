@@ -446,9 +446,9 @@ function renderOrdersTable(orders) {
         <td>
           <div class="font-mono font-bold text-xs text-[#800000]">#${orderNum}</div>
           ${awb ? `
-            <div class="text-[0.68rem] font-mono text-[#6B6259] bg-[#FAF7F2] border border-[#EADBCC] px-1 py-0.5 rounded mt-1 inline-flex items-center gap-1" title="India Post SpeedPost AWB">
+            <a href="track.html?awb=${encodeURIComponent(awb)}" target="_blank" class="text-[0.68rem] font-mono text-[#8B0000] hover:text-[#B8860B] bg-[#FAF7F2] border border-[#EADBCC] px-1.5 py-0.5 rounded mt-1 inline-flex items-center gap-1 transition-colors" title="Track Live Speed Post AWB">
               <i class="fa-solid fa-truck-fast text-[var(--gold-dark)]"></i> ${awb}
-            </div>
+            </a>
           ` : ''}
         </td>
         <td>
@@ -549,26 +549,35 @@ window.removeCraft = async function(craftId) {
 
 window.updateOrderStatus = async function(orderId, newStatus) {
   let awb = null;
-  const shortId = orderId.length > 8 ? orderId.slice(-8).toUpperCase() : orderId.toUpperCase();
 
-  if (newStatus === 'Dispatched') {
-    const defaultAwb = `INP-2026-${shortId}-GI`;
-    const promptInput = prompt('Enter India Post SpeedPost AWB Tracking Number:', defaultAwb);
-    awb = (promptInput && promptInput.trim()) ? promptInput.trim() : defaultAwb;
-  }
-
-  // 1. Update remote API
+  // 1. If Dispatched, automatically book shipment & generate official AWB with India Post
   try {
-    const payload = { status: newStatus };
-    if (awb) payload.awb = awb;
-
-    const res = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    if (!res.ok) {
-      console.warn('Status API returned HTTP status:', res.status);
+    if (newStatus === 'Dispatched') {
+      const activeGuild = GUILD_PROFILES[currentGuildId] || {};
+      const dispatchRes = await fetch(`${API_BASE}/api/orders/${orderId}/dispatch`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: 'India Post Speed Post',
+          clusterLocation: `${activeGuild.name || 'Master Artisan Guild'} Hub, ${activeGuild.state || 'India'}`,
+          artisanName: activeGuild.name || 'Master Artisan Guild'
+        })
+      });
+      const dispatchJson = await dispatchRes.json();
+      if (dispatchJson.success && dispatchJson.shipment) {
+        awb = dispatchJson.shipment.awb;
+        showToast(`🎉 Shipment booked via India Post! AWB: ${awb} generated. Rural cluster pickup scheduled.`, 'success');
+      }
+    } else {
+      const payload = { status: newStatus };
+      const res = await fetch(`${API_BASE}/api/orders/${orderId}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!res.ok) {
+        console.warn('Status API returned HTTP status:', res.status);
+      }
     }
   } catch (e) {
     console.warn('Order status API update notice:', e.message);
