@@ -7,6 +7,7 @@ const Order = require('../models/Order');
 const { protect } = require('../middleware/auth');
 const { generateOrderInvoicePDF } = require('../services/pdfInvoiceService');
 const razorpayService = require('../services/razorpayService');
+const youpiService = require('../services/youpiService');
 const shippingService = require('../services/shippingService');
 const smsService = require('../services/smsService');
 const { body, validationResult } = require('express-validator');
@@ -142,6 +143,77 @@ router.post('/create-razorpay-order', async (req, res) => {
     return res.json(orderData);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+// @desc    Initiate YouPI-PG Zero-Fee Payment Session (https://github.com/youpi-pg/YouPI-PG)
+// @route   POST /api/orders/youpi-create
+// @access  Public / Optional Auth
+router.post('/youpi-create', async (req, res) => {
+  try {
+    const { orderId, amount, currency = 'INR', customer, notes } = req.body;
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ success: false, message: 'Valid payment amount in INR is required.' });
+    }
+    const session = await youpiService.createPaymentSession({ orderId, amount, currency, customer, notes });
+    return res.json(session);
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// @desc    Verify YouPI Bank UTR & Complete Settlement
+// @route   POST /api/orders/youpi-verify
+// @access  Public / Optional Auth
+router.post('/youpi-verify', async (req, res) => {
+  try {
+    const { orderId, utr, paymentId } = req.body;
+    const verification = youpiService.verifyPayment({ orderId, utr, paymentId });
+    if (!verification.success) {
+      return res.status(400).json(verification);
+    }
+
+    const paymentResultData = {
+      id: verification.paymentId,
+      status: 'Captured',
+      update_time: new Date().toISOString(),
+      gateway: 'YouPI-PG',
+      utr: verification.utr,
+      fee: 0,
+      settlement: 'Direct P2M Escrow'
+    };
+
+    if (mongoose.connection.readyState === 1 && orderId) {
+      if (mongoose.Types.ObjectId.isValid(orderId)) {
+        try {
+          const order = await Order.findById(orderId);
+          if (order) {
+            order.isPaid = true;
+            order.paidAt = Date.now();
+            order.paymentMethod = 'YouPI Gateway';
+            order.paymentResult = paymentResultData;
+            order.orderStatus = 'Handcrafted';
+            const updated = await order.save();
+            return res.json({ success: true, message: 'YouPI payment verified.', data: updated });
+          }
+        } catch (e) {}
+      }
+    }
+
+    if (orderId && inMemoryOrders.has(orderId)) {
+      const mOrder = inMemoryOrders.get(orderId);
+      mOrder.isPaid = true;
+      mOrder.paidAt = new Date().toISOString();
+      mOrder.paymentMethod = 'YouPI Gateway';
+      mOrder.paymentResult = paymentResultData;
+      mOrder.orderStatus = 'Handcrafted';
+      inMemoryOrders.set(orderId, mOrder);
+      return res.json({ success: true, message: 'YouPI payment verified (Demo Mode).', data: mOrder });
+    }
+
+    return res.json({ success: true, message: 'YouPI payment verified.', data: { orderId, isPaid: true, paymentResult: paymentResultData } });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 

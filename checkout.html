@@ -56,6 +56,8 @@
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   <!-- Platform Authentication Engine -->
+  <!-- YouPI-PG Payment Gateway Client (https://github.com/youpi-pg/YouPI-PG) -->
+  <script src="js/youpi.js"></script>
   <script src="js/auth.js"></script>
 
   <!-- Stylesheets -->
@@ -337,15 +339,15 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-              <button onclick="selectPayMethod('razorpay'); triggerRazorpayCheckout();" class="flex items-center justify-center gap-2.5 py-3 px-4 rounded bg-[#0C2340] text-white hover:bg-[#17375E] border border-[#3395FF]/40 transition text-xs font-sans font-bold tracking-wide shadow-xs group" type="button">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="#3395FF">
+              <button onclick="selectPayMethod('youpi'); triggerYoupiCheckout();" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-gradient-to-r from-[#042f2e] via-[#0f766e] to-[#042f2e] text-white hover:opacity-95 border border-emerald-400/40 transition text-xs font-sans font-bold tracking-wide shadow-xs group" type="button">
+                <span class="text-sm">⚡</span>
+                <span>Pay with YouPI (0% Fee UPI)</span>
+              </button>
+              <button onclick="selectPayMethod('razorpay'); triggerRazorpayCheckout();" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#0C2340] text-white hover:bg-[#17375E] border border-[#3395FF]/40 transition text-xs font-sans font-bold tracking-wide shadow-xs group" type="button">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="#3395FF">
                   <path d="M12.3 2.1L4.8 14.8H12.9L8.1 22.8L20.6 8.5H12.6L14.7 2.1H12.3Z"/>
                 </svg>
-                <span>Pay with Razorpay</span>
-              </button>
-              <button onclick="selectPayMethod('upi'); scrollToSection('payment');" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#FAF7F2] hover:bg-[#f3ede1] border border-[#B8860B]/40 transition text-xs font-serif font-bold uppercase tracking-wider text-stone-800 shadow-xs group" type="button">
-                <span class="material-symbols-outlined text-base text-[#785600] group-hover:scale-110 transition-transform">qr_code_scanner</span>
-                <span>Instant UPI &amp; QR</span>
+                <span>Razorpay Gateway</span>
               </button>
               <button onclick="selectPayMethod('card'); scrollToSection('payment');" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#FAF7F2] border border-[#B8860B]/40 hover:bg-[#f3ede1] text-stone-800 transition text-xs font-serif font-semibold uppercase tracking-wider shadow-xs" type="button">
                 <span class="material-symbols-outlined text-base text-[#785600]">credit_card</span>
@@ -647,8 +649,17 @@
             </div>
 
             <!-- Authentic Payment Method Navigation Tabs -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 pt-1" id="payment-tabs-container">
-              <button type="button" onclick="selectPayMethod('razorpay')" id="tab-btn-razorpay" class="pay-tab-btn col-span-2 sm:col-span-1 flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-active">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 pt-1" id="payment-tabs-container">
+              <button type="button" onclick="selectPayMethod('youpi')" id="tab-btn-youpi" class="pay-tab-btn col-span-2 sm:col-span-1 flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-active">
+                <div class="flex items-center gap-1.5 mb-1 text-emerald-800">
+                  <span class="text-sm font-bold">⚡</span>
+                  <span class="text-xs font-bold font-sans text-emerald-950">YouPI-PG</span>
+                </div>
+                <span class="text-xs font-serif font-bold uppercase tracking-wider text-[#785600]">0% Fee UPI</span>
+                <span class="text-[9px] text-stone-400 font-sans">Direct Bank / P2M</span>
+              </button>
+
+              <button type="button" onclick="selectPayMethod('razorpay')" id="tab-btn-razorpay" class="pay-tab-btn flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-inactive">
                 <div class="flex items-center gap-1.5 mb-1">
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="#3395FF">
                     <path d="M12.3 2.1L4.8 14.8H12.9L8.1 22.8L20.6 8.5H12.6L14.7 2.1H12.3Z"/>
@@ -656,7 +667,7 @@
                   <span class="text-xs font-bold text-[#0C2340] font-sans">Razorpay</span>
                 </div>
                 <span class="text-xs font-serif font-bold uppercase tracking-wider text-[#785600]">Gateway</span>
-                <span class="text-[9px] text-stone-400 font-sans">UPI, Cards, Banks</span>
+                <span class="text-[9px] text-stone-400 font-sans">Cards, EMI, Net</span>
               </button>
 
               <button type="button" onclick="selectPayMethod('upi')" id="tab-btn-upi" class="pay-tab-btn flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-inactive">
@@ -684,8 +695,65 @@
               </button>
             </div>
 
+            <!-- ─── PANEL YOUPI: ZERO-FEE DIRECT ARTISAN UPI GATEWAY (YouPI-PG) ─── -->
+            <div id="panel-youpi" class="space-y-4 pt-2">
+              <div class="bg-white rounded-2xl p-5 sm:p-6 border-2 border-emerald-600/40 shadow-xs space-y-5">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-stone-200">
+                  <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#042f2e] to-[#0f766e] flex items-center justify-center text-emerald-300 shadow-xs font-bold text-lg">
+                      ⚡
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2">
+                        <h4 class="font-headline text-base font-bold text-stone-900">YouPI Payment Gateway</h4>
+                        <span class="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-sans font-extrabold uppercase tracking-wider">0% Platform Fee</span>
+                      </div>
+                      <p class="text-xs text-stone-500 font-serif">Open-source peer-to-merchant gateway • Direct bank settlement • 70% direct artisan share</p>
+                    </div>
+                  </div>
+                  <a href="https://github.com/youpi-pg/YouPI-PG" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-xs font-mono text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-200 hover:bg-emerald-100 transition self-start sm:self-auto">
+                    <span class="material-symbols-outlined text-sm text-emerald-700">code</span>
+                    <span>github.com/youpi-pg/YouPI-PG</span>
+                  </a>
+                </div>
+
+                <!-- Supported Channels Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-center text-xs font-serif text-stone-700">
+                  <div class="p-2.5 rounded-lg bg-emerald-50/50 border border-emerald-100 flex flex-col items-center gap-1">
+                    <span class="material-symbols-outlined text-base text-emerald-800">qr_code_scanner</span>
+                    <span class="font-bold text-[11px] text-emerald-950">Dynamic Vector QR</span>
+                    <span class="text-[9px] text-stone-500 font-sans">Pre-encoded amount &amp; ref</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-emerald-50/50 border border-emerald-100 flex flex-col items-center gap-1">
+                    <span class="material-symbols-outlined text-base text-emerald-800">touch_app</span>
+                    <span class="font-bold text-[11px] text-emerald-950">1-Tap Intent Apps</span>
+                    <span class="text-[9px] text-stone-500 font-sans">GPay, PhonePe, Paytm, CRED</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-emerald-50/50 border border-emerald-100 flex flex-col items-center gap-1">
+                    <span class="material-symbols-outlined text-base text-emerald-800">verified</span>
+                    <span class="font-bold text-[11px] text-emerald-950">Bank UTR Matching</span>
+                    <span class="text-[9px] text-stone-500 font-sans">12-digit Indian Bank Ref No.</span>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-emerald-50/50 border border-emerald-100 flex flex-col items-center gap-1">
+                    <span class="material-symbols-outlined text-base text-emerald-800">savings</span>
+                    <span class="font-bold text-[11px] text-emerald-950">0% Intermediary Fee</span>
+                    <span class="text-[9px] text-stone-500 font-sans">100% value to master guild</span>
+                  </div>
+                </div>
+
+                <!-- Launch YouPI Button -->
+                <div class="pt-2 text-center space-y-2">
+                  <button type="button" onclick="triggerYoupiCheckout()" id="btn-launch-youpi" class="w-full py-4 px-6 rounded-xl bg-gradient-to-r from-[#042f2e] via-[#0f766e] to-[#042f2e] text-white hover:opacity-95 font-sans font-bold text-sm tracking-wide shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2.5 border border-emerald-400/40 cursor-pointer">
+                    <span class="text-base">⚡</span>
+                    <span id="btn-youpi-text">Launch YouPI Gateway • Pay ₹19,790 (0% Fee)</span>
+                  </button>
+                  <p class="text-[11px] text-stone-500 font-serif">Direct peer-to-merchant UPI checkout • No aggregator lock-in • 5-minute single-slot session</p>
+                </div>
+              </div>
+            </div>
+
             <!-- ─── PANEL 0: RAZORPAY OFFICIAL GATEWAY SUITE ─── -->
-            <div id="panel-razorpay" class="space-y-4 pt-2">
+            <div id="panel-razorpay" class="hidden space-y-4 pt-2">
               <div class="bg-white rounded-2xl p-5 sm:p-6 border-2 border-[#3395FF]/40 shadow-xs space-y-5">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-stone-200">
                   <div class="flex items-center gap-3">

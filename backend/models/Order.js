@@ -44,7 +44,9 @@ const orderSchema = new mongoose.Schema(
       email_address: { type: String },
       razorpayOrderId: { type: String },
       razorpayPaymentId: { type: String },
-      razorpaySignature: { type: String }
+      razorpaySignature: { type: String },
+      utr: { type: String },
+      gateway: { type: String }
     },
     itemsPrice: { type: Number, required: true, default: 0.0 },
     taxPrice: { type: Number, required: true, default: 0.0 },

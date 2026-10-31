@@ -22,7 +22,7 @@ const API_BASE = window.location.origin.includes('localhost') || window.location
       : '/api');
 
 // Checkout State
-let currentPayMethod = 'razorpay';
+let currentPayMethod = 'youpi';
 let selectedTransit = 'standard'; // 'standard' | 'white_glove'
 let selectedPackaging = 'silk_coffer'; // 'silk_coffer' | 'lokta_paper'
 let promoApplied = true; // Default promo HERITAGE10 active as shown in Stitch design
@@ -395,6 +395,12 @@ function recalculate() {
     updateUpiQr();
   }
 
+  // Update YouPI launch button text
+  const youpiBtnText = document.getElementById('btn-youpi-text');
+  if (youpiBtnText) {
+    youpiBtnText.textContent = `Launch YouPI Gateway • Pay ${formatINR(totalPayable)} (0% Fee)`;
+  }
+
   // Update Razorpay launch button text
   const rzpBtnText = document.getElementById('btn-razorpay-text');
   if (rzpBtnText) {
@@ -700,7 +706,7 @@ const BANK_NAMES = {
 window.selectPayMethod = function(method) {
   currentPayMethod = method;
 
-  const methods = ['razorpay', 'upi', 'card', 'netbanking', 'cod'];
+  const methods = ['youpi', 'razorpay', 'upi', 'card', 'netbanking', 'cod'];
   methods.forEach(m => {
     const panel = document.getElementById('panel-' + m);
     if (panel) {
@@ -731,6 +737,15 @@ window.selectPayMethod = function(method) {
   }
 
   recalculate();
+};
+
+/**
+ * YouPI-PG Gateway Handlers (https://github.com/youpi-pg/YouPI-PG)
+ */
+window.triggerYoupiCheckout = async function() {
+  currentPayMethod = 'youpi';
+  selectPayMethod('youpi');
+  await placeOrder();
 };
 
 /**
@@ -1443,7 +1458,41 @@ window.placeOrder = async function() {
     }
 
     // Sovereign Authentic Gateway Protocol:
-    // 1. Razorpay Gateway Route (Standard Sandbox Simulation or Real Keys)
+    // 1. YouPI-PG Gateway Route (Zero Platform Fee & Direct Bank Routing)
+    if (currentPayMethod === 'youpi') {
+      if (typeof window.Youpi !== 'undefined' && typeof window.Youpi.pay === 'function') {
+        window.Youpi.pay({
+          order_id: confirmedOrderId,
+          amount: total,
+          currency: 'INR',
+          prefill: {
+            name: `${firstName} ${lastName}`.trim(),
+            email: emailVal,
+            contact: phoneVal
+          },
+          handler: async function(response) {
+            showToast(`🎉 YouPI Payment Ratified! UTR: ${response.utr}`, 'success');
+            await finalizeOrder({
+              orderId: confirmedOrderId,
+              razorpayOrderId: response.utr,
+              razorpayPaymentId: response.paymentId || `youpi_${Date.now()}`,
+              razorpaySignature: 'youpi_zero_fee_verified',
+              paymentMethod: 'YouPI Gateway',
+              total,
+              craftSubtotal
+            });
+          },
+          onClose: function() {
+            if (btnText) btnText.textContent = `Ratify & Seal Royal Acquisition • ${formatINR(total)}`;
+            if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
+            showToast('YouPI checkout window closed. Curated vault preserved.', 'info');
+          }
+        });
+        return;
+      }
+    }
+
+    // 2. Razorpay Gateway Route (Standard Sandbox Simulation or Real Keys)
     if (currentPayMethod === 'razorpay') {
       openRazorpayModal({
         orderId: confirmedOrderId,
@@ -1869,6 +1918,10 @@ function setupInputFormatters() {
       const rzpModal = document.getElementById('razorpay-interactive-modal');
       if (rzpModal && !rzpModal.classList.contains('hidden')) {
         closeRazorpayModal();
+      }
+      const ypModal = document.getElementById('youpi-pg-modal');
+      if (ypModal && !ypModal.classList.contains('hidden') && window.Youpi) {
+        window.Youpi.closeModal();
       }
     }
   });

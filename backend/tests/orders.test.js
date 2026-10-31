@@ -120,6 +120,59 @@ describe('Orders & Razorpay Payment Gateway API', () => {
     });
   });
 
+  describe('YouPI-PG Zero-Fee Payment Gateway (POST /youpi-create & /youpi-verify)', () => {
+    it('should generate a valid YouPI 0% fee payment session with NPCI UPI URI', async () => {
+      const res = await request(app)
+        .post('/api/orders/youpi-create')
+        .send({
+          orderId: 'PAR-2026-YOUPI-001',
+          amount: 5040,
+          currency: 'INR'
+        });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toHaveProperty('success', true);
+      expect(res.body.gateway).toBe('YouPI-PG');
+      expect(res.body.platformFee).toBe(0);
+      expect(res.body.upiUri).toContain('upi://pay?');
+      expect(res.body).toHaveProperty('qrUrl');
+    });
+
+    it('should verify YouPI transaction via 12-digit Indian Bank UTR and mark order as paid', async () => {
+      const createRes = await request(app)
+        .post('/api/orders')
+        .send(sampleOrderPayload);
+
+      const orderId = createRes.body.data._id;
+
+      const res = await request(app)
+        .post('/api/orders/youpi-verify')
+        .send({
+          orderId,
+          utr: '430182910382',
+          paymentId: 'youpi_pay_demo_101'
+        });
+
+      expect(res.statusCode).toBe(200);
+      expect(res.body).toHaveProperty('success', true);
+      expect(res.body.data.isPaid).toBe(true);
+      expect(res.body.data.paymentMethod).toBe('YouPI Gateway');
+      expect(res.body.data.paymentResult.utr).toBe('430182910382');
+    });
+
+    it('should reject invalid or truncated UTR', async () => {
+      const res = await request(app)
+        .post('/api/orders/youpi-verify')
+        .send({
+          orderId: 'PAR-TEST-99',
+          utr: '123'
+        });
+
+      expect(res.statusCode).toBe(400);
+      expect(res.body.success).toBe(false);
+    });
+  });
+
   describe('GET /api/orders/:id/invoice-pdf', () => {
     it('should stream downloadable PDF invoice with GI Authenticity Certificate', async () => {
       const createRes = await request(app)
