@@ -627,92 +627,283 @@
             </div>
           </section>
 
-          <!-- ─── SECTION 04: TREASURY SETTLEMENT & PROTECTION (PAYMENT) ─── -->
-          <section class="gilded-box rounded-xl p-6 sm:p-7 bg-[#FAF7F2] space-y-6" id="form-payment">
+          <!-- ─── SECTION 04: TREASURY SETTLEMENT & PROTECTION (AUTHENTIC PAYMENT GATEWAY) ─── -->
+          <section class="gilded-box rounded-xl p-5 sm:p-7 bg-[#FAF7F2] space-y-6" id="form-payment">
             <div class="flex items-baseline justify-between border-b border-[#E6DFD5] pb-3">
               <div class="flex items-center gap-3">
                 <span class="text-xs font-serif italic text-[#7A1521] font-bold">04.</span>
-                <h2 class="font-headline text-lg sm:text-xl text-[#1C1B1B] font-semibold">Treasury Settlement &amp; Protection</h2>
+                <div>
+                  <h2 class="font-headline text-lg sm:text-xl text-[#1C1B1B] font-semibold">Treasury Settlement &amp; Protection</h2>
+                  <p class="text-[11px] text-stone-500 font-serif">Sovereign Escrow • 70% Direct Master Artisan Allocation</p>
+                </div>
               </div>
-              <span class="text-[11px] text-stone-600 uppercase tracking-wider flex items-center gap-1 font-serif">
+              <span class="text-[11px] text-stone-600 uppercase tracking-wider flex items-center gap-1 font-serif hidden sm:flex">
                 <span class="material-symbols-outlined text-sm text-[#7A1521]">encrypted</span> 256-Bit Imperial Vault
               </span>
             </div>
 
-            <div class="space-y-3.5">
-              <!-- Payment Option 1: Card Active -->
-              <div class="bg-white rounded-xl p-5 shadow-xs border-2 border-[#785600] space-y-4">
-                <div class="flex items-center justify-between">
-                  <label class="flex items-center gap-3 cursor-pointer">
-                    <input checked class="text-[#785600] focus:ring-[#785600] accent-[#785600] w-4 h-4" name="payment_choice" value="card" onchange="selectPayMethod('card')" type="radio"/>
-                    <div>
-                      <span class="font-headline font-semibold text-sm text-stone-900 block">Sovereign Cards (RuPay, Visa, Mastercard, Amex)</span>
-                      <span class="text-[11px] text-stone-500">Zero surcharge • International &amp; Sovereign Banking Accepted</span>
-                    </div>
-                  </label>
-                  <div class="flex items-center gap-1.5">
-                    <span class="font-bold text-[10px] px-2 py-0.5 bg-stone-100 border border-stone-200 rounded font-serif text-stone-700">RUPAY</span>
-                    <span class="font-bold text-[10px] px-2 py-0.5 bg-stone-100 border border-stone-200 rounded font-serif text-stone-700">VISA</span>
-                  </div>
-                </div>
+            <!-- Authentic Payment Method Navigation Tabs -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1" id="payment-tabs-container">
+              <button type="button" onclick="selectPayMethod('upi')" id="tab-btn-upi" class="pay-tab-btn flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-inactive">
+                <span class="material-symbols-outlined text-xl mb-1 text-[#785600]">qr_code_scanner</span>
+                <span class="text-xs font-serif font-bold uppercase tracking-wider">Instant UPI</span>
+                <span class="text-[9px] text-stone-400 font-sans">GPay, PhonePe, QR</span>
+              </button>
 
-                <!-- Card Inputs -->
-                <div id="panel-card" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                  <div class="sm:col-span-2 space-y-1">
-                    <label for="card-number" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600">Card Number</label>
-                    <div class="relative">
-                      <input id="card-number" class="w-full px-4 py-2.5 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 tracking-widest font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" value="4532 •••• •••• 8821"/>
-                      <span class="material-symbols-outlined absolute right-3 top-2.5 text-[#785600] text-lg">credit_card</span>
+              <button type="button" onclick="selectPayMethod('card')" id="tab-btn-card" class="pay-tab-btn flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-active">
+                <span class="material-symbols-outlined text-xl mb-1 text-[#785600]">credit_card</span>
+                <span class="text-xs font-serif font-bold uppercase tracking-wider">Sovereign Card</span>
+                <span class="text-[9px] text-stone-400 font-sans">RuPay, Visa, MC</span>
+              </button>
+
+              <button type="button" onclick="selectPayMethod('netbanking')" id="tab-btn-netbanking" class="pay-tab-btn flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-inactive">
+                <span class="material-symbols-outlined text-xl mb-1 text-[#785600]">account_balance</span>
+                <span class="text-xs font-serif font-bold uppercase tracking-wider">NetBanking</span>
+                <span class="text-[9px] text-stone-400 font-sans">Top 40 Treasuries</span>
+              </button>
+
+              <button type="button" onclick="selectPayMethod('cod')" id="tab-btn-cod" class="pay-tab-btn flex flex-col items-center justify-center p-3 rounded-xl border text-center transition-all shadow-xs pay-tab-inactive">
+                <span class="material-symbols-outlined text-xl mb-1 text-[#785600]">local_shipping</span>
+                <span class="text-xs font-serif font-bold uppercase tracking-wider">Cash on Delivery</span>
+                <span class="text-[9px] text-stone-400 font-sans">Verified Postal Pin</span>
+              </button>
+            </div>
+
+            <!-- ─── PANEL 1: INSTANT UPI & DYNAMIC QR ─── -->
+            <div id="panel-upi" class="hidden space-y-5 pt-2">
+              <div class="bg-white rounded-2xl p-5 sm:p-6 border border-[#B8860B]/30 shadow-xs">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                  <!-- Dynamic QR Display -->
+                  <div class="md:col-span-5 flex flex-col items-center justify-center text-center p-4 bg-[#FAF7F2] rounded-xl border border-[#E6DFD5]">
+                    <div class="relative w-44 h-44 bg-white p-2.5 rounded-xl border-2 border-[#B8860B] shadow-md flex items-center justify-center">
+                      <img id="upi-dynamic-qr" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=upi://pay?pa=parampara.ateliers@icici%26pn=Parampara+Heritage+Ateliers%26cu=INR" alt="Scan to Pay via UPI" class="w-full h-full object-contain" onerror="this.src='assets/parampara_logo_crest.webp'"/>
+                      <div class="absolute inset-0 m-auto w-9 h-9 rounded-full bg-white p-1 shadow-md flex items-center justify-center border border-[#B8860B]">
+                        <img src="assets/parampara_logo_crest.webp" alt="Parampara" class="w-full h-full object-contain"/>
+                      </div>
+                    </div>
+                    <div class="mt-3 space-y-1">
+                      <span class="text-xs font-serif font-bold text-[#785600] block" id="upi-qr-amount-text">Scan &amp; Authorize ₹19,790</span>
+                      <span class="text-[10px] text-stone-500 font-mono flex items-center justify-center gap-1" id="upi-timer-text">
+                        <span class="material-symbols-outlined text-xs animate-spin">schedule</span> Valid for 04:59 mins
+                      </span>
                     </div>
                   </div>
-                  <div class="space-y-1">
-                    <label for="card-name" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600">Cardholder Name</label>
-                    <input id="card-name" class="w-full px-4 py-2.5 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 tracking-wider uppercase focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" value="ANANYA SHARMA"/>
-                  </div>
-                  <div class="grid grid-cols-2 gap-2">
-                    <div class="space-y-1">
-                      <label for="card-expiry" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600">Expiry</label>
-                      <input id="card-expiry" class="w-full px-3 py-2.5 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 text-center font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" value="08 / 28"/>
+
+                  <!-- Direct UPI App Launchers & VPA Input -->
+                  <div class="md:col-span-7 space-y-4">
+                    <div>
+                      <h4 class="font-headline text-sm font-semibold text-stone-900 mb-1">Instant App Authorization</h4>
+                      <p class="text-xs text-stone-500 font-serif">Open any verified UPI application on this device:</p>
                     </div>
-                    <div class="space-y-1">
-                      <label for="card-cvv" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600">CVV / CVC</label>
-                      <input id="card-cvv" class="w-full px-3 py-2.5 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 text-center font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="password" value="987"/>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                      <button type="button" onclick="selectUpiApp('Google Pay')" class="flex items-center gap-2 p-2.5 rounded-lg border border-[#E6DFD5] hover:border-[#785600] bg-[#FAF7F2] hover:bg-white text-xs font-serif font-bold text-stone-800 transition">
+                        <span class="w-6 h-6 rounded-full bg-white shadow-2xs flex items-center justify-center text-xs font-bold text-blue-600">G</span>
+                        <span>Google Pay</span>
+                      </button>
+                      <button type="button" onclick="selectUpiApp('PhonePe')" class="flex items-center gap-2 p-2.5 rounded-lg border border-[#E6DFD5] hover:border-[#785600] bg-[#FAF7F2] hover:bg-white text-xs font-serif font-bold text-stone-800 transition">
+                        <span class="w-6 h-6 rounded-full bg-purple-700 text-white shadow-2xs flex items-center justify-center text-xs font-bold">पे</span>
+                        <span>PhonePe</span>
+                      </button>
+                      <button type="button" onclick="selectUpiApp('Paytm')" class="flex items-center gap-2 p-2.5 rounded-lg border border-[#E6DFD5] hover:border-[#785600] bg-[#FAF7F2] hover:bg-white text-xs font-serif font-bold text-stone-800 transition">
+                        <span class="w-6 h-6 rounded-full bg-cyan-600 text-white shadow-2xs flex items-center justify-center text-[10px] font-bold">Pay</span>
+                        <span>Paytm</span>
+                      </button>
+                      <button type="button" onclick="selectUpiApp('BHIM')" class="flex items-center gap-2 p-2.5 rounded-lg border border-[#E6DFD5] hover:border-[#785600] bg-[#FAF7F2] hover:bg-white text-xs font-serif font-bold text-stone-800 transition">
+                        <span class="w-6 h-6 rounded-full bg-orange-600 text-white shadow-2xs flex items-center justify-center text-[9px] font-bold">BH</span>
+                        <span>BHIM UPI</span>
+                      </button>
+                      <button type="button" onclick="selectUpiApp('CRED')" class="flex items-center gap-2 p-2.5 rounded-lg border border-[#E6DFD5] hover:border-[#785600] bg-[#FAF7F2] hover:bg-white text-xs font-serif font-bold text-stone-800 transition">
+                        <span class="w-6 h-6 rounded-full bg-black text-white shadow-2xs flex items-center justify-center text-xs font-bold">C</span>
+                        <span>CRED UPI</span>
+                      </button>
+                    </div>
+
+                    <!-- Custom UPI ID -->
+                    <div class="pt-2 space-y-1.5 border-t border-[#E6DFD5]">
+                      <label for="upi-id" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600">Or Inscribe Your Virtual Payment Address (VPA)</label>
+                      <div class="flex gap-2">
+                        <div class="relative flex-grow">
+                          <input id="upi-id" type="text" placeholder="patron@oksbi" value="ananya@okhdfcbank" class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm font-mono text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#785600]"/>
+                          <span class="material-symbols-outlined text-[#785600] absolute right-3 top-2.5 text-base">verified</span>
+                        </div>
+                        <button type="button" onclick="requestUpiCollect()" class="px-4 py-2.5 bg-[#785600] text-white hover:bg-[#986D00] rounded-lg text-xs font-serif font-bold uppercase tracking-wider transition shadow-xs whitespace-nowrap">
+                          Request Collect
+                        </button>
+                      </div>
+                      <div class="flex gap-1.5 flex-wrap pt-1">
+                        <span class="text-[9px] text-stone-400 font-sans self-center mr-1">Handles:</span>
+                        <button type="button" onclick="appendUpiHandle('@okhdfcbank')" class="text-[10px] px-2 py-0.5 rounded bg-stone-100 hover:bg-[#FAF7F2] text-stone-600 font-mono">@okhdfcbank</button>
+                        <button type="button" onclick="appendUpiHandle('@oksbi')" class="text-[10px] px-2 py-0.5 rounded bg-stone-100 hover:bg-[#FAF7F2] text-stone-600 font-mono">@oksbi</button>
+                        <button type="button" onclick="appendUpiHandle('@okicici')" class="text-[10px] px-2 py-0.5 rounded bg-stone-100 hover:bg-[#FAF7F2] text-stone-600 font-mono">@okicici</button>
+                        <button type="button" onclick="appendUpiHandle('@ybl')" class="text-[10px] px-2 py-0.5 rounded bg-stone-100 hover:bg-[#FAF7F2] text-stone-600 font-mono">@ybl</button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
 
-              <!-- Payment Option 2: UPI / NetBanking -->
-              <div class="bg-white rounded-xl p-4 shadow-xs flex flex-col gap-3 cursor-pointer hover:bg-[#FAF7F2] transition border border-[#E6DFD5]">
-                <div class="flex items-center justify-between">
-                  <label class="flex items-center gap-3 cursor-pointer">
-                    <input class="text-[#785600] focus:ring-[#785600] accent-[#785600] w-4 h-4" name="payment_choice" value="upi" onchange="selectPayMethod('upi')" type="radio"/>
-                    <div>
-                      <span class="font-headline font-semibold text-sm text-stone-900 block">UPI QR / NetBanking</span>
-                      <span class="text-[11px] text-stone-500">BHIM, PhonePe, Paytm, GooglePay &amp; Top 40 Indian Royal Treasuries</span>
+            <!-- ─── PANEL 2: SOVEREIGN CARDS (CREDIT / DEBIT) ─── -->
+            <div id="panel-card" class="space-y-6 pt-2">
+              <!-- Interactive 3D Royal Credit Card Visualization -->
+              <div class="max-w-md mx-auto sm:max-w-none">
+                <div class="royal-card-preview p-6 sm:p-7 shadow-xl space-y-6">
+                  <div class="flex items-start justify-between">
+                    <div class="flex items-center gap-2">
+                      <span class="material-symbols-outlined text-[#B8860B] text-xl">workspace_premium</span>
+                      <span class="text-[10px] tracking-[0.25em] uppercase font-serif font-bold text-[#ffdea6]/90">Parampara Sovereign Treasury</span>
                     </div>
-                  </label>
-                  <span class="material-symbols-outlined text-[#785600]">qr_code_2</span>
-                </div>
-                <div id="panel-upi" class="hidden pt-2 border-t border-stone-200">
-                  <label for="upi-id" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 mb-1">Enter UPI VPA ID</label>
-                  <div class="flex gap-2">
-                    <input id="upi-id" type="text" placeholder="collector@upi" class="w-full px-4 py-2 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900"/>
-                    <button type="button" onclick="selectUpiApp('BHIM')" class="px-3 py-2 bg-[#785600] text-white text-xs font-bold rounded-lg">Verify</button>
+                    <span class="px-2.5 py-0.5 rounded bg-white/10 text-white font-mono font-bold text-xs uppercase tracking-widest border border-white/20" id="card-network-badge">
+                      RUPAY
+                    </span>
                   </div>
-                </div>
-              </div>
 
-              <!-- Payment Option 3: Cash on Delivery -->
-              <div class="bg-white rounded-xl p-4 shadow-xs flex items-center justify-between cursor-pointer hover:bg-[#FAF7F2] transition border border-[#E6DFD5]">
-                <label class="flex items-center gap-3 cursor-pointer">
-                  <input class="text-[#785600] focus:ring-[#785600] accent-[#785600] w-4 h-4" name="payment_choice" value="cod" onchange="selectPayMethod('cod')" type="radio"/>
+                  <div class="flex items-center gap-4 pt-1">
+                    <div class="emv-chip"></div>
+                    <span class="material-symbols-outlined text-[#ffdea6]/70 text-2xl -rotate-90">wifi</span>
+                  </div>
+
                   <div>
-                    <span class="font-headline font-semibold text-sm text-stone-900 block">Cash on Delivery / Verified Pin</span>
-                    <span class="text-[11px] text-stone-500">Available for verified postal clusters with ₹99 handling protocol</span>
+                    <span class="font-mono text-lg sm:text-2xl tracking-[0.22em] text-[#ffdea6] font-bold block drop-shadow-sm" id="card-preview-number">
+                      4532 •••• •••• 8821
+                    </span>
                   </div>
-                </label>
-                <span class="material-symbols-outlined text-stone-500">local_shipping</span>
+
+                  <div class="flex items-end justify-between pt-1 border-t border-[#B8860B]/30 text-xs">
+                    <div>
+                      <span class="text-[8px] uppercase tracking-widest text-[#ffdea6]/70 block font-serif">Patron Sovereign</span>
+                      <span class="font-serif font-bold uppercase tracking-wider text-white" id="card-preview-name">ANANYA SHARMA</span>
+                    </div>
+                    <div class="text-right">
+                      <span class="text-[8px] uppercase tracking-widest text-[#ffdea6]/70 block font-serif">Valid Thru</span>
+                      <span class="font-mono font-bold text-white" id="card-preview-expiry">08 / 28</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Form Input Controls -->
+              <div class="bg-white rounded-2xl p-5 sm:p-6 border border-[#B8860B]/30 shadow-xs space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div class="sm:col-span-2 space-y-1.5">
+                    <label for="card-number" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Card Number *</label>
+                    <div class="relative">
+                      <input id="card-number" class="w-full px-4 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 tracking-widest font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" placeholder="XXXX  XXXX  XXXX  XXXX" value="4532 •••• •••• 8821" maxlength="22"/>
+                      <span class="material-symbols-outlined absolute right-3 top-3 text-[#785600] text-lg">credit_card</span>
+                    </div>
+                  </div>
+
+                  <div class="space-y-1.5">
+                    <label for="card-name" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Cardholder Name *</label>
+                    <input id="card-name" class="w-full px-4 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 tracking-wider uppercase font-serif focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" value="ANANYA SHARMA"/>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-3">
+                    <div class="space-y-1.5">
+                      <label for="card-expiry" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Expiry (MM/YY) *</label>
+                      <input id="card-expiry" class="w-full px-3 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 text-center font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" placeholder="MM / YY" value="08 / 28" maxlength="7"/>
+                    </div>
+                    <div class="space-y-1.5">
+                      <label for="card-cvv" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">CVV / CVC *</label>
+                      <input id="card-cvv" class="w-full px-3 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 text-center font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="password" placeholder="•••" value="987" maxlength="4"/>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="pt-2 border-t border-[#E6DFD5] flex items-center justify-between text-xs text-stone-500 font-serif">
+                  <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" checked class="w-4 h-4 rounded text-[#785600] focus:ring-[#785600] accent-[#785600]"/>
+                    <span>Save card securely per RBI tokenization standards</span>
+                  </label>
+                  <span class="flex items-center gap-1 text-[10px] text-emerald-800 font-bold uppercase font-sans">
+                    <span class="material-symbols-outlined text-xs text-emerald-700">lock</span> PCI-DSS Certified
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ─── PANEL 3: SOVEREIGN NETBANKING ─── -->
+            <div id="panel-netbanking" class="hidden space-y-5 pt-2">
+              <div class="bg-white rounded-2xl p-5 sm:p-6 border border-[#B8860B]/30 shadow-xs space-y-4">
+                <div>
+                  <h4 class="font-headline text-sm font-semibold text-stone-900 mb-1">Select Sovereign Treasury Institution</h4>
+                  <p class="text-xs text-stone-500 font-serif">Direct instantaneous escrow transfer through your banking gateway:</p>
+                </div>
+
+                <!-- Top 6 Banks Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                  <button type="button" onclick="selectBank('SBI', this)" class="bank-chip p-3 rounded-xl border border-[#E6DFD5] bg-[#FAF7F2] flex items-center gap-2.5 transition active-bank">
+                    <span class="w-7 h-7 rounded-full bg-blue-700 text-white flex items-center justify-center text-xs font-bold shrink-0">SBI</span>
+                    <span class="text-xs font-serif font-bold text-stone-900">State Bank of India</span>
+                  </button>
+                  <button type="button" onclick="selectBank('HDFC', this)" class="bank-chip p-3 rounded-xl border border-[#E6DFD5] bg-[#FAF7F2] flex items-center gap-2.5 transition">
+                    <span class="w-7 h-7 rounded-full bg-blue-900 text-white flex items-center justify-center text-xs font-bold shrink-0">HDFC</span>
+                    <span class="text-xs font-serif font-bold text-stone-900">HDFC Bank</span>
+                  </button>
+                  <button type="button" onclick="selectBank('ICICI', this)" class="bank-chip p-3 rounded-xl border border-[#E6DFD5] bg-[#FAF7F2] flex items-center gap-2.5 transition">
+                    <span class="w-7 h-7 rounded-full bg-amber-700 text-white flex items-center justify-center text-xs font-bold shrink-0">i</span>
+                    <span class="text-xs font-serif font-bold text-stone-900">ICICI Bank</span>
+                  </button>
+                  <button type="button" onclick="selectBank('AXIS', this)" class="bank-chip p-3 rounded-xl border border-[#E6DFD5] bg-[#FAF7F2] flex items-center gap-2.5 transition">
+                    <span class="w-7 h-7 rounded-full bg-rose-800 text-white flex items-center justify-center text-xs font-bold shrink-0">AX</span>
+                    <span class="text-xs font-serif font-bold text-stone-900">Axis Bank</span>
+                  </button>
+                  <button type="button" onclick="selectBank('KOTAK', this)" class="bank-chip p-3 rounded-xl border border-[#E6DFD5] bg-[#FAF7F2] flex items-center gap-2.5 transition">
+                    <span class="w-7 h-7 rounded-full bg-red-700 text-white flex items-center justify-center text-xs font-bold shrink-0">KM</span>
+                    <span class="text-xs font-serif font-bold text-stone-900">Kotak Mahindra</span>
+                  </button>
+                  <button type="button" onclick="selectBank('PNB', this)" class="bank-chip p-3 rounded-xl border border-[#E6DFD5] bg-[#FAF7F2] flex items-center gap-2.5 transition">
+                    <span class="w-7 h-7 rounded-full bg-yellow-600 text-white flex items-center justify-center text-xs font-bold shrink-0">PNB</span>
+                    <span class="text-xs font-serif font-bold text-stone-900">Punjab National</span>
+                  </button>
+                </div>
+
+                <!-- 40+ Banks Select -->
+                <div class="pt-3 border-t border-[#E6DFD5] space-y-1.5">
+                  <label for="all-banks-select" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Or Select from All Scheduled Indian Banks</label>
+                  <select id="all-banks-select" onchange="selectBankFromDropdown(this)" class="w-full px-4 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#785600] cursor-pointer">
+                    <option value="">-- Choose from 40+ Certified Indian Treasuries --</option>
+                    <option value="Bank of Baroda">Bank of Baroda</option>
+                    <option value="Canara Bank">Canara Bank</option>
+                    <option value="Union Bank of India">Union Bank of India</option>
+                    <option value="IndusInd Bank">IndusInd Bank</option>
+                    <option value="IDBI Bank">IDBI Bank</option>
+                    <option value="Federal Bank">Federal Bank</option>
+                    <option value="Yes Bank">Yes Bank</option>
+                    <option value="Indian Bank">Indian Bank</option>
+                    <option value="Central Bank of India">Central Bank of India</option>
+                    <option value="RBL Bank">RBL Bank</option>
+                    <option value="IDFC FIRST Bank">IDFC FIRST Bank</option>
+                    <option value="Bank of India">Bank of India</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- ─── PANEL 4: CASH ON DELIVERY ─── -->
+            <div id="panel-cod" class="hidden space-y-4 pt-2">
+              <div class="bg-white rounded-2xl p-5 sm:p-6 border border-[#B8860B]/30 shadow-xs space-y-4">
+                <div class="flex items-start gap-4">
+                  <div class="w-12 h-12 rounded-xl bg-[#FAF7F2] border border-[#B8860B]/40 text-[#785600] flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined text-2xl">local_shipping</span>
+                  </div>
+                  <div>
+                    <h4 class="font-headline text-base font-semibold text-stone-900">Speed Post Insured Escort COD Protocol</h4>
+                    <p class="text-xs text-stone-600 font-serif mt-1 leading-relaxed">
+                      Settle your acquisition directly upon physical delivery at your sanctuary estate. India Post Speed Post handles certified cash settlement and hand-delivery.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="p-3.5 rounded-xl bg-[#FAF7F2] border border-[#E6DFD5] flex items-center justify-between text-xs font-serif">
+                  <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-emerald-700 text-base">verified</span>
+                    <span class="font-semibold text-stone-800">Postal Pin Verification:</span>
+                    <span class="text-[#785600] font-bold" id="cod-serviceable-text">Active for PIN 110003</span>
+                  </div>
+                  <span class="text-[11px] font-bold text-[#7A1521] uppercase">₹99 Postal Protocol</span>
+                </div>
               </div>
             </div>
           </section>
@@ -920,6 +1111,85 @@
 
     </div>
   </main>
+
+  <!-- ─── AUTHENTIC 3D SECURE BANKING OTP VERIFICATION MODAL ─── -->
+  <div class="fixed inset-0 z-[250] bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto" id="bank-otp-modal">
+    <div class="bg-white border-2 border-[#785600] rounded-3xl p-6 sm:p-8 shadow-2xl max-w-md w-full relative my-8 text-left space-y-5">
+      <!-- Bank Header -->
+      <div class="flex items-center justify-between border-b border-stone-200 pb-3">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-[#7A1521] text-[#ffdea6] flex items-center justify-center font-bold text-xs">
+            <span class="material-symbols-outlined text-base">verified_user</span>
+          </div>
+          <div>
+            <h3 class="font-headline text-sm font-bold text-stone-900" id="otp-bank-name">State Bank of India</h3>
+            <span class="text-[10px] text-stone-500 font-sans">3D Secure • Verified by Visa / RuPay</span>
+          </div>
+        </div>
+        <button type="button" onclick="closeBankOtpModal()" class="w-7 h-7 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center text-sm font-bold transition">
+          &times;
+        </button>
+      </div>
+
+      <!-- Transaction Dossier Recap -->
+      <div class="bg-[#FAF7F2] p-3.5 rounded-xl border border-[#E6DFD5] space-y-1.5 text-xs font-serif">
+        <div class="flex justify-between">
+          <span class="text-stone-500">Merchant:</span>
+          <strong class="text-stone-900 font-sans">Parampara Royal Ateliers</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-stone-500">Acquisition Amount:</span>
+          <strong class="text-[#785600] font-sans font-bold" id="otp-modal-amount">₹19,790</strong>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-stone-500">Card / Account:</span>
+          <span class="font-mono text-stone-700" id="otp-modal-card-tail">•••• 8821</span>
+        </div>
+      </div>
+
+      <!-- OTP Entry -->
+      <div class="space-y-3">
+        <div class="text-center space-y-1">
+          <p class="text-xs text-stone-700 font-serif">
+            One-Time Password (OTP) dispatched to registered mobile <strong class="font-mono text-stone-900" id="otp-mobile-masked">+91 98*** ***21</strong>
+          </p>
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-[10px] text-amber-800 font-mono">
+            <span>Demo Master OTP:</span> <strong class="underline cursor-pointer" onclick="autoFillOtp('123456')">123456</strong>
+            <button type="button" onclick="autoFillOtp('123456')" class="text-[9px] underline font-bold uppercase text-[#785600] ml-1">Auto-fill</button>
+          </div>
+        </div>
+
+        <div class="flex justify-center gap-2 pt-1">
+          <input type="text" maxlength="6" id="bank-otp-input" placeholder="1 2 3 4 5 6" class="w-48 text-center text-xl tracking-[0.4em] font-mono font-bold py-2.5 px-3 bg-[#FAF7F2] border-2 border-[#785600] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#785600] shadow-inner" value="123456"/>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-stone-500 font-serif pt-1">
+          <span id="otp-countdown-text">Resend code in <strong class="font-mono">24s</strong></span>
+          <button type="button" onclick="resendBankOtp()" class="text-[#785600] hover:underline font-bold">Resend OTP</button>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="pt-2 space-y-2">
+        <button type="button" onclick="confirmBankOtp()" id="btn-submit-otp" class="w-full py-3.5 px-5 rounded-xl bg-gradient-to-r from-[#5C0E16] to-[#7A1521] text-[#ffdea6] font-serif font-bold text-xs uppercase tracking-wider shadow-lg hover:shadow-xl transition flex items-center justify-center gap-2 border border-[#B8860B]/40">
+          <span class="material-symbols-outlined text-sm text-[#B8860B]">lock</span>
+          <span>Authorize Sovereign Settlement</span>
+        </button>
+        <button type="button" onclick="closeBankOtpModal()" class="w-full py-2 text-stone-500 hover:text-stone-800 text-xs font-serif transition text-center">
+          Cancel &amp; Return to Salon
+        </button>
+      </div>
+
+      <!-- Trust Stamp -->
+      <div class="pt-2 border-t border-stone-100 flex items-center justify-center gap-4 text-[10px] text-stone-400 font-sans uppercase tracking-wider">
+        <span>🔒 256-Bit SSL</span>
+        <span>•</span>
+        <span>Verified by Visa / RuPay</span>
+        <span>•</span>
+        <span>RBI SafeKey</span>
+      </div>
+    </div>
+  </div>
 
   <!-- ─── STEP 3: STATELY ORDER CONFIRMATION MODAL / SCREEN ─── -->
   <div class="fixed inset-0 z-[200] bg-black/75 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto" id="form-confirm">

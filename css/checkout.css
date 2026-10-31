@@ -682,6 +682,72 @@ button[onclick="goToPayment()"]:active,
   background: linear-gradient(135deg, #785600 0%, #B8860B 50%, #986D00 100%);
 }
 
+/* ─── 16. AUTHENTIC SOVEREIGN CARD & PAYMENT GATEWAY ─────────────────────── */
+.royal-card-preview {
+  background: linear-gradient(135deg, #4A0810 0%, #6E101B 50%, #2A0408 100%);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  box-shadow: 0 16px 36px -8px rgba(92, 14, 22, 0.35), inset 0 1px 1px rgba(255, 222, 166, 0.4);
+  border-radius: 16px;
+  position: relative;
+  overflow: hidden;
+  color: #ffdea6;
+}
+
+.royal-card-preview::before {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -60%;
+  width: 220%;
+  height: 220%;
+  background: radial-gradient(circle, rgba(255, 222, 166, 0.1) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.emv-chip {
+  width: 42px;
+  height: 32px;
+  background: linear-gradient(135deg, #f5d77f 0%, #c59b27 50%, #856108 100%);
+  border: 1px solid #785600;
+  border-radius: 6px;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.4), 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.emv-chip::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(120, 86, 0, 0.5);
+  border-radius: 3px;
+}
+
+.pay-tab-active {
+  background-color: #FAF7F2 !important;
+  border-color: #785600 !important;
+  color: #785600 !important;
+  box-shadow: 0 2px 8px rgba(120, 86, 0, 0.12) !important;
+}
+
+.pay-tab-inactive {
+  background-color: #FFFFFF !important;
+  border-color: #E6DFD5 !important;
+  color: #57534E !important;
+}
+
+.bank-chip:hover {
+  border-color: #785600 !important;
+  background-color: #FAF7F2 !important;
+  transform: translateY(-1px);
+}
+
+.bank-chip.active-bank {
+  border-color: #785600 !important;
+  background-color: #FAF7F2 !important;
+  color: #785600 !important;
+  box-shadow: 0 0 0 2px rgba(120, 86, 0, 0.2);
+}
+
 .royal-cta-gradient {
   background: linear-gradient(135deg, #5C0E16 0%, #7A1521 50%, #5C0E16 100%);
 }
