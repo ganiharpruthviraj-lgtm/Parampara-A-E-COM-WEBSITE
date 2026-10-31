@@ -8,6 +8,7 @@ const { protect } = require('../middleware/auth');
 const { generateOrderInvoicePDF } = require('../services/pdfInvoiceService');
 const razorpayService = require('../services/razorpayService');
 const shippingService = require('../services/shippingService');
+const smsService = require('../services/smsService');
 const { body, validationResult } = require('express-validator');
 
 // In-memory order fallback store for offline / memory execution
@@ -533,6 +534,23 @@ router.put('/:id/status', async (req, res) => {
       }
     }
 
+    // Send automated transactional SMS notifications on status change
+    if (order && order.shippingAddress && order.shippingAddress.phone) {
+      if (status === 'Dispatched') {
+        smsService.sendOrderDispatchedSMS(order.shippingAddress.phone, {
+          orderId: order._id || orderId,
+          awb: order.awb || updateFields.awb,
+          courierPartner: order.courierPartner || updateFields.courierPartner,
+          trackingUrl: order.trackingUrl || updateFields.trackingUrl
+        }).catch(err => console.error('SMS Dispatch Alert Error:', err.message));
+      } else if (status === 'Delivered') {
+        smsService.sendOrderDeliveredSMS(order.shippingAddress.phone, {
+          orderId: order._id || orderId,
+          artisanName: order?.orderItems?.[0]?.artisanName
+        }).catch(err => console.error('SMS Delivery Alert Error:', err.message));
+      }
+    }
+
     res.json({
       success: true,
       message: `Order status transitioned to "${status}".`,
@@ -588,6 +606,17 @@ router.post('/:id/dispatch', async (req, res) => {
     } else if (order) {
       Object.assign(order, updateFields);
       inMemoryOrders.set(orderId, order);
+    }
+
+    // Trigger SMS dispatch alert
+    const recipientPhone = order?.shippingAddress?.phone || req.body.shippingAddress?.phone;
+    if (recipientPhone) {
+      smsService.sendOrderDispatchedSMS(recipientPhone, {
+        orderId,
+        awb: shipment.awb,
+        courierPartner: shipment.courierPartner,
+        trackingUrl: shipment.trackingUrl
+      }).catch(err => console.error('SMS Dispatch Alert Error:', err.message));
     }
 
     res.json({
@@ -810,6 +839,16 @@ async function handleArtisanPayout(req, res) {
       } else if (inMemoryOrders.has(orderId)) {
         inMemoryOrders.set(orderId, order);
       }
+    }
+
+    // Trigger artisan payout confirmation SMS if phone provided
+    const artisanPhone = req.body.artisanPhone || order?.shippingAddress?.phone;
+    if (artisanPhone) {
+      smsService.sendArtisanPayoutDisbursedSMS(artisanPhone, {
+        orderId,
+        amount: payoutAmount,
+        utr: payoutResult?.id
+      }).catch(err => console.error('SMS Artisan Payout Alert Error:', err.message));
     }
 
     res.json({

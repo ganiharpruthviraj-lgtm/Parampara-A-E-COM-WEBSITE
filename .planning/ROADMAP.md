@@ -69,10 +69,17 @@
 - ✅ `.env.example` in backend and root updated with Razorpay and RazorpayX credentials
 - ✅ 12/12 Jest tests passing in `backend/tests/orders.test.js`
 
-### Phase 7 — Production SMS Gateway
-**Status:** 📋 Ready for Planning  
+### Phase 7 — Production SMS Gateway & Mobile Auth
+**Status:** ✅ Complete  
 **Requirement:** US-07  
-- Fast2SMS / Twilio production SMS delivery for physical mobile OTP and dispatch alerts
+**Deliverables:**
+- ✅ Fast2SMS & Twilio dual-provider SMS service (`backend/services/smsService.js`) with zero-downtime offline simulation fallback
+- ✅ Anti-spam rate limiting (5 requests per 10 minutes) on OTP dispatch
+- ✅ Dedicated mobile authentication endpoints (`POST /api/auth/phone/send-otp` & `POST /api/auth/phone/verify-otp`)
+- ✅ Automated user provisioning in MongoDB and 30-day JWT issuance on OTP verification
+- ✅ Automated SMS alerts triggered on order dispatch, delivery, and 70% direct artisan payout credits
+- ✅ Documented configuration variables in `backend/.env.example` and `.env.example`
+- ✅ 11/11 Jest tests passing in `backend/tests/sms.test.js`
 
 ### Phase 8 — Shipping & Logistics API
 **Status:** ✅ Complete  

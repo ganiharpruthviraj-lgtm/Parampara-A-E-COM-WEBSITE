@@ -55,9 +55,9 @@
 **So that** transactions and craft dispatches are confirmed via physical mobile.
 
 **Acceptance Criteria:**
-- [ ] Fast2SMS / Twilio production gateway wired to authentication and order routes
-- [ ] Failover to development mock mode if credentials unset
-- [ ] Delivery status logging and rate limiting
+- [x] Fast2SMS / Twilio production gateway wired to authentication and order routes
+- [x] Failover to development mock mode if credentials unset
+- [x] Delivery status logging and rate limiting
 
 ### US-08 — Logistics & Tracking (India Post / Shiprocket)
 **As** a collector,  

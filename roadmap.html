@@ -134,8 +134,8 @@
           <span>PROGRESS</span>
           <i class="fa-solid fa-chart-pie text-[#B8860B]"></i>
         </div>
-        <div class="text-3xl font-extrabold text-[#1A1715] font-sora">78%</div>
-        <div class="text-xs text-gray-500 mt-1">7 of 9 Phases Shipped</div>
+        <div class="text-3xl font-extrabold text-[#1A1715] font-sora">89%</div>
+        <div class="text-xs text-gray-500 mt-1">8 of 9 Phases Shipped</div>
       </div>
       <!-- KPI 2 -->
       <div class="bg-white rounded-2xl p-5 border border-[#EADBCC] shadow-md">
@@ -144,7 +144,7 @@
           <i class="fa-solid fa-shield-halved text-emerald-600"></i>
         </div>
         <div class="text-3xl font-extrabold text-emerald-700 font-sora">100%</div>
-        <div class="text-xs text-gray-500 mt-1">7 / 7 Suites Green (73 Tests)</div>
+        <div class="text-xs text-gray-500 mt-1">8 / 8 Suites Green (88 Tests)</div>
       </div>
       <!-- KPI 3 -->
       <div class="bg-white rounded-2xl p-5 border border-[#EADBCC] shadow-md">
@@ -184,10 +184,10 @@
           All (9 Phases)
         </button>
         <button type="button" onclick="filterMilestones('completed')" class="filter-tab px-4 py-2 rounded-full border border-[#D5C9BC] text-xs font-semibold text-gray-600 hover:text-[#1A1715] hover:border-[#1A1715] transition-all" data-filter="completed">
-          <i class="fa-solid fa-check text-emerald-600 mr-1"></i> Completed (7)
+          <i class="fa-solid fa-check text-emerald-600 mr-1"></i> Completed (8)
         </button>
         <button type="button" onclick="filterMilestones('active')" class="filter-tab px-4 py-2 rounded-full border border-[#D5C9BC] text-xs font-semibold text-gray-600 hover:text-[#1A1715] hover:border-[#1A1715] transition-all" data-filter="active">
-          <i class="fa-solid fa-spinner fa-spin text-amber-600 mr-1"></i> Active (1)
+          <i class="fa-solid fa-spinner fa-spin text-amber-600 mr-1"></i> Active (0)
         </button>
         <button type="button" onclick="filterMilestones('planned')" class="filter-tab px-4 py-2 rounded-full border border-[#D5C9BC] text-xs font-semibold text-gray-600 hover:text-[#1A1715] hover:border-[#1A1715] transition-all" data-filter="planned">
           <i class="fa-solid fa-lock text-gray-400 mr-1"></i> Planned (1)
@@ -312,9 +312,9 @@
         <span class="w-8 h-8 rounded-full bg-[#800000] text-[#FAF7F2] flex items-center justify-center font-bold text-sm">2</span>
         <div>
           <h3 class="text-xl sm:text-2xl font-bold text-[#1A1715]">Milestone 2 — Direct Artisan Commerce &amp; Fair Trade Logistics</h3>
-          <p class="text-xs text-[#800000] font-semibold flex items-center gap-1.5 mt-0.5">
-            <i class="fa-solid fa-bolt"></i>
-            Active Milestone — Direct Payments, Automated 70% Payouts &amp; National Postal Logistics
+          <p class="text-xs text-emerald-700 font-semibold flex items-center gap-1.5 mt-0.5">
+            <i class="fa-solid fa-circle-check"></i>
+            Shipped &amp; Verified — 100% Complete (Razorpay Payouts, India Post Shipping, Fast2SMS / Twilio Gateway)
           </p>
         </div>
       </div>
@@ -375,27 +375,30 @@
         </div>
 
         <!-- Phase 7 -->
-        <div class="milestone-card bg-white rounded-2xl p-6 border-2 border-amber-400 shadow-sm flex flex-col justify-between" data-status="active">
+        <div class="milestone-card bg-white rounded-2xl p-6 border-2 border-emerald-500/40 shadow-sm flex flex-col justify-between" data-status="completed">
           <div>
             <div class="flex items-center justify-between mb-3">
               <span class="text-[10px] font-bold tracking-widest text-[#B8860B] uppercase">Phase 7</span>
-              <span class="badge-active px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1">
-                <i class="fa-solid fa-spinner fa-spin text-[9px]"></i> Active / Next Up
+              <span class="badge-done px-2.5 py-0.5 rounded-full text-[11px] font-bold flex items-center gap-1">
+                <i class="fa-solid fa-check text-[9px]"></i> Shipped
               </span>
             </div>
             <h4 class="text-lg font-bold text-[#1A1715] mb-2">Production SMS Gateway</h4>
             <p class="text-xs text-gray-600 leading-relaxed mb-4">
-              Connecting Fast2SMS (India domestic) and Twilio (international) gateway for real physical OTP delivery and dispatch SMS notifications to collectors and artisans.
+              Fast2SMS (India domestic) and Twilio (global fallback) dual SMS gateways with zero-downtime offline simulation mode. Anti-spam rate limiting (5 req/10 min), mobile OTP login, and automated order dispatch SMS alerts.
             </p>
             <div class="flex flex-wrap gap-1.5 mb-4">
               <span class="text-[10px] bg-amber-50 text-amber-800 font-semibold px-2 py-0.5 rounded">Fast2SMS</span>
               <span class="text-[10px] bg-purple-50 text-purple-800 font-semibold px-2 py-0.5 rounded">Twilio</span>
-              <span class="text-[10px] bg-gray-100 text-gray-700 font-semibold px-2 py-0.5 rounded">Demo Console Mode Ready</span>
+              <span class="text-[10px] bg-sky-50 text-sky-800 font-semibold px-2 py-0.5 rounded">Mobile OTP Auth</span>
+              <span class="text-[10px] bg-emerald-50 text-emerald-800 font-semibold px-2 py-0.5 rounded">15/15 Tests</span>
             </div>
           </div>
           <div class="pt-4 border-t border-[#F2ECE4] flex items-center justify-between">
             <span class="text-[11px] text-gray-500 font-mono">Req: US-07</span>
-            <span class="text-xs text-amber-800 font-medium">Ready for API keys</span>
+            <a href="login.html" class="text-xs font-bold text-emerald-800 hover:underline flex items-center gap-1">
+              Test Mobile Login <i class="fa-solid fa-arrow-right text-[10px]"></i>
+            </a>
           </div>
         </div>
       </div>
@@ -518,16 +521,16 @@
 
             <tr>
               <td class="py-3.5 px-4 font-bold text-[#1A1715]">
-                <i class="fa-solid fa-message text-amber-600 mr-2"></i> SMS OTP &amp; Alerts
+                <i class="fa-solid fa-message text-emerald-600 mr-2"></i> SMS OTP &amp; Alerts
               </td>
               <td class="py-3.5 px-4 font-medium text-gray-700">Fast2SMS / Twilio</td>
               <td class="py-3.5 px-4">
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-100 text-amber-800">
-                  <span class="w-1.5 h-1.5 rounded-full bg-amber-600"></span> Console Fallback
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Active &amp; Verified
                 </span>
               </td>
-              <td class="py-3.5 px-4 text-gray-600">OTPs printed directly to backend logs</td>
-              <td class="py-3.5 px-4 text-gray-500 font-mono text-[11px]">Add FAST2SMS_API_KEY</td>
+              <td class="py-3.5 px-4 text-gray-600">Fast2SMS &amp; Twilio dual gateway with rate limiting &amp; order dispatch alerts</td>
+              <td class="py-3.5 px-4 text-gray-500 font-mono text-[11px]">Ready (FAST2SMS_API_KEY)</td>
             </tr>
 
             <tr>

@@ -45,20 +45,25 @@ const generateOfflineUserResponse = (email, name = 'Heritage Collector') => {
 };
 
 // @desc    Send Mobile SMS OTP
-// @route   POST /api/auth/send-otp
+// @route   POST /api/auth/send-otp & POST /api/auth/phone/send-otp
 // @access  Public
-router.post('/send-otp', async (req, res) => {
+async function handleSendPhoneOtp(req, res) {
   try {
     const { phone } = req.body;
     if (!phone || phone.length < 10) {
       return res.status(400).json({ message: 'Valid 10-digit phone number is required.' });
     }
 
-    const cleanPhone = phone.replace(/[^0-9]/g, '');
+    const cleanPhone = phone.replace(/[^0-9]/g, '').slice(-10);
     const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString(); // 6-digit OTP
-    otpStore.set(cleanPhone, { otp: generatedOTP, expiresAt: Date.now() + 5 * 60 * 1000 });
 
     const result = await sendSMS(cleanPhone, generatedOTP);
+
+    if (result && result.rateLimited) {
+      return res.status(429).json({ success: false, message: result.message });
+    }
+
+    otpStore.set(cleanPhone, { otp: generatedOTP, expiresAt: Date.now() + 5 * 60 * 1000 });
 
     res.json({
       success: true,
@@ -71,15 +76,18 @@ router.post('/send-otp', async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
+}
+
+router.post('/send-otp', handleSendPhoneOtp);
+router.post('/phone/send-otp', handleSendPhoneOtp);
 
 // @desc    Verify Mobile SMS OTP
-// @route   POST /api/auth/verify-otp
+// @route   POST /api/auth/verify-otp & POST /api/auth/phone/verify-otp
 // @access  Public
-router.post('/verify-otp', async (req, res) => {
+async function handleVerifyPhoneOtp(req, res) {
   try {
     const { phone, otp } = req.body;
-    const cleanPhone = phone ? phone.replace(/[^0-9]/g, '') : '';
+    const cleanPhone = phone ? phone.replace(/[^0-9]/g, '').slice(-10) : '';
     const storedData = otpStore.get(cleanPhone);
 
     const isValid = (otp === '123456') || (storedData && storedData.otp === otp && storedData.expiresAt > Date.now());
@@ -88,19 +96,48 @@ router.post('/verify-otp', async (req, res) => {
       return res.status(400).json({ message: 'Invalid or expired OTP code. Use demo code 123456.' });
     }
 
+    let user = null;
+    if (mongoose.connection.readyState === 1) {
+      try {
+        user = await User.findOne({ phone: cleanPhone }) || await User.findOne({ email: `phone_${cleanPhone}@parampara.in` });
+        if (!user) {
+          const crypto = require('crypto');
+          user = await User.create({
+            name: `Collector (+91 ${cleanPhone})`,
+            phone: cleanPhone,
+            email: `phone_${cleanPhone}@parampara.in`,
+            password: crypto.randomBytes(16).toString('hex'),
+            role: 'user',
+            authProvider: 'local'
+          });
+        }
+      } catch (dbErr) {}
+    }
+
+    const userId = user ? user._id : `phone-${cleanPhone}`;
     const secret = process.env.JWT_SECRET || 'parampara_secret_key_2026';
-    const token = jwt.sign({ id: `phone-${cleanPhone}`, email: `phone_${cleanPhone}@parampara.in` }, secret, { expiresIn: '30d' });
+    const token = jwt.sign(
+      { id: userId, email: user ? user.email : `phone_${cleanPhone}@parampara.in` },
+      secret,
+      { expiresIn: '30d' }
+    );
+
+    otpStore.delete(cleanPhone);
 
     res.json({
-      _id: `phone-${cleanPhone}`,
-      name: `Collector (+91 ${cleanPhone})`,
-      email: `phone_${cleanPhone}@parampara.in`,
+      _id: userId,
+      name: user ? user.name : `Collector (+91 ${cleanPhone})`,
+      email: user ? user.email : `phone_${cleanPhone}@parampara.in`,
+      phone: cleanPhone,
       token: token
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
+}
+
+router.post('/verify-otp', handleVerifyPhoneOtp);
+router.post('/phone/verify-otp', handleVerifyPhoneOtp);
 
 // @desc    Request Password Reset (Email or Mobile Phone OTP)
 // @route   POST /api/auth/forgot-password
