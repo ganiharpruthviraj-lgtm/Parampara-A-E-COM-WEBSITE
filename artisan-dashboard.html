@@ -109,6 +109,9 @@
           <button type="button" id="open-add-craft-modal" class="btn-gold !py-2 !text-xs !justify-center w-full">
             <i class="fa-solid fa-plus"></i> Register New Masterpiece
           </button>
+          <button type="button" onclick="document.getElementById('kyc-modal').classList.add('active')" class="px-3 py-1.5 rounded-lg border border-amber-400/40 text-[#D4AF37] hover:bg-white/10 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors">
+            <i class="fa-solid fa-id-card"></i> Pehchan &amp; GI Verification
+          </button>
         </div>
 
       </div>
@@ -351,6 +354,46 @@
           </button>
           <button type="submit" id="submit-craft-btn" class="btn-gold !text-xs !py-2.5">
             <i class="fa-solid fa-check"></i> Submit &amp; Verify Masterpiece
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- PEHCHAN KYC VERIFICATION MODAL -->
+  <div class="modal-backdrop" id="kyc-modal">
+    <div class="modal-box">
+      <div class="flex items-center justify-between pb-3 border-b border-[#EADBCC]">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-id-card text-[#B8860B]"></i>
+          <h3 class="font-serif font-bold text-lg text-[#1A1715]">Ministry of Textiles Pehchan Verification</h3>
+        </div>
+        <button type="button" class="modal-close-btn" onclick="document.getElementById('kyc-modal').classList.remove('active')">&times;</button>
+      </div>
+      <form id="kyc-form" class="space-y-4 pt-4" onsubmit="handleKycSubmit(event)">
+        <p class="text-xs text-gray-600 leading-relaxed">
+          Verify your artisan credentials under the Development Commissioner (Handicrafts), Ministry of Textiles, to receive the <strong>Verified Master Artisan</strong> gold seal on your crafts.
+        </p>
+        <div>
+          <label class="block text-xs font-semibold text-gray-700 mb-1">Artisan Pehchan Card Number (12 Digits)</label>
+          <input type="text" id="kyc-pehchan-no" required placeholder="e.g. 1029-4820-9182" class="form-input font-mono uppercase"/>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">GI Registry Authorized User No.</label>
+            <input type="text" id="kyc-gi-no" required placeholder="e.g. GI/AU/42/POTTERY/08" class="form-input font-mono uppercase"/>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-700 mb-1">Cluster / District</label>
+            <input type="text" id="kyc-cluster" required placeholder="e.g. Kot Jewar, Jaipur" class="form-input"/>
+          </div>
+        </div>
+        <div class="pt-3 flex items-center justify-end gap-2 border-t border-[#EADBCC]">
+          <button type="button" onclick="document.getElementById('kyc-modal').classList.remove('active')" class="px-4 py-2 border border-[#EADBCC] rounded-lg text-xs font-semibold text-[#6B6259]">
+            Cancel
+          </button>
+          <button type="submit" class="btn-gold !text-xs !py-2.5">
+            Submit for Certification
           </button>
         </div>
       </form>

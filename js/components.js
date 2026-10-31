@@ -44,7 +44,7 @@
             Search
           </a>
           <!-- Shopping Bag Link -->
-          <a href="checkout.html" class="relative text-[var(--dark-text-color)] hover:text-[var(--primary-color)] p-2.5 rounded-full hover:bg-black/5 transition-colors flex items-center justify-center" title="Shopping Bag" id="nav-cart-link">
+          <a href="cart.html" class="relative text-[var(--dark-text-color)] hover:text-[var(--primary-color)] p-2.5 rounded-full hover:bg-black/5 transition-colors flex items-center justify-center" title="Shopping Bag" id="nav-cart-link">
             <i class="fa-solid fa-bag-shopping text-lg"></i>
             <span id="nav-cart-badge" class="hidden absolute -top-0.5 -right-0.5 bg-[#B8860B] text-white text-[10px] font-bold min-w-[18px] h-[18px] rounded-full flex items-center justify-center px-1 shadow">0</span>
           </a>
@@ -65,7 +65,7 @@
       <div class="hidden lg:hidden pb-6" data-landingsite-mobile-menu="" id="mobile-menu">
         <div class="flex flex-col space-y-4">
           ${NAV_LINKS.map(l => makeLink(l.href, l.label, 'py-2')).join('\n          ')}
-          <a href="checkout.html" class="flex items-center justify-between text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors">
+          <a href="cart.html" class="flex items-center justify-between text-[var(--dark-text-color)] hover:text-[var(--primary-color)] font-medium py-2 transition-colors">
             <span class="flex items-center gap-2">
               <i class="fa-solid fa-bag-shopping text-sm text-[#B8860B]"></i>
               Shopping Bag
@@ -109,8 +109,10 @@
       <a class="hover:text-[var(--primary-color)] transition-colors" href="states.html">All States</a>
       <a class="hover:text-[var(--primary-color)] transition-colors" href="artisans.html">Our Artisans</a>
       <a class="hover:text-[var(--primary-color)] transition-colors" href="search.html">Shop</a>
+      <a class="hover:text-[var(--primary-color)] transition-colors" href="cart.html">Shopping Bag</a>
       <a class="hover:text-[var(--primary-color)] transition-colors" href="saathi.html">Saathi AI</a>
       <a class="hover:text-[var(--primary-color)] transition-colors" href="profile.html">Collector Profile</a>
+      <a class="hover:text-[var(--primary-color)] transition-colors" href="support.html">Help &amp; Policies</a>
       <a class="hover:text-[var(--primary-color)] transition-colors" href="roadmap.html">Roadmap &amp; Planning</a>
     </div>
     <p class="text-gray-600 text-xs mt-6 flex items-center justify-center gap-3">

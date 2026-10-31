@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="favicon.png" rel="icon" type="image/png"/>
+  <title>Your Heritage Shopping Bag | Parampara</title>
+  <meta content="Review your curated authentic Indian GI-tagged crafts, master artisan works, and calculate direct artisan disbursements before checkout." name="description"/>
+  
+  <!-- Open Graph -->
+  <meta content="website" property="og:type"/>
+  <meta content="Parampara Heritage" property="og:site_name"/>
+  <meta content="Your Heritage Shopping Bag | Parampara" property="og:title"/>
+  <meta content="Review your curated authentic Indian GI-tagged crafts, master artisan works, and calculate direct artisan disbursements." property="og:description"/>
+  <meta content="assets/parampara_logo_crest.webp" property="og:image"/>
+  <meta content="https://parampara.in/cart.html" property="og:url"/>
+
+  <!-- Twitter Card -->
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Your Heritage Shopping Bag | Parampara" name="twitter:title"/>
+  <meta content="Review your curated authentic Indian GI-tagged crafts and calculate direct artisan disbursements." name="twitter:description"/>
+  <meta content="assets/parampara_logo_crest.webp" name="twitter:image"/>
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --primary-color: #800000;
+      --gold-primary: #B8860B;
+      --gold-hover: #9A7008;
+      --bg-cream: #FAF7F2;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-cream);
+      color: #1A1715;
+    }
+    h1, h2, h3, .font-serif {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    .font-sora {
+      font-family: 'Sora', sans-serif;
+    }
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      border: 1px solid #D5C9BC;
+      background: white;
+      font-weight: 600;
+      color: #1A1715;
+      transition: all 0.2s;
+    }
+    .qty-btn:hover {
+      background: #F4EFE6;
+      border-color: #B8860B;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Universal Header injected by components.js -->
+  <header id="global-header"></header>
+
+  <!-- CART HERO BANNER -->
+  <section class="bg-gradient-to-r from-[#1A1715] via-[#2A1F1B] to-[#1A1715] text-[#FAF7F2] py-10 px-4 sm:px-6 lg:px-8 border-b border-white/10">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <span class="text-[10px] font-bold tracking-[0.2em] text-[#D4AF37] uppercase flex items-center gap-1.5 mb-1">
+          <i class="fa-solid fa-bag-shopping"></i> Collector's Vault &amp; Cart
+        </span>
+        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+          Your Curated <span class="italic text-[#D4AF37]">Craft Collection</span>
+        </h1>
+      </div>
+      <div class="flex items-center gap-3 text-xs text-gray-300 bg-white/10 px-4 py-2 rounded-full border border-white/15">
+        <i class="fa-solid fa-hand-holding-heart text-[#D4AF37]"></i>
+        <span>70% Direct Artisan Guarantee on every order</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CART CONTAINER -->
+  <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full">
+
+    <!-- EMPTY CART STATE (HIDDEN BY DEFAULT) -->
+    <div id="empty-cart-state" class="hidden text-center py-20 bg-white rounded-3xl border border-[#EADBCC] p-8 shadow-sm">
+      <div class="w-20 h-20 mx-auto rounded-full bg-[#FAF7F2] flex items-center justify-center text-[#B8860B] text-3xl mb-6 shadow-inner">
+        <i class="fa-solid fa-bag-shopping"></i>
+      </div>
+      <h2 class="text-3xl font-bold text-[#1A1715] mb-2 font-serif">Your Shopping Bag is Empty</h2>
+      <p class="text-sm text-gray-500 max-w-md mx-auto mb-8 font-light">
+        Discover authentic GI-certified masterpieces hand-crafted by India's national awardees across all 28 states.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-4">
+        <a href="search.html" class="px-8 py-3.5 rounded-full bg-[#B8860B] hover:bg-[#9A7008] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md hover:shadow-lg">
+          Explore Masterpieces
+        </a>
+        <a href="states.html" class="px-8 py-3.5 rounded-full border border-[#D5C9BC] hover:border-[#1A1715] text-[#1A1715] font-semibold text-xs uppercase tracking-wider transition-all">
+          Browse by State
+        </a>
+      </div>
+    </div>
+
+    <!-- CART ACTIVE CONTENT -->
+    <div id="active-cart-state" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+
+      <!-- LEFT: CART ITEMS LIST (8 COLS) -->
+      <div class="lg:col-span-8 space-y-6">
+
+        <!-- FREE SHIPPING THRESHOLD METER -->
+        <div class="bg-white rounded-2xl p-4 border border-[#EADBCC] shadow-sm">
+          <div class="flex items-center justify-between text-xs mb-2">
+            <span class="font-semibold text-[#1A1715] flex items-center gap-2" id="shipping-threshold-text">
+              <i class="fa-solid fa-truck-fast text-[#B8860B]"></i> Add ₹1,999 for Free Express Delivery
+            </span>
+            <span class="font-bold text-[#B8860B]" id="shipping-threshold-pct">0%</span>
+          </div>
+          <div class="w-full bg-[#FAF7F2] rounded-full h-2 overflow-hidden border border-[#EADBCC]">
+            <div id="shipping-progress-bar" class="bg-gradient-to-r from-[#B8860B] to-emerald-600 h-2 rounded-full transition-all duration-500" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <!-- ITEMS CONTAINER -->
+        <div class="bg-white rounded-3xl border border-[#EADBCC] shadow-sm overflow-hidden divide-y divide-[#F2ECE4]" id="cart-items-container">
+          <!-- Dynamically populated by cart controller -->
+        </div>
+
+        <!-- ACTIONS BELOW CART ITEMS -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+          <a href="search.html" class="inline-flex items-center gap-2 text-xs font-bold text-[#B8860B] hover:text-[#9A7008] uppercase tracking-wider">
+            <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+          </a>
+          <button type="button" onclick="clearEntireCart()" class="text-xs text-gray-500 hover:text-red-700 font-semibold transition-colors">
+            <i class="fa-regular fa-trash-can mr-1"></i> Clear Cart
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT: ORDER SUMMARY (4 COLS) -->
+      <div class="lg:col-span-4 bg-white rounded-3xl p-6 sm:p-7 border border-[#EADBCC] shadow-sm sticky top-28 space-y-6">
+        <h3 class="text-xl font-bold text-[#1A1715] font-serif border-b border-[#F2ECE4] pb-4">
+          Order Summary
+        </h3>
+
+        <!-- PROMO CODE INPUT -->
+        <div>
+          <label for="cart-promo-code" class="block text-xs font-semibold text-gray-700 mb-2">Promotional Voucher</label>
+          <div class="flex gap-2">
+            <input type="text" id="cart-promo-code" placeholder="e.g. ARTISAN10" class="w-full px-3.5 py-2 text-xs border border-[#D5C9BC] rounded-xl focus:border-[#B8860B] focus:outline-none uppercase font-mono bg-[#FAF9F5]"/>
+            <button type="button" onclick="applyCartPromo()" class="px-4 py-2 bg-[#1A1715] hover:bg-[#800000] text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-colors">
+              Apply
+            </button>
+          </div>
+          <p id="cart-promo-msg" class="text-[11px] mt-1.5 hidden font-medium"></p>
+        </div>
+
+        <!-- PRICING BREAKDOWN -->
+        <div class="space-y-3 text-xs pt-4 border-t border-[#F2ECE4]">
+          <div class="flex justify-between text-gray-600">
+            <span>Craft Items Subtotal (<span id="cart-summary-qty">0</span> items)</span>
+            <span class="font-semibold text-[#1A1715]" id="cart-summary-subtotal">₹ 0</span>
+          </div>
+
+          <div id="cart-discount-row" class="hidden flex justify-between text-emerald-700 font-semibold">
+            <span id="cart-discount-label">Artisan Discount</span>
+            <span id="cart-discount-val">- ₹ 0</span>
+          </div>
+
+          <div class="flex justify-between text-gray-600">
+            <span class="flex items-center gap-1">
+              Estimated Shipping
+              <i class="fa-solid fa-circle-info text-[10px] text-gray-400" title="India Post Speed Post insured delivery"></i>
+            </span>
+            <span class="font-semibold text-[#1A1715]" id="cart-summary-shipping">₹ 150</span>
+          </div>
+
+          <div class="flex justify-between text-gray-600">
+            <span>Estimated GST (3% Handicraft Rate)</span>
+            <span class="font-semibold text-[#1A1715]" id="cart-summary-tax">₹ 0</span>
+          </div>
+
+          <div class="pt-3 border-t border-[#EADBCC] flex justify-between items-baseline">
+            <div>
+              <span class="text-sm font-bold text-[#1A1715]">Total Payable</span>
+              <span class="block text-[10px] text-gray-400 font-normal">All taxes &amp; insured transit included</span>
+            </div>
+            <span class="text-2xl font-extrabold text-[#800000] font-sora" id="cart-summary-total">₹ 0</span>
+          </div>
+        </div>
+
+        <!-- ARTISAN IMPACT PILL -->
+        <div class="bg-[#FAF7F2] p-4 rounded-2xl border border-[#EADBCC] text-xs">
+          <div class="flex items-center gap-2 text-[#B8860B] font-bold mb-1">
+            <i class="fa-solid fa-hand-holding-dollar text-sm"></i>
+            <span>Direct Artisan Share</span>
+          </div>
+          <p class="text-gray-600 leading-relaxed text-[11px]">
+            <strong class="text-[#1A1715]" id="cart-artisan-payout">₹ 0 (70%)</strong> will disburse directly to verified artisan cluster bank accounts via RazorpayX upon delivery.
+          </p>
+        </div>
+
+        <!-- CHECKOUT BUTTON -->
+        <button type="button" id="proceed-checkout-btn" onclick="proceedToCheckout()" class="w-full py-4 rounded-full bg-gradient-to-r from-[#B8860B] to-[#800000] hover:from-[#9A7008] hover:to-[#660000] text-white font-bold text-xs uppercase tracking-widest transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
+          <span>Proceed to Secure Checkout</span>
+          <i class="fa-solid fa-arrow-right text-xs"></i>
+        </button>
+
+        <div class="flex items-center justify-center gap-4 text-[11px] text-gray-400 pt-2">
+          <span><i class="fa-solid fa-shield-halved text-emerald-600 mr-1"></i> Razorpay Secured</span>
+          <span>•</span>
+          <span><i class="fa-solid fa-truck-shield text-sky-600 mr-1"></i> India Post Insured</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Universal Footer injected by components.js -->
+  <footer id="global-footer"></footer>
+
+  <!-- Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/auth.js"></script>
+
+  <!-- CART CONTROLLER SCRIPT -->
+  <script>
+    let cart = [];
+    let promoDiscountPercent = 0;
+    const GST_RATE = 0.03;
+    const FREE_SHIPPING_LIMIT = 1999;
+    const BASE_SHIPPING = 150;
+
+    const PROMO_CODES = {
+      'ARTISAN10': 10,
+      'HERITAGE15': 15,
+      'PARAMPARA': 10
+    };
+
+    function loadCart() {
+      try {
+        const raw = localStorage.getItem('parampara_cart');
+        cart = JSON.parse(raw || '[]');
+        if (!Array.isArray(cart)) {
+          cart = cart ? [cart] : [];
+        }
+      } catch (e) {
+        cart = [];
+      }
+      renderCart();
+    }
+
+    function saveCart() {
+      localStorage.setItem('parampara_cart', JSON.stringify(cart));
+      window.dispatchEvent(new Event('cart-updated'));
+      renderCart();
+    }
+
+    function updateItemQuantity(index, delta) {
+      if (!cart[index]) return;
+      const currentQty = cart[index].quantity || 1;
+      const newQty = currentQty + delta;
+      if (newQty <= 0) {
+        removeItem(index);
+      } else {
+        cart[index].quantity = newQty;
+        saveCart();
+      }
+    }
+
+    function removeItem(index) {
+      if (!cart[index]) return;
+      cart.splice(index, 1);
+      saveCart();
+    }
+
+    function clearEntireCart() {
+      if (confirm('Are you sure you want to empty your shopping bag?')) {
+        cart = [];
+        saveCart();
+      }
+    }
+
+    function applyCartPromo() {
+      const input = document.getElementById('cart-promo-code');
+      const msg = document.getElementById('cart-promo-msg');
+      if (!input || !msg) return;
+
+      const code = (input.value || '').trim().toUpperCase();
+      if (!code) {
+        promoDiscountPercent = 0;
+        msg.classList.add('hidden');
+        renderCart();
+        return;
+      }
+
+      if (PROMO_CODES[code]) {
+        promoDiscountPercent = PROMO_CODES[code];
+        msg.textContent = `✓ Code applied! ${promoDiscountPercent}% heritage discount active.`;
+        msg.className = 'text-[11px] mt-1.5 font-medium text-emerald-700 block';
+      } else {
+        promoDiscountPercent = 0;
+        msg.textContent = '✗ Invalid voucher code. Try "ARTISAN10"';
+        msg.className = 'text-[11px] mt-1.5 font-medium text-red-600 block';
+      }
+      renderCart();
+    }
+
+    function formatINR(num) {
+      return '₹ ' + Math.round(num).toLocaleString('en-IN');
+    }
+
+    function renderCart() {
+      const emptyState = document.getElementById('empty-cart-state');
+      const activeState = document.getElementById('active-cart-state');
+      const container = document.getElementById('cart-items-container');
+
+      if (cart.length === 0) {
+        emptyState.classList.remove('hidden');
+        activeState.classList.add('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      activeState.classList.remove('hidden');
+
+      let subtotal = 0;
+      let totalQty = 0;
+
+      container.innerHTML = cart.map((item, idx) => {
+        const qty = Number(item.quantity) || 1;
+        const price = Number(item.price) || 0;
+        const itemTotal = price * qty;
+        subtotal += itemTotal;
+        totalQty += qty;
+
+        const img = item.imageUrl || 'assets/parampara_logo.webp';
+        const origin = item.state ? `${item.state}, India` : (item.origin || 'India');
+
+        return `
+          <div class="p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div class="flex items-center gap-4 w-full sm:w-auto">
+              <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl overflow-hidden bg-[#FAF7F2] border border-[#EADBCC] flex-shrink-0">
+                <img src="${img}" alt="${item.name || 'Craft'}" class="w-full h-full object-cover" onerror="this.src='assets/parampara_logo.webp'" loading="lazy"/>
+              </div>
+              <div class="flex-grow">
+                <span class="text-[9px] font-bold uppercase tracking-wider text-[#B8860B] bg-[#FAF7F2] px-2 py-0.5 rounded-full border border-[#EADBCC]">
+                  ${item.craft || 'GI Masterpiece'}
+                </span>
+                <h4 class="font-serif font-bold text-lg text-[#1A1715] mt-1 leading-snug">
+                  ${item.name || 'Handcrafted Heritage Item'}
+                </h4>
+                <p class="text-xs text-gray-500 mt-0.5">${origin}</p>
+                <div class="text-xs font-semibold text-[#800000] mt-1 sm:hidden">
+                  ${formatINR(price)}
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between w-full sm:w-auto sm:gap-6 pt-3 sm:pt-0 border-t sm:border-t-0 border-[#F2ECE4]">
+              <!-- Quantity Controls -->
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="updateItemQuantity(${idx}, -1)" class="qty-btn" title="Decrease quantity">−</button>
+                <span class="w-7 text-center font-bold text-xs text-[#1A1715]">${qty}</span>
+                <button type="button" onclick="updateItemQuantity(${idx}, 1)" class="qty-btn" title="Increase quantity">+</button>
+              </div>
+
+              <!-- Price & Delete -->
+              <div class="text-right min-w-[90px]">
+                <div class="font-bold text-sm text-[#1A1715] font-sora">${formatINR(itemTotal)}</div>
+                ${qty > 1 ? `<div class="text-[10px] text-gray-400 font-normal">${formatINR(price)} each</div>` : ''}
+              </div>
+
+              <button type="button" onclick="removeItem(${idx})" class="text-gray-400 hover:text-red-600 transition-colors p-1" title="Remove item">
+                <i class="fa-solid fa-xmark text-sm"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Calculations
+      const discount = promoDiscountPercent > 0 ? Math.round(subtotal * (promoDiscountPercent / 100)) : 0;
+      const discountedSubtotal = subtotal - discount;
+      const isFreeShipping = discountedSubtotal >= FREE_SHIPPING_LIMIT;
+      const shipping = isFreeShipping ? 0 : BASE_SHIPPING;
+      const gst = Math.round(discountedSubtotal * GST_RATE);
+      const totalPayable = discountedSubtotal + shipping + gst;
+      const artisanShare = Math.round(discountedSubtotal * 0.70);
+
+      // Shipping progress meter
+      const meterText = document.getElementById('shipping-threshold-text');
+      const meterPct = document.getElementById('shipping-threshold-pct');
+      const meterBar = document.getElementById('shipping-progress-bar');
+      if (isFreeShipping) {
+        meterText.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600"></i> Free India Post Speed Post Unlocked!';
+        meterPct.textContent = '100%';
+        meterBar.style.width = '100%';
+      } else {
+        const remaining = FREE_SHIPPING_LIMIT - discountedSubtotal;
+        const pct = Math.min(100, Math.round((discountedSubtotal / FREE_SHIPPING_LIMIT) * 100));
+        meterText.innerHTML = `<i class="fa-solid fa-truck-fast text-[#B8860B]"></i> Add ${formatINR(remaining)} more for Free Shipping`;
+        meterPct.textContent = `${pct}%`;
+        meterBar.style.width = `${pct}%`;
+      }
+
+      // Summary updates
+      document.getElementById('cart-summary-qty').textContent = totalQty;
+      document.getElementById('cart-summary-subtotal').textContent = formatINR(subtotal);
+      
+      const discRow = document.getElementById('cart-discount-row');
+      if (discount > 0) {
+        discRow.classList.remove('hidden');
+        document.getElementById('cart-discount-label').textContent = `${promoDiscountPercent}% Heritage Voucher`;
+        document.getElementById('cart-discount-val').textContent = '- ' + formatINR(discount);
+      } else {
+        discRow.classList.add('hidden');
+      }
+
+      document.getElementById('cart-summary-shipping').textContent = isFreeShipping ? 'FREE (Speed Post)' : formatINR(shipping);
+      document.getElementById('cart-summary-tax').textContent = formatINR(gst);
+      document.getElementById('cart-summary-total').textContent = formatINR(totalPayable);
+      document.getElementById('cart-artisan-payout').textContent = `${formatINR(artisanShare)} (70%)`;
+    }
+
+    function proceedToCheckout() {
+      if (cart.length === 0) {
+        alert('Your shopping bag is empty.');
+        return;
+      }
+      // Navigate to checkout with full cart
+      window.location.href = 'checkout.html';
+    }
+
+    document.addEventListener('DOMContentLoaded', loadCart);
+    window.addEventListener('storage', loadCart);
+    window.addEventListener('cart-updated', loadCart);
+  </script>
+</body>
+</html>

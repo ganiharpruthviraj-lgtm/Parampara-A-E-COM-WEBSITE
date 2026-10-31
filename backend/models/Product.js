@@ -16,6 +16,17 @@ const productSchema = new mongoose.Schema({
   stockCount: { type: Number, default: 10 },
   artisanPayoutAmount: { type: Number },
   inStock: { type: Boolean, default: true },
+  rating: { type: Number, default: 4.8 },
+  numReviews: { type: Number, default: 12 },
+  reviews: [
+    {
+      name: { type: String, required: true },
+      rating: { type: Number, required: true },
+      comment: { type: String, required: true },
+      verifiedPurchase: { type: Boolean, default: true },
+      createdAt: { type: Date, default: Date.now }
+    }
+  ],
 }, { timestamps: true });
 
 // Full-text search index

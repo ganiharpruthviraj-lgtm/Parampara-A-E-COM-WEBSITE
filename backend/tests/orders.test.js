@@ -277,5 +277,63 @@ describe('Orders & Razorpay Payment Gateway API', () => {
     });
   });
 
+  describe('Order Cancellation & Returns (POST /:id/cancel & POST /:id/return)', () => {
+    it('should allow customer to cancel an order in Processing status', async () => {
+      const createRes = await request(app)
+        .post('/api/orders')
+        .send(sampleOrderPayload);
+
+      const orderId = createRes.body.data._id;
+
+      const cancelRes = await request(app)
+        .post(`/api/orders/${orderId}/cancel`)
+        .send({ reason: 'Changed mind on craft' });
+
+      expect(cancelRes.statusCode).toBe(200);
+      expect(cancelRes.body.success).toBe(true);
+      expect(cancelRes.body.data.orderStatus).toBe('Cancelled');
+    });
+
+    it('should reject cancellation if order has already dispatched', async () => {
+      const createRes = await request(app)
+        .post('/api/orders')
+        .send(sampleOrderPayload);
+
+      const orderId = createRes.body.data._id;
+
+      await request(app)
+        .put(`/api/orders/${orderId}/status`)
+        .send({ status: 'Dispatched' });
+
+      const cancelRes = await request(app)
+        .post(`/api/orders/${orderId}/cancel`)
+        .send({ reason: 'Too late' });
+
+      expect(cancelRes.statusCode).toBe(400);
+      expect(cancelRes.body.message).toContain('already dispatched');
+    });
+
+    it('should allow return request for delivered orders', async () => {
+      const createRes = await request(app)
+        .post('/api/orders')
+        .send(sampleOrderPayload);
+
+      const orderId = createRes.body.data._id;
+
+      await request(app)
+        .put(`/api/orders/${orderId}/status`)
+        .send({ status: 'Delivered' });
+
+      const returnRes = await request(app)
+        .post(`/api/orders/${orderId}/return`)
+        .send({ reason: 'Transit hairline scratch', comments: 'Requesting exchange' });
+
+      expect(returnRes.statusCode).toBe(200);
+      expect(returnRes.body.success).toBe(true);
+      expect(returnRes.body.data.orderStatus).toBe('Return Requested');
+      expect(returnRes.body).toHaveProperty('returnToken');
+    });
+  });
+
 });
 

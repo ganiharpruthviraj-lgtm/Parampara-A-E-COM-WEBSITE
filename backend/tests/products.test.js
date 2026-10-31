@@ -131,5 +131,42 @@ describe('Products API', () => {
       expect(res.body.success).toBe(true);
     });
   });
+
+  describe('Verified Customer Reviews (POST & GET /api/products/:id/reviews)', () => {
+    it('should record a customer appraisal and recalculate average rating', async () => {
+      const res = await request(app)
+        .post(`/api/products/${sampleProduct1._id}/reviews`)
+        .send({
+          name: 'Meenakshi Sundaram',
+          rating: 5,
+          comment: 'Incredible cobalt glaze detail. Arrived packed in museum grade buffer.'
+        });
+
+      expect(res.statusCode).toBe(201);
+      expect(res.body.success).toBe(true);
+      expect(res.body).toHaveProperty('rating');
+      expect(res.body.review.rating).toBe(5);
+    });
+
+    it('should reject review with missing fields or invalid star rating', async () => {
+      const res = await request(app)
+        .post(`/api/products/${sampleProduct1._id}/reviews`)
+        .send({
+          name: 'Anonymous',
+          rating: 8,
+          comment: 'Invalid rating'
+        });
+
+      expect(res.statusCode).toBe(400);
+      expect(res.body.message).toMatch(/between 1 and 5/i);
+    });
+
+    it('should fetch reviews for a product', async () => {
+      const res = await request(app).get(`/api/products/${sampleProduct1._id}/reviews`);
+      expect(res.statusCode).toBe(200);
+      expect(res.body.success).toBe(true);
+      expect(Array.isArray(res.body.reviews)).toBe(true);
+    });
+  });
 });
 

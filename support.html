@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <link href="favicon.png" rel="icon" type="image/png"/>
+  <title>Customer Care, FAQ &amp; Heritage Policies | Parampara</title>
+  <meta content="Find answers regarding GI provenance certifications, India Post shipping, 7-day handcrafted returns, and direct artisan disbursements." name="description"/>
+  
+  <!-- Open Graph -->
+  <meta content="website" property="og:type"/>
+  <meta content="Parampara Heritage" property="og:site_name"/>
+  <meta content="Customer Care, FAQ &amp; Policies | Parampara" property="og:title"/>
+  <meta content="Find answers regarding GI provenance certifications, India Post shipping, 7-day handcrafted returns, and direct artisan disbursements." property="og:description"/>
+  <meta content="assets/parampara_logo_crest.webp" property="og:image"/>
+  <meta content="https://parampara.in/support.html" property="og:url"/>
+
+  <!-- Twitter Card -->
+  <meta content="summary_large_image" name="twitter:card"/>
+  <meta content="Customer Care, FAQ &amp; Policies | Parampara" name="twitter:title"/>
+  <meta content="Answers on GI certifications, shipping, returns, and artisan direct fair trade." name="twitter:description"/>
+  <meta content="assets/parampara_logo_crest.webp" name="twitter:image"/>
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --primary-color: #800000;
+      --gold-primary: #B8860B;
+      --gold-hover: #9A7008;
+      --bg-cream: #FAF7F2;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-cream);
+      color: #1A1715;
+    }
+    h1, h2, h3, .font-serif {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+    .font-sora {
+      font-family: 'Sora', sans-serif;
+    }
+    .support-tab.active {
+      background: #800000;
+      color: #FAF7F2;
+      border-color: #800000;
+    }
+    .faq-item details summary::-webkit-details-marker {
+      display:none;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Universal Header injected by components.js -->
+  <header id="global-header"></header>
+
+  <!-- SUPPORT HERO -->
+  <section class="bg-gradient-to-r from-[#1A1715] via-[#2A1F1B] to-[#1A1715] text-[#FAF7F2] py-14 px-4 sm:px-6 lg:px-8 border-b border-white/10">
+    <div class="max-w-4xl mx-auto text-center">
+      <span class="text-[10px] font-bold tracking-[0.25em] text-[#D4AF37] uppercase flex items-center justify-center gap-1.5 mb-2">
+        <i class="fa-solid fa-hand-holding-heart"></i> Collector Concierge &amp; Governance
+      </span>
+      <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-white mb-4">
+        How Can We <span class="italic text-[#D4AF37]">Assist You?</span>
+      </h1>
+      <p class="text-sm text-gray-300 max-w-xl mx-auto font-light leading-relaxed">
+        Everything you need to know about our certified provenance standards, rural courier dispatch, artisan disbursements, and collector rights.
+      </p>
+
+      <!-- NAVIGATION TABS -->
+      <div class="flex flex-wrap items-center justify-center gap-2 mt-8" id="support-nav-tabs">
+        <button type="button" onclick="switchSection('faq')" class="support-tab active px-5 py-2.5 rounded-full border border-white/20 text-xs font-bold uppercase tracking-wider transition-all" data-section="faq">
+          <i class="fa-solid fa-circle-question mr-1.5"></i> FAQ
+        </button>
+        <button type="button" onclick="switchSection('contact')" class="support-tab px-5 py-2.5 rounded-full border border-white/20 text-xs font-bold uppercase tracking-wider transition-all text-gray-300 hover:text-white" data-section="contact">
+          <i class="fa-solid fa-envelope mr-1.5"></i> Contact Us
+        </button>
+        <button type="button" onclick="switchSection('shipping')" class="support-tab px-5 py-2.5 rounded-full border border-white/20 text-xs font-bold uppercase tracking-wider transition-all text-gray-300 hover:text-white" data-section="shipping">
+          <i class="fa-solid fa-truck-fast mr-1.5"></i> Shipping &amp; Logistics
+        </button>
+        <button type="button" onclick="switchSection('returns')" class="support-tab px-5 py-2.5 rounded-full border border-white/20 text-xs font-bold uppercase tracking-wider transition-all text-gray-300 hover:text-white" data-section="returns">
+          <i class="fa-solid fa-rotate-left mr-1.5"></i> Returns &amp; Refunds
+        </button>
+        <button type="button" onclick="switchSection('terms')" class="support-tab px-5 py-2.5 rounded-full border border-white/20 text-xs font-bold uppercase tracking-wider transition-all text-gray-300 hover:text-white" data-section="terms">
+          <i class="fa-solid fa-scale-balanced mr-1.5"></i> Terms &amp; Privacy
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN SECTION CONTAINER -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full">
+
+    <!-- 1. FAQ SECTION -->
+    <div id="section-faq" class="support-section space-y-6">
+      <div class="border-b border-[#EADBCC] pb-4 mb-6">
+        <h2 class="text-2xl font-bold font-serif text-[#1A1715]">Frequently Asked Questions</h2>
+        <p class="text-xs text-gray-500 mt-0.5">Common questions about authentic Geographical Indication crafts and direct artisan trade.</p>
+      </div>
+
+      <div class="space-y-4">
+        <!-- FAQ 1 -->
+        <details class="group bg-white rounded-2xl border border-[#EADBCC] p-5 shadow-xs transition-all open:border-[#800000]" open>
+          <summary class="flex items-center justify-between cursor-pointer font-bold text-sm text-[#1A1715] select-none">
+            <span>What guarantees that an item on Parampara is authentic?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-[#B8860B] group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <div class="text-xs text-gray-600 leading-relaxed mt-3 pt-3 border-t border-[#F2ECE4]">
+            Every craft on Parampara is registered under India's official <strong>Geographical Indications of Goods (Registration and Protection) Act, 1999</strong>. We work solely with master artisan guilds and national awardees. Each delivered item includes a tamper-proof provenance seal and a downloadable digital Certificate of Authenticity signed with GI Registry references.
+          </div>
+        </details>
+
+        <!-- FAQ 2 -->
+        <details class="group bg-white rounded-2xl border border-[#EADBCC] p-5 shadow-xs transition-all open:border-[#800000]">
+          <summary class="flex items-center justify-between cursor-pointer font-bold text-sm text-[#1A1715] select-none">
+            <span>How does the 70% direct artisan payout work?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-[#B8860B] group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <div class="text-xs text-gray-600 leading-relaxed mt-3 pt-3 border-t border-[#F2ECE4]">
+            Unlike conventional e-commerce platforms that take 40–60% markups, Parampara routes <strong>70% of every rupee directly into the master artisan's cluster bank account</strong> via automated RazorpayX disbursements. The remaining 30% strictly covers raw materials provenance testing, insured speed delivery, and platform hosting.
+          </div>
+        </details>
+
+        <!-- FAQ 3 -->
+        <details class="group bg-white rounded-2xl border border-[#EADBCC] p-5 shadow-xs transition-all open:border-[#800000]">
+          <summary class="flex items-center justify-between cursor-pointer font-bold text-sm text-[#1A1715] select-none">
+            <span>How long does handcrafted creation and delivery take?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-[#B8860B] group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <div class="text-xs text-gray-600 leading-relaxed mt-3 pt-3 border-t border-[#F2ECE4]">
+            Readily completed heirloom pieces dispatch within 24 to 48 hours. Custom woven pit-loom textiles (such as Patan Patola or Kadwa Banarasi) require 14 to 30 days of handloom dedication. Once dispatched, <strong>India Post Speed Post</strong> reaches metro addresses in 2–4 business days and remote Himalayan/Northeast circles in 5–7 days.
+          </div>
+        </details>
+
+        <!-- FAQ 4 -->
+        <details class="group bg-white rounded-2xl border border-[#EADBCC] p-5 shadow-xs transition-all open:border-[#800000]">
+          <summary class="flex items-center justify-between cursor-pointer font-bold text-sm text-[#1A1715] select-none">
+            <span>Can I track my shipment live with India Post Speed Post?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-[#B8860B] group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <div class="text-xs text-gray-600 leading-relaxed mt-3 pt-3 border-t border-[#F2ECE4]">
+            Yes! Upon artisan cluster dispatch, an official Speed Post AWB number (<code class="bg-[#FAF7F2] px-1 py-0.5 rounded text-gray-800">IP + 9 digits + IN</code>) is generated. You can paste your AWB code into our dedicated <a href="track.html" class="text-[#800000] font-bold underline">Parcel Tracking Portal</a> to view every sorting hub checkpoint in real time.
+          </div>
+        </details>
+
+        <!-- FAQ 5 -->
+        <details class="group bg-white rounded-2xl border border-[#EADBCC] p-5 shadow-xs transition-all open:border-[#800000]">
+          <summary class="flex items-center justify-between cursor-pointer font-bold text-sm text-[#1A1715] select-none">
+            <span>What is the return or replacement policy for fragile handicrafts?</span>
+            <i class="fa-solid fa-chevron-down text-xs text-[#B8860B] group-open:rotate-180 transition-transform"></i>
+          </summary>
+          <div class="text-xs text-gray-600 leading-relaxed mt-3 pt-3 border-t border-[#F2ECE4]">
+            We provide a <strong>7-Day Heritage Exchange Guarantee</strong>. If your craft arrives damaged in transit or differs from its GI provenance certificate, upload an unboxing video or photo within 7 days in your Collector Profile to receive an immediate replacement or full refund.
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- 2. CONTACT US SECTION -->
+    <div id="section-contact" class="support-section hidden space-y-6">
+      <div class="border-b border-[#EADBCC] pb-4 mb-6">
+        <h2 class="text-2xl font-bold font-serif text-[#1A1715]">Direct Concierge &amp; Artisan Guild Inquiry</h2>
+        <p class="text-xs text-gray-500 mt-0.5">Reach our cultural liaison team in New Delhi, Varanasi, and Jaipur.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+        <div class="md:col-span-7 bg-white rounded-3xl p-6 sm:p-8 border border-[#EADBCC] shadow-sm">
+          <form id="contact-form" class="space-y-4" onsubmit="handleContactSubmit(event)">
+            <div>
+              <label for="contact-name" class="block text-xs font-semibold text-gray-700 mb-1">Your Full Name</label>
+              <input type="text" id="contact-name" required placeholder="Shri / Smt. Collector Name" class="w-full px-3.5 py-2.5 text-xs border border-[#D5C9BC] rounded-xl focus:border-[#B8860B] focus:outline-none bg-[#FAF9F5]"/>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="contact-email" class="block text-xs font-semibold text-gray-700 mb-1">Email Address</label>
+                <input type="email" id="contact-email" required placeholder="collector@example.com" class="w-full px-3.5 py-2.5 text-xs border border-[#D5C9BC] rounded-xl focus:border-[#B8860B] focus:outline-none bg-[#FAF9F5]"/>
+              </div>
+              <div>
+                <label for="contact-phone" class="block text-xs font-semibold text-gray-700 mb-1">Mobile / WhatsApp</label>
+                <input type="tel" id="contact-phone" placeholder="+91 98765 43210" class="w-full px-3.5 py-2.5 text-xs border border-[#D5C9BC] rounded-xl focus:border-[#B8860B] focus:outline-none bg-[#FAF9F5]"/>
+              </div>
+            </div>
+
+            <div>
+              <label for="contact-reason" class="block text-xs font-semibold text-gray-700 mb-1">Inquiry Purpose</label>
+              <select id="contact-reason" class="w-full px-3.5 py-2.5 text-xs border border-[#D5C9BC] rounded-xl focus:border-[#B8860B] focus:outline-none bg-[#FAF9F5]">
+                <option value="order">Order Tracking &amp; Delivery Inquiry</option>
+                <option value="custom">Commission Custom Artisan Masterpiece</option>
+                <option value="artisan">Artisan Guild Onboarding / GI Verification</option>
+                <option value="corporate">Corporate &amp; Diplomatic Gifting</option>
+                <option value="returns">Damaged Item or Exchange Request</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="contact-message" class="block text-xs font-semibold text-gray-700 mb-1">Your Message</label>
+              <textarea id="contact-message" required rows="4" placeholder="Please describe your query or specific craft requirements..." class="w-full px-3.5 py-2.5 text-xs border border-[#D5C9BC] rounded-xl focus:border-[#B8860B] focus:outline-none bg-[#FAF9F5]"></textarea>
+            </div>
+
+            <button type="submit" id="contact-submit-btn" class="w-full py-3.5 rounded-full bg-[#800000] hover:bg-[#990000] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-2">
+              <i class="fa-solid fa-paper-plane"></i>
+              <span>Send Concierge Dispatch</span>
+            </button>
+            <div id="contact-feedback" class="hidden text-xs text-center font-semibold pt-2"></div>
+          </form>
+        </div>
+
+        <div class="md:col-span-5 space-y-4">
+          <div class="bg-white rounded-3xl p-6 border border-[#EADBCC] shadow-sm space-y-4 text-xs">
+            <h3 class="font-serif font-bold text-base text-[#1A1715]">Heritage Headquarters</h3>
+            
+            <div class="flex items-start gap-3 text-gray-600">
+              <i class="fa-solid fa-location-dot text-[#B8860B] mt-0.5 text-sm"></i>
+              <span>Parampara Heritage Ateliers, Crafts Pavilion, Janpath, New Delhi, 110001, India</span>
+            </div>
+
+            <div class="flex items-center gap-3 text-gray-600">
+              <i class="fa-solid fa-phone text-[#B8860B] text-sm"></i>
+              <span>+91 (011) 2334-5890 (Mon–Sat, 10 AM – 6 PM)</span>
+            </div>
+
+            <div class="flex items-center gap-3 text-gray-600">
+              <i class="fa-solid fa-envelope text-[#B8860B] text-sm"></i>
+              <span>concierge@parampara.in</span>
+            </div>
+
+            <div class="pt-3 border-t border-[#F2ECE4]">
+              <span class="font-semibold text-[#1A1715] block mb-1">Rural Cluster Liaison Hubs:</span>
+              <p class="text-[11px] text-gray-500">
+                • Kot Jewar (Jaipur, Rajasthan)<br/>
+                • Madanpura (Varanasi, UP)<br/>
+                • Kondagaon (Bastar, Chhattisgarh)<br/>
+                • Raghurajpur (Puri, Odisha)
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. SHIPPING & LOGISTICS SECTION -->
+    <div id="section-shipping" class="support-section hidden space-y-6">
+      <div class="border-b border-[#EADBCC] pb-4 mb-6">
+        <h2 class="text-2xl font-bold font-serif text-[#1A1715]">Shipping &amp; India Post Logistics Policy</h2>
+        <p class="text-xs text-gray-500 mt-0.5">Guaranteed delivery to all 19,000+ PIN codes across India.</p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#EADBCC] shadow-sm space-y-6 text-xs text-gray-600 leading-relaxed">
+        <div>
+          <h3 class="font-bold text-sm text-[#1A1715] mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-truck-shield text-[#B8860B]"></i> Multi-Carrier Delivery Partners
+          </h3>
+          <p>
+            To reach deep rural artisan clusters that private couriers do not serve, Parampara integrates directly with <strong>India Post Speed Post</strong> (providing 100% all-India postal network reach) alongside <strong>Shiprocket Air Express</strong> for expedited metro routes.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div class="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EADBCC]">
+            <span class="font-bold text-[#1A1715] block mb-1">Standard (India Post Speed Post)</span>
+            <p class="text-[11px] text-gray-500">
+              Transit: 3 to 6 business days nationwide. Free on orders above ₹1,999 (otherwise flat ₹150). Full transit insurance coverage included.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EADBCC]">
+            <span class="font-bold text-[#1A1715] block mb-1">Express Air Courier (Shiprocket)</span>
+            <p class="text-[11px] text-gray-500">
+              Transit: 1 to 2 business days between major metros (Delhi, Mumbai, Bengaluru, Hyderabad, Kolkata). Flat ₹250.
+            </p>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-bold text-sm text-[#1A1715] mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-box text-[#B8860B]"></i> Museum-Grade Fragile Packaging
+          </h3>
+          <p>
+            Terracotta, Jaipur Blue Pottery, Bidriware, and Dokra metal pieces are packed using custom honeycomb shock-absorbing buffers, double-wall corrugated craft cartons, and waterproof seals to prevent climate or impact degradation during transit.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. RETURNS & REFUNDS SECTION -->
+    <div id="section-returns" class="support-section hidden space-y-6">
+      <div class="border-b border-[#EADBCC] pb-4 mb-6">
+        <h2 class="text-2xl font-bold font-serif text-[#1A1715]">7-Day Heritage Return &amp; Exchange Guarantee</h2>
+        <p class="text-xs text-gray-500 mt-0.5">Preserving customer confidence and fair artisan protection.</p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#EADBCC] shadow-sm space-y-6 text-xs text-gray-600 leading-relaxed">
+        <div>
+          <h3 class="font-bold text-sm text-[#1A1715] mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-rotate-left text-[#800000]"></i> 7-Day Free Replacement Policy
+          </h3>
+          <p>
+            Because authentic GI crafts are handcrafted without industrial factory molds, slight natural nuances in wood grain, silk slubs, or mineral dye gradients are hallmarks of human artistry. However, if an item arrives damaged, cracked, or inconsistent with its certification, we provide an unconditional replacement or refund within <strong>7 days of delivery</strong>.
+          </p>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-[#FAF7F2] border border-[#EADBCC] space-y-2">
+          <span class="font-bold text-[#1A1715] block">Simple 3-Step Claim Process:</span>
+          <ol class="list-decimal list-inside space-y-1 text-gray-600 text-[11px]">
+            <li>Open your <a href="profile.html" class="text-[#800000] font-bold underline">Collector Profile</a> and locate the delivered order.</li>
+            <li>Click <strong>"Request Return / Support"</strong> and attach a clear photo of the transit damage or flaw.</li>
+            <li>Our concierge schedules a reverse India Post pickup from your doorstep and initiates a full refund or replacement.</li>
+          </ol>
+        </div>
+
+        <div>
+          <h3 class="font-bold text-sm text-[#1A1715] mb-2">Refund Processing Timeline</h3>
+          <p>
+            Refunds are credited directly to your original payment source (UPI, Credit/Debit Card, or Net Banking) within <strong>3 to 5 business days</strong> via Razorpay. For Cash on Delivery orders, refunds are transferred instantly via NEFT/UPI after customer confirmation.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. TERMS & PRIVACY SECTION -->
+    <div id="section-terms" class="support-section hidden space-y-6">
+      <div class="border-b border-[#EADBCC] pb-4 mb-6">
+        <h2 class="text-2xl font-bold font-serif text-[#1A1715]">Terms of Service &amp; Privacy Policy</h2>
+        <p class="text-xs text-gray-500 mt-0.5">Ethical guidelines governing our digital craft preservation platform.</p>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border border-[#EADBCC] shadow-sm space-y-6 text-xs text-gray-600 leading-relaxed">
+        <div>
+          <h3 class="font-bold text-sm text-[#1A1715] mb-1.5">1. Provenance Integrity &amp; GI Act Compliance</h3>
+          <p>
+            All products listed on Parampara are verified in accordance with the Geographical Indications of Goods Act, 1999. Unauthorized replica manufacturers or powerloom impersonators are legally barred from our network.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="font-bold text-sm text-[#1A1715] mb-1.5">2. Direct Artisan Payout Covenant</h3>
+          <p>
+            By purchasing through Parampara, you participate in a legally binding fair-trade compact: a minimum of 70% of product price is earmarked and settled directly to the artisan's guild bank account, eliminating middlemen exploitation.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="font-bold text-sm text-[#1A1715] mb-1.5">3. Data Privacy &amp; Collector Protection</h3>
+          <p>
+            We strictly protect collector contact and payment information under the Digital Personal Data Protection Act, 2023. We never sell, rent, or monetize your personal details. Payment transactions are processed with 256-bit encryption by Razorpay; Parampara never stores full card details on its servers.
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Universal Footer injected by components.js -->
+  <footer id="global-footer"></footer>
+
+  <!-- Scripts -->
+  <script src="js/components.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/auth.js"></script>
+
+  <!-- SUPPORT CONTROLLER SCRIPT -->
+  <script>
+    function switchSection(sectionId) {
+      document.querySelectorAll('.support-tab').forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.add('text-gray-300');
+      });
+      const activeBtn = document.querySelector(`.support-tab[data-section="${sectionId}"]`);
+      if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.classList.remove('text-gray-300');
+      }
+
+      document.querySelectorAll('.support-section').forEach(sec => sec.classList.add('hidden'));
+      const activeSec = document.getElementById('section-' + sectionId);
+      if (activeSec) {
+        activeSec.classList.remove('hidden');
+      }
+
+      // Update URL hash without reload
+      if (history.replaceState) {
+        history.replaceState(null, '', '#' + sectionId);
+      }
+    }
+
+    function handleContactSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('contact-submit-btn');
+      const feedback = document.getElementById('contact-feedback');
+      const name = document.getElementById('contact-name').value;
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Dispatching...';
+
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Message Dispatched';
+        feedback.className = 'text-xs text-center font-semibold pt-2 text-emerald-700 block';
+        feedback.textContent = `Dhanyawaad, ${name}! Your inquiry has been received by our Cultural Concierge team. We will respond within 4 hours.`;
+        document.getElementById('contact-form').reset();
+      }, 900);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const hash = (window.location.hash || '').replace('#', '');
+      if (hash && ['faq', 'contact', 'shipping', 'returns', 'terms'].includes(hash)) {
+        switchSection(hash);
+      }
+    });
+  </script>
+</body>
+</html>

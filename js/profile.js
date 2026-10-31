@@ -589,6 +589,49 @@ function openOrderSupport(shortId) {
 }
 window.openOrderSupport = openOrderSupport;
 
+async function cancelOrder(orderId) {
+  const reason = prompt('Please specify a cancellation reason (e.g. ordered by mistake, change of address):') || 'Collector cancellation';
+  try {
+    const res = await fetch(`${API()}/api/orders/${orderId}/cancel`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(getToken() ? { 'Authorization': `Bearer ${getToken()}` } : {})
+      },
+      body: JSON.stringify({ reason })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Could not cancel order');
+    showToast('Order cancelled successfully. Full refund initiated.', 'success');
+    loadOrders();
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+}
+window.cancelOrder = cancelOrder;
+
+async function requestReturn(orderId) {
+  const reason = prompt('Please enter the reason for return or replacement (e.g. transit damage, craft discrepancy):');
+  if (!reason) return;
+  try {
+    const res = await fetch(`${API()}/api/orders/${orderId}/return`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(getToken() ? { 'Authorization': `Bearer ${getToken()}` } : {})
+      },
+      body: JSON.stringify({ reason })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Could not submit return request');
+    showToast(`Return submitted! Reverse Pickup Token: ${data.returnToken || 'ACKNOWLEDGED'}`, 'success');
+    loadOrders();
+  } catch (err) {
+    showToast(err.message, 'error');
+  }
+}
+window.requestReturn = requestReturn;
+
 function renderOrderCard(order) {
   const statusMap = {
     Processing:  { step: 1, cls: 'status-processing',  icon: 'fa-clock',                label: 'Order Processing' },
@@ -596,7 +639,10 @@ function renderOrderCard(order) {
     Handcrafted: { step: 2, cls: 'status-handcrafted', icon: 'fa-hammer',               label: 'Handcrafted in Studio' },
     Inspected:   { step: 2, cls: 'status-inspected',   icon: 'fa-shield-halved',       label: 'GI Inspected & Sealed' },
     Dispatched:  { step: 3, cls: 'status-dispatched',  icon: 'fa-truck-fast',          label: 'Dispatched to Courier' },
-    Delivered:   { step: 4, cls: 'status-delivered',   icon: 'fa-circle-check',         label: 'Delivered & Certified' }
+    Delivered:   { step: 4, cls: 'status-delivered',   icon: 'fa-circle-check',         label: 'Delivered & Certified' },
+    Cancelled:   { step: 0, cls: 'status-cancelled',   icon: 'fa-ban',                  label: 'Order Cancelled' },
+    'Return Requested': { step: 4, cls: 'status-return', icon: 'fa-rotate-left',       label: 'Return Requested' },
+    Returned:    { step: 4, cls: 'status-returned',    icon: 'fa-box-archive',          label: 'Returned & Refunded' }
   };
   const currentStep = statusMap[order.orderStatus]?.step || 1;
   const status = statusMap[order.orderStatus] || statusMap['Processing'];
@@ -764,6 +810,24 @@ function renderOrderCard(order) {
               <i class="fa-solid fa-file-pdf"></i>
               GI Certificate & Invoice
             </a>
+          ` : ''}
+          ${['Processing', 'Crafting'].includes(order.orderStatus) ? `
+            <button type="button"
+               onclick="cancelOrder('${escapeHtml(orderId)}')"
+               class="px-3 py-1.5 rounded-lg border border-red-200 text-red-700 hover:bg-red-50 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+               title="Cancel order before artisan cluster dispatch">
+              <i class="fa-solid fa-ban text-xs"></i>
+              Cancel Order
+            </button>
+          ` : ''}
+          ${order.orderStatus === 'Delivered' ? `
+            <button type="button"
+               onclick="requestReturn('${escapeHtml(orderId)}')"
+               class="px-3 py-1.5 rounded-lg border border-amber-300 text-amber-900 hover:bg-amber-50 text-xs font-semibold flex items-center gap-1.5 transition-colors"
+               title="Request 7-day heritage replacement or refund">
+              <i class="fa-solid fa-rotate-left text-xs"></i>
+              Return / Exchange
+            </button>
           ` : ''}
           <button type="button"
              onclick="openOrderSupport('${escapeHtml(shortId)}')"

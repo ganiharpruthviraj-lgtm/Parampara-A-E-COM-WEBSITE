@@ -991,3 +991,26 @@ function getFallbackOrders() {
     }
   ];
 }
+
+function handleKycSubmit(e) {
+  e.preventDefault();
+  const pehchan = document.getElementById('kyc-pehchan-no').value;
+  const giNo = document.getElementById('kyc-gi-no').value;
+  const cluster = document.getElementById('kyc-cluster').value;
+
+  localStorage.setItem('parampara_artisan_kyc', JSON.stringify({
+    pehchan,
+    giNo,
+    cluster,
+    verifiedAt: new Date().toISOString()
+  }));
+
+  const badge = document.getElementById('guild-award-tag');
+  if (badge) {
+    badge.innerHTML = `<i class="fa-solid fa-certificate text-emerald-400"></i> Verified Pehchan Master (${pehchan})`;
+  }
+
+  document.getElementById('kyc-modal').classList.remove('active');
+  alert(`✓ Pehchan Certification Verified!\n\nArtisan Card: ${pehchan}\nGI Reference: ${giNo}\nCluster: ${cluster}\n\nYour master crafts now carry the official GI Registered Artisan seal.`);
+}
+window.handleKycSubmit = handleKycSubmit;

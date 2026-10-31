@@ -478,7 +478,7 @@ router.get('/artisan/stats', async (req, res) => {
 router.put('/:id/status', async (req, res) => {
   try {
     const { status, awb } = req.body;
-    const validStatuses = ['Processing', 'Crafting', 'Handcrafted', 'Inspected', 'Dispatched', 'Delivered'];
+    const validStatuses = ['Processing', 'Crafting', 'Handcrafted', 'Inspected', 'Dispatched', 'Delivered', 'Cancelled', 'Return Requested', 'Returned'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ message: `Status must be one of: ${validStatuses.join(', ')}` });
     }
@@ -622,6 +622,128 @@ router.get('/:id/tracking', async (req, res) => {
     res.json({ success: true, tracking });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Tracking lookup failed: ' + error.message });
+  }
+});
+
+// @desc    Cancel order (if not yet dispatched)
+// @route   POST /api/orders/:id/cancel
+// @access  Public / Collector
+router.post('/:id/cancel', async (req, res) => {
+  try {
+    const { reason = 'Collector requested cancellation' } = req.body;
+    const orderId = req.params.id;
+    let order = null;
+
+    if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(orderId)) {
+      try {
+        order = await Order.findById(orderId);
+      } catch (e) {}
+    }
+    if (!order && inMemoryOrders.has(orderId)) {
+      order = inMemoryOrders.get(orderId);
+    }
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    if (['Dispatched', 'Delivered'].includes(order.orderStatus)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Order has already dispatched from the artisan village cluster and cannot be cancelled. You may request a return within 7 days of delivery.'
+      });
+    }
+
+    if (order.orderStatus === 'Cancelled') {
+      return res.status(400).json({ success: false, message: 'Order has already been cancelled.' });
+    }
+
+    order.orderStatus = 'Cancelled';
+    const cancelEntry = {
+      status: 'Cancelled',
+      location: 'Collector Care Concierge',
+      timestamp: new Date(),
+      details: `Cancellation confirmed: ${reason}. Refund initiated.`
+    };
+
+    if (Array.isArray(order.shippingTimeline)) {
+      order.shippingTimeline.push(cancelEntry);
+    } else {
+      order.shippingTimeline = [cancelEntry];
+    }
+
+    if (mongoose.connection.readyState === 1 && typeof order.save === 'function') {
+      await order.save();
+    } else {
+      inMemoryOrders.set(orderId, order);
+    }
+
+    res.json({
+      success: true,
+      message: 'Order has been cancelled successfully. Full refund will credit to your account within 3 to 5 business days.',
+      data: order
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Cancellation failed: ' + error.message });
+  }
+});
+
+// @desc    Request return / replacement for delivered item
+// @route   POST /api/orders/:id/return
+// @access  Public / Collector
+router.post('/:id/return', async (req, res) => {
+  try {
+    const { reason = 'Damage in transit / GI discrepancy', comments } = req.body;
+    const orderId = req.params.id;
+    let order = null;
+
+    if (mongoose.connection.readyState === 1 && mongoose.Types.ObjectId.isValid(orderId)) {
+      try {
+        order = await Order.findById(orderId);
+      } catch (e) {}
+    }
+    if (!order && inMemoryOrders.has(orderId)) {
+      order = inMemoryOrders.get(orderId);
+    }
+    if (!order) {
+      return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+
+    if (order.orderStatus !== 'Delivered') {
+      return res.status(400).json({
+        success: false,
+        message: 'Return requests can only be initiated for orders that have been successfully delivered.'
+      });
+    }
+
+    order.orderStatus = 'Return Requested';
+    const returnToken = `RET-${Math.floor(100000 + Math.random() * 900000)}`;
+    const returnEntry = {
+      status: 'Return Requested',
+      location: 'Doorstep Reverse Logistics Hub',
+      timestamp: new Date(),
+      details: `Reverse pickup token ${returnToken} issued. Reason: ${reason}. ${comments || ''}`
+    };
+
+    if (Array.isArray(order.shippingTimeline)) {
+      order.shippingTimeline.push(returnEntry);
+    } else {
+      order.shippingTimeline = [returnEntry];
+    }
+
+    if (mongoose.connection.readyState === 1 && typeof order.save === 'function') {
+      await order.save();
+    } else {
+      inMemoryOrders.set(orderId, order);
+    }
+
+    res.json({
+      success: true,
+      message: 'Return request submitted. India Post reverse courier pickup scheduled.',
+      returnToken,
+      data: order
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Return submission failed: ' + error.message });
   }
 });
 
