@@ -114,7 +114,7 @@ const QUICK_ADD_CRAFTS = [
 // Active Vault Items Array
 let cartItems = [];
 
-// Toast Notification
+// Toast Notification (Prominently dropped from top on mobile, never blocked by bottom bar)
 function showToast(msg, type = 'info') {
   let t = document.getElementById('toast');
   if (!t) {
@@ -124,11 +124,11 @@ function showToast(msg, type = 'info') {
   }
   t.textContent = msg;
   const bgClass = type === 'error'
-    ? 'border-red-500 bg-[#5C0E16]'
+    ? 'border-red-500 bg-[#5C0E16] text-white'
     : type === 'success'
     ? 'border-[#B8860B] bg-[#1C1B1B] text-[#ffdea6]'
     : 'border-[#B8860B]/60 bg-[#FAF7F2] text-[#785600]';
-  t.className = `fixed bottom-6 right-6 z-[300] px-5 py-4 rounded-xl shadow-2xl border text-xs font-serif font-bold transition-all duration-300 ${bgClass}`;
+  t.className = `fixed top-4 left-4 right-4 sm:top-6 sm:right-6 sm:left-auto sm:max-w-md z-[350] px-5 py-3.5 rounded-xl shadow-2xl border text-xs font-serif font-bold transition-all duration-300 text-center sm:text-left ${bgClass}`;
   setTimeout(() => { t.className = 'hidden'; }, 3800);
 }
 
@@ -137,21 +137,25 @@ function formatINR(n) {
 }
 
 /**
- * Render Cart Items in Sticky Curated Vault Ledger
+ * Render Cart Items in Sticky Curated Vault Ledger & Mobile Drawer
  */
 function renderCartItems() {
   const container = document.getElementById('cart-items-container');
   const summaryCountEl = document.getElementById('summary-items-count');
   const ledgerCountEl = document.getElementById('ledger-item-count');
   const headerCountEl = document.getElementById('header-vault-count');
+  const mobileDrawerList = document.getElementById('mobile-drawer-items-list');
+  const mobileDrawerCount = document.getElementById('mobile-drawer-items-count');
   if (!container) return;
 
   const totalQuantity = cartItems.reduce((sum, item) => sum + (item.qty || 1), 0);
   const countText = `${totalQuantity} ${totalQuantity === 1 ? 'Masterpiece' : 'Masterpieces'}`;
+  const worksText = `${totalQuantity} ${totalQuantity === 1 ? 'Work' : 'Works'}`;
 
   if (summaryCountEl) summaryCountEl.textContent = countText;
-  if (ledgerCountEl) ledgerCountEl.textContent = `${totalQuantity} ${totalQuantity === 1 ? 'Work' : 'Works'}`;
+  if (ledgerCountEl) ledgerCountEl.textContent = worksText;
   if (headerCountEl) headerCountEl.textContent = totalQuantity;
+  if (mobileDrawerCount) mobileDrawerCount.textContent = worksText;
 
   if (cartItems.length === 0) {
     container.innerHTML = `
@@ -166,8 +170,27 @@ function renderCartItems() {
         </button>
       </div>
     `;
+    if (mobileDrawerList) {
+      mobileDrawerList.innerHTML = `<p class="text-xs text-stone-500 font-serif text-center py-2">Your Curated Vault is currently empty.</p>`;
+    }
     recalculate();
     return;
+  }
+
+  // Render Mobile Collapsible Drawer Items
+  if (mobileDrawerList) {
+    mobileDrawerList.innerHTML = cartItems.map(item => `
+      <div class="flex items-center justify-between gap-2.5 p-2.5 bg-white rounded-lg border border-[#E6DFD5] shadow-2xs">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <img src="${item.imageUrl || 'assets/products/blue_pottery_vase.webp'}" class="w-10 h-10 rounded-md object-cover border border-stone-200 shrink-0" onerror="this.src='assets/products/blue_pottery_vase.webp'"/>
+          <div class="min-w-0">
+            <h5 class="text-xs font-serif font-bold text-stone-900 truncate">${item.name}</h5>
+            <p class="text-[10px] text-stone-500 font-serif truncate">${item.artisanName || 'Master Guild'} · Qty: ${item.qty || 1}</p>
+          </div>
+        </div>
+        <span class="text-xs font-serif font-bold text-[#785600] shrink-0">${formatINR((item.price || 0) * (item.qty || 1))}</span>
+      </div>
+    `).join('');
   }
 
   container.innerHTML = cartItems.map((item, index) => {
@@ -338,6 +361,8 @@ function recalculate() {
   if (totEl) totEl.textContent = formatINR(totalPayable);
   const mobTotEl = document.getElementById('mobile-price-total');
   if (mobTotEl) mobTotEl.textContent = formatINR(totalPayable);
+  const mobDrawerTot = document.getElementById('mobile-drawer-price-total');
+  if (mobDrawerTot) mobDrawerTot.textContent = formatINR(totalPayable);
 
   // Update 70% Artisan Share
   const artEl = document.getElementById('artisan-amount');
@@ -345,13 +370,110 @@ function recalculate() {
 
   // Update Order CTA Button Text
   const btnText = document.getElementById('order-btn-text');
+  const mobBtnText = document.getElementById('mobile-btn-text');
   if (btnText) {
     if (cartItems.length === 0) {
       btnText.textContent = 'Curated Vault Empty — Add Crafts to Proceed';
+      if (mobBtnText) mobBtnText.textContent = 'Vault Empty';
     } else {
       btnText.textContent = `Ratify & Seal Royal Acquisition • ${formatINR(totalPayable)}`;
+      if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
     }
   }
+}
+
+/**
+ * Mobile Curated Vault Collapsible Drawer
+ */
+window.toggleMobileVaultDrawer = function() {
+  const content = document.getElementById('mobile-vault-drawer-content');
+  const arrow = document.getElementById('mobile-drawer-arrow');
+  if (!content) return;
+  content.classList.toggle('hidden');
+  if (arrow) {
+    arrow.style.transform = content.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+  }
+};
+
+/**
+ * Smooth Section Scrolling & Progress Indicator Synchronization
+ */
+window.scrollToSection = function(sectionKey) {
+  const map = {
+    'patron': 'section-patron',
+    'shipping': 'form-shipping',
+    'presentation': 'section-presentation',
+    'payment': 'form-payment'
+  };
+  const targetId = map[sectionKey] || sectionKey;
+  const el = document.getElementById(targetId);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    updateStepProgress(sectionKey);
+  }
+};
+
+function updateStepProgress(sectionKey) {
+  const fill = document.getElementById('step-progress-fill');
+  const stepNodes = [
+    { key: 'patron', id: 'step-node-1', num: 1, labelSm: '1. Patron', labelLg: '1. Patron Credentials' },
+    { key: 'shipping', id: 'step-node-2', num: 2, labelSm: '2. Sanctuary', labelLg: '2. Palace & Sanctuary' },
+    { key: 'presentation', id: 'step-node-3', num: 3, labelSm: '3. Seals', labelLg: '3. Seals & Calligraphy' },
+    { key: 'payment', id: 'step-node-4', num: 4, labelSm: '4. Payment', labelLg: '4. Treasury Settlement' }
+  ];
+
+  const activeIdx = stepNodes.findIndex(s => s.key === sectionKey);
+  if (activeIdx < 0) return;
+
+  if (fill) {
+    fill.style.width = `${((activeIdx + 1) / stepNodes.length) * 100}%`;
+  }
+
+  stepNodes.forEach((step, idx) => {
+    const el = document.getElementById(step.id);
+    if (!el) return;
+
+    if (idx < activeIdx) {
+      // Completed step (Brown / Gold with Checkmark)
+      el.className = 'flex flex-col items-center gap-1 relative z-10 w-1/4 max-w-[25%] px-0.5 cursor-pointer group';
+      el.innerHTML = `
+        <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#785600] text-white text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#FAF7F2] transition-transform group-hover:scale-105">
+          <span class="material-symbols-outlined text-sm">check</span>
+        </span>
+        <span class="text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-[#785600] font-serif text-center leading-tight truncate w-full">
+          <span class="sm:hidden">${step.labelSm}</span>
+          <span class="hidden sm:inline">${step.labelLg}</span>
+        </span>
+        <span class="text-[8px] sm:text-[9px] text-stone-500 uppercase tracking-widest hidden sm:inline">Recorded</span>
+      `;
+    } else if (idx === activeIdx) {
+      // Current active step (Crimson with Gold border)
+      el.className = 'flex flex-col items-center gap-1 relative z-10 w-1/4 max-w-[25%] px-0.5 cursor-pointer group';
+      el.innerHTML = `
+        <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#7A1521] text-[#ffdea6] text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#B8860B]/30 border border-[#B8860B] transition-transform group-hover:scale-105">
+          ${step.num}
+        </span>
+        <span class="text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-[#7A1521] font-serif text-center leading-tight truncate w-full">
+          <span class="sm:hidden">${step.labelSm}</span>
+          <span class="hidden sm:inline">${step.labelLg}</span>
+        </span>
+        <span class="text-[8px] sm:text-[9px] text-[#785600] font-bold uppercase tracking-widest hidden sm:inline">Current Stage</span>
+      `;
+    } else {
+      // Upcoming step (Stone / Gray)
+      el.className = 'flex flex-col items-center gap-1 relative z-10 w-1/4 max-w-[25%] px-0.5 cursor-pointer group opacity-75';
+      el.innerHTML = `
+        <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-stone-200 text-stone-600 text-xs font-semibold font-serif flex items-center justify-center shadow-xs ring-4 ring-[#FAF7F2] transition-transform group-hover:scale-105">
+          ${step.num}
+        </span>
+        <span class="text-[9px] sm:text-[11px] font-medium uppercase tracking-wider text-stone-600 font-serif text-center leading-tight truncate w-full">
+          <span class="sm:hidden">${step.labelSm}</span>
+          <span class="hidden sm:inline">${step.labelLg}</span>
+        </span>
+        <span class="text-[8px] sm:text-[9px] text-stone-400 uppercase tracking-widest hidden sm:inline">Upcoming</span>
+      `;
+    }
+  });
 }
 
 /**
@@ -676,7 +798,9 @@ window.placeOrder = async function() {
   }
 
   const btnText = document.getElementById('order-btn-text');
+  const mobBtnText = document.getElementById('mobile-btn-text');
   if (btnText) btnText.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin inline-block mr-1">sync</span> Ratifying Imperial Sovereign Acquisition...';
+  if (mobBtnText) mobBtnText.innerHTML = '<span class="material-symbols-outlined text-xs animate-spin inline-block mr-1">sync</span> Ratifying...';
 
   // Order Details
   const orderId = 'PAR-2026-' + Math.floor(1000 + Math.random() * 9000);
@@ -812,6 +936,7 @@ window.placeOrder = async function() {
           modal: {
             ondismiss: function() {
               if (btnText) btnText.textContent = `Ratify & Seal Royal Acquisition • ${formatINR(total)}`;
+              if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
               showToast('Payment window dismissed. Your curated vault is preserved.', 'info');
             }
           }
@@ -839,6 +964,7 @@ window.placeOrder = async function() {
   } catch (err) {
     console.error('Order ratification error:', err);
     if (btnText) btnText.textContent = `Ratify & Seal Royal Acquisition • ${formatINR(total)}`;
+    if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
     showToast('Connecting in offline verified demo mode...', 'info');
     await finalizeOrder({
       orderId,

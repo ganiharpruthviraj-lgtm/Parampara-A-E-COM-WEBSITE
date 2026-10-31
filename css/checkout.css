@@ -588,13 +588,19 @@ button[onclick="goToPayment()"]:active,
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 120;
-  background: rgba(255, 255, 255, 0.95);
+  z-index: 150;
+  background: rgba(253, 251, 247, 0.98);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border-top: 1px solid rgba(184, 134, 11, 0.25);
-  padding: 0.75rem 1rem;
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
+  border-top: 1px solid rgba(184, 134, 11, 0.35);
+  padding: 0.65rem 1rem;
+  padding-bottom: max(0.65rem, env(safe-area-inset-bottom, 0.65rem));
+  box-shadow: 0 -4px 20px rgba(92, 14, 22, 0.08);
+  min-height: 60px;
+}
+
+#mobile-checkout-bar button {
+  min-height: 44px;
 }
 
 @media (min-width: 1024px) {

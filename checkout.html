@@ -183,7 +183,7 @@
   <div id="toast"></div>
 
   <!-- ─── MAIN SALON DOSSIER CONTENT ─── -->
-  <main class="w-full flex-grow">
+  <main class="w-full flex-grow pb-28 lg:pb-0">
     <div class="max-w-7xl mx-auto px-4 sm:px-8 py-8 lg:py-12">
 
       <!-- ─── UNIFIED IMPERIAL BANNER SEAL ─── -->
@@ -226,47 +226,92 @@
       </div>
 
       <!-- ─── 4-STAGE GILDED ILLUMINATED STEP PROGRESS TRACKER ─── -->
-      <div class="gilded-box-card rounded-xl p-5 shadow-xs mb-10">
-        <div class="flex items-center justify-between relative px-2 sm:px-4">
+      <div class="gilded-box-card rounded-xl p-3.5 sm:p-5 shadow-xs mb-8 sm:mb-10">
+        <div class="flex items-center justify-between relative px-0 sm:px-4">
           <!-- connecting line -->
-          <div class="absolute left-8 right-8 top-1/2 -translate-y-1/2 h-0.5 bg-[#E6DFD5] z-0">
-            <div class="h-full bg-[#B8860B] transition-all duration-300" id="step-progress-fill" style="width: 75%;"></div>
+          <div class="absolute left-6 right-6 sm:left-8 sm:right-8 top-1/2 -translate-y-1/2 h-0.5 bg-[#E6DFD5] z-0">
+            <div class="h-full bg-[#B8860B] transition-all duration-300" id="step-progress-fill" style="width: 25%;"></div>
           </div>
 
-          <!-- Step 1: Completed -->
-          <div class="flex flex-col items-center gap-1.5 relative z-10" id="step-node-1">
-            <span class="w-9 h-9 rounded-full bg-[#785600] text-white text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#FAF7F2]">
-              <span class="material-symbols-outlined text-sm">check</span>
+          <!-- Step 1: Active -->
+          <div class="flex flex-col items-center gap-1 relative z-10 w-1/4 max-w-[25%] px-0.5 cursor-pointer group" id="step-node-1" onclick="scrollToSection('patron')">
+            <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#7A1521] text-[#ffdea6] text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#B8860B]/30 border border-[#B8860B] transition-transform group-hover:scale-105">
+              1
             </span>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-[#785600] font-serif text-center">1. Patron Credentials</span>
-            <span class="text-[9px] text-stone-500 uppercase tracking-widest hidden sm:inline">Recorded</span>
-          </div>
-
-          <!-- Step 2: Completed -->
-          <div class="flex flex-col items-center gap-1.5 relative z-10" id="step-node-2">
-            <span class="w-9 h-9 rounded-full bg-[#785600] text-white text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#FAF7F2]">
-              <span class="material-symbols-outlined text-sm">check</span>
+            <span class="text-[9px] sm:text-[11px] font-bold uppercase tracking-wider text-[#7A1521] font-serif text-center leading-tight truncate w-full">
+              <span class="sm:hidden">1. Patron</span>
+              <span class="hidden sm:inline">1. Patron Credentials</span>
             </span>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-[#785600] font-serif text-center">2. Palace &amp; Sanctuary</span>
-            <span class="text-[9px] text-stone-500 uppercase tracking-widest hidden sm:inline">Confirmed</span>
+            <span class="text-[8px] sm:text-[9px] text-[#785600] font-bold uppercase tracking-widest hidden sm:inline">Current Stage</span>
           </div>
 
-          <!-- Step 3: Current -->
-          <div class="flex flex-col items-center gap-1.5 relative z-10" id="step-node-3">
-            <span class="w-9 h-9 rounded-full bg-[#7A1521] text-[#ffdea6] text-xs font-bold font-serif flex items-center justify-center shadow-md ring-4 ring-[#B8860B]/30 border border-[#B8860B]">
+          <!-- Step 2: Upcoming -->
+          <div class="flex flex-col items-center gap-1 relative z-10 w-1/4 max-w-[25%] px-0.5 cursor-pointer group opacity-85" id="step-node-2" onclick="scrollToSection('shipping')">
+            <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-stone-200 text-stone-700 text-xs font-bold font-serif flex items-center justify-center shadow-xs ring-4 ring-[#FAF7F2] transition-transform group-hover:scale-105">
+              2
+            </span>
+            <span class="text-[9px] sm:text-[11px] font-semibold uppercase tracking-wider text-stone-700 font-serif text-center leading-tight truncate w-full">
+              <span class="sm:hidden">2. Sanctuary</span>
+              <span class="hidden sm:inline">2. Palace &amp; Sanctuary</span>
+            </span>
+            <span class="text-[8px] sm:text-[9px] text-stone-400 uppercase tracking-widest hidden sm:inline">Destination</span>
+          </div>
+
+          <!-- Step 3: Upcoming -->
+          <div class="flex flex-col items-center gap-1 relative z-10 w-1/4 max-w-[25%] px-0.5 cursor-pointer group opacity-80" id="step-node-3" onclick="scrollToSection('presentation')">
+            <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-stone-200 text-stone-600 text-xs font-bold font-serif flex items-center justify-center shadow-xs ring-4 ring-[#FAF7F2] transition-transform group-hover:scale-105">
               3
             </span>
-            <span class="text-[11px] font-bold uppercase tracking-wider text-[#7A1521] font-serif text-center">3. Seals &amp; Calligraphy</span>
-            <span class="text-[9px] text-[#785600] font-bold uppercase tracking-widest hidden sm:inline">Current Stage</span>
+            <span class="text-[9px] sm:text-[11px] font-medium uppercase tracking-wider text-stone-600 font-serif text-center leading-tight truncate w-full">
+              <span class="sm:hidden">3. Seals</span>
+              <span class="hidden sm:inline">3. Seals &amp; Calligraphy</span>
+            </span>
+            <span class="text-[8px] sm:text-[9px] text-stone-400 uppercase tracking-widest hidden sm:inline">Inscription</span>
           </div>
 
           <!-- Step 4: Upcoming -->
-          <div class="flex flex-col items-center gap-1.5 relative z-10 opacity-70" id="step-node-4">
-            <span class="w-9 h-9 rounded-full bg-stone-200 text-stone-600 text-xs font-semibold font-serif flex items-center justify-center ring-4 ring-[#FAF7F2]">
+          <div class="flex flex-col items-center gap-1 relative z-10 w-1/4 max-w-[25%] px-0.5 cursor-pointer group opacity-75" id="step-node-4" onclick="scrollToSection('payment')">
+            <span class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-stone-200 text-stone-600 text-xs font-semibold font-serif flex items-center justify-center shadow-xs ring-4 ring-[#FAF7F2] transition-transform group-hover:scale-105">
               4
             </span>
-            <span class="text-[11px] font-medium uppercase tracking-wider text-stone-600 font-serif text-center">4. Treasury Settlement</span>
-            <span class="text-[9px] text-stone-400 uppercase tracking-widest hidden sm:inline">Final Ratification</span>
+            <span class="text-[9px] sm:text-[11px] font-medium uppercase tracking-wider text-stone-600 font-serif text-center leading-tight truncate w-full">
+              <span class="sm:hidden">4. Payment</span>
+              <span class="hidden sm:inline">4. Treasury Settlement</span>
+            </span>
+            <span class="text-[8px] sm:text-[9px] text-stone-400 uppercase tracking-widest hidden sm:inline">Ratification</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ─── MOBILE CURATED VAULT ACCORDION DRAWER (VISIBLE ONLY ON MOBILE < 1024px) ─── -->
+      <div class="lg:hidden gilded-box rounded-xl p-4 bg-[#FAF7F2] mb-6 shadow-xs border border-[#B8860B]/40">
+        <button type="button" onclick="toggleMobileVaultDrawer()" class="w-full flex items-center justify-between text-left focus:outline-none">
+          <div class="flex items-center gap-2.5">
+            <span class="w-8 h-8 rounded-full bg-[#785600] text-[#ffdea6] flex items-center justify-center text-xs font-serif font-bold shadow-xs shrink-0">
+              <span class="material-symbols-outlined text-base">shelves</span>
+            </span>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-serif font-bold text-stone-900">Curated Vault</span>
+                <span class="text-[10px] text-[#785600] font-serif font-bold bg-[#FDFBF7] px-2 py-0.5 rounded border border-[#B8860B]/30" id="mobile-drawer-items-count">3 Works</span>
+              </div>
+              <span class="text-[11px] text-stone-500 font-serif">Tap to inspect reserved masterpieces &amp; pricing</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="font-headline text-sm font-bold text-[#785600]" id="mobile-drawer-price-total">₹19,790</span>
+            <span class="material-symbols-outlined text-stone-500 transition-transform duration-200" id="mobile-drawer-arrow">expand_more</span>
+          </div>
+        </button>
+
+        <div id="mobile-vault-drawer-content" class="hidden pt-4 mt-3 border-t border-[#E6DFD5] space-y-3">
+          <div id="mobile-drawer-items-list" class="space-y-3 max-h-[260px] overflow-y-auto pr-1">
+            <!-- Mirrored dynamically by js/checkout.js -->
+          </div>
+          <div class="pt-2 text-center border-t border-[#E6DFD5]/80">
+            <button onclick="toggleQuickAddModal()" class="text-xs text-[#785600] font-serif font-semibold uppercase tracking-wider flex items-center justify-center gap-1 mx-auto" type="button">
+              <span class="material-symbols-outlined text-sm">add_circle</span> Add Another Masterpiece
+            </button>
           </div>
         </div>
       </div>
@@ -957,15 +1002,18 @@
   </div>
 
   <!-- ─── MOBILE STICKY CHECKOUT BAR ─── -->
-  <div id="mobile-checkout-bar">
-    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
-      <div>
-        <span class="text-[10px] text-stone-500 uppercase tracking-wider font-serif block">Total Acquisition</span>
-        <span class="font-headline text-lg font-bold text-[#785600]" id="mobile-price-total">₹19,790</span>
+  <div id="mobile-checkout-bar" class="lg:hidden">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+      <div class="min-w-0 flex-shrink cursor-pointer" onclick="toggleMobileVaultDrawer()" title="Tap to inspect order details">
+        <span class="text-[9px] text-stone-500 uppercase tracking-wider font-serif block truncate flex items-center gap-1">
+          <span>Total Acquisition</span>
+          <span class="material-symbols-outlined text-[13px] text-[#785600]">info</span>
+        </span>
+        <span class="font-headline text-base sm:text-lg font-bold text-[#785600] tracking-tight truncate block" id="mobile-price-total">₹19,790</span>
       </div>
-      <button onclick="placeOrder()" class="px-5 py-3 rounded-lg bg-gradient-to-r from-[#5C0E16] to-[#7A1521] text-[#ffdea6] font-serif font-bold text-xs uppercase tracking-wider shadow-md flex items-center gap-1.5 border border-[#B8860B]/40">
+      <button onclick="placeOrder()" class="whitespace-nowrap flex-shrink-0 px-4 py-2.5 sm:px-5 sm:py-3 rounded-lg bg-gradient-to-r from-[#5C0E16] to-[#7A1521] text-[#ffdea6] font-serif font-bold text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-1.5 border border-[#B8860B]/40 active:scale-[0.98] transition">
         <span class="material-symbols-outlined text-sm text-[#B8860B]">lock</span>
-        <span>Ratify Order</span>
+        <span class="whitespace-nowrap" id="mobile-btn-text">Ratify Order</span>
       </button>
     </div>
   </div>
