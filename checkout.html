@@ -1382,12 +1382,7 @@
   <div class="fixed inset-0 z-[250] bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto" id="razorpay-interactive-modal">
     <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full relative my-6 overflow-hidden border border-stone-300">
       
-      <!-- Test Mode Corner Ribbon -->
-      <div class="absolute top-0 right-0 z-20">
-        <span class="inline-block bg-[#E53E3E] text-white text-[9px] font-sans font-bold uppercase tracking-widest px-3 py-1 rounded-bl-lg shadow-sm">
-          Test Mode
-        </span>
-      </div>
+
 
       <!-- Razorpay Blue Header -->
       <div class="bg-[#0C2340] text-white p-5 pt-6 relative">
@@ -1418,15 +1413,7 @@
 
       <!-- Modal Body: Tabs / Methods -->
       <div class="p-5 space-y-4 relative">
-        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-900 font-sans flex items-start gap-2.5">
-          <span class="material-symbols-outlined text-base text-amber-700 shrink-0">info</span>
-          <div>
-            <p class="font-bold">Razorpay Test Gateway Simulated Sandbox</p>
-            <p class="text-[11px] text-amber-800 mt-0.5 leading-relaxed">
-              Test mode is active. Choose any payment method below to authorize an authentic Razorpay settlement with simulated signature verification and 70% direct artisan allocation.
-            </p>
-          </div>
-        </div>
+
 
         <!-- Payment Method Accordion / Selector -->
         <div class="space-y-2 font-sans text-xs">
@@ -1479,14 +1466,9 @@
           </div>
         </div>
 
-        <!-- Quick Action Buttons -->
-        <div class="pt-2 space-y-2">
-          <button type="button" onclick="simulateRzpPayment('OneClick')" id="btn-rzp-success-test" class="w-full py-3 px-4 rounded-xl bg-[#3395FF] hover:bg-[#0070e0] text-white font-sans font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 cursor-pointer">
-            <span class="material-symbols-outlined text-sm">bolt</span>
-            <span>⚡ 1-Click Complete Payment (Success)</span>
-          </button>
-          <button type="button" onclick="simulateRzpFailure()" class="w-full py-2 text-stone-400 hover:text-red-600 text-xs font-sans transition text-center cursor-pointer">
-            Simulate Payment Failure / Decline
+        <div class="pt-2 text-center">
+          <button type="button" onclick="closeRazorpayModal()" class="text-xs font-sans text-stone-400 hover:text-[#b22b1d] transition underline underline-offset-4 cursor-pointer">
+            Cancel &amp; Return to Salon
           </button>
         </div>
 

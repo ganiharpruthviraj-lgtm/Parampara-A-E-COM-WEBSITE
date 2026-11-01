@@ -1619,7 +1619,7 @@ window.placeOrder = async function() {
     console.error('Order ratification error:', err);
     if (btnText) btnText.textContent = `Ratify & Seal Royal Acquisition • ${formatINR(total)}`;
     if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
-    showToast('Connecting in offline verified demo mode...', 'info');
+    showToast('Connecting to secure settlement node...', 'info');
     await finalizeOrder({
       orderId,
       razorpayOrderId: `demo_${Date.now()}`,

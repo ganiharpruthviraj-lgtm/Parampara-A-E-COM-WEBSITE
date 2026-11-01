@@ -298,17 +298,11 @@
             </div>
           </div>
 
-          <!-- Section: Concierge / Archival VIP Override Button -->
-          <div class="space-y-4 pt-1">
-            <button type="button" id="simulateApprovalBtn" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#785600] to-[#986d00] hover:opacity-95 text-white font-sans font-bold text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer transition">
-              <span class="material-symbols-outlined text-sm">bolt</span>
-              <span>⚡ Simulate Instant YouPI Approval (Test Mode)</span>
-            </button>
-            <div class="text-center pt-1">
-              <a class="text-xs uppercase tracking-widest font-body text-outline hover:text-secondary transition-colors underline underline-offset-4" href="checkout.html">
-                Cancel &amp; Return to Salon
-              </a>
-            </div>
+          <!-- Section: Return to Salon Link -->
+          <div class="pt-2 text-center">
+            <a class="text-xs uppercase tracking-widest font-body text-outline hover:text-[#b22b1d] transition-colors underline underline-offset-4" href="checkout.html">
+              Cancel &amp; Return to Salon
+            </a>
           </div>
 
         </div>
@@ -449,22 +443,7 @@
       });
     }
 
-    // VIP Instant Concierge Simulation
-    const simulateBtn = document.getElementById('simulateApprovalBtn');
-    if (simulateBtn && utrAlert) {
-      simulateBtn.addEventListener('click', () => {
-        const simUtr = '4' + Math.floor(10000000000 + Math.random() * 90000000000);
-        if (utrInput) utrInput.value = simUtr;
-        utrAlert.className = 'p-3.5 rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-300 text-xs font-body flex items-center gap-2 shadow-xs';
-        utrAlert.innerHTML = `
-          <span class="material-symbols-outlined text-base text-emerald-700">verified</span>
-          <span>⚡ Test Mode: UTR <strong>${simUtr}</strong> auto-matched. Royal Acquisition #${orderId} ratified!</span>
-        `;
-        setTimeout(() => {
-          window.location.href = `checkout.html?confirmedOrder=${orderId}`;
-        }, 1800);
-      });
-    }
+
   </script>
 
 </body>

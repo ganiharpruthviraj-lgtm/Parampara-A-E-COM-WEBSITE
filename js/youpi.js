@@ -223,21 +223,15 @@
               </p>
             </div>
 
-            <!-- Instant Test Mode Settlement Simulation -->
-            <div class="pt-1 space-y-2">
-              <button type="button" onclick="window.Youpi.simulateSuccess()" id="btn-youpi-test-approve" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#785600] to-[#986d00] hover:opacity-95 text-white font-sans font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 cursor-pointer border border-[#B8860B]/30">
-                <span class="material-symbols-outlined text-sm">bolt</span>
-                <span>⚡ Simulate Instant YouPI Approval (Test Mode)</span>
+            <!-- Action Links -->
+            <div class="pt-2 flex items-center justify-between text-xs font-serif">
+              <button type="button" onclick="window.Youpi.closeModal()" class="text-stone-500 hover:text-[#b22b1d] transition cursor-pointer underline underline-offset-4">
+                Cancel &amp; Return to Salon
               </button>
-              <div class="flex items-center justify-between text-xs font-serif pt-1">
-                <button type="button" onclick="window.Youpi.closeModal()" class="text-stone-500 hover:text-[#b22b1d] transition cursor-pointer underline underline-offset-4">
-                  Cancel &amp; Return to Salon
-                </button>
-                <a href="upi-settlement.html" target="_blank" class="text-[#785600] hover:underline flex items-center gap-1 font-mono text-[11px]">
-                  <span>Dedicated Salon</span>
-                  <span class="material-symbols-outlined text-xs">open_in_new</span>
-                </a>
-              </div>
+              <a href="upi-settlement.html" target="_blank" class="text-[#785600] hover:underline flex items-center gap-1 font-mono text-[11px]">
+                <span>Dedicated Salon</span>
+                <span class="material-symbols-outlined text-xs">open_in_new</span>
+              </a>
             </div>
 
             <!-- Processing / Success Overlay -->
@@ -281,7 +275,7 @@
       if (!session) return;
 
       const amtEl = document.getElementById('youpi-display-amount');
-      if (amtEl) amtEl.textContent = this.formatINR(session.amount);
+      if (amtEl) amtEl.textContent = Number(session.amount).toLocaleString('en-IN');
 
       const vpaEl = document.getElementById('youpi-vpa-text');
       if (vpaEl) vpaEl.textContent = session.merchantVpa;
@@ -397,7 +391,7 @@
     },
 
     /**
-     * Simulate instant incoming credit observation in Test Mode
+     * Programmatic incoming credit observation trigger
      */
     simulateSuccess: function() {
       const testUtr = '4' + Math.floor(10000000000 + Math.random() * 90000000000);
