@@ -80,11 +80,11 @@
       if (modal) return;
 
       const modalHtml = `
-      <div id="youpi-pg-modal" class="fixed inset-0 z-[300] bg-black/75 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full relative my-6 overflow-hidden border border-emerald-900/20 text-left animate-in fade-in zoom-in-95 duration-200">
+      <div id="youpi-pg-modal" class="fixed inset-0 z-[300] bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="bg-[#FCF9F8] rounded-2xl shadow-2xl max-w-xl w-full relative my-6 overflow-hidden border border-[#B8860B]/40 text-left animate-in fade-in zoom-in-95 duration-200">
           
-          <!-- YouPI Gateway Emerald Header -->
-          <div class="bg-gradient-to-r from-[#042f2e] via-[#0f766e] to-[#042f2e] text-white p-5 pt-6 relative border-b border-emerald-500/20">
+          <!-- Royal Modal Header Section (Deep Regal Vault Atmosphere - Stitch Inspired) -->
+          <div class="bg-gradient-to-b from-[#311116] via-[#240c10] to-[#1c080b] text-[#fcf9f8] p-5 sm:p-6 relative overflow-hidden border-b border-[#B8860B]/30">
             <!-- 0% Fee Ribbon -->
             <div class="absolute top-0 right-0 z-20">
               <span class="inline-flex items-center gap-1 bg-[#10b981] text-[#022c22] text-[9px] font-sans font-extrabold uppercase tracking-wider px-3 py-1 rounded-bl-xl shadow-sm">
@@ -92,115 +92,145 @@
               </span>
             </div>
 
-            <button type="button" onclick="window.Youpi.closeModal()" class="absolute top-3.5 left-3.5 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center text-sm font-bold transition cursor-pointer">
+            <button type="button" onclick="window.Youpi.closeModal()" class="absolute top-3.5 left-3.5 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-[#ebd4a0] flex items-center justify-center text-sm font-bold transition cursor-pointer" title="Close">
               &times;
             </button>
 
-            <div class="flex items-center gap-3.5 pl-6">
-              <div class="w-12 h-12 rounded-2xl bg-white p-1.5 shadow-md flex items-center justify-center shrink-0 border border-emerald-300/40">
-                <img src="assets/parampara_logo_crest.webp" alt="Parampara" class="w-full h-full object-contain" onerror="this.src='assets/products/blue_pottery_vase.webp'"/>
-              </div>
-              <div class="min-w-0 pr-16">
-                <div class="flex items-center gap-1.5">
-                  <span class="text-xs font-mono font-bold tracking-wider text-emerald-300">YOUPI-PG</span>
-                  <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-200 border border-emerald-400/30">Open Source</span>
+            <div class="flex items-center justify-between pt-2">
+              <div class="flex items-center gap-3.5 pl-6 sm:pl-7">
+                <div class="w-12 h-12 rounded-xl bg-white p-1.5 shadow-md flex items-center justify-center shrink-0 border border-[#B8860B]/40">
+                  <svg class="w-full h-full" fill="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 8C43 24 33 34 33 46C33 55 39 61 50 63C61 61 67 55 67 46C67 34 57 24 50 8Z" fill="#8F1424"></path>
+                    <path d="M50 17C46 27 40 33 40 43C40 50 44 54 50 56C56 54 60 50 60 43C60 33 54 27 50 17Z" fill="#D4AF37"></path>
+                    <circle cx="50" cy="42" fill="#1A365D" r="7"></circle>
+                    <circle cx="50" cy="41" fill="#38BDF8" r="3.2"></circle>
+                    <path d="M35 63H65L68 67L64 73H36L32 67L35 63Z" fill="#B8860B"></path>
+                    <path d="M33 73H67C67 73 70 88 50 89C30 88 33 73 33 73Z" fill="#996515"></path>
+                    <path d="M38 78L43 83L48 78L53 83L58 78L63 83" stroke="#FDE68A" stroke-linecap="round" stroke-width="1.8"></path>
+                    <circle cx="50" cy="86" fill="#FDE68A" r="1.5"></circle>
+                  </svg>
                 </div>
-                <h3 class="font-headline font-bold text-base text-white truncate leading-tight">Parampara Royal Ateliers</h3>
-                <p class="text-[11px] text-emerald-100/80 font-serif truncate">Peer-to-Merchant • 70% Direct Artisan Payout</p>
+                <div class="min-w-0 pr-8">
+                  <h3 class="font-headline font-bold text-base sm:text-lg text-[#fdf8f0] truncate leading-tight">Parampara Ateliers</h3>
+                  <div class="flex items-center gap-1.5 mt-0.5">
+                    <span class="text-xs text-[#cca774] font-serif truncate">Direct Artisan Settlement</span>
+                    <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 font-mono">YouPI-PG</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="text-right shrink-0">
+                <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-[#d8c3b0] font-sans block">Total Payable</span>
+                <div class="text-xl sm:text-2xl font-headline font-bold text-[#f5dfa8] tracking-tight">
+                  <span class="font-serif text-[#cca774] mr-0.5">₹</span><span id="youpi-display-amount">19,790</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Escrow Countdown Ribbon -->
+            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-[#d8c3b0]">
+              <div class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span id="youpi-customer-badge">Single-Slot Escrow Reserved</span>
+              </div>
+              <div class="flex items-center gap-1 font-bold text-[#f5dfa8]" id="youpi-countdown-timer">
+                <span class="material-symbols-outlined text-xs animate-spin">schedule</span>
+                <span>04:59 mins</span>
               </div>
             </div>
           </div>
 
-          <!-- Session & Amount Strip -->
-          <div class="bg-[#022c22] text-white px-5 py-3 flex items-center justify-between border-t border-emerald-900/60">
-            <div>
-              <span class="text-[10px] text-emerald-300 uppercase tracking-widest block font-mono">Net Sovereign Settlement</span>
-              <span class="text-[10px] text-emerald-400 font-mono" id="youpi-customer-badge">Patron Verified</span>
-            </div>
-            <div class="text-right">
-              <span class="font-sans font-bold text-xl text-emerald-300 tracking-tight" id="youpi-display-amount">₹19,790</span>
-            </div>
-          </div>
-
-          <!-- Reservation Countdown Bar -->
-          <div class="bg-emerald-50 px-5 py-2 flex items-center justify-between text-[11px] border-b border-emerald-100 font-mono text-emerald-800">
-            <div class="flex items-center gap-1.5">
-              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-              <span>FIFO Single-Slot Locked</span>
-            </div>
-            <div class="flex items-center gap-1 font-bold" id="youpi-countdown-timer">
-              <span class="material-symbols-outlined text-xs animate-spin">schedule</span>
-              <span>04:59 mins</span>
-            </div>
-          </div>
-
-          <!-- Modal Body -->
-          <div class="p-5 space-y-4">
+          <!-- Modal Body Canvas -->
+          <div class="p-5 sm:p-6 space-y-5 bg-[#FCF9F8]">
             
-            <!-- Dynamic Vector QR Section -->
-            <div class="bg-[#FAF7F2] p-4 rounded-2xl border border-[#E6DFD5] flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-              <div class="relative w-36 h-36 bg-white p-2 rounded-xl border-2 border-emerald-700/50 shadow-md shrink-0 flex items-center justify-center">
-                <img id="youpi-qr-image" src="" alt="Scan via Any UPI App" class="w-full h-full object-contain"/>
-                <div class="absolute inset-0 m-auto w-8 h-8 rounded-full bg-white p-1 shadow flex items-center justify-center border border-emerald-600">
-                  <span class="text-xs font-bold text-emerald-800">₹</span>
+            <!-- Section: Dynamic QR Code Vault (With Golden Corner Brackets) -->
+            <div class="bg-[#FAF7F2] p-4 sm:p-5 rounded-xl border border-[#E6DFD5] flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left shadow-xs">
+              <div class="relative p-3.5 bg-white rounded-xl shadow-md group border border-[#785600]/25 shrink-0">
+                <!-- Golden Corner Brackets -->
+                <div class="absolute top-1.5 left-1.5 w-3 h-3 border-t-2 border-l-2 border-[#785600]"></div>
+                <div class="absolute top-1.5 right-1.5 w-3 h-3 border-t-2 border-r-2 border-[#785600]"></div>
+                <div class="absolute bottom-1.5 left-1.5 w-3 h-3 border-b-2 border-l-2 border-[#785600]"></div>
+                <div class="absolute bottom-1.5 right-1.5 w-3 h-3 border-b-2 border-r-2 border-[#785600]"></div>
+
+                <div class="w-36 h-36 overflow-hidden flex items-center justify-center">
+                  <img id="youpi-qr-image" src="" alt="Scan via Any UPI App" class="w-full h-full object-contain block"/>
                 </div>
               </div>
 
-              <div class="space-y-1.5 flex-grow min-w-0">
-                <span class="inline-block px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-emerald-100 text-emerald-800 uppercase tracking-wider">
-                  Scan via Any UPI App
-                </span>
-                <p class="text-xs text-stone-700 font-serif leading-relaxed">
-                  Open Google Pay, PhonePe, Paytm, BHIM, or CRED on your phone and scan this real-time QR code.
-                </p>
-                <div class="pt-1 flex items-center justify-center sm:justify-start gap-1 text-[11px] font-mono text-stone-600">
-                  <span>VPA:</span>
-                  <strong class="text-stone-900" id="youpi-vpa-text">9901402758@yespop</strong>
-                  <button type="button" onclick="window.Youpi.copyVpa()" class="text-emerald-700 hover:text-emerald-900 ml-1 text-xs cursor-pointer" title="Copy VPA">
-                    <span class="material-symbols-outlined text-sm align-middle">content_copy</span>
+              <div class="space-y-2 flex-grow min-w-0">
+                <div class="space-y-0.5">
+                  <h4 class="text-base font-headline font-bold text-stone-900 leading-snug">Scan to Pay via UPI</h4>
+                  <p class="text-xs text-stone-600 font-serif leading-relaxed">
+                    Open Google Pay, PhonePe, Paytm, BHIM, or CRED to scan this real-time QR code.
+                  </p>
+                </div>
+
+                <div class="bg-white rounded-lg p-2.5 shadow-2xs border border-[#E6DFD5] flex items-center justify-between gap-2">
+                  <div class="min-w-0">
+                    <span class="text-[9px] uppercase tracking-wider text-stone-500 font-sans block">UPI ID / VPA</span>
+                    <strong class="text-xs font-mono font-bold text-[#785600] truncate block" id="youpi-vpa-text">9901402758@yespop</strong>
+                  </div>
+                  <button type="button" onclick="window.Youpi.copyVpa()" class="px-2.5 py-1 rounded bg-[#FAF7F2] hover:bg-[#785600] hover:text-white text-stone-800 text-xs font-serif font-bold transition flex items-center gap-1 cursor-pointer border border-[#E6DFD5]" title="Copy VPA">
+                    <span class="material-symbols-outlined text-xs">content_copy</span>
+                    <span>Copy</span>
                   </button>
                 </div>
               </div>
             </div>
 
-            <!-- Direct 1-Tap Mobile UPI Intent Launchers -->
-            <div class="space-y-1.5">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-stone-500 font-sans block">
-                Or Tap to Open UPI App on This Device
+            <!-- Direct 1-Tap Mobile UPI Intent Launchers (Stitch Style) -->
+            <div class="space-y-2">
+              <span class="text-[10px] font-bold uppercase tracking-[0.15em] text-stone-500 font-sans block">
+                Or Pay Directly with App
               </span>
-              <div class="grid grid-cols-3 sm:grid-cols-5 gap-1.5">
-                <a id="youpi-link-gpay" href="#" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-emerald-600 bg-stone-50 hover:bg-white transition text-center shadow-2xs">
-                  <span class="w-6 h-6 rounded-full bg-white shadow-2xs flex items-center justify-center text-xs font-bold text-blue-600 mb-0.5">G</span>
-                  <span class="text-[10px] font-serif font-bold text-stone-800">GPay</span>
+              <div class="grid grid-cols-5 gap-2">
+                <a id="youpi-link-gpay" href="#" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#785600] bg-white transition text-center shadow-2xs group">
+                  <div class="w-9 h-9 rounded-full bg-stone-50 group-hover:scale-105 transition-transform flex items-center justify-center text-primary font-bold shadow-inner">
+                    <span class="font-headline font-bold text-xs tracking-tight text-blue-600">GPay</span>
+                  </div>
+                  <span class="text-[10px] font-semibold text-stone-800 mt-1 font-sans">GPay</span>
                 </a>
-                <a id="youpi-link-phonepe" href="#" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-emerald-600 bg-stone-50 hover:bg-white transition text-center shadow-2xs">
-                  <span class="w-6 h-6 rounded-full bg-purple-700 text-white shadow-2xs flex items-center justify-center text-xs font-bold mb-0.5">पे</span>
-                  <span class="text-[10px] font-serif font-bold text-stone-800">PhonePe</span>
+                <a id="youpi-link-phonepe" href="#" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#785600] bg-white transition text-center shadow-2xs group">
+                  <div class="w-9 h-9 rounded-full bg-[#5f259f]/10 group-hover:scale-105 transition-transform flex items-center justify-center text-[#5f259f] font-bold shadow-inner">
+                    <span class="font-headline font-bold text-sm">पे</span>
+                  </div>
+                  <span class="text-[10px] font-semibold text-stone-800 mt-1 font-sans">PhonePe</span>
                 </a>
-                <a id="youpi-link-paytm" href="#" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-emerald-600 bg-stone-50 hover:bg-white transition text-center shadow-2xs">
-                  <span class="w-6 h-6 rounded-full bg-cyan-600 text-white shadow-2xs flex items-center justify-center text-[9px] font-bold mb-0.5">Pay</span>
-                  <span class="text-[10px] font-serif font-bold text-stone-800">Paytm</span>
+                <a id="youpi-link-paytm" href="#" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#785600] bg-white transition text-center shadow-2xs group">
+                  <div class="w-9 h-9 rounded-full bg-[#002e6e]/10 group-hover:scale-105 transition-transform flex items-center justify-center text-[#002e6e] font-bold shadow-inner">
+                    <span class="font-headline font-bold text-[10px] tracking-tighter">Paytm</span>
+                  </div>
+                  <span class="text-[10px] font-semibold text-stone-800 mt-1 font-sans">Paytm</span>
                 </a>
-                <a id="youpi-link-bhim" href="#" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-emerald-600 bg-stone-50 hover:bg-white transition text-center shadow-2xs">
-                  <span class="w-6 h-6 rounded-full bg-orange-600 text-white shadow-2xs flex items-center justify-center text-[8px] font-bold mb-0.5">BH</span>
-                  <span class="text-[10px] font-serif font-bold text-stone-800">BHIM</span>
+                <a id="youpi-link-bhim" href="#" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#785600] bg-white transition text-center shadow-2xs group">
+                  <div class="w-9 h-9 rounded-full bg-[#00796b]/10 group-hover:scale-105 transition-transform flex items-center justify-center text-[#00796b] font-bold shadow-inner">
+                    <span class="font-headline font-bold text-[10px] tracking-tighter">BHIM</span>
+                  </div>
+                  <span class="text-[10px] font-semibold text-stone-800 mt-1 font-sans">BHIM</span>
                 </a>
-                <a id="youpi-link-cred" href="#" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-emerald-600 bg-stone-50 hover:bg-white transition text-center shadow-2xs">
-                  <span class="w-6 h-6 rounded-full bg-black text-white shadow-2xs flex items-center justify-center text-xs font-bold mb-0.5">C</span>
-                  <span class="text-[10px] font-serif font-bold text-stone-800">CRED</span>
+                <a id="youpi-link-cred" href="#" class="flex flex-col items-center justify-center p-2 rounded-xl border border-stone-200 hover:border-[#785600] bg-white transition text-center shadow-2xs group">
+                  <div class="w-9 h-9 rounded-full bg-[#1c1b1b]/10 group-hover:scale-105 transition-transform flex items-center justify-center text-stone-900 font-bold shadow-inner">
+                    <span class="font-headline font-bold text-xs">C</span>
+                  </div>
+                  <span class="text-[10px] font-semibold text-stone-800 mt-1 font-sans">CRED</span>
                 </a>
               </div>
             </div>
 
             <!-- 12-Digit Indian Bank UTR Input & Confirmation -->
-            <div class="pt-2 border-t border-stone-200 space-y-2">
-              <label for="youpi-utr-input" class="block text-[10px] font-bold uppercase tracking-wider text-stone-600 font-sans">
-                Confirm Bank UTR (UPI Ref ID / RR No.) *
+            <div class="bg-white rounded-xl p-4 shadow-2xs border border-[#E6DFD5] space-y-2">
+              <label for="youpi-utr-input" class="block text-[10px] font-bold uppercase tracking-wider text-stone-700 font-sans">
+                UTR / Transaction ID (Optional)
               </label>
               <div class="flex gap-2">
-                <input id="youpi-utr-input" type="text" maxlength="12" placeholder="e.g. 430182910382" class="w-full px-3.5 py-2.5 bg-[#FAF7F2] border border-[#E6DFD5] rounded-xl text-sm font-mono tracking-widest text-stone-900 focus:outline-none focus:ring-1 focus:ring-emerald-600 shadow-inner"/>
-                <button type="button" onclick="window.Youpi.verifyUtr()" id="btn-youpi-verify-utr" class="px-4 py-2.5 bg-[#0f766e] hover:bg-[#042f2e] text-white rounded-xl text-xs font-serif font-bold uppercase tracking-wider transition shadow-sm whitespace-nowrap cursor-pointer">
-                  Verify UTR
+                <div class="relative flex-1">
+                  <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-stone-400">
+                    <span class="material-symbols-outlined text-base">receipt_long</span>
+                  </span>
+                  <input id="youpi-utr-input" type="text" maxlength="12" placeholder="Enter 12-digit UTR if already transferred" class="w-full pl-9 pr-3.5 py-2.5 bg-[#FAF7F2] border border-[#E6DFD5] rounded-xl text-xs sm:text-sm font-mono tracking-widest text-stone-900 focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner"/>
+                </div>
+                <button type="button" onclick="window.Youpi.verifyUtr()" id="btn-youpi-verify-utr" class="px-5 py-2.5 bg-[#785600] hover:bg-[#986d00] text-white rounded-xl text-xs font-serif font-bold uppercase tracking-wider transition shadow-sm whitespace-nowrap cursor-pointer">
+                  Verify
                 </button>
               </div>
               <p class="text-[10px] text-stone-500 font-serif">
@@ -210,18 +240,24 @@
 
             <!-- Instant Test Mode Settlement Simulation -->
             <div class="pt-1 space-y-2">
-              <button type="button" onclick="window.Youpi.simulateSuccess()" id="btn-youpi-test-approve" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-sans font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 cursor-pointer border border-emerald-400/30">
+              <button type="button" onclick="window.Youpi.simulateSuccess()" id="btn-youpi-test-approve" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#785600] to-[#986d00] hover:opacity-95 text-white font-sans font-bold text-xs uppercase tracking-wider shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 cursor-pointer border border-[#B8860B]/30">
                 <span class="material-symbols-outlined text-sm">bolt</span>
                 <span>⚡ Simulate Instant YouPI Approval (Test Mode)</span>
               </button>
-              <button type="button" onclick="window.Youpi.closeModal()" class="w-full py-1.5 text-stone-400 hover:text-stone-700 text-xs font-serif transition text-center cursor-pointer">
-                Cancel &amp; Return to Salon
-              </button>
+              <div class="flex items-center justify-between text-xs font-serif pt-1">
+                <button type="button" onclick="window.Youpi.closeModal()" class="text-stone-500 hover:text-[#b22b1d] transition cursor-pointer underline underline-offset-4">
+                  Cancel &amp; Return to Salon
+                </button>
+                <a href="upi-settlement.html" target="_blank" class="text-[#785600] hover:underline flex items-center gap-1 font-mono text-[11px]">
+                  <span>Dedicated Salon</span>
+                  <span class="material-symbols-outlined text-xs">open_in_new</span>
+                </a>
+              </div>
             </div>
 
             <!-- Processing / Success Overlay -->
             <div id="youpi-processing-overlay" class="hidden absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center text-center p-6 space-y-3 z-30">
-              <div class="w-12 h-12 rounded-full border-3 border-emerald-600 border-t-transparent animate-spin"></div>
+              <div class="w-12 h-12 rounded-full border-3 border-[#785600] border-t-transparent animate-spin"></div>
               <h4 class="font-headline font-bold text-base text-stone-900" id="youpi-processing-title">YouPI Observer Active...</h4>
               <p class="text-xs text-stone-600 font-serif" id="youpi-processing-sub">Matching bank credit alert with Order Reference</p>
             </div>
@@ -229,14 +265,12 @@
           </div>
 
           <!-- Modal Footer Stamp -->
-          <div class="bg-stone-50 px-5 py-3 border-t border-stone-200 flex items-center justify-between text-[11px] text-stone-500 font-sans">
+          <div class="bg-[#FAF7F2] px-5 py-3 border-t border-[#E6DFD5] flex items-center justify-between text-[11px] text-stone-500 font-sans">
             <div class="flex items-center gap-1.5">
-              <span class="material-symbols-outlined text-xs text-emerald-600">verified</span>
-              <span>YouPI Gateway • 0% Fee</span>
+              <span class="material-symbols-outlined text-xs text-[#785600]">verified</span>
+              <span>Parampara Direct UPI • 0% Fee</span>
             </div>
-            <a href="https://github.com/youpi-pg/YouPI-PG" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:underline font-mono text-[10px]">
-              github.com/youpi-pg/YouPI-PG
-            </a>
+            <span class="font-mono text-[10px] text-stone-400">NPCI Certified Protocol</span>
           </div>
 
         </div>

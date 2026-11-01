@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>Royal Sovereign UPI Settlement | Parampara Heritage</title>
+  <link rel="icon" type="image/webp" href="assets/parampara_logo_crest.webp">
+  
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-high": "#eae7e7",
+            "primary-fixed": "#ffdea6",
+            "on-tertiary-container": "#fffbff",
+            "secondary": "#b22b1d",
+            "surface": "#fcf9f8",
+            "inverse-primary": "#f7bd48",
+            "on-secondary-fixed-variant": "#8f0f07",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed": "#ffdad2",
+            "secondary-container": "#fe624e",
+            "primary": "#785600",
+            "outline": "#817563",
+            "tertiary-fixed-dim": "#ffb4a2",
+            "on-tertiary-fixed": "#3c0700",
+            "surface-variant": "#e5e2e1",
+            "surface-dim": "#dcd9d9",
+            "on-secondary-fixed": "#410000",
+            "error": "#ba1a1a",
+            "on-background": "#1c1b1b",
+            "on-secondary-container": "#650000",
+            "error-container": "#ffdad6",
+            "surface-bright": "#fcf9f8",
+            "on-primary-container": "#fffbff",
+            "on-primary": "#ffffff",
+            "surface-tint": "#7b5800",
+            "inverse-surface": "#313030",
+            "on-surface-variant": "#4f4535",
+            "on-primary-fixed-variant": "#5d4200",
+            "outline-variant": "#d3c4af",
+            "primary-fixed-dim": "#f7bd48",
+            "primary-container": "#986d00",
+            "secondary-fixed-dim": "#ffb4a8",
+            "surface-container-highest": "#e5e2e1",
+            "on-error": "#ffffff",
+            "on-surface": "#1c1b1b",
+            "inverse-on-surface": "#f3f0ef",
+            "on-secondary": "#ffffff",
+            "secondary-fixed": "#ffdad4",
+            "on-error-container": "#93000a",
+            "on-primary-fixed": "#271900",
+            "surface-container-low": "#f6f3f2",
+            "on-tertiary-fixed-variant": "#8a1d00",
+            "background": "#fcf9f8",
+            "surface-container": "#f0eded",
+            "surface-container-lowest": "#ffffff",
+            "tertiary": "#b02700",
+            "tertiary-container": "#d73a10"
+          },
+          fontFamily: {
+            "headline": ["Noto Serif", "serif"],
+            "body": ["Plus Jakarta Sans", "sans-serif"],
+            "label": ["Plus Jakarta Sans", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #fcf9f8; color: #1c1b1b; }
+    .serif { font-family: 'Noto Serif', serif; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+    .glass-nav { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+    .heritage-gradient { background: linear-gradient(135deg, #785600 0%, #986d00 100%); }
+  </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary-fixed">
+
+  <!-- Top Navigation Bar -->
+  <nav class="bg-[#FCF9F8]/90 backdrop-blur-md sticky top-0 z-50 transition-all duration-300 border-b border-[#E6DFD5]">
+    <div class="flex justify-between items-center w-full px-6 sm:px-8 py-4 sm:py-5 max-w-screen-2xl mx-auto">
+      <div class="hidden md:flex gap-8 items-center">
+        <a class="text-stone-600 font-medium font-['Noto_Serif'] tracking-tight text-sm uppercase hover:text-[#785600] transition-colors duration-300" href="artisans.html">Our Artisans</a>
+        <a class="text-[#785600] border-b-2 border-[#785600] pb-1 font-bold font-['Noto_Serif'] tracking-tight text-sm uppercase" href="collection.html">Shop</a>
+      </div>
+      <a class="flex items-center gap-2 text-2xl sm:text-3xl font-['Noto_Serif'] font-bold tracking-tighter text-[#785600]" href="index.html">
+        <img src="assets/parampara_logo_crest.webp" alt="Parampara" class="w-8 h-8 object-contain">
+        <span>PARAMPARA</span>
+      </a>
+      <div class="flex items-center gap-6">
+        <div class="hidden md:flex gap-8 items-center">
+          <a class="text-stone-600 font-medium font-['Noto_Serif'] tracking-tight text-sm uppercase hover:text-[#785600] transition-colors duration-300" href="about.html">Stories</a>
+          <a class="text-stone-600 font-medium font-['Noto_Serif'] tracking-tight text-sm uppercase hover:text-[#785600] transition-colors duration-300" href="collection.html">Collections</a>
+        </div>
+        <div class="flex items-center gap-4 text-[#785600]">
+          <a href="checkout.html" class="flex items-center gap-1 text-xs font-serif font-bold hover:text-stone-900 transition">
+            <span class="material-symbols-outlined text-lg">arrow_back</span>
+            <span class="hidden sm:inline">Return to Salon</span>
+          </a>
+          <a href="checkout.html" class="relative cursor-pointer hover:scale-95 duration-200" title="Cart">
+            <span class="material-symbols-outlined text-xl">shopping_bag</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <div class="flex flex-col w-full items-center justify-center py-8 sm:py-12 px-4 sm:px-6 lg:px-8 relative selection:bg-primary-fixed-dim selection:text-on-primary-fixed min-h-[calc(100vh-160px)]">
+      
+      <!-- Ambient Luxury Underglow -->
+      <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-full max-w-4xl h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+      <div class="absolute bottom-10 left-1/3 w-96 h-96 bg-secondary/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
+
+      <!-- Main Sovereign Gateway Modal Container -->
+      <div class="w-full max-w-2xl bg-surface-container-lowest rounded-2xl shadow-2xl overflow-hidden relative transition-all duration-300 border border-[#B8860B]/30">
+
+        <!-- Royal Modal Header Section (Deep Regal Vault Atmosphere) -->
+        <div class="bg-gradient-to-b from-[#311116] via-[#240c10] to-[#1c080b] text-surface p-6 sm:p-8 relative overflow-hidden">
+          <div class="relative z-10 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-surface-container-lowest p-1.5 shadow-md flex items-center justify-center shrink-0 border border-[#B8860B]/40">
+                <svg class="w-full h-full" fill="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M50 8C43 24 33 34 33 46C33 55 39 61 50 63C61 61 67 55 67 46C67 34 57 24 50 8Z" fill="#8F1424"></path>
+                  <path d="M50 17C46 27 40 33 40 43C40 50 44 54 50 56C56 54 60 50 60 43C60 33 54 27 50 17Z" fill="#D4AF37"></path>
+                  <circle cx="50" cy="42" fill="#1A365D" r="7"></circle>
+                  <circle cx="50" cy="41" fill="#38BDF8" r="3.2"></circle>
+                  <path d="M35 63H65L68 67L64 73H36L32 67L35 63Z" fill="#B8860B"></path>
+                  <path d="M33 73H67C67 73 70 88 50 89C30 88 33 73 33 73Z" fill="#996515"></path>
+                  <path d="M38 78L43 83L48 78L53 83L58 78L63 83" stroke="#FDE68A" stroke-linecap="round" stroke-width="1.8"></path>
+                  <circle cx="50" cy="86" fill="#FDE68A" r="1.5"></circle>
+                </svg>
+              </div>
+              <div>
+                <h2 class="text-xl font-bold font-headline tracking-tight text-[#fdf8f0]">Parampara Ateliers</h2>
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-[#cca774] font-body">Direct Artisan Settlement</span>
+                  <span class="inline-block text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-emerald-950/80 text-emerald-300 border border-emerald-500/40">⚡ 0% Fee</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-center gap-5 sm:gap-6">
+              <div class="text-right">
+                <span class="text-[10px] uppercase tracking-widest text-[#d8c3b0] font-body block">Total Payable</span>
+                <div class="text-2xl sm:text-3xl font-headline font-bold text-[#f5dfa8] tracking-tight">
+                  <span class="font-serif text-[#cca774] mr-0.5">₹</span><span id="settlement-display-amount">19,790</span>
+                </div>
+              </div>
+              <a href="checkout.html" class="p-2 rounded-full bg-white/10 hover:bg-white/20 text-[#ebd4a0] transition-colors flex items-center justify-center" id="closeModalBtn" title="Return to Checkout">
+                <span class="material-symbols-outlined text-lg">close</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Escrow Countdown Ribbon -->
+          <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-[#d8c3b0]">
+            <div class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              <span>Single-Slot Escrow Reserved</span>
+            </div>
+            <div class="flex items-center gap-1 text-[#f5dfa8] font-bold">
+              <span class="material-symbols-outlined text-xs">schedule</span>
+              <span id="escrowTimer">04:59</span> mins
+            </div>
+          </div>
+        </div>
+
+        <!-- Body Canvas: The Heritage Payment Vault -->
+        <div class="p-6 sm:p-8 space-y-8 bg-surface">
+
+          <!-- Section: The Heirloom QR Code Vault (Hero Presentation) -->
+          <div class="bg-surface-container-low rounded-xl p-6 sm:p-7 shadow-sm border border-[#E6DFD5]">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+              
+              <div class="md:col-span-5 flex flex-col items-center justify-center">
+                <div class="relative p-4 bg-surface-container-lowest rounded-xl shadow-md group border border-[#785600]/20">
+                  <!-- Golden Corner Brackets -->
+                  <div class="absolute top-1.5 left-1.5 w-3.5 h-3.5 border-t-2 border-l-2 border-primary/70"></div>
+                  <div class="absolute top-1.5 right-1.5 w-3.5 h-3.5 border-t-2 border-r-2 border-primary/70"></div>
+                  <div class="absolute bottom-1.5 left-1.5 w-3.5 h-3.5 border-b-2 border-l-2 border-primary/70"></div>
+                  <div class="absolute bottom-1.5 right-1.5 w-3.5 h-3.5 border-b-2 border-r-2 border-primary/70"></div>
+                  
+                  <div class="w-52 h-52 rounded-lg overflow-hidden flex items-center justify-center bg-white">
+                    <img id="upi-qr-image" src="" alt="Parampara QR Code Payment" class="w-full h-full object-contain block"/>
+                  </div>
+                </div>
+                <div class="flex items-center gap-1.5 mt-3 text-stone-500 text-[11px] font-body">
+                  <span class="material-symbols-outlined text-xs text-primary">qr_code_scanner</span>
+                  <span>Scan with any UPI application</span>
+                </div>
+              </div>
+
+              <div class="md:col-span-7 space-y-4">
+                <div class="space-y-1.5 text-center md:text-left">
+                  <h3 class="text-xl font-headline font-bold text-on-surface leading-snug">Scan to Pay via UPI</h3>
+                  <p class="text-xs text-on-surface-variant font-body leading-relaxed">
+                    Use any UPI app on your phone to scan the QR code and complete your settlement.
+                  </p>
+                </div>
+
+                <div class="bg-surface-container-lowest rounded-lg p-3.5 shadow-sm space-y-2 border border-[#E6DFD5]">
+                  <div class="text-[10px] font-bold uppercase tracking-wider text-outline font-body">UPI ID / VPA</div>
+                  <div class="flex items-center justify-between gap-2">
+                    <code class="text-sm font-mono font-semibold text-primary select-all" id="vpaString">9901402758@yespop</code>
+                    <button class="px-3 py-1.5 rounded bg-surface-container hover:bg-primary hover:text-on-primary text-on-surface text-xs font-semibold font-body transition-colors flex items-center gap-1.5 shadow-sm cursor-pointer" id="copyVpaBtn" type="button">
+                      <span class="material-symbols-outlined text-sm" id="copyIcon">content_copy</span>
+                      <span id="copyText">Copy</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="text-[11px] text-stone-500 font-serif leading-relaxed bg-[#FAF7F2] p-2.5 rounded-lg border border-[#B8860B]/20">
+                  <span class="font-bold text-[#785600]">70% Artisan Pledge:</span> Transferred directly to verified master artisan's cluster bank account without intermediary cuts.
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Section: Tap to Open UPI Sanctuary (Device Apps) -->
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-[0.2em] text-outline font-body">Or Pay Directly with App</span>
+            </div>
+            <div class="grid grid-cols-5 gap-2 sm:gap-3">
+              <!-- Google Pay -->
+              <a id="intent-gpay" href="#" class="flex flex-col items-center justify-center p-3 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition-all shadow-sm group text-center border border-stone-200">
+                <div class="w-10 h-10 rounded-full bg-surface-container-low group-hover:scale-105 transition-transform flex items-center justify-center text-primary font-bold shadow-inner">
+                  <span class="font-headline font-bold text-sm tracking-tight text-blue-600">GPay</span>
+                </div>
+                <span class="text-[11px] font-semibold text-on-surface mt-2 font-body">GPay</span>
+              </a>
+              <!-- PhonePe -->
+              <a id="intent-phonepe" href="#" class="flex flex-col items-center justify-center p-3 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition-all shadow-sm group text-center border border-stone-200">
+                <div class="w-10 h-10 rounded-full bg-[#5f259f]/10 group-hover:scale-105 transition-transform flex items-center justify-center text-[#5f259f] font-bold shadow-inner">
+                  <span class="font-headline font-bold text-base">पे</span>
+                </div>
+                <span class="text-[11px] font-semibold text-on-surface mt-2 font-body">PhonePe</span>
+              </a>
+              <!-- Paytm -->
+              <a id="intent-paytm" href="#" class="flex flex-col items-center justify-center p-3 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition-all shadow-sm group text-center border border-stone-200">
+                <div class="w-10 h-10 rounded-full bg-[#002e6e]/10 group-hover:scale-105 transition-transform flex items-center justify-center text-[#002e6e] font-bold shadow-inner">
+                  <span class="font-headline font-bold text-[12px] tracking-tighter">Paytm</span>
+                </div>
+                <span class="text-[11px] font-semibold text-on-surface mt-2 font-body">Paytm</span>
+              </a>
+              <!-- BHIM -->
+              <a id="intent-bhim" href="#" class="flex flex-col items-center justify-center p-3 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition-all shadow-sm group text-center border border-stone-200">
+                <div class="w-10 h-10 rounded-full bg-[#00796b]/10 group-hover:scale-105 transition-transform flex items-center justify-center text-[#00796b] font-bold shadow-inner">
+                  <span class="font-headline font-bold text-xs tracking-tighter">BHIM</span>
+                </div>
+                <span class="text-[11px] font-semibold text-on-surface mt-2 font-body">BHIM</span>
+              </a>
+              <!-- CRED -->
+              <a id="intent-cred" href="#" class="flex flex-col items-center justify-center p-3 rounded-lg bg-surface-container-lowest hover:bg-surface-container-high transition-all shadow-sm group text-center border border-stone-200">
+                <div class="w-10 h-10 rounded-full bg-[#1c1b1b]/10 group-hover:scale-105 transition-transform flex items-center justify-center text-on-surface font-bold shadow-inner">
+                  <span class="font-headline font-bold text-sm">C</span>
+                </div>
+                <span class="text-[11px] font-semibold text-on-surface mt-2 font-body">CRED</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Section: UTR Ratification & Bank Confirmation -->
+          <div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm space-y-4 border border-[#E6DFD5]">
+            <div class="flex items-center justify-between">
+              <label class="block text-xs font-bold uppercase tracking-wider text-on-surface font-body" for="utrInput">
+                UTR / Transaction ID (Optional)
+              </label>
+            </div>
+            <div class="flex flex-col sm:flex-row gap-3">
+              <div class="relative flex-1">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-outline">
+                  <span class="material-symbols-outlined text-lg">receipt_long</span>
+                </span>
+                <input class="w-full pl-10 pr-4 py-2.5 bg-surface-container-low text-on-surface placeholder:text-outline font-mono text-sm rounded-lg focus:outline-none focus:bg-surface-container-lowest transition-colors border border-stone-200" id="utrInput" maxlength="16" placeholder="Enter 12-digit UTR if already transferred" type="text">
+              </div>
+              <button class="px-5 py-2.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-body font-semibold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-sm cursor-pointer" id="ratifyUtrBtn" type="button">
+                <span>Verify</span>
+              </button>
+            </div>
+            <div class="hidden p-3 rounded-lg bg-primary-fixed/40 text-on-primary-fixed text-xs font-body items-center gap-2 border border-primary/30" id="utrAlert">
+              <span class="material-symbols-outlined text-base text-primary">verified</span>
+              <span id="utrAlertMsg">Payment confirmed. Provenance deed generated.</span>
+            </div>
+          </div>
+
+          <!-- Section: Concierge / Archival VIP Override Button -->
+          <div class="space-y-4 pt-1">
+            <button type="button" id="simulateApprovalBtn" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-[#785600] to-[#986d00] hover:opacity-95 text-white font-sans font-bold text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 cursor-pointer transition">
+              <span class="material-symbols-outlined text-sm">bolt</span>
+              <span>⚡ Simulate Instant YouPI Approval (Test Mode)</span>
+            </button>
+            <div class="text-center pt-1">
+              <a class="text-xs uppercase tracking-widest font-body text-outline hover:text-secondary transition-colors underline underline-offset-4" href="checkout.html">
+                Cancel &amp; Return to Salon
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#FCF9F8] border-t border-[#E6DFD5] pt-16 pb-12 mt-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-6 sm:px-12 max-w-7xl mx-auto">
+      <div>
+        <a class="text-xl font-['Noto_Serif'] italic text-[#B22B1D] block mb-4" href="index.html">Heritage Editorial</a>
+        <p class="text-stone-500 text-xs leading-relaxed max-w-xs font-['Plus_Jakarta_Sans'] tracking-wider uppercase">
+          Preserving the intangible beauty of hand-wrought objects through intentional design and storytelling.
+        </p>
+      </div>
+      <div class="flex flex-col gap-2.5">
+        <span class="text-[#785600] font-bold font-['Plus_Jakarta_Sans'] text-xs tracking-widest uppercase mb-2">Navigation</span>
+        <a class="text-stone-500 text-xs tracking-widest uppercase hover:text-[#B22B1D] transition-all" href="about.html">About Us</a>
+        <a class="text-stone-500 text-xs tracking-widest uppercase hover:text-[#B22B1D] transition-all" href="artisans.html">Craft Stories</a>
+        <a class="text-stone-500 text-xs tracking-widest uppercase hover:text-[#B22B1D] transition-all" href="collection.html">Sustainability</a>
+      </div>
+      <div class="flex flex-col gap-2.5">
+        <span class="text-[#785600] font-bold font-['Plus_Jakarta_Sans'] text-xs tracking-widest uppercase mb-2">Connect</span>
+        <a class="text-stone-500 text-xs tracking-widest uppercase hover:text-[#B22B1D] transition-all" href="#">Newsletter</a>
+        <a class="text-stone-500 text-xs tracking-widest uppercase hover:text-[#B22B1D] transition-all" href="#">White Glove Shipping</a>
+        <div class="flex gap-4 mt-2">
+          <span class="material-symbols-outlined text-stone-400 text-sm cursor-pointer hover:text-primary">share</span>
+          <span class="material-symbols-outlined text-stone-400 text-sm cursor-pointer hover:text-primary">public</span>
+        </div>
+      </div>
+    </div>
+    <div class="mt-12 text-center border-t border-stone-200 pt-6">
+      <p class="text-stone-400 text-[10px] tracking-[0.3em] uppercase">© 2026 Parampara Heritage. Preserving Master Craftsmanship.</p>
+    </div>
+  </footer>
+
+  <!-- Interactive Logic -->
+  <script>
+    const VPA = '9901402758@yespop';
+    const MERCHANT_NAME = 'Parampara Royal Ateliers';
+
+    // Parse URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('orderId') || 'PAR-2026-' + Math.floor(1000 + Math.random() * 9000);
+    const amount = Number(urlParams.get('amount')) || 19790;
+
+    // Set Amount
+    document.getElementById('settlement-display-amount').textContent = amount.toLocaleString('en-IN');
+
+    // Build NPCI UPI URI
+    const upiUri = `upi://pay?pa=${encodeURIComponent(VPA)}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${amount}&cu=INR&tr=${encodeURIComponent(orderId)}&tn=${encodeURIComponent('GI Craft Acquisition #' + orderId)}`;
+
+    // Set QR code
+    const qrImg = document.getElementById('upi-qr-image');
+    if (qrImg) {
+      qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=260x260&data=${encodeURIComponent(upiUri)}`;
+    }
+
+    // Set App Intent Links
+    ['gpay', 'phonepe', 'paytm', 'bhim', 'cred'].forEach(app => {
+      const el = document.getElementById(`intent-${app}`);
+      if (el) el.href = upiUri;
+    });
+
+    // Copy VPA micro-interaction
+    const copyBtn = document.getElementById('copyVpaBtn');
+    const vpaText = document.getElementById('vpaString');
+    const copyText = document.getElementById('copyText');
+    const copyIcon = document.getElementById('copyIcon');
+
+    if (copyBtn && vpaText) {
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(vpaText.innerText.trim()).then(() => {
+          copyText.innerText = 'Copied!';
+          copyIcon.innerText = 'done';
+          setTimeout(() => {
+            copyText.innerText = 'Copy';
+            copyIcon.innerText = 'content_copy';
+          }, 2500);
+        });
+      });
+    }
+
+    // Interactive Timer countdown
+    let secondsLeft = 299; // 5 mins
+    const timerElem = document.getElementById('escrowTimer');
+    if (timerElem) {
+      setInterval(() => {
+        if (secondsLeft > 0) {
+          secondsLeft--;
+          const mins = Math.floor(secondsLeft / 60);
+          const secs = secondsLeft % 60;
+          timerElem.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+      }, 1000);
+    }
+
+    // UTR Ratification trigger
+    const ratifyBtn = document.getElementById('ratifyUtrBtn');
+    const utrInput = document.getElementById('utrInput');
+    const utrAlert = document.getElementById('utrAlert');
+
+    if (ratifyBtn && utrInput && utrAlert) {
+      ratifyBtn.addEventListener('click', async () => {
+        const val = utrInput.value.trim().replace(/\D/g, '');
+        if (val.length >= 8) {
+          ratifyBtn.disabled = true;
+          ratifyBtn.textContent = 'Verifying...';
+
+          try {
+            const res = await fetch('/api/orders/youpi-verify', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ orderId, utr: val })
+            });
+          } catch(e) {}
+
+          utrAlert.className = 'p-3.5 rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-300 text-xs font-body flex items-center gap-2 shadow-xs';
+          utrAlert.innerHTML = `
+            <span class="material-symbols-outlined text-base text-emerald-700">verified</span>
+            <span>UTR Ref <strong>${val}</strong> ratified with RBI NPCI clearance node. Order #${orderId} confirmed!</span>
+          `;
+          ratifyBtn.textContent = 'Verified ✅';
+
+          setTimeout(() => {
+            window.location.href = `checkout.html?confirmedOrder=${orderId}`;
+          }, 2200);
+        } else {
+          utrAlert.className = 'p-3.5 rounded-lg bg-red-50 text-red-900 border border-red-300 text-xs font-body flex items-center gap-2 shadow-xs';
+          utrAlert.innerHTML = `
+            <span class="material-symbols-outlined text-base text-red-600">error</span>
+            <span>Please enter the complete 12-digit UTR from your bank notification.</span>
+          `;
+        }
+      });
+    }
+
+    // VIP Instant Concierge Simulation
+    const simulateBtn = document.getElementById('simulateApprovalBtn');
+    if (simulateBtn && utrAlert) {
+      simulateBtn.addEventListener('click', () => {
+        const simUtr = '4' + Math.floor(10000000000 + Math.random() * 90000000000);
+        if (utrInput) utrInput.value = simUtr;
+        utrAlert.className = 'p-3.5 rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-300 text-xs font-body flex items-center gap-2 shadow-xs';
+        utrAlert.innerHTML = `
+          <span class="material-symbols-outlined text-base text-emerald-700">verified</span>
+          <span>⚡ Test Mode: UTR <strong>${simUtr}</strong> auto-matched. Royal Acquisition #${orderId} ratified!</span>
+        `;
+        setTimeout(() => {
+          window.location.href = `checkout.html?confirmedOrder=${orderId}`;
+        }, 1800);
+      });
+    }
+  </script>
+
+</body>
+</html>
+
