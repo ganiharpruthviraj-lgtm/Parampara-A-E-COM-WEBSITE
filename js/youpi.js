@@ -19,7 +19,7 @@
   const Youpi = {
     version: '1.2.0',
     config: {
-      merchantVpa: 'parampara.ateliers@icici',
+      merchantVpa: '9901402758@yespop',
       merchantName: 'Parampara Royal Ateliers',
       themeColor: '#0f766e',
       feePercentage: 0
@@ -155,7 +155,7 @@
                 </p>
                 <div class="pt-1 flex items-center justify-center sm:justify-start gap-1 text-[11px] font-mono text-stone-600">
                   <span>VPA:</span>
-                  <strong class="text-stone-900" id="youpi-vpa-text">parampara.ateliers@icici</strong>
+                  <strong class="text-stone-900" id="youpi-vpa-text">9901402758@yespop</strong>
                   <button type="button" onclick="window.Youpi.copyVpa()" class="text-emerald-700 hover:text-emerald-900 ml-1 text-xs cursor-pointer" title="Copy VPA">
                     <span class="material-symbols-outlined text-sm align-middle">content_copy</span>
                   </button>

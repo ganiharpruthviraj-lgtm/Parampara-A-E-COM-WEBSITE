@@ -22,7 +22,7 @@ function isYoupiConfigured() {
  */
 function getMerchantConfig() {
   return {
-    merchantVpa: process.env.YOUPI_MERCHANT_VPA || 'parampara.ateliers@icici',
+    merchantVpa: process.env.YOUPI_MERCHANT_VPA || '9901402758@yespop',
     merchantName: 'Parampara Royal Ateliers',
     gatewayUrl: process.env.YOUPI_GATEWAY_URL || 'https://github.com/youpi-pg/YouPI-PG',
     feePercentage: 0,
@@ -46,7 +46,7 @@ async function createPaymentSession({ orderId, amount, currency = 'INR', custome
     throw new Error('Valid payment amount in INR is required.');
   }
 
-  const vpa = process.env.YOUPI_MERCHANT_VPA || 'parampara.ateliers@icici';
+  const vpa = process.env.YOUPI_MERCHANT_VPA || '9901402758@yespop';
   const cleanAmount = Number(amount).toFixed(2);
   const sessionId = `yp_sess_${Date.now()}_${Math.floor(Math.random() * 8999 + 1000)}`;
 

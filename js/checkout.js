@@ -856,7 +856,7 @@ window.updateUpiQr = function() {
   if (qrAmountEl) qrAmountEl.textContent = `Scan & Authorize ${formatINR(total)}`;
 
   if (qrImg) {
-    const upiUri = `upi://pay?pa=parampara.ateliers@icici&pn=Parampara%20Heritage%20Ateliers&am=${total}&cu=INR&tn=Royal%20Patron%20Order`;
+    const upiUri = `upi://pay?pa=9901402758@yespop&pn=Parampara%20Heritage%20Ateliers&am=${total}&cu=INR&tn=Royal%20Patron%20Order`;
     qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUri)}`;
   }
 };
@@ -1488,7 +1488,7 @@ window.placeOrder = async function() {
           order_id: confirmedOrderId,
           amount: total,
           currency: 'INR',
-          merchant_vpa: youpiSessionData?.merchantVpa || 'parampara.ateliers@icici',
+          merchant_vpa: youpiSessionData?.merchantVpa || '9901402758@yespop',
           merchant_name: youpiSessionData?.merchantName || 'Parampara Royal Ateliers',
           prefill: {
             name: `${firstName} ${lastName}`.trim(),
