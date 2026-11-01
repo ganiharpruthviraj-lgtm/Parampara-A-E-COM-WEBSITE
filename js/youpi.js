@@ -83,21 +83,10 @@
       <div id="youpi-pg-modal" class="fixed inset-0 z-[300] bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
         <div class="bg-[#FCF9F8] rounded-2xl shadow-2xl max-w-xl w-full relative my-6 overflow-hidden border border-[#B8860B]/40 text-left animate-in fade-in zoom-in-95 duration-200">
           
-          <!-- Royal Modal Header Section (Deep Regal Vault Atmosphere - Stitch Inspired) -->
+          <!-- Royal Modal Header Section (Exact Sovereign Atmosphere - Stitch) -->
           <div class="bg-gradient-to-b from-[#311116] via-[#240c10] to-[#1c080b] text-[#fcf9f8] p-5 sm:p-6 relative overflow-hidden border-b border-[#B8860B]/30">
-            <!-- 0% Fee Ribbon -->
-            <div class="absolute top-0 right-0 z-20">
-              <span class="inline-flex items-center gap-1 bg-[#10b981] text-[#022c22] text-[9px] font-sans font-extrabold uppercase tracking-wider px-3 py-1 rounded-bl-xl shadow-sm">
-                <span>⚡ 0% Fee</span> • <span>Direct Bank</span>
-              </span>
-            </div>
-
-            <button type="button" onclick="window.Youpi.closeModal()" class="absolute top-3.5 left-3.5 w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-[#ebd4a0] flex items-center justify-center text-sm font-bold transition cursor-pointer" title="Close">
-              &times;
-            </button>
-
-            <div class="flex items-center justify-between pt-2">
-              <div class="flex items-center gap-3.5 pl-6 sm:pl-7">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-3.5 sm:gap-4">
                 <div class="w-12 h-12 rounded-xl bg-white p-1.5 shadow-md flex items-center justify-center shrink-0 border border-[#B8860B]/40">
                   <svg class="w-full h-full" fill="none" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                     <path d="M50 8C43 24 33 34 33 46C33 55 39 61 50 63C61 61 67 55 67 46C67 34 57 24 50 8Z" fill="#8F1424"></path>
@@ -110,32 +99,24 @@
                     <circle cx="50" cy="86" fill="#FDE68A" r="1.5"></circle>
                   </svg>
                 </div>
-                <div class="min-w-0 pr-8">
-                  <h3 class="font-headline font-bold text-base sm:text-lg text-[#fdf8f0] truncate leading-tight">Parampara Ateliers</h3>
+                <div class="min-w-0">
+                  <h3 class="font-headline font-bold text-lg sm:text-xl text-[#fdf8f0] tracking-tight leading-tight">Parampara Ateliers</h3>
                   <div class="flex items-center gap-1.5 mt-0.5">
-                    <span class="text-xs text-[#cca774] font-serif truncate">Direct Artisan Settlement</span>
-                    <span class="text-[9px] px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 font-mono">YouPI-PG</span>
+                    <span class="text-xs text-[#cca774] font-serif">Direct Artisan Settlement</span>
                   </div>
                 </div>
               </div>
 
-              <div class="text-right shrink-0">
-                <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-[#d8c3b0] font-sans block">Total Payable</span>
-                <div class="text-xl sm:text-2xl font-headline font-bold text-[#f5dfa8] tracking-tight">
-                  <span class="font-serif text-[#cca774] mr-0.5">₹</span><span id="youpi-display-amount">19,790</span>
+              <div class="flex items-center gap-4 sm:gap-5">
+                <div class="text-right shrink-0">
+                  <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-[#d8c3b0] font-sans block">Total Payable</span>
+                  <div class="text-xl sm:text-2xl font-headline font-bold text-[#f5dfa8] tracking-tight">
+                    <span class="font-serif text-[#cca774] mr-0.5">₹</span><span id="youpi-display-amount">19,790</span>
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            <!-- Escrow Countdown Ribbon -->
-            <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-[11px] font-mono text-[#d8c3b0]">
-              <div class="flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span id="youpi-customer-badge">Single-Slot Escrow Reserved</span>
-              </div>
-              <div class="flex items-center gap-1 font-bold text-[#f5dfa8]" id="youpi-countdown-timer">
-                <span class="material-symbols-outlined text-xs animate-spin">schedule</span>
-                <span>04:59 mins</span>
+                <button type="button" onclick="window.Youpi.closeModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-[#ebd4a0] flex items-center justify-center text-sm font-bold transition cursor-pointer shrink-0" title="Close">
+                  &times;
+                </button>
               </div>
             </div>
           </div>
@@ -152,8 +133,12 @@
                 <div class="absolute bottom-1.5 left-1.5 w-3 h-3 border-b-2 border-l-2 border-[#785600]"></div>
                 <div class="absolute bottom-1.5 right-1.5 w-3 h-3 border-b-2 border-r-2 border-[#785600]"></div>
 
-                <div class="w-36 h-36 overflow-hidden flex items-center justify-center">
+                <div class="relative w-36 h-36 overflow-hidden flex items-center justify-center">
                   <img id="youpi-qr-image" src="" alt="Scan via Any UPI App" class="w-full h-full object-contain block"/>
+                  <!-- Central Brown Seal with Gold Rupee Symbol (Stitch Design) -->
+                  <div class="absolute inset-0 m-auto w-8 h-8 rounded-full bg-[#311116] border-2 border-[#D4AF37] flex items-center justify-center shadow-md pointer-events-none">
+                    <span class="text-xs font-bold text-[#FDE68A]">₹</span>
+                  </div>
                 </div>
               </div>
 

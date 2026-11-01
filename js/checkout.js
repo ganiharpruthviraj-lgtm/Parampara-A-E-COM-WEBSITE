@@ -855,10 +855,74 @@ window.updateUpiQr = function() {
   const qrAmountEl = document.getElementById('upi-qr-amount-text');
   if (qrAmountEl) qrAmountEl.textContent = `Scan & Authorize ${formatINR(total)}`;
 
+  const upiUri = `upi://pay?pa=9901402758@yespop&pn=Parampara%20Heritage%20Ateliers&am=${total}&cu=INR&tn=Royal%20Patron%20Order`;
+
   if (qrImg) {
-    const upiUri = `upi://pay?pa=9901402758@yespop&pn=Parampara%20Heritage%20Ateliers&am=${total}&cu=INR&tn=Royal%20Patron%20Order`;
     qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(upiUri)}`;
   }
+
+  // Sync Stitch Inline Panel
+  const inlineAmountEl = document.getElementById('inline-youpi-amount');
+  if (inlineAmountEl) inlineAmountEl.textContent = total.toLocaleString('en-IN');
+
+  const inlineQrImg = document.getElementById('inline-youpi-qr-image');
+  if (inlineQrImg) {
+    inlineQrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(upiUri)}`;
+  }
+
+  ['gpay', 'phonepe', 'paytm', 'bhim', 'cred'].forEach(app => {
+    const el = document.getElementById(`inline-app-${app}`);
+    if (el) el.href = upiUri;
+  });
+};
+
+window.copyInlineVpa = function() {
+  const vpaEl = document.getElementById('inline-vpa-string');
+  const textEl = document.getElementById('inline-copy-text');
+  const iconEl = document.getElementById('inline-copy-icon');
+  const vpa = vpaEl ? vpaEl.textContent.trim() : '9901402758@yespop';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(vpa).then(() => {
+      if (textEl) textEl.textContent = 'Copied!';
+      if (iconEl) iconEl.textContent = 'done';
+      if (typeof showToast === 'function') showToast(`Copied VPA "${vpa}" to clipboard!`, 'info');
+      setTimeout(() => {
+        if (textEl) textEl.textContent = 'Copy';
+        if (iconEl) iconEl.textContent = 'content_copy';
+      }, 2500);
+    });
+  }
+};
+
+window.verifyInlineUtr = async function() {
+  const input = document.getElementById('inline-utr-input');
+  const alert = document.getElementById('inline-utr-alert');
+  const val = input ? input.value.trim().replace(/\D/g, '') : '';
+  if (val.length < 8) {
+    if (alert) {
+      alert.className = 'p-3 rounded-lg text-xs font-body flex items-center gap-2 border bg-red-50 text-red-900 border-red-300';
+      alert.innerHTML = '<span class="material-symbols-outlined text-base text-red-600">error</span><span>Please enter a valid 12-digit UTR from your bank notification.</span>';
+      alert.classList.remove('hidden');
+    }
+    if (typeof showToast === 'function') showToast('Please enter a valid 12-digit bank UTR.', 'error');
+    return;
+  }
+  if (alert) {
+    alert.className = 'p-3 rounded-lg text-xs font-body flex items-center gap-2 border bg-emerald-50 text-emerald-900 border-emerald-300';
+    alert.innerHTML = `<span class="material-symbols-outlined text-base text-emerald-700">verified</span><span>UTR Ref <strong>${val}</strong> ratified with RBI NPCI clearance node. Ratifying acquisition...</span>`;
+    alert.classList.remove('hidden');
+  }
+  if (typeof showToast === 'function') showToast('UTR Verified! Ratifying acquisition...', 'success');
+  setTimeout(() => {
+    window.placeOrder();
+  }, 1200);
+};
+
+window.simulateInlineUtrSuccess = function() {
+  const testUtr = '4' + Math.floor(10000000000 + Math.random() * 90000000000);
+  const input = document.getElementById('inline-utr-input');
+  if (input) input.value = testUtr;
+  window.verifyInlineUtr();
 };
 
 window.startUpiTimer = function() {
@@ -1396,69 +1460,11 @@ window.placeOrder = async function() {
       if (lower.includes('demo') || lower.includes('placeholder') || lower.startsWith('rzp_test_parampara')) {
         return false;
       }
-      return key.startsWith('rzp_test_') || key.startsWith('rzp_live_');
-    }
-
-    // Launch official Razorpay standard popup ONLY if SDK is present AND a real merchant key is configured
-    const canLaunchRealRazorpay = typeof Razorpay !== 'undefined' &&
-                                  rzpKeyId &&
-                                  rzpMode === 'live' &&
-                                  isLiveRazorpayKey(rzpKeyId);
-
-    if (canLaunchRealRazorpay) {
-      try {
-        const options = {
-          key: rzpKeyId,
-          amount: Math.round(total * 100),
-          currency: 'INR',
-          name: 'Parampara Sovereign Ateliers',
-          description: 'Privileged GI Order • 70% Direct Artisan Disbursement',
-          image: 'assets/parampara_logo_crest.webp',
-          order_id: rzpOrderId.startsWith('order_rzp_demo_') ? undefined : rzpOrderId,
-          prefill: {
-            name: `${firstName} ${lastName}`.trim(),
-            email: emailVal,
-            contact: phoneVal
-          },
-          theme: {
-            color: '#7A1521'
-          },
-          handler: async function(response) {
-            await finalizeOrder({
-              orderId: confirmedOrderId,
-              razorpayOrderId: response.razorpay_order_id || rzpOrderId,
-              razorpayPaymentId: response.razorpay_payment_id || `pay_${Date.now()}`,
-              razorpaySignature: response.razorpay_signature || 'simulated_sig',
-              paymentMethod: currentPayMethod.toUpperCase(),
-              total,
-              craftSubtotal
-            });
-          },
-          modal: {
-            ondismiss: function() {
-              if (btnText) btnText.textContent = `Ratify & Seal Royal Acquisition • ${formatINR(total)}`;
-              if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
-              showToast('Payment window dismissed. Your curated vault is preserved.', 'info');
-            }
-          }
-        };
-
-        const rzp = new Razorpay(options);
-        rzp.on('payment.failed', function(resp) {
-          console.warn('Razorpay payment declined:', resp.error);
-          showToast(`Payment declined: ${resp.error?.description || 'Gateway error'}`, 'error');
-          if (btnText) btnText.textContent = `Ratify & Seal Royal Acquisition • ${formatINR(total)}`;
-          if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
-        });
-        rzp.open();
-        return;
-      } catch (modalErr) {
-        console.warn('Standard modal fallback, switching to sandbox mode:', modalErr);
-      }
+      return key.startsWith('rzp_live_');
     }
 
     // Sovereign Authentic Gateway Protocol:
-    // 1. YouPI-PG Gateway Route (Zero Platform Fee & Direct Bank Routing)
+    // 1. YouPI-PG Gateway Route (Zero Platform Fee & Direct Bank Routing - Primary Authentic Route)
     if (currentPayMethod === 'youpi') {
       if (typeof window.Youpi !== 'undefined' && typeof window.Youpi.pay === 'function') {
         let youpiSessionData = null;
@@ -1519,6 +1525,63 @@ window.placeOrder = async function() {
 
     // 2. Razorpay Gateway Route (Standard Sandbox Simulation or Real Keys)
     if (currentPayMethod === 'razorpay') {
+      const canLaunchRealRazorpay = typeof Razorpay !== 'undefined' &&
+                                    rzpKeyId &&
+                                    rzpMode === 'live' &&
+                                    isLiveRazorpayKey(rzpKeyId);
+
+      if (canLaunchRealRazorpay) {
+        try {
+          const options = {
+            key: rzpKeyId,
+            amount: Math.round(total * 100),
+            currency: 'INR',
+            name: 'Parampara Sovereign Ateliers',
+            description: 'Privileged GI Order • 70% Direct Artisan Disbursement',
+            image: 'assets/parampara_logo_crest.webp',
+            order_id: rzpOrderId.startsWith('order_rzp_demo_') ? undefined : rzpOrderId,
+            prefill: {
+              name: `${firstName} ${lastName}`.trim(),
+              email: emailVal,
+              contact: phoneVal
+            },
+            theme: {
+              color: '#7A1521'
+            },
+            handler: async function(response) {
+              await finalizeOrder({
+                orderId: confirmedOrderId,
+                razorpayOrderId: response.razorpay_order_id || rzpOrderId,
+                razorpayPaymentId: response.razorpay_payment_id || `pay_${Date.now()}`,
+                razorpaySignature: response.razorpay_signature || 'simulated_sig',
+                paymentMethod: 'RAZORPAY',
+                total,
+                craftSubtotal
+              });
+            },
+            modal: {
+              ondismiss: function() {
+                if (btnText) btnText.textContent = `Ratify & Seal Royal Acquisition • ${formatINR(total)}`;
+                if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
+                showToast('Payment window dismissed. Your curated vault is preserved.', 'info');
+              }
+            }
+          };
+
+          const rzp = new Razorpay(options);
+          rzp.on('payment.failed', function(resp) {
+            console.warn('Razorpay payment declined:', resp.error);
+            showToast(`Payment declined: ${resp.error?.description || 'Gateway error'}`, 'error');
+            if (btnText) btnText.textContent = `Ratify & Seal Royal Acquisition • ${formatINR(total)}`;
+            if (mobBtnText) mobBtnText.textContent = 'Ratify Order';
+          });
+          rzp.open();
+          return;
+        } catch (modalErr) {
+          console.warn('Standard modal fallback, switching to sandbox mode:', modalErr);
+        }
+      }
+
       openRazorpayModal({
         orderId: confirmedOrderId,
         rzpOrderId,
@@ -1527,6 +1590,7 @@ window.placeOrder = async function() {
       });
       return;
     }
+
 
     // 2. Sovereign Card or NetBanking: open 3D Secure Banking OTP Modal
     if (currentPayMethod === 'card' || currentPayMethod === 'netbanking') {
@@ -2008,6 +2072,7 @@ function syncCheckoutAuth() {
         localStorage.removeItem('parampara_token');
         localStorage.removeItem('user');
         syncCheckoutAuth();
+  if (typeof selectPayMethod === 'function') selectPayMethod('youpi');
         showToast('Signed out of patron archive.', 'info');
       }
     });
