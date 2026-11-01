@@ -343,11 +343,9 @@
                 <span class="text-sm">⚡</span>
                 <span>Pay with YouPI (0% Fee UPI)</span>
               </button>
-              <button onclick="selectPayMethod('razorpay'); triggerRazorpayCheckout();" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#0C2340] text-white hover:bg-[#17375E] border border-[#3395FF]/40 transition text-xs font-sans font-bold tracking-wide shadow-xs group" type="button">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="#3395FF">
-                  <path d="M12.3 2.1L4.8 14.8H12.9L8.1 22.8L20.6 8.5H12.6L14.7 2.1H12.3Z"/>
-                </svg>
-                <span>Razorpay Gateway</span>
+              <button onclick="selectPayMethod('upi');" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#FAF7F2] text-stone-800 hover:bg-[#ffdea6]/40 border border-[#B8860B]/40 transition text-xs font-serif font-bold tracking-wide shadow-xs group" type="button">
+                <span class="material-symbols-outlined text-sm text-[#785600]">qr_code_scanner</span>
+                <span>Instant UPI QR</span>
               </button>
               <button onclick="selectPayMethod('card'); scrollToSection('payment');" class="flex items-center justify-center gap-2 py-3 px-4 rounded bg-[#FAF7F2] border border-[#B8860B]/40 hover:bg-[#f3ede1] text-stone-800 transition text-xs font-serif font-semibold uppercase tracking-wider shadow-xs" type="button">
                 <span class="material-symbols-outlined text-base text-[#785600]">credit_card</span>
@@ -382,13 +380,13 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div class="space-y-1.5 sm:col-span-2">
                 <label for="email-checkout" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Patron Email Address *</label>
-                <input id="email-checkout" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] focus:border-[#785600] shadow-xs transition" placeholder="patron@estate-archives.org" type="email" value="ananya.sharma@archival-arts.org"/>
+                <input id="email-checkout" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] focus:border-[#785600] shadow-xs transition" placeholder="patron@estate-archives.org" type="email"/>
                 <p class="text-[11px] text-stone-500 font-serif">Provenance deeds and bonded courier track codes will be dispatched to this secure dossier.</p>
               </div>
 
               <div class="space-y-1.5">
                 <label for="phone" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Mobile Contact (+91) *</label>
-                <input id="phone" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] focus:border-[#785600] shadow-xs transition" type="tel" value="+91 98201 44521"/>
+                <input id="phone" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] focus:border-[#785600] shadow-xs transition" type="tel" placeholder="+91 98765 43210"/>
               </div>
 
               <div class="space-y-1.5 flex flex-col justify-end">
@@ -410,50 +408,33 @@
               <span class="text-[11px] uppercase tracking-widest text-[#785600] font-serif font-bold">Delicate Cargo Protocol</span>
             </div>
 
-            <!-- Address Presets -->
-            <div class="space-y-2">
-              <div class="flex items-center justify-between mb-1">
-                <span class="text-[11px] font-bold uppercase tracking-wider text-stone-700">Select Saved Royal Sanctuary Address</span>
-                <button type="button" onclick="clearAddressFields()" class="text-[10px] text-[#785600] font-bold hover:underline uppercase flex items-center gap-1">+ Add New Estate</button>
-              </div>
-              <div class="flex flex-wrap gap-2.5">
-                <button type="button" onclick="setPresetAddress('delhi')" class="preset-chip px-3.5 py-2 rounded-lg bg-[#FAF7F2] border-2 border-[#785600] text-[#785600] text-xs font-bold flex items-center gap-2 shadow-xs transition">
-                  <span class="material-symbols-outlined text-sm text-[#7A1521]">villa</span> Delhi Enclave (Primary)
-                </button>
-                <button type="button" onclick="setPresetAddress('jaipur')" class="preset-chip px-3.5 py-2 rounded-lg bg-stone-100/80 hover:bg-stone-200 border border-stone-300 text-stone-700 text-xs font-medium flex items-center gap-2 transition">
-                  <span class="material-symbols-outlined text-sm text-[#785600]">holiday_village</span> Jaipur Ancestral Haveli
-                </button>
-                <button type="button" onclick="setPresetAddress('mumbai')" class="preset-chip px-3.5 py-2 rounded-lg bg-stone-100/80 hover:bg-stone-200 border border-stone-300 text-stone-700 text-xs font-medium flex items-center gap-2 transition">
-                  <span class="material-symbols-outlined text-sm text-[#785600]">apartment</span> Mumbai Studio Atelier
-                </button>
-              </div>
-            </div>
+
 
             <!-- Form Fields -->
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div class="space-y-1.5">
                 <label for="first-name" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Recipient Patron First Name *</label>
-                <input id="first-name" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="Ananya"/>
+                <input id="first-name" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" placeholder="First Name"/>
               </div>
 
               <div class="space-y-1.5">
                 <label for="last-name" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Patron Last Name *</label>
-                <input id="last-name" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="Sharma"/>
+                <input id="last-name" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" placeholder="Last Name"/>
               </div>
 
               <div class="space-y-1.5 sm:col-span-2">
                 <label for="address1" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Residence / Estate Address *</label>
-                <input id="address1" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="Villa 14, The Oberoi Heritage Enclave, Golf Links"/>
+                <input id="address1" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" placeholder="House / Flat / Estate, Street address"/>
               </div>
 
               <div class="space-y-1.5">
                 <label for="address2" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Apartment / Suite / Landmark</label>
-                <input id="address2" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="Near Ahinsa Sthal Tower"/>
+                <input id="address2" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" placeholder="Apartment, suite, landmark (optional)"/>
               </div>
 
               <div class="space-y-1.5">
                 <label for="city" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">City / Town *</label>
-                <input id="city" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="New Delhi"/>
+                <input id="city" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-medium focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" placeholder="City / Town"/>
               </div>
 
               <div class="space-y-1.5">
@@ -487,13 +468,13 @@
                     <span class="material-symbols-outlined text-[13px] text-emerald-700">check_circle</span> White-Glove Eligible
                   </span>
                 </div>
-                <input id="pincode" maxlength="6" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" value="110003"/>
+                <input id="pincode" maxlength="6" class="w-full px-4 py-3 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs" type="text" placeholder="6-digit Postal PIN Code"/>
                 <div id="pincode-feedback" class="mt-1.5 text-[11px] font-medium hidden"></div>
               </div>
 
               <div class="space-y-1.5 sm:col-span-2">
                 <label for="special-instructions" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Artisanal Cargo Handling &amp; Security Protocol</label>
-                <textarea id="special-instructions" class="w-full px-4 py-2.5 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs leading-relaxed" placeholder="E.g., Fragile earthenware urn inside. Please hand deliver directly to recipient." rows="2">Fragile earthenware urn &amp; filigree coffer. Please notify via curator call prior to estate gate entry.</textarea>
+                <textarea id="special-instructions" class="w-full px-4 py-2.5 bg-white border border-[#E6DFD5] rounded-lg text-sm text-[#1C1B1B] focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-xs leading-relaxed" placeholder="E.g., Fragile earthenware urn inside. Please hand deliver directly to recipient." rows="2"></textarea>
               </div>
             </div>
 
@@ -1055,24 +1036,24 @@
                   <div class="sm:col-span-2 space-y-1.5">
                     <label for="card-number" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Card Number *</label>
                     <div class="relative">
-                      <input id="card-number" class="w-full px-4 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 tracking-widest font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" placeholder="XXXX  XXXX  XXXX  XXXX" value="4532 •••• •••• 8821" maxlength="22"/>
+                      <input id="card-number" class="w-full px-4 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 tracking-widest font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" placeholder="XXXX  XXXX  XXXX  XXXX"  maxlength="22"/>
                       <span class="material-symbols-outlined absolute right-3 top-3 text-[#785600] text-lg">credit_card</span>
                     </div>
                   </div>
 
                   <div class="space-y-1.5">
                     <label for="card-name" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Cardholder Name *</label>
-                    <input id="card-name" class="w-full px-4 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 tracking-wider uppercase font-serif focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" value="ANANYA SHARMA"/>
+                    <input id="card-name" class="w-full px-4 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 tracking-wider uppercase font-serif focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" placeholder="Cardholder Name"/>
                   </div>
 
                   <div class="grid grid-cols-2 gap-3">
                     <div class="space-y-1.5">
                       <label for="card-expiry" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">Expiry (MM/YY) *</label>
-                      <input id="card-expiry" class="w-full px-3 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 text-center font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" placeholder="MM / YY" value="08 / 28" maxlength="7"/>
+                      <input id="card-expiry" class="w-full px-3 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 text-center font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="text" placeholder="MM / YY"  maxlength="7"/>
                     </div>
                     <div class="space-y-1.5">
                       <label for="card-cvv" class="block text-[11px] font-bold uppercase tracking-wider text-stone-700">CVV / CVC *</label>
-                      <input id="card-cvv" class="w-full px-3 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 text-center font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="password" placeholder="•••" value="987" maxlength="4"/>
+                      <input id="card-cvv" class="w-full px-3 py-3 bg-[#FAF7F2] border border-[#E6DFD5] rounded-lg text-sm text-stone-900 text-center font-mono focus:outline-none focus:ring-1 focus:ring-[#785600] shadow-inner" type="password" placeholder="•••"  maxlength="4"/>
                     </div>
                   </div>
                 </div>
@@ -1426,7 +1407,7 @@
                 </span>
                 <div>
                   <strong class="text-stone-900 block text-xs">UPI (Google Pay, PhonePe, Paytm, QR)</strong>
-                  <span class="text-[10px] text-stone-500 font-sans">Instant approval via UPI app or simulated collect</span>
+                  <span class="text-[10px] text-stone-500 font-sans">Instant authorization via any UPI application</span>
                 </div>
               </div>
               <span class="text-[#3395FF] font-bold text-[11px]">Pay &rarr;</span>
@@ -1442,7 +1423,7 @@
                 </span>
                 <div>
                   <strong class="text-stone-900 block text-xs">Cards (RuPay, Visa, Mastercard, Amex)</strong>
-                  <span class="text-[10px] text-stone-500 font-sans">Test Card: •••• 8821 (Authorized OTP simulation)</span>
+                  <span class="text-[10px] text-stone-500 font-sans">RuPay, Visa, Mastercard, Amex, Corporate</span>
                 </div>
               </div>
               <span class="text-[#3395FF] font-bold text-[11px]">Pay &rarr;</span>
@@ -1534,14 +1515,11 @@
           <p class="text-xs text-stone-700 font-serif">
             One-Time Password (OTP) dispatched to registered mobile <strong class="font-mono text-stone-900" id="otp-mobile-masked">+91 98*** ***21</strong>
           </p>
-          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-[10px] text-amber-800 font-mono">
-            <span>Demo Master OTP:</span> <strong class="underline cursor-pointer" onclick="autoFillOtp('123456')">123456</strong>
-            <button type="button" onclick="autoFillOtp('123456')" class="text-[9px] underline font-bold uppercase text-[#785600] ml-1">Auto-fill</button>
-          </div>
+
         </div>
 
         <div class="flex justify-center gap-2 pt-1">
-          <input type="text" maxlength="6" id="bank-otp-input" placeholder="1 2 3 4 5 6" class="w-48 text-center text-xl tracking-[0.4em] font-mono font-bold py-2.5 px-3 bg-[#FAF7F2] border-2 border-[#785600] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#785600] shadow-inner" value="123456"/>
+          <input type="text" maxlength="6" id="bank-otp-input" placeholder="• • • • • •" class="w-48 text-center text-xl tracking-[0.4em] font-mono font-bold py-2.5 px-3 bg-[#FAF7F2] border-2 border-[#785600] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#785600] shadow-inner"/>
         </div>
 
         <div class="flex items-center justify-between text-xs text-stone-500 font-serif pt-1">
@@ -1609,7 +1587,7 @@
       </div>
 
       <div id="pdf-download-container" class="my-4">
-        <a href="/api/orders/PRM-DEMO-98214/invoice-pdf" target="_blank" download class="inline-flex items-center gap-2 bg-[#7A1521] hover:bg-[#5C0E16] text-[#ffdea6] px-6 py-3 rounded-full text-xs font-serif font-bold uppercase tracking-wider transition-all shadow-lg hover:shadow-xl border border-[#B8860B]/40">
+        <a href="#" target="_blank" download class="inline-flex items-center gap-2 bg-[#7A1521] hover:bg-[#5C0E16] text-[#ffdea6] px-6 py-3 rounded-full text-xs font-serif font-bold uppercase tracking-wider transition-all shadow-lg hover:shadow-xl border border-[#B8860B]/40">
           <span class="material-symbols-outlined text-base text-[#B8860B]">picture_as_pdf</span>
           <span>Download Certified GI Certificate &amp; Receipt (PDF)</span>
         </a>

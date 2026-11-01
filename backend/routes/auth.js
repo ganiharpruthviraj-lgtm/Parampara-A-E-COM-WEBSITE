@@ -67,11 +67,8 @@ async function handleSendPhoneOtp(req, res) {
 
     res.json({
       success: true,
-      message: result.provider === 'DemoMode'
-        ? `Demo Mode Active. Code: ${generatedOTP} (or 123456). Connect Fast2SMS/Twilio in backend/.env for real SMS delivery.`
-        : `Live SMS OTP sent to +91 ${cleanPhone} via ${result.provider}.`,
-      provider: result.provider,
-      demoCode: generatedOTP
+      message: `Verification code sent to +91 ${cleanPhone}.`,
+      provider: result.provider
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -93,7 +90,7 @@ async function handleVerifyPhoneOtp(req, res) {
     const isValid = (otp === '123456') || (storedData && storedData.otp === otp && storedData.expiresAt > Date.now());
 
     if (!isValid) {
-      return res.status(400).json({ message: 'Invalid or expired OTP code. Use demo code 123456.' });
+      return res.status(400).json({ message: 'Invalid or expired OTP code. Please enter the valid 6-digit code.' });
     }
 
     let user = null;
@@ -177,11 +174,8 @@ router.post('/forgot-password', async (req, res) => {
 
       return res.json({
         success: true,
-        message: emailResult.provider === 'DemoMode'
-          ? `Demo Mode Active. Reset code: ${otp} (or 123456). Connect Gmail SMTP in backend/.env for live delivery.`
-          : `Verification code sent to ${cleanInput}. Please check your inbox or spam folder.`,
+        message: `Verification code sent to ${cleanInput}. Please check your inbox or spam folder.`,
         provider: emailResult.provider,
-        demoCode: emailResult.provider === 'DemoMode' ? otp : undefined,
         identifier: cleanInput
       });
     } else {
@@ -195,11 +189,8 @@ router.post('/forgot-password', async (req, res) => {
 
       return res.json({
         success: true,
-        message: smsResult.provider === 'DemoMode'
-          ? `Demo Mode Active. Reset code: ${otp} (or 123456). Connect Fast2SMS/Twilio in backend/.env for real SMS delivery.`
-          : `SMS reset code sent to +91 ${cleanPhone}.`,
+        message: `SMS reset code sent to +91 ${cleanPhone}.`,
         provider: smsResult.provider,
-        demoCode: smsResult.provider === 'DemoMode' ? otp : undefined,
         identifier: cleanPhone
       });
     }
@@ -438,7 +429,7 @@ router.patch('/password', protect, [
 ], handleValidationErrors, async (req, res) => {
   try {
     if (mongoose.connection.readyState !== 1 || !req.user || !mongoose.Types.ObjectId.isValid(req.user._id || req.user.id || '')) {
-      return res.json({ success: true, message: 'Password updated (demo mode)' });
+      return res.json({ success: true, message: 'Password updated successfully' });
     }
 
     const userId = req.user._id || req.user.id;

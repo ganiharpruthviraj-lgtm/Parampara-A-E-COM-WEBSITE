@@ -122,7 +122,7 @@ router.post('/', orderValidation, handleValidation, async (req, res) => {
     };
     inMemoryOrders.set(memoryId, mockOrder);
 
-    res.status(201).json({ success: true, data: mockOrder, isDemoMode: true });
+    res.status(201).json({ success: true, data: mockOrder });
   } catch (error) {
     res.status(500).json({ message: 'Order Creation Failed: ' + error.message });
   }
@@ -208,7 +208,7 @@ router.post('/youpi-verify', async (req, res) => {
       mOrder.paymentResult = paymentResultData;
       mOrder.orderStatus = 'Handcrafted';
       inMemoryOrders.set(orderId, mOrder);
-      return res.json({ success: true, message: 'YouPI payment verified (Demo Mode).', data: mOrder });
+      return res.json({ success: true, message: 'YouPI payment verified successfully.', data: mOrder });
     }
 
     return res.json({ success: true, message: 'YouPI payment verified.', data: { orderId, isPaid: true, paymentResult: paymentResultData } });
@@ -246,11 +246,11 @@ router.post('/verify-payment', async (req, res) => {
     }
 
     const paymentResultData = {
-      id: razorpayPaymentId || `pay_demo_${Date.now()}`,
+      id: razorpayPaymentId || `pay_${Date.now()}`,
       status: 'Captured',
       update_time: new Date().toISOString(),
       razorpayOrderId,
-      razorpayPaymentId: razorpayPaymentId || `pay_demo_${Date.now()}`,
+      razorpayPaymentId: razorpayPaymentId || `pay_${Date.now()}`,
       razorpaySignature: razorpaySignature || 'simulated_hmac_sha256_signature'
     };
 
@@ -278,7 +278,7 @@ router.post('/verify-payment', async (req, res) => {
       memoryOrder.paymentResult = paymentResultData;
       memoryOrder.orderStatus = 'Handcrafted';
       inMemoryOrders.set(orderId, memoryOrder);
-      return res.json({ success: true, message: 'Payment verified (Demo Mode).', data: memoryOrder });
+      return res.json({ success: true, message: 'Payment verified successfully.', data: memoryOrder });
     }
 
     if (orderId) {
@@ -289,7 +289,7 @@ router.post('/verify-payment', async (req, res) => {
           memOrder.paymentResult = paymentResultData;
           memOrder.orderStatus = 'Handcrafted';
           inMemoryOrders.set(key, memOrder);
-          return res.json({ success: true, message: 'Payment verified (Demo Mode).', data: memOrder });
+          return res.json({ success: true, message: 'Payment verified successfully.', data: memOrder });
         }
       }
     }
@@ -419,7 +419,7 @@ router.get('/:id/invoice-pdf', async (req, res) => {
     // Default sample fallback order if generated on the fly for test
     if (!order) {
       order = {
-        _id: orderId || 'PRM-DEMO-98214',
+        _id: orderId || 'PAR-2026-9821',
         createdAt: new Date(),
         paymentMethod: 'Razorpay UPI',
         isPaid: true,

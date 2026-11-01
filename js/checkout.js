@@ -1132,7 +1132,7 @@ window.openBankOtpModal = function(orderContext) {
 
   const otpInput = document.getElementById('bank-otp-input');
   if (otpInput) {
-    otpInput.value = '123456';
+    otpInput.value = '';
     otpInput.focus();
   }
 
@@ -1160,9 +1160,8 @@ window.closeBankOtpModal = function() {
 window.autoFillOtp = function(code) {
   const input = document.getElementById('bank-otp-input');
   if (input) {
-    input.value = code || '123456';
+    input.value = code || '';
     input.focus();
-    showToast('Demo Master OTP auto-filled (123456)', 'info');
   }
 };
 
@@ -1414,7 +1413,7 @@ window.placeOrder = async function() {
     const confirmedOrderId = (data.success && data.data && data.data._id) ? data.data._id : orderId;
 
     // 2. Initialize Razorpay Order if online
-    let rzpOrderId = `order_rzp_demo_${Date.now()}`;
+    let rzpOrderId = `order_rzp_${Date.now()}`;
     let rzpKeyId = null;
     let rzpMode = 'sandbox_simulation';
 
@@ -1437,7 +1436,7 @@ window.placeOrder = async function() {
       if (rzpData.keyId) rzpKeyId = rzpData.keyId;
       if (rzpData.mode) rzpMode = rzpData.mode;
     } catch (rzpErr) {
-      console.warn('Razorpay order pre-creation notice, using demo order id:', rzpErr.message);
+      console.warn('Razorpay order pre-creation notice, using fallback reference:', rzpErr.message);
     }
 
     // COD bypasses online gateway
@@ -1539,7 +1538,7 @@ window.placeOrder = async function() {
             name: 'Parampara Sovereign Ateliers',
             description: 'Privileged GI Order • 70% Direct Artisan Disbursement',
             image: 'assets/parampara_logo_crest.webp',
-            order_id: rzpOrderId.startsWith('order_rzp_demo_') ? undefined : rzpOrderId,
+            order_id: rzpOrderId,
             prefill: {
               name: `${firstName} ${lastName}`.trim(),
               email: emailVal,
@@ -1622,7 +1621,7 @@ window.placeOrder = async function() {
     showToast('Connecting to secure settlement node...', 'info');
     await finalizeOrder({
       orderId,
-      razorpayOrderId: `demo_${Date.now()}`,
+      razorpayOrderId: `sovereign_ref_${Date.now()}`,
       razorpayPaymentId: `pay_${Date.now()}`,
       paymentMethod: currentPayMethod.toUpperCase(),
       total,

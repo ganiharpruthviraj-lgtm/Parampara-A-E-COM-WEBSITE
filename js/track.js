@@ -108,7 +108,7 @@ function renderTrackingData(data) {
   }
 
   if (certBtn) {
-    certBtn.href = `${API_BASE}/api/orders/${encodeURIComponent(data.orderId || 'PRM-DEMO-98214')}/invoice-pdf`;
+    certBtn.href = `${API_BASE}/api/orders/${encodeURIComponent(data.orderId || 'PAR-2026-9821')}/invoice-pdf`;
   }
 
   // Render Checkpoints

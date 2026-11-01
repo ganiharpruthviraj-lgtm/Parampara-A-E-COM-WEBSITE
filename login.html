@@ -144,29 +144,9 @@
             </span>
           </div>
 
-          <!-- Highlighted Verification Code Box (Visible in Demo/Local & Helper mode) -->
-          <div id="reset-code-display-box" class="reset-code-display-box">
-            <div class="reset-code-label-row">
-              <span class="reset-code-eyebrow">YOUR 6-DIGIT VERIFICATION CODE:</span>
-              <span class="reset-code-status-tag" id="reset-code-status-tag">ACTIVE</span>
-            </div>
-            <div class="reset-code-number-row">
-              <div class="reset-code-value" id="reset-code-value">------</div>
-              <div class="reset-code-buttons">
-                <button type="button" id="autofill-otp-btn" class="reset-action-btn primary" title="Auto-fill code into boxes">
-                  <i class="fa-solid fa-wand-magic-sparkles"></i> Autofill
-                </button>
-                <button type="button" id="copy-otp-btn" class="reset-action-btn secondary" title="Copy code to clipboard">
-                  <i class="fa-regular fa-copy"></i> Copy
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- Helpful hints & backup code note -->
           <p class="reset-code-note text-xs text-[#6B6B6B] mt-2 mb-0" id="reset-code-note">
-            <i class="fa-solid fa-circle-info text-[var(--primary-color)]"></i> 
-            Check your Gmail inbox &amp; Spam folder. Or use universal backup code <strong class="text-[var(--primary-color)] font-mono">123456</strong>.
+            <i class="fa-solid fa-envelope text-[var(--primary-color)]"></i> 
+            6-digit confirmation code dispatched. Check your inbox and spam folder.
           </p>
         </div>
 
@@ -1474,50 +1454,15 @@
           const codeNote = document.getElementById('reset-code-note');
           const otpInputs = document.querySelectorAll('.reset-otp');
 
-          if (isLiveDelivery) {
-            if (statusTag) {
-              statusTag.textContent = 'SENT TO INBOX';
-              statusTag.style.background = '#E0F2FE';
-              statusTag.style.color = '#0369A1';
-            }
-            if (codeDisplay) {
-              codeDisplay.textContent = 'CHECK INBOX';
-              codeDisplay.style.fontSize = '1.05rem';
-              codeDisplay.style.letterSpacing = '0.05em';
-            }
-            if (autofillBtn) autofillBtn.style.display = 'none';
-            if (copyBtn) copyBtn.style.display = 'none';
-            if (codeNote) {
-              codeNote.innerHTML = `<i class="fa-solid fa-envelope text-[var(--primary-color)]"></i> 6-digit confirmation code dispatched to <strong>${val}</strong>. Check inbox &amp; Spam. Universal backup code: <strong class="text-[var(--primary-color)] font-mono">123456</strong>.`;
-            }
-            showToast(`🏺 Verification code dispatched to ${val}. Check your Gmail inbox!`);
-            // Clear inputs and focus first digit
-            otpInputs.forEach(inp => inp.value = '');
-            setTimeout(() => otpInputs[0]?.focus(), 150);
-          } else {
-            if (statusTag) {
-              statusTag.textContent = 'DEMO CODE';
-              statusTag.style.background = '#FEF3C7';
-              statusTag.style.color = '#92400E';
-            }
-            if (codeDisplay) {
-              codeDisplay.textContent = `${activeOtpCode.slice(0, 3)} ${activeOtpCode.slice(3)}`;
-              codeDisplay.style.fontSize = '1.45rem';
-              codeDisplay.style.letterSpacing = '0.22em';
-            }
-            if (autofillBtn) autofillBtn.style.display = 'inline-flex';
-            if (copyBtn) copyBtn.style.display = 'inline-flex';
-            if (codeNote) {
-              codeNote.innerHTML = `<i class="fa-solid fa-circle-info text-[var(--primary-color)]"></i> Verification code is ready above. Click <strong>Autofill</strong> or use backup code <strong class="text-[var(--primary-color)] font-mono">123456</strong>.`;
-            }
-            showToast(`🏺 Verification code ready for ${val}. Code: ${activeOtpCode}`);
-            // Auto-fill inputs in demo mode
-            const digits = activeOtpCode.split('');
-            otpInputs.forEach((inp, idx) => {
-              if (digits[idx]) inp.value = digits[idx];
-            });
-            document.getElementById('new-password-input')?.focus();
+          if (cardTitle) {
+            cardTitle.textContent = 'Verification Code Sent';
           }
+          if (codeNote) {
+            codeNote.innerHTML = `<i class="fa-solid fa-envelope text-[var(--primary-color)]"></i> 6-digit confirmation code dispatched to <strong>${val}</strong>. Please check your inbox and spam folder.`;
+          }
+          showToast(`🏺 Verification code dispatched to ${val}.`);
+          otpInputs.forEach(inp => inp.value = '');
+          setTimeout(() => otpInputs[0]?.focus(), 150);
 
           startExpiryCountdown();
           startResendCooldown();
