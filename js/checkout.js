@@ -1741,6 +1741,10 @@ async function finalizeOrder({ orderId, razorpayOrderId, razorpayPaymentId, paym
 
     // 4. Update Confirmation Modal Content
     document.getElementById('confirm-order-id').textContent = orderId;
+    const dossierBtn = document.getElementById('btn-confirm-verify-dossier');
+    if (dossierBtn) {
+      dossierBtn.href = `verify-payment.html?orderId=${encodeURIComponent(orderId)}`;
+    }
     document.getElementById('confirm-item-name').textContent = cartItems.map(i => `${i.name} (${i.qty})`).join(', ');
     document.getElementById('confirm-total').textContent = formatINR(total);
 

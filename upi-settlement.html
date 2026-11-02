@@ -464,7 +464,13 @@
           utrAlert.className = 'p-3.5 rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-300 text-xs font-body flex items-center gap-2 shadow-xs';
           utrAlert.innerHTML = `
             <span class="material-symbols-outlined text-base text-emerald-700">verified</span>
-            <span>UTR Ref <strong>${val}</strong> ratified with RBI NPCI clearance node. Order #${orderId} confirmed!</span>
+            <div class="flex-1">
+              <div>UTR Ref <strong>${val}</strong> ratified with RBI NPCI clearance node. Order #${orderId} confirmed!</div>
+              <a href="verify-payment.html?utr=${val}&orderId=${encodeURIComponent(orderId)}" class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-950 hover:underline mt-1">
+                <span>View Payment Verification Dossier</span>
+                <span class="material-symbols-outlined text-xs">arrow_forward</span>
+              </a>
+            </div>
           `;
           ratifyBtn.textContent = 'Verified ✅';
 
