@@ -510,19 +510,18 @@ button[onclick="goToPayment()"]:active,
 /* ─── 9. NOTIFICATION TOAST ───────────────────────────────────────────────── */
 #toast {
   position: fixed;
-  bottom: 1.5rem;
+  top: 1.5rem;
   right: 1.5rem;
-  z-index: 150;
-  color: #FFFFFF;
-  padding: 1rem 1.25rem;
-  border-radius: 1rem;
+  bottom: auto !important;
+  height: auto !important;
+  max-height: none !important;
+  z-index: 350;
+  padding: 0.875rem 1.25rem;
+  border-radius: 0.75rem;
   font-size: 0.75rem;
   font-weight: 700;
-  box-shadow: var(--shadow-2xl);
-  border: 1px solid var(--primary);
-  background-color: var(--dark-bg);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  animation: slideUp 0.3s ease-out;
 }
 
 @keyframes slideUp {

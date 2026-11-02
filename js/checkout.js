@@ -138,7 +138,10 @@ function showToast(msg, type = 'info') {
     : type === 'success'
     ? 'border-[#B8860B] bg-[#1C1B1B] text-[#ffdea6]'
     : 'border-[#B8860B]/60 bg-[#FAF7F2] text-[#785600]';
-  t.className = `fixed top-4 left-4 right-4 sm:top-6 sm:right-6 sm:left-auto sm:max-w-md z-[350] px-5 py-3.5 rounded-xl shadow-2xl border text-xs font-serif font-bold transition-all duration-300 text-center sm:text-left ${bgClass}`;
+  t.style.bottom = 'auto';
+  t.style.height = 'auto';
+  t.style.maxHeight = 'none';
+  t.className = `fixed top-4 left-4 right-4 sm:top-6 sm:right-6 sm:left-auto sm:max-w-md z-[350] px-5 py-3.5 rounded-xl shadow-2xl border text-xs font-serif font-bold transition-all duration-300 text-center sm:text-left bottom-auto h-auto ${bgClass}`;
   setTimeout(() => { t.className = 'hidden'; }, 3800);
 }
 
