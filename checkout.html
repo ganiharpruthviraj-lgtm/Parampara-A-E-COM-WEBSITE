@@ -367,7 +367,7 @@
 
           <!-- ─── SECTION 01: PATRON CREDENTIALS & CONTACT ─── -->
           <section class="gilded-box rounded-xl p-6 sm:p-7 bg-[#FAF7F2] space-y-6" id="section-patron">
-            <div class="flex items-baseline justify-between border-b border-[#E6DFD5] pb-3">
+            <div class="flex items-center justify-between border-b border-[#E6DFD5] pb-3 flex-wrap gap-2">
               <div class="flex items-center gap-3">
                 <span class="text-xs font-serif italic text-[#7A1521] font-bold">01.</span>
                 <h2 class="font-headline text-lg sm:text-xl text-[#1C1B1B] font-semibold">Patron Credentials &amp; Contact</h2>
@@ -624,9 +624,14 @@
                   <p class="text-[11px] text-stone-500 font-serif">Sovereign Escrow • 70% Direct Master Artisan Allocation</p>
                 </div>
               </div>
-              <span class="text-[11px] text-stone-600 uppercase tracking-wider flex items-center gap-1 font-serif hidden sm:flex">
-                <span class="material-symbols-outlined text-sm text-[#7A1521]">encrypted</span> 256-Bit Imperial Vault
-              </span>
+              <div class="flex items-center gap-2.5">
+                <button type="button" id="toggle-test-mode-btn" onclick="window.switchToTestOrder(1)" class="text-[11px] font-sans font-bold text-[#785600] bg-[#FAF7F2] hover:bg-[#785600] hover:text-white border border-[#B8860B]/40 px-3 py-1.5 rounded-full transition cursor-pointer flex items-center gap-1 shadow-2xs" title="Switch to ₹1 Live UPI Settlement test">
+                  <span>⚡ Test with ₹1 Live UPI</span>
+                </button>
+                <span class="text-[11px] text-stone-600 uppercase tracking-wider items-center gap-1 font-serif hidden md:flex">
+                  <span class="material-symbols-outlined text-sm text-[#7A1521]">encrypted</span> 256-Bit Imperial Vault
+                </span>
+              </div>
             </div>
 
             <!-- Authentic Payment Method Navigation Tabs -->

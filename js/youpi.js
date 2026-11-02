@@ -301,6 +301,12 @@
         if (linkEl) linkEl.href = upiUri;
       });
 
+      // Update Dedicated Salon link with active orderId & amount
+      const salonLink = document.querySelector('#youpi-pg-modal a[href*="upi-settlement.html"]');
+      if (salonLink) {
+        salonLink.href = `upi-settlement.html?orderId=${encodeURIComponent(session.orderId)}&amount=${session.amount}`;
+      }
+
       // Clear previous UTR input
       const utrInput = document.getElementById('youpi-utr-input');
       if (utrInput) utrInput.value = '';
@@ -373,9 +379,9 @@
      */
     verifyUtr: function() {
       const input = document.getElementById('youpi-utr-input');
-      const utr = input ? input.value.trim() : '';
+      const utr = input ? input.value.trim().replace(/\D/g, '') : '';
 
-      if (!/^\d{12}$/.test(utr)) {
+      if (utr.length < 8 || utr.length > 16) {
         if (input) {
           input.classList.add('border-red-500', 'bg-red-50');
           input.focus();

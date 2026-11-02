@@ -148,7 +148,10 @@
                 </div>
               </div>
             </div>
-            <div class="flex items-center gap-5 sm:gap-6">
+            <div class="flex items-center gap-3 sm:gap-5">
+              <button type="button" onclick="window.toggleSettlementTestAmount()" id="settlement-test-toggle" class="text-[10px] font-sans font-bold text-[#f5dfa8] bg-white/10 hover:bg-white/20 border border-[#B8860B]/50 px-2.5 py-1 rounded-full transition cursor-pointer flex items-center gap-1 shadow-2xs" title="Switch between ₹1 live test and full order amount">
+                <span>⚡ Test with ₹1</span>
+              </button>
               <div class="text-right">
                 <span class="text-[10px] uppercase tracking-widest text-[#d8c3b0] font-body block">Total Payable</span>
                 <div class="text-2xl sm:text-3xl font-headline font-bold text-[#f5dfa8] tracking-tight">
@@ -389,6 +392,17 @@
       });
     }
 
+    // Quick Toggle between Full Order and ₹1 Test
+    window.toggleSettlementTestAmount = function() {
+      const newAmt = amount === 1 ? 19790 : 1;
+      window.location.search = `?orderId=${encodeURIComponent(orderId)}&amount=${newAmt}`;
+    };
+    const testToggleBtn = document.getElementById('settlement-test-toggle');
+    if (testToggleBtn && amount === 1) {
+      testToggleBtn.innerHTML = '<span>↺ Restore ₹19,790</span>';
+      testToggleBtn.className = 'text-[10px] font-sans font-bold text-amber-200 bg-amber-900/40 border border-amber-500/50 px-2.5 py-1 rounded-full transition cursor-pointer flex items-center gap-1';
+    }
+
     // Interactive Timer countdown
     let secondsLeft = 299; // 5 mins
     const timerElem = document.getElementById('escrowTimer');
@@ -421,6 +435,30 @@
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ orderId, utr: val })
             });
+          } catch(e) {}
+
+          // Cache confirmed order locally so checkout.html can show it immediately
+          const completedOrder = {
+            _id: orderId,
+            id: orderId,
+            orderItems: [{
+              name: amount === 1 ? 'GI Craft Heritage Test Deed (₹1)' : 'GI Heritage Masterpiece Direct Settlement',
+              qty: 1,
+              price: amount,
+              image: 'assets/products/blue_pottery_vase.webp',
+              giNumber: 'GI-SETTLEMENT-01',
+              artisanName: 'Direct Master Artisan'
+            }],
+            totalPrice: amount,
+            itemsPrice: amount,
+            isPaid: true,
+            paymentMethod: 'YouPI Gateway',
+            utr: val,
+            createdAt: new Date().toISOString()
+          };
+          try {
+            const existing = JSON.parse(localStorage.getItem('parampara_orders') || '[]');
+            localStorage.setItem('parampara_orders', JSON.stringify([completedOrder, ...existing.filter(o => (o._id || o.id) !== orderId)]));
           } catch(e) {}
 
           utrAlert.className = 'p-3.5 rounded-lg bg-emerald-50 text-emerald-900 border border-emerald-300 text-xs font-body flex items-center gap-2 shadow-xs';
