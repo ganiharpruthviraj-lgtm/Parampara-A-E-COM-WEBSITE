@@ -513,8 +513,10 @@ button[onclick="goToPayment()"]:active,
   top: 1.5rem;
   right: 1.5rem;
   bottom: auto !important;
+  left: auto !important;
   height: auto !important;
-  max-height: none !important;
+  max-height: max-content !important;
+  min-height: unset !important;
   z-index: 350;
   padding: 0.875rem 1.25rem;
   border-radius: 0.75rem;
@@ -522,6 +524,12 @@ button[onclick="goToPayment()"]:active,
   font-weight: 700;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: block;
+}
+
+#toast:empty,
+#toast.hidden {
+  display: none !important;
 }
 
 @keyframes slideUp {

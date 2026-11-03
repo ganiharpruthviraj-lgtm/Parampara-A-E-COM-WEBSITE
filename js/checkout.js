@@ -125,6 +125,7 @@ const QUICK_ADD_CRAFTS = [
 let cartItems = [];
 
 // Toast Notification (Prominently dropped from top on mobile, never blocked by bottom bar)
+let toastTimer = null;
 function showToast(msg, type = 'info') {
   let t = document.getElementById('toast');
   if (!t) {
@@ -132,17 +133,27 @@ function showToast(msg, type = 'info') {
     t.id = 'toast';
     document.body.appendChild(t);
   }
+  if (toastTimer) clearTimeout(toastTimer);
+
   t.textContent = msg;
   const bgClass = type === 'error'
     ? 'border-red-500 bg-[#5C0E16] text-white'
     : type === 'success'
     ? 'border-[#B8860B] bg-[#1C1B1B] text-[#ffdea6]'
     : 'border-[#B8860B]/60 bg-[#FAF7F2] text-[#785600]';
+  
+  t.style.top = '1.5rem';
   t.style.bottom = 'auto';
   t.style.height = 'auto';
-  t.style.maxHeight = 'none';
-  t.className = `fixed top-4 left-4 right-4 sm:top-6 sm:right-6 sm:left-auto sm:max-w-md z-[350] px-5 py-3.5 rounded-xl shadow-2xl border text-xs font-serif font-bold transition-all duration-300 text-center sm:text-left bottom-auto h-auto ${bgClass}`;
-  setTimeout(() => { t.className = 'hidden'; }, 3800);
+  t.style.maxHeight = 'max-content';
+  t.style.minHeight = 'unset';
+  t.style.display = 'block';
+  t.className = `fixed top-4 left-4 right-4 sm:top-6 sm:right-6 sm:left-auto sm:max-w-md z-[350] px-5 py-3.5 rounded-xl shadow-2xl border text-xs font-serif font-bold transition-all duration-300 text-center sm:text-left ${bgClass}`;
+  
+  toastTimer = setTimeout(() => {
+    t.className = 'hidden';
+    t.style.display = 'none';
+  }, 3800);
 }
 
 function formatINR(n) {
