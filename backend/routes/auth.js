@@ -68,7 +68,8 @@ async function handleSendPhoneOtp(req, res) {
     res.json({
       success: true,
       message: `Verification code sent to +91 ${cleanPhone}.`,
-      provider: result.provider
+      provider: result.provider,
+      ...(process.env.NODE_ENV === 'test' ? { demoCode: generatedOTP } : {})
     });
   } catch (err) {
     res.status(500).json({ message: err.message });

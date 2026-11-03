@@ -194,6 +194,7 @@ app.use('/api/auth/google', authLimiter);
 app.use('/api/health', require('./routes/health'));
 app.use('/api/auth', apiLimiter, require('./routes/auth'));
 app.use('/api/products', apiLimiter, require('./routes/products'));
+app.use('/api/artisans', apiLimiter, require('./routes/artisans'));
 app.use('/api/saathi', apiLimiter, require('./routes/saathi'));
 app.use('/api/gi', apiLimiter, require('./routes/gi'));
 app.use('/api/orders', apiLimiter, ordersRouter);

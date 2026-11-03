@@ -5,9 +5,8 @@
  * ==============================================================================
  * DESIGN RATIONALE:
  * The Master Artisan directory elevates living national treasures, Shilp Gurus,
- * and Padma awardees. Unlike a standard e-commerce grid, portraits are framed
- * with museum-grade dignitary poise and subtle zoom interactions that highlight
- * the artisan's hands and intricate toolcraft.
+ * and Padma awardees across all 28 Indian States & UTs.
+ * Features museum-grade cards, regional filters, and an interactive dossier modal.
  * ==============================================================================
  */
 
@@ -16,6 +15,7 @@
  * ------------------------------------------------------------------------------ */
 :root {
   --primary-color: #B8860B;           /* Royal Warm Gold - Shilp Guru Honors */
+  --royal-maroon: #311116;            /* Deep Sovereign Burgundy */
   --accent-color: #D4380D;            /* Terracotta Red - Craft Vitality */
   --accent2-color: #2F5233;           /* Forest Green - Botanical Dyes */
   --accent3-color: #7B3F00;           /* Earth Umber - Carved Teakwood */
@@ -38,20 +38,23 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
   font-family: var(--font-family-heading);
   letter-spacing: -0.02em;
 }
 
 /* ------------------------------------------------------------------------------
  * 3. Artisan Card Image Interactions
- * ------------------------------------------------------------------------------
- * Uses a slow 0.5s ease zoom on hover to invite the viewer into the artisan's
- * workspace without abrupt or jarring motion.
  * ------------------------------------------------------------------------------ */
 .artisan-card {
   position: relative;
   overflow: hidden;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.artisan-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(184, 134, 11, 0.4);
 }
 
 .artisan-card img {
@@ -60,11 +63,90 @@ h1, h2, h3, h4 {
 }
 
 .artisan-card:hover img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 /* ------------------------------------------------------------------------------
- * 4. Staggered Scroll Reveal
+ * 4. Filter Controls & Scrollable Containers
+ * ------------------------------------------------------------------------------ */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.filter-btn-active {
+  background-color: var(--primary-color) !important;
+  color: #ffffff !important;
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 4px 12px rgba(184, 134, 11, 0.25);
+}
+
+/* ------------------------------------------------------------------------------
+ * 5. Master Dossier Modal
+ * ------------------------------------------------------------------------------ */
+#artisan-dossier-modal {
+  transition: opacity 0.3s ease;
+}
+
+#artisan-dossier-modal:not(.hidden) {
+  animation: modalFadeIn 0.3s ease-out forwards;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+#artisan-dossier-modal .modal-panel {
+  transform: scale(0.97) translateY(10px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#artisan-dossier-modal:not(.hidden) .modal-panel {
+  transform: scale(1) translateY(0);
+}
+
+/* Custom Scrollbar for Modal Body */
+#artisan-dossier-modal ::-webkit-scrollbar {
+  width: 6px;
+}
+#artisan-dossier-modal ::-webkit-scrollbar-track {
+  background: #F5F1E8;
+}
+#artisan-dossier-modal ::-webkit-scrollbar-thumb {
+  background: #C19A6B;
+  border-radius: 9999px;
+}
+#artisan-dossier-modal ::-webkit-scrollbar-thumb:hover {
+  background: #B8860B;
+}
+
+/* ------------------------------------------------------------------------------
+ * 6. Line Clamping Utility
+ * ------------------------------------------------------------------------------ */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ------------------------------------------------------------------------------
+ * 7. Staggered Scroll Reveal
  * ------------------------------------------------------------------------------ */
 .reveal {
   opacity: 0;
