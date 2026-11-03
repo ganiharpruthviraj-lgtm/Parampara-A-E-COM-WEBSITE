@@ -1203,3 +1203,4 @@ if (statesFound.has('Jammu and Kashmir')) {
 // Write to data/artisans.json
 fs.writeFileSync('data/artisans.json', JSON.stringify(artisans, null, 2), 'utf-8');
 console.log('Successfully written data/artisans.json');
+

@@ -60,3 +60,4 @@ describe('Artisans API (/api/artisans)', () => {
     expect(res.body.success).toBe(false);
   });
 });
+
