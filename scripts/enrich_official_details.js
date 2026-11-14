@@ -1,3 +1,22 @@
+/**
+ * ============================================================================
+ * FILE: scripts/enrich_official_details.js
+ * MODULE: Statutory GI Tag Metadata Enricher
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Enriches existing craft catalog records with official Government of India certificate numbers and application dates.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Maps registered GI certificate numbers to catalog products
+ * - Attaches raw material details and regional cluster names
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script enriches our craft items with official GI certificate numbers and raw material specifications."
+ * ============================================================================
+ */
+
 const fs = require('fs');
 const path = require('path');
 

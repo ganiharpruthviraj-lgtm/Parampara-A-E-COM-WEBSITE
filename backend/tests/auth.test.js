@@ -1,3 +1,24 @@
+/**
+ * ============================================================================
+ * FILE: backend/tests/auth.test.js
+ * MODULE: Authentication & Security Automated Test Suite
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Automated test suite verifying user registration, Bcrypt password hashing, JWT token issuance, and login security.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Tests POST /api/auth/register creates user with hashed password and returns JWT
+ * - Tests duplicate email rejection with 400 Bad Request
+ * - Tests login with valid credentials and verifies JWT payload
+ * - Tests rejection of incorrect passwords and invalid tokens
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This test suite validates our authentication system, ensuring password hashing, JWT creation, and unauthorized request rejections work as intended."
+ * ============================================================================
+ */
+
 const request = require('supertest');
 const app = require('../app');
 const { connectTestDB, closeTestDB, clearTestDB } = require('./setup');

@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * FILE: backend/tests/shipping.test.js
+ * MODULE: Shipping & Logistics Automated Test Suite
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Automated test suite verifying India Post Speed Post rate calculation, 6-digit PIN code serviceability, and AWB generation.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Tests domestic weight slab freight calculation across Local, State, and National zones
+ * - Validates 6-digit Indian PIN code format enforcement
+ * - Tests AWB tracking milestone progression for dispatched consignments
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This test suite checks our shipping service, ensuring India Post weight-distance freight calculations and AWB tracking operate accurately."
+ * ============================================================================
+ */
+
 const request = require('supertest');
 const app = require('../app');
 const { connectTestDB, closeTestDB, clearTestDB } = require('./setup');

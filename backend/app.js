@@ -1,3 +1,25 @@
+/**
+ * ============================================================================
+ * FILE: backend/app.js
+ * MODULE: Express Application & Middleware Aggregator
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Configures Express application, security middleware pipeline, CORS policies, rate limiting, and mounts modular REST API route controllers.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Applies Helmet HTTP security headers for content-security and frameguard protection
+ * - Configures CORS origin whitelisting for local development and production Vercel/Render deployments
+ * - Enforces express-rate-limit to protect against brute-force and denial-of-service attempts
+ * - Mounts 8 domain-specific REST route handlers under /api (auth, products, artisans, orders, shipping, gi, chat, health)
+ * - Provides global 404 handler and central error response middleware
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This file is the main Express application setup. It configures the security middleware pipeline—such as Helmet, CORS whitelisting, rate limiting, and gzip compression—and aggregates all modular REST API routes under the /api namespace."
+ * ============================================================================
+ */
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');

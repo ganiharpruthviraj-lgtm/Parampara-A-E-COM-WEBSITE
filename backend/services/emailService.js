@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: backend/services/emailService.js
+ * MODULE: Transactional Email Service
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Sends HTML format transactional emails for password resets, order deeds, and account notices.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Formats responsive HTML emails styled with Parampara sovereign palette
+ * - Dispatches password reset links with secure time-limited tokens
+ * - Provides fallback logging when SMTP credentials are not configured in development
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This service handles transactional emails such as password reset instructions and digital invoice copies."
+ * ============================================================================
+ */
+
+/**
  * Parampara Heritage — Royal Email Gateway Service
  * Supports Gmail SMTP (App Password), Custom SMTP, and Smart Demo Fallback Mode.
  */

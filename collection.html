@@ -1,3 +1,23 @@
+<!--
+============================================================================
+PAGE: collection.html
+MODULE: Authenticated Collector Gallery View
+PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Platform
+============================================================================
+
+PURPOSE:
+Private gallery view displaying the authenticated patron saved and bookmarked craft heirlooms.
+
+KEY FEATURES & CAPABILITIES:
+- Requires active JWT authentication; redirects unauthenticated visitors to login.html
+- Renders personalized grid of bookmarked crafts fetched from /api/auth/me or localStorage
+- Allows patrons to remove saved crafts or move them directly into their curated vault
+
+HOW TO EXPLAIN THIS PAGE IN AN INTERVIEW / VIVA:
+"This is the private collection archive for logged-in users, displaying the handcrafted heirlooms they have saved or bookmarked."
+============================================================================
+-->
+
 <!DOCTYPE html>
 <html lang="en">
  <head>

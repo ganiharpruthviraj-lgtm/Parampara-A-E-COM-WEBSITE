@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * FILE: backend/tests/sms.test.js
+ * MODULE: SMS Notification Automated Test Suite
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Automated test suite verifying Fast2SMS alert formatting, transactional templates, and demo-mode fallback.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Tests order confirmation, dispatch AWB, and artisan payout SMS message builders
+ * - Verifies graceful console fallback when running in test environment
+ * - Validates 10-digit Indian phone number formatting
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This test suite ensures our SMS service formats transactional alerts correctly and falls back cleanly in test mode."
+ * ============================================================================
+ */
+
 const request = require('supertest');
 const app = require('../app');
 const { connectTestDB, closeTestDB, clearTestDB } = require('./setup');

@@ -1,3 +1,22 @@
+/**
+ * ============================================================================
+ * FILE: backend/routes/chat.js
+ * MODULE: Parampara Mitra AI Concierge Router
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * AI shopping concierge supporting fuzzy craft recommendations and typo-tolerant search using Levenshtein distance.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - POST /api/chat: Parses patron craft queries, applies typo tolerance, and returns matching certified crafts
+ * - Extracts budget constraints, target states, and craft categories from natural language inputs
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This route powers Parampara Mitra, our shopping assistant. It uses fuzzy matching and budget parsing to recommend authentic crafts directly to buyers."
+ * ============================================================================
+ */
+
 const express = require('express');
 const router = express.Router();
 

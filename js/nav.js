@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: js/nav.js
+ * MODULE: Navigation Bar & Mobile Drawer Controller
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Controls responsive navigation bar behaviors, mobile drawer toggle animations, and sticky header scroll shadows.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Manages mobile hamburger menu toggle and accessibility aria attributes
+ * - Adds dynamic backdrop blur and subtle shadow on page scroll
+ * - Synchronizes cart badge counter across tabs using localStorage storage events
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script manages responsive navigation, mobile menu drawer transitions, and the cart counter badge in the navbar."
+ * ============================================================================
+ */
+
+/**
  * Parampara Unified Navigation, Mobile Menu & Responsive Interactive Button Logic
  */
 document.addEventListener('DOMContentLoaded', () => {

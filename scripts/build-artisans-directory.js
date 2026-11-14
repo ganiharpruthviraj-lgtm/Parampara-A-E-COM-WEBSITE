@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * FILE: scripts/build-artisans-directory.js
+ * MODULE: National Artisan Directory Compiler
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Compiles and generates the master 58-artisan catalog data structure with verified GI numbers and local physical photo links.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Compiles 58 verified master craftspeople covering all 28 states of India
+ * - Assigns verified physical portrait paths in assets/artisans/
+ * - Outputs structured JSON data into data/artisans.json and backend/data/artisans.json
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script compiles our master artisan directory dataset, mapping each of the 58 master craftspeople to their local physical photos and GI tags."
+ * ============================================================================
+ */
+
 const fs = require('fs');
 const path = require('path');
 

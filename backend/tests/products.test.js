@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * FILE: backend/tests/products.test.js
+ * MODULE: Product Catalog Automated Test Suite
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Automated test suite verifying catalog search, MongoDB compound text indexes, price range filters, and pagination.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Tests GET /api/products returns 200 OK with paginated craft array
+ * - Tests full-text search ($text query) across craft titles and descriptions
+ * - Verifies state and price range boundary filters
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This test suite verifies our product catalog API, confirming search queries, pagination, and state filters work properly."
+ * ============================================================================
+ */
+
 const request = require('supertest');
 const app = require('../app');
 const { connectTestDB, closeTestDB, clearTestDB } = require('./setup');

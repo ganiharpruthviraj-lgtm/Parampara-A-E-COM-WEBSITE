@@ -1,3 +1,24 @@
+/**
+ * ============================================================================
+ * FILE: backend/models/Product.js
+ * MODULE: Certified GI Craft Masterpiece Model
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Mongoose schema modeling authentic Geographical Indication (GI) handicrafts and artisan attributions.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Defines craft attributes: name, state, craftType, giNumber, price, stock, artisanId, and images
+ * - Stores statutory provenance data including material origins, authenticity tests, and regional cluster
+ * - Establishes compound $text indexes on name, craftType, and state for rapid full-text catalog queries
+ * - Maintains validation rules preventing zero or negative pricing and invalid GI tags
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This schema models our certified craft heirlooms. It stores statutory GI numbers, price, stock, and artisan references, and includes compound text indexes on name, craft, and state for sub-millisecond search performance."
+ * ============================================================================
+ */
+
 const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({

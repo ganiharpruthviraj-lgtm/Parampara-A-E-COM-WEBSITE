@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: backend/routes/artisans.js
+ * MODULE: National Artisan Directory API Router
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Provides REST endpoints to query 58+ verified master craftspeople, Shilp Gurus, and National Awardees across India.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - GET /api/artisans: Returns filtered list of artisans by state, geographic region, or craft category
+ * - GET /api/artisans/stats: Returns national telemetry (total masters, states represented, direct payout ratio)
+ * - GET /api/artisans/:id: Fetches detailed individual Master Dossier with physical portrait, award bio, and atelier tools
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This router provides the API for our National Master Artisan Directory. It returns verified profiles of 58+ craftspeople across all 28 states, their physical portraits, awards, and GI registration tags."
+ * ============================================================================
+ */
+
+/**
  * ==============================================================================
  * Parampara (परंपरा) — Master Artisan Guild API Routes
  * File: backend/routes/artisans.js

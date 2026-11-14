@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: backend/services/youpiService.js
+ * MODULE: YouPI & Bank UTR Settlement Service
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Validates 12-digit Indian Bank UTR transaction references and manages UPI settlement state transitions.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Enforces strict 12-digit numeric validation on bank transaction references (UTR)
+ * - Transitions order states from AWAITING_PAYMENT to PAID upon successful UTR ratification
+ * - Maintains idempotent settlement records preventing duplicate UTR reuse
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This service handles direct UPI and bank UTR settlements, validating 12-digit transaction references to confirm funds transfer before ratifying orders."
+ * ============================================================================
+ */
+
+/**
  * YouPI-PG Service (Your UPI Payment Gateway - Zero Platform Fee)
  * Reference Architecture: https://github.com/youpi-pg/YouPI-PG
  *

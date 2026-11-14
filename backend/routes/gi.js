@@ -1,3 +1,22 @@
+/**
+ * ============================================================================
+ * FILE: backend/routes/gi.js
+ * MODULE: Statutory GI Registry Verification Router
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Queries Government of India Geographical Indications records to verify authentic craft registration numbers.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - GET /api/gi/verify/:giNumber: Validates statutory registration tag and returns official registration year and state
+ * - GET /api/gi/directory: Returns complete index of registered Indian handicrafts by state and craft class
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This router provides statutory verification for GI tags. It lets clients verify GI numbers, ensuring crafts are legally authenticated against Government of India registries."
+ * ============================================================================
+ */
+
 const express = require('express');
 const router = express.Router();
 const path = require('path');

@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: js/track.js
+ * MODULE: Shipment Tracking Page Controller
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Drives track.html: validates 13-character AWB format and renders live India Post consignment status.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Parses AWB tracking code from URL query parameter or manual search input
+ * - Queries /api/shipping/track/:awb and displays structured courier timeline
+ * - Shows originating artisan cluster, transit hubs, and expected delivery date
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script drives our consignment tracking page, rendering an India Post dispatch timeline for any given AWB number."
+ * ============================================================================
+ */
+
+/**
  * Parampara Heritage — Shipment & Logistics Tracker (js/track.js)
  * Connects with /api/shipping/track/:awb to provide real-time India Post Speed Post
  * and courier transit updates directly from rural artisan clusters to collectors.

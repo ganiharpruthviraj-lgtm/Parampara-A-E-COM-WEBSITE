@@ -1,3 +1,24 @@
+/**
+ * ============================================================================
+ * FILE: backend/tests/artisans.test.js
+ * MODULE: Artisan Directory Automated Test Suite
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Automated test suite verifying the 58-artisan national directory API, state filtering, and Master Dossier endpoints.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Tests GET /api/artisans returns 200 OK and valid JSON array
+ * - Verifies region filtering (North, South, East, West, Central, North-East)
+ * - Asserts all artisans contain valid physical portrait image URLs and GI tags
+ * - Validates GET /api/artisans/:id returns individual master biographical records
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This test suite verifies our artisan directory endpoints, checking that all 58 master artisans, physical photo URLs, and filters function correctly."
+ * ============================================================================
+ */
+
 const request = require('supertest');
 const app = require('../app');
 

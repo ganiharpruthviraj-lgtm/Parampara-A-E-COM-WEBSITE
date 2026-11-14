@@ -1,4 +1,25 @@
 /**
+ * ============================================================================
+ * FILE: js/youpi.js
+ * MODULE: YouPI UPI Gateway Client Adapter
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Client integration for YouPI settlement flows, dynamic QR display, VPA copying, and 12-digit UTR submission.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Opens sovereign YouPI payment sheet modal with dynamic order totals
+ * - Renders UPI deep-links for native smartphone apps (GPay, PhonePe, Paytm, BHIM)
+ * - Provides clipboard helper to copy the official artisan guild VPA
+ * - Submits captured 12-digit bank UTR to the backend verification endpoint
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This is our client adapter for UPI payments, providing dynamic QR display and UTR submission."
+ * ============================================================================
+ */
+
+/**
  * YouPI-PG (Your UPI Payment Gateway - Zero Platform Fee Client Engine)
  * Open-Source Direct Peer-to-Merchant & Peer-to-Artisan UPI Infrastructure
  * Repository: https://github.com/youpi-pg/YouPI-PG

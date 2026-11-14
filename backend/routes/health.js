@@ -1,3 +1,22 @@
+/**
+ * ============================================================================
+ * FILE: backend/routes/health.js
+ * MODULE: System Diagnostic & Health Check Router
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Exposes server uptime, system metrics, and database connectivity diagnostic for monitoring and keep-alive pings.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - GET /api/health: Returns 200 OK with server uptime, memory usage, timestamp, and active database mode
+ * - Used by Render cloud keep-alive timers and automated CI/CD deployment checks
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This is our health diagnostic endpoint used by uptime monitors, load balancers, and Render keep-alive pings to verify server and database health."
+ * ============================================================================
+ */
+
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');

@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * FILE: backend/tests/middleware.test.js
+ * MODULE: Middleware Security Automated Test Suite
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Automated test suite verifying Helmet security headers, CORS origin filtering, and rate limiting.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Asserts Helmet security headers (X-Content-Type-Options, Frameguards) are present on responses
+ * - Tests CORS policy allows whitelisted origins and blocks unauthorized foreign origins
+ * - Verifies rate limiter rejects excessive requests with HTTP 429
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This test suite checks our security middleware, verifying that Helmet headers, CORS policies, and rate limiters protect the API."
+ * ============================================================================
+ */
+
 const { protect } = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');

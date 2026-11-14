@@ -1,3 +1,22 @@
+/**
+ * ============================================================================
+ * FILE: backend/tests/health.test.js
+ * MODULE: Health Diagnostic Automated Test Suite
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Automated test suite verifying the GET /api/health monitoring and diagnostic endpoint.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Asserts GET /api/health returns HTTP 200 OK
+ * - Validates presence of uptime, memory usage, timestamp, and database connectivity mode in response payload
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This test suite verifies our health check endpoint, confirming the server reports accurate uptime and database health metrics."
+ * ============================================================================
+ */
+
 const request = require('supertest');
 const app = require('../app');
 const { connectTestDB, closeTestDB } = require('./setup');

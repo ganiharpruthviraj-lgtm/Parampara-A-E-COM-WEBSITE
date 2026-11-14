@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * FILE: backend/tests/setup.js
+ * MODULE: Jest Test Suite Environment Setup
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Configures global test environment, in-memory MongoDB mock databases, and silent logging flags for automated testing.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Sets process.env.NODE_ENV = "test" and test JWT secrets
+ * - Configures Jest global timeout limits for HTTP endpoint simulations
+ * - Suppresses noisy console output during test runs
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This file configures our Jest test environment, setting test environment variables and initializing mock database states."
+ * ============================================================================
+ */
+
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const mongoose = require('mongoose');
 

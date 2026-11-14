@@ -1,3 +1,25 @@
+/**
+ * ============================================================================
+ * FILE: backend/routes/orders.js
+ * MODULE: Order Fulfillment & Payment Ratification Router
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Core transaction engine calculating 70% direct artisan payouts, verifying payment settlements, and triggering GI deed generation.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - POST /api/orders: Creates new order, validates item stocks, computes 70% artisan share and shipping fees
+ * - POST /api/orders/verify-payment: Ratifies order upon receiving valid 12-digit bank UTR or Razorpay HMAC signature
+ * - Triggers PDFKit Certified GI Deed PDF generation and stores binary buffer
+ * - Dispatches transactional SMS alerts to patron and artisan mobile numbers upon ratification
+ * - GET /api/orders/my-orders: Returns authenticated user acquisition history with live consignment tracking
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This is the core financial and order fulfillment router. It calculates the 70% direct artisan payout, verifies bank UTR references and Razorpay signatures, locks escrow, triggers India Post AWB generation, and generates the certified GI deed."
+ * ============================================================================
+ */
+
 const express = require('express');
 const router = express.Router();
 const crypto = require('crypto');

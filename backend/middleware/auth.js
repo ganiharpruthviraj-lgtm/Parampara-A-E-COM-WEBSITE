@@ -1,3 +1,24 @@
+/**
+ * ============================================================================
+ * FILE: backend/middleware/auth.js
+ * MODULE: JWT Authentication & Role-Based Access Control
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Protects private REST endpoints by verifying JSON Web Token (JWT) signatures and enforcing user role permissions.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Extracts Bearer token from incoming HTTP Authorization header
+ * - Cryptographically verifies token validity using JWT_SECRET
+ * - Fetches authenticated user record from database and attaches to req.user
+ * - Provides authorize() middleware to restrict administrative or artisan-only endpoints
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This is our authentication middleware. It intercepts protected API requests, verifies the cryptographic signature of the Bearer JWT token, attaches the user object to req.user, and rejects unauthorized access with 401/403 status codes."
+ * ============================================================================
+ */
+
 const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const User = require('../models/User');

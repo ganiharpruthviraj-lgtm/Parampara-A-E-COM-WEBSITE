@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * FILE: backend/services/razorpayService.js
+ * MODULE: Razorpay Gateway & Signature Verification Service
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Integrates official Razorpay payment SDK and validates webhook/checkout HMAC-SHA256 signatures.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Creates Razorpay order instances with currency conversion (INR to paise)
+ * - Cryptographically verifies payment signatures: HMAC-SHA256(order_id + payment_id, secret)
+ * - Prevents replay attacks and verifies webhook payload authenticity in production and test environments
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This service communicates with Razorpay APIs. It creates orders and verifies HMAC-SHA256 signatures to cryptographically prevent payment tampering."
+ * ============================================================================
+ */
+
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 

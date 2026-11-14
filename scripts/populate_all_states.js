@@ -1,3 +1,21 @@
+/**
+ * ============================================================================
+ * FILE: scripts/populate_all_states.js
+ * MODULE: Database Catalog Batch Ingestion Utility
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Batches and inserts validated craft masterpieces directly into MongoDB Atlas collections.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Performs batch insertion of all state crafts with error handling and deduplication
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script handles bulk ingestion of craft masterpieces into our MongoDB Atlas database cluster."
+ * ============================================================================
+ */
+
 const fs = require('fs');
 const path = require('path');
 

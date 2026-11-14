@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: backend/services/shippingService.js
+ * MODULE: India Post Speed Post Freight Service
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Implements the domestic India Post rate matrix and generates authentic 13-character AWB identifiers.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Categorizes Indian destinations into Local, State, Metro, and National postal circles
+ * - Calculates postage based on weight brackets (500g base + incremental slabs)
+ * - Generates standardized Indian Speed Post AWB tracking numbers (e.g. IP721218489IN)
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This service implements the domestic India Post rate chart, calculating postage based on parcel weight and postal zones, and generates official AWB tracking identifiers."
+ * ============================================================================
+ */
+
+/**
  * Parampara Heritage — Shipping & Logistics Service (shippingService.js)
  * Dual Courier Engine: India Post Speed Post & Shiprocket API
  * Powers live pincode rate calculation, automated rural cluster pickups,

@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: js/widget.js
+ * MODULE: Floating Audio & Interactive Widgets
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Embeds floating audio-tactile controls, quick-access Saathi AI drawer triggers, and scroll-to-top helpers.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Renders floating interactive action button dock on mobile and desktop views
+ * - Provides ambient sitar audio toggle and volume control
+ * - Provides quick one-tap launcher for Saathi AI assistance
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script drives interactive floating widgets on the page, such as ambient sound effects and the quick Saathi AI launcher."
+ * ============================================================================
+ */
+
+/**
  * ╔════════════════════════════════════════════════════════════════════╗
  * ║   Parampara Mitra — AI Shopping Concierge Widget (Version 3.0)     ║
  * ║   Production E-Commerce Grade Hybrid AI Shopping Assistant         ║

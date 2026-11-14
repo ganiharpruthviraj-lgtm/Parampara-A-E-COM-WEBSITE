@@ -1,3 +1,24 @@
+/**
+ * ============================================================================
+ * FILE: backend/services/pdfInvoiceService.js
+ * MODULE: PDFKit Vector Deed & Invoice Compiler
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Generates high-resolution vector Certified GI Provenance Deeds and tax invoices at 300 DPI.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Compiles A4 PDF document containing Ministry of Textiles crest, GI application numbers, and artisan lineage
+ * - Generates dynamic QR verification code linking to the live digital deed on the web
+ * - Itemizes financial values: craft guild subtotal, 70% direct artisan share, packaging, and transit fees
+ * - Returns printable vector PDF binary buffer for immediate browser download or attachment
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This service uses PDFKit to dynamically generate tamper-evident, print-ready Certified GI Provenance Deeds and invoices with embedded QR codes upon payment ratification."
+ * ============================================================================
+ */
+
 const PDFDocument = require('pdfkit');
 
 /**

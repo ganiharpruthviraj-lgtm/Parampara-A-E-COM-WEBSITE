@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * FILE: backend/routes/shipping.js
+ * MODULE: India Post Speed Post Logistics Router
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Calculates domestic shipping charges across 19,000+ PIN codes and tracks Speed Post consignment status.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - POST /api/shipping/calculate: Computes zonal freight cost based on parcel weight slabs and postal PIN codes
+ * - GET /api/shipping/track/:awb: Returns live tracking timeline milestones for a given 13-character AWB
+ * - Validates 6-digit Indian PIN codes against domestic postal circles
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This route handles shipping logistics. It computes India Post Speed Post charges based on weight slabs and destination zones, and simulates live AWB tracking milestones."
+ * ============================================================================
+ */
+
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');

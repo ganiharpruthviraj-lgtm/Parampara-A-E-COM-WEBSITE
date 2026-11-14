@@ -1,4 +1,26 @@
 /**
+ * ============================================================================
+ * FILE: js/checkout.js
+ * MODULE: Sovereign Patron Acquisition Salon Controller
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Drives checkout.html: manages curated vault ledger, 70% direct artisan payout calculation, dynamic UPI QR canvas, and deed download.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Manages cart items in localStorage with interactive [- 1 +] quantity adjustments and live re-calculation
+ * - Computes and renders the 70% direct artisan remuneration share live in the sticky ledger
+ * - Renders dynamic UPI payment QR code on HTML5 canvas with order total and VPA handle
+ * - Validates 12-digit bank UTR numbers and interfaces with Razorpay official checkout SDK
+ * - Provides debounced floating toast notifications with strict height auto-guards and clean DOM dismissal
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This is the checkout controller. It dynamically updates cart totals, calculates the 70% artisan payout in real time, generates dynamic UPI QR codes, verifies bank UTRs, and triggers PDF deed downloads."
+ * ============================================================================
+ */
+
+/**
  * Parampara Heritage E-Commerce - Sovereign Patron Acquisition Salon Engine
  * Redesigned for Imperial Curated Vault & Stately Dossier Checkout Experience
  * 

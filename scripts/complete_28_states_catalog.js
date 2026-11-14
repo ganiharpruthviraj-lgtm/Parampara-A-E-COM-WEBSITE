@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: scripts/complete_28_states_catalog.js
+ * MODULE: 28 States Catalog Completeness Verifier
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Audits and verifies that all 28 Indian states have at least one authentic certified GI craft in the active catalog.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Iterates through all 28 states and validates catalog coverage
+ * - Flags any missing states or unverified GI numbers
+ * - Ensures zero geographic omissions in production
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This audit script verifies that our catalog covers all 28 states of India without leaving out any state or craft heritage."
+ * ============================================================================
+ */
+
+/**
  * Parampara Heritage — Complete 28 States GI Catalog Pipeline
  * ==========================================================
  * Populates authentic Geographical Indication (GI) certified crafts

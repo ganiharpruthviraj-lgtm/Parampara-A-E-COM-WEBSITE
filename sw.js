@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: sw.js
+ * MODULE: Progressive Web App Service Worker
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Enables offline asset caching and fast subsequent page loads using Service Worker APIs.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Pre-caches critical core assets (CSS, logos, fonts, offline fallback pages)
+ * - Implements cache-first strategy for static assets and network-first strategy for API calls
+ * - Ensures the application renders gracefully even during temporary connectivity drops
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This service worker provides offline caching for key static assets, ensuring fast page loads and offline resilience."
+ * ============================================================================
+ */
+
+/**
  * Parampara Heritage — Service Worker (sw.js)
  * High-performance PWA caching engine with Stale-While-Revalidate & Network-First strategies.
  */

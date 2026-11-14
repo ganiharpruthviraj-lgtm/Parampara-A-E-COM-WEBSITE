@@ -1,4 +1,25 @@
 /**
+ * ============================================================================
+ * FILE: js/map-interactive.js
+ * MODULE: Ultra-Dynamic 60FPS Interactive India Craft Map Engine
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Powers the SVG vector map on index.html: provides state hover effects, Web Audio sound effects, and deep-linking to state craft dossiers.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Binds mouseenter and mouseleave listeners across all 28 Indian state SVG vector paths
+ * - Animates state boundaries in burnished gold (#B8860B) and dynamically updates state telemetry popover
+ * - Plays micro-synthesized harmonic chimes using Web Audio API on state interactions
+ * - Navigates patrons to states.html?state=... or search.html upon state selection
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script powers our interactive SVG map of India. It uses SVG DOM events and the Web Audio API to deliver a 60FPS visual and auditory experience when exploring regional crafts."
+ * ============================================================================
+ */
+
+/**
  * Parampara - Ultra-Dynamic 60FPS Indian Craft Map System
  * SVG path interaction, state-anchored popover, particle burst engine, Web Audio harmonics, GI density radar pins & animated counters.
  */

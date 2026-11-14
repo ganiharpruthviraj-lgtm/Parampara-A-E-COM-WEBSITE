@@ -1,3 +1,25 @@
+/**
+ * ============================================================================
+ * FILE: backend/models/Order.js
+ * MODULE: Acquisition Order & Escrow Settlement Model
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Mongoose schema capturing sovereign acquisitions, delivery dossiers, 70% direct artisan payouts, and logistics tracking.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Stores ordered craft items, quantities, and individual guild values
+ * - Computes and records the exact 70% direct artisan remuneration share for escrow audit
+ * - Tracks settlement state (PENDING, PAID, DISBURSED) and payment rails (YouPI UTR / Razorpay)
+ * - Records India Post Speed Post 13-character AWB consignment tracking identifiers
+ * - Maintains reference links to generated Certified GI Deed PDF documents
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This model tracks our end-to-end acquisition orders. It stores the patron address, ordered crafts, payment method, 12-digit UTR, India Post AWB tracking number, and specifically records the 70% direct artisan share for escrow auditing."
+ * ============================================================================
+ */
+
 const mongoose = require('mongoose');
 
 const orderSchema = new mongoose.Schema(

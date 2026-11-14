@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: backend/services/smsService.js
+ * MODULE: Transactional SMS Alert Service
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Dispatches real-time mobile SMS alerts for order ratification, Speed Post dispatch, and artisan bank payouts.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Formats transactional SMS alerts adhering to Indian DLT communication standards
+ * - Integrates Fast2SMS gateway REST API with automatic graceful demo/console fallback
+ * - Sends instant AWB tracking link to patron and payout credit notification to master artisan
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This service sends transactional SMS notifications to patrons and master artisans for order confirmation, India Post dispatch, and bank payouts."
+ * ============================================================================
+ */
+
+/**
  * Parampara Heritage — Production SMS Gateway Service
  * Supports Fast2SMS (India Domestic Default), Twilio (Global Fallback), and Local Simulation Mode.
  */

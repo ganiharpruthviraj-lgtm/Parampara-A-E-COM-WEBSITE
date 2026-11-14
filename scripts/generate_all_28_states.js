@@ -1,3 +1,21 @@
+/**
+ * ============================================================================
+ * FILE: scripts/generate_all_28_states.js
+ * MODULE: State Dossier Generator
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Generates state-specific craft showcase data and HTML snippets for all 28 Indian states.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Generates regional state cards with traditional crafts, state symbols, and GI statistics
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script generates state craft dossiers for all 28 states to populate our regional views."
+ * ============================================================================
+ */
+
 const fs = require('fs');
 const path = require('path');
 

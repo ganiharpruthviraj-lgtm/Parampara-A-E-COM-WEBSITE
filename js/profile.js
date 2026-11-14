@@ -1,4 +1,25 @@
 /**
+ * ============================================================================
+ * FILE: js/profile.js
+ * MODULE: Patron Sanctuary & Collection Controller
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Drives profile.html: renders acquisition order history, live India Post tracking timeline, and saved masterpiece collections.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Fetches patron acquisition records from /api/orders/my-orders with cached fallback
+ * - Renders visual step-by-step India Post Speed Post tracking milestones for each order
+ * - Provides one-click download buttons for Certified GI Deed PDF documents
+ * - Manages patron avatar uploads and sanctuary address profile editing
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script controls the user profile page, rendering their order history, live India Post tracking progress, and saved heirloom collections."
+ * ============================================================================
+ */
+
+/**
  * Parampara Heritage — Collector Profile Page Logic (profile.js)
  * ==============================================================
  * Handles: profile data loading, personal info & address form, password change,

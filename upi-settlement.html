@@ -1,3 +1,23 @@
+<!--
+============================================================================
+PAGE: upi-settlement.html
+MODULE: Dedicated UPI Settlement & QR Verification View
+PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Platform
+============================================================================
+
+PURPOSE:
+Dedicated standalone view for testing and ratifying UPI payments with dynamic QR generation and 12-digit UTR verification.
+
+KEY FEATURES & CAPABILITIES:
+- Extracts dynamic amount and order ID from URL query (?amount=1&orderId=...)
+- Renders live UPI QR canvas and intent links for mobile UPI applications
+- Validates 12-digit bank UTR numbers and updates order payment status via /api/orders/verify-payment
+
+HOW TO EXPLAIN THIS PAGE IN AN INTERVIEW / VIVA:
+"This is our dedicated UPI settlement page used to generate dynamic payment QR codes and verify 12-digit bank UTR numbers."
+============================================================================
+-->
+
 <!DOCTYPE html>
 <html class="light" lang="en">
 <head>

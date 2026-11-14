@@ -1,3 +1,22 @@
+/**
+ * ============================================================================
+ * FILE: backend/routes/saathi.js
+ * MODULE: Saathi Cultural Docent RAG Router
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Domain-grounded AI cultural guide providing historical, technical, and authenticity answers without external API costs.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - POST /api/saathi/chat: Queries local GI registry knowledge bases and generates grounded cultural answers
+ * - Explains craft techniques, GI test steps (e.g. burn test for pure silk), and master artisan lineages
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This route powers Saathi, our cultural docent AI. It runs an offline RAG engine over GI knowledge bases to explain craft heritage and authenticity tests without third-party API dependencies."
+ * ============================================================================
+ */
+
 const express = require('express');
 const router = express.Router();
 

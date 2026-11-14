@@ -1,4 +1,25 @@
 /**
+ * ============================================================================
+ * FILE: js/auth.js
+ * MODULE: Client Authentication & Session Manager
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Manages user authentication state, JWT storage, route protection, and navigation bar profile monograms.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Stores and retrieves JWT access tokens and user profile data in localStorage
+ * - Enforces route protection guards redirecting unauthenticated users from collection.html and profile.html to login.html
+ * - Updates top navigation bar dynamically showing user monogram, name, and sign-out triggers
+ * - Initializes Google Identity Services (GIS) One-Tap login client
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script manages user authentication on the frontend, storing JWT tokens, enforcing route guards, and rendering user profile badges."
+ * ============================================================================
+ */
+
+/**
  * Parampara Heritage - Global Auth Management & Mandatory Authentication
  */
 

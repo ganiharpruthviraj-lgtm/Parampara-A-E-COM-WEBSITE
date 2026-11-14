@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: js/components.js
+ * MODULE: Reusable UI Component Engine
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Renders dynamic reusable UI components such as sovereign header banners, footer seals, craft cards, and royal modals.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Generates shared header and footer markup dynamically for lightweight pages
+ * - Renders standardized product heirloom cards with verified GI badges
+ * - Provides helper utilities for currency formatting (formatINR) and toast dispatch
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This utility script provides reusable component rendering functions like headers, footers, and craft cards across pages."
+ * ============================================================================
+ */
+
+/**
  * Parampara — Shared Component Loader (components.js)
  * =====================================================
  * Dynamically injects the shared navigation header and footer

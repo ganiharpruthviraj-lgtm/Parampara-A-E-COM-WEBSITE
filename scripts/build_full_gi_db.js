@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * FILE: scripts/build_full_gi_db.js
+ * MODULE: Complete GI Registry Database Builder
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Builds comprehensive database of statutory Geographical Indications from official Ministry journals.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Parses and normalizes registered GI handicrafts across all Indian states
+ * - Enriches entries with historical backgrounds, materials, and artisan communities
+ * - Saves compiled database for catalog seeding and Saathi AI knowledge retrieval
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script builds our comprehensive GI database from official Government of India journals, feeding our catalog and AI knowledge base."
+ * ============================================================================
+ */
+
 const fs = require('fs');
 const path = require('path');
 

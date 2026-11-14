@@ -1,3 +1,24 @@
+/**
+ * ============================================================================
+ * FILE: backend/models/User.js
+ * MODULE: User Account Domain Model
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Mongoose schema and entity model defining patron accounts, authentication credentials, and saved collections.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Defines user attributes: name, email, passwordHash, role, phone, and savedCollection
+ * - Implements pre-save middleware hook hashing passwords with Bcrypt (10 salt rounds)
+ * - Provides matchPassword() instance method for constant-time password verification
+ * - Maintains indexed unique constraints on user email addresses
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This is the Mongoose schema for user accounts. It defines fields like email, hashed password, role, and curated collections, and includes a pre-save hook that hashes passwords using Bcrypt with 10 salt rounds."
+ * ============================================================================
+ */
+
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 

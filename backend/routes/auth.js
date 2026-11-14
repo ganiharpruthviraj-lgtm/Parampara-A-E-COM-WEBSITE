@@ -1,3 +1,25 @@
+/**
+ * ============================================================================
+ * FILE: backend/routes/auth.js
+ * MODULE: Authentication & Identity API Router
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Handles patron identity workflows including email registration, password login, Google OAuth, and SMS OTP verification.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - POST /api/auth/register: Registers new patron with validated email, phone, and Bcrypt hashed password
+ * - POST /api/auth/login: Authenticates credentials and returns signed JWT access token
+ * - POST /api/auth/google: Verifies Google Identity Services ID token via google-auth-library OAuth2Client
+ * - POST /api/auth/send-sms-otp & /verify-sms-otp: Manages mobile 6-digit OTP verification
+ * - POST /api/auth/forgot-password & /reset-password: Secure password reset flow with cryptographic tokens
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This route handles all identity operations—user registration with Bcrypt hashing, JWT issuance, Google OAuth token verification, and SMS OTP verification."
+ * ============================================================================
+ */
+
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');

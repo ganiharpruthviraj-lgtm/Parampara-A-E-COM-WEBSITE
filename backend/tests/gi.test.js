@@ -1,3 +1,22 @@
+/**
+ * ============================================================================
+ * FILE: backend/tests/gi.test.js
+ * MODULE: GI Registry Query Automated Test Suite
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Automated test suite verifying statutory Geographical Indications database queries and certification validation.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Tests statutory GI tag lookups against verified registration numbers
+ * - Validates response schema including origin state, registration year, and applicant authority
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This test suite validates our GI registry API, ensuring certified craft registration numbers can be verified by clients."
+ * ============================================================================
+ */
+
 const request = require('supertest');
 const app = require('../app');
 

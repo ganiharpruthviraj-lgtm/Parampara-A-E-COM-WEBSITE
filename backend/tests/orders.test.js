@@ -1,3 +1,24 @@
+/**
+ * ============================================================================
+ * FILE: backend/tests/orders.test.js
+ * MODULE: Order & Payout Automated Test Suite
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Automated test suite verifying 70% direct artisan remuneration math, order drafting, UTR verification, and Razorpay signatures.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Tests order creation with valid items and calculates exact 70% artisan payout
+ * - Validates 12-digit bank UTR verification and payment status transitions
+ * - Tests Razorpay webhook HMAC-SHA256 signature verification and replay prevention
+ * - Asserts PDF deed generation triggers without error
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This test suite verifies our order lifecycle, ensuring the 70% artisan payout formula is calculated to the exact penny and payment ratification succeeds."
+ * ============================================================================
+ */
+
 const request = require('supertest');
 const app = require('../app');
 const { connectTestDB, closeTestDB, clearTestDB } = require('./setup');

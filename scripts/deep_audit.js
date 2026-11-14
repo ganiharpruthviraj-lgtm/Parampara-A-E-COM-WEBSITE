@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * FILE: scripts/deep_audit.js
+ * MODULE: Codebase Deep Health & Link Auditor
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Scans all HTML, CSS, and JS files for broken links, missing assets, missing tags, and security vulnerabilities.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Checks every local asset path to ensure files exist on disk
+ * - Scans HTML files for viewport, meta descriptions, and OpenGraph tags
+ * - Validates all API endpoint references across frontend controllers
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This is our automated code auditing script that scans the repository for broken links, missing images, and SEO compliance."
+ * ============================================================================
+ */
+
 const fs = require('fs');
 const path = require('path');
 

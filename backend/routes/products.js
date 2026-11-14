@@ -1,3 +1,23 @@
+/**
+ * ============================================================================
+ * FILE: backend/routes/products.js
+ * MODULE: Craft Catalog & Search API Router
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Powers craft discovery, full-text catalog search, regional state filtering, and stock inquiries.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - GET /api/products: Executes compound queries supporting $text search, state, category, price range, and pagination
+ * - GET /api/products/:id: Retrieves single masterpiece with full material origins and authenticity proof
+ * - GET /api/products/state/:stateName: Returns all certified crafts registered to a specific Indian state
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This router powers our product catalog. It handles searching and filtering across India 28 states, utilizing MongoDB compound text indexes for instant search results."
+ * ============================================================================
+ */
+
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');

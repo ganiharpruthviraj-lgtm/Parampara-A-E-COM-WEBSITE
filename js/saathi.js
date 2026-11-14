@@ -1,4 +1,24 @@
 /**
+ * ============================================================================
+ * FILE: js/saathi.js
+ * MODULE: Saathi AI Cultural Docent Chat Controller
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Drives the conversational AI chat interface in saathi.html, providing streaming responses on craft authenticity.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Manages chat conversation session and message rendering bubbles
+ * - Dispatches user prompts to /api/saathi/chat and streams domain-grounded responses
+ * - Provides interactive prompt chips for craft history, GI testing, and artisan discovery
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script drives the Saathi AI chat interface, handling conversational inquiries about craft history and authenticity."
+ * ============================================================================
+ */
+
+/**
  * Parampara Saathi - Embeddable Global AI Cultural Docent & Provenance Verifier Widget
  * Automatically detects current page/product context and mounts a luxury floating assistant.
  */

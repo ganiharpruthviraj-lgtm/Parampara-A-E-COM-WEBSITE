@@ -1,4 +1,23 @@
 /**
+ * ============================================================================
+ * FILE: scripts/keep-alive.js
+ * MODULE: Render Cloud Keep-Alive Cron Engine
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Sends periodic ping requests to the Render backend service to prevent free-tier instances from entering cold sleep.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Pings GET /api/health every 14 minutes
+ * - Logs server uptime and response latency
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This utility script pings our backend server on Render every 14 minutes to prevent free-tier servers from going into cold sleep."
+ * ============================================================================
+ */
+
+/**
  * Parampara — Render Keep-Alive Pinger
  * =====================================
  * Render.com free-tier services spin down after 15 minutes of inactivity,

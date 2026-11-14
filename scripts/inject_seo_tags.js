@@ -1,4 +1,23 @@
 /**
+ * ============================================================================
+ * FILE: scripts/inject_seo_tags.js
+ * MODULE: SEO & Social Meta Tag Injector
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Automatically injects title, meta descriptions, OpenGraph, and Twitter card tags across all HTML pages.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Ensures all 15+ HTML pages have unique search engine optimization tags
+ * - Adds canonical links and social share preview tags
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This script ensures every HTML page has proper SEO meta tags, title descriptions, and OpenGraph preview cards for social sharing."
+ * ============================================================================
+ */
+
+/**
  * GSD Phase 2 — SEO Meta Tag Injector
  * Adds <title>, <meta description>, and Open Graph tags to all HTML pages.
  * Safe to re-run: skips pages that already have og:title set.

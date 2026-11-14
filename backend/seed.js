@@ -1,3 +1,24 @@
+/**
+ * ============================================================================
+ * FILE: backend/seed.js
+ * MODULE: Database Seeder & Catalog Initializer
+ * PROJECT: Parampara — Sovereign Indian Heritage & GI Craft Marketplace
+ * ============================================================================
+ * 
+ * PURPOSE:
+ * Master database seeding utility that populates MongoDB with authentic Geographical Indication (GI) craft heirlooms and master artisan profiles.
+ * 
+ * KEY RESPONSIBILITIES & CAPABILITIES:
+ * - Establishes connection to MongoDB Atlas or local instance
+ * - Safely purges existing mock/stale products and artisan records
+ * - Injects 71+ certified masterpieces across all 28 Indian states with statutory GI application tags
+ * - Configures initial inventory stock, material descriptions, and artisan attributions
+ * 
+ * HOW TO EXPLAIN THIS FILE IN AN INTERVIEW / VIVA:
+ * "This is our database seeder script. It populates MongoDB with verified GI-tagged craft items and master artisan profiles across all 28 states of India so the platform has authentic data immediately available on boot."
+ * ============================================================================
+ */
+
 const path = require('path');
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 require('dotenv').config();
